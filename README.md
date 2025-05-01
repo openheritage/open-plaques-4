@@ -1,2 +1,3 @@
-# open-plaques-4
-The open directory of the world's commemorative plaques
+# Open Plaques
+
+The Open Data register of commemorative plaques worldwide
