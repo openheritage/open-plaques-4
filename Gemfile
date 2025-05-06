@@ -1,13 +1,8 @@
 source "https://rubygems.org"
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
-# Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
-# Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
+
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
@@ -20,44 +15,64 @@ gem "jbuilder"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
 
-# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-gem "solid_cache"
-gem "solid_queue"
-gem "solid_cable"
-
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
-
-# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", require: false
-
-# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
-gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+gem "aasm" # manage object state
+# gem 'activerecord-postgis-adapter' # link to Postgis geo database
+gem "aws-sdk-comprehend"
+gem "aws-sdk-s3", require: false
+gem "aws-sdk-translate"
+gem "bootsnap", require: false # Reduce boot times through caching; required in config/boot.rb
+gem "bootstrap", "~>5" # layout UI
+#  gem 'chronic' # for time manipulation
+gem "dartsass-rails"
+gem "devise" # use logins
+gem "devise_masquerade" # admin can login_as
+gem "factory_bot_rails" # mock objects
+gem "ffaker" # realistic looking test data
+gem "jquery-rails" # required for Bootstrap
+# gem 'julia_builder' # for outputting CSV files
+gem "kamal", require: false # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
+#  gem 'liquid' # user-editable templates
+# gem 'matrix' # needed for ruby 3.1+
+# gem 'mechanize' # for scraping web pages
+# gem 'octokit' # query Github API
+gem "plissken" # convert javascript-style names to ruby-style
+gem "pg", "~> 1.1" # postgresl database
+gem "puma", ">= 5.0" # a web server
+# gem 'que' # for running background jobs
+gem "rails", "~> 8.0.2"
+# gem 'redcarpet' # use Markdown in fields
+# gem 'rgeo-geojson' # geo ActiveModel
+gem "slack-notifier" # talk to Slack
+gem "solid_cache" # database-backed adapter for Rails.cache
+gem "solid_queue" # database-backed adapter for Active Job
+gem "solid_cable" # database-backed adapter for Action Cable
+gem "thruster", require: false # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
+gem "tzinfo-data", platforms: %i[ windows jruby ] # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem "wikimedia-commoner", github: "jnicho02/wikimedia-commoner" # best guess famous/historical people on Wikidata
+# gem 'wicked' # wizard controllers
+gem "will_paginate"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-
-  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
-
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: false
+  gem "brakeman", require: false # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
+  gem "rubocop-rails-omakase", require: false # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
 end
 
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
+  gem "dotenv-rails", groups: :test # load ENV variables from .env
+  gem "web-console" # Use console on exceptions pages [https://github.com/rails/web-console]
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  gem "axe-core-rspec" # accessibility of screens
+  gem "capybara" # test via web page UI
+  gem "database_cleaner" # scrub down the test database between runs
+  gem "rspec-rails" # specify tests
+  gem "selenium-webdriver" # test via web page UI
 end
