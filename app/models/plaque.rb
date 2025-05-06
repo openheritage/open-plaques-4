@@ -391,7 +391,7 @@ class Plaque < ApplicationRecord
     return unless area.nil? && us_state
 
     usa = Country.find_by(alpha2: "us")
-    state_towns = Area.where("country_id = #{usa.id} and name like '%, #{us_state}'")
+    state_towns = Area.where("country_id = #{usa.id} and name like '%, ?", us_state)
     state_towns.each do |town|
       # match any address that includes a town name from the state
       next unless town.name != ", #{us_state}" && address.include?(town.us_town)
