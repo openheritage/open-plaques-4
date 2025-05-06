@@ -18,11 +18,11 @@ class AreaSubjectsController < ApplicationController
     @gender = ActiveRecord::Base.connection.execute(query)
     @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
     @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
-    @gender.append(OpenStruct.new(gender: 'tba', subject_count: @uncurated_count))
+    @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
     respond_to do |format|
       format.html do
         @people = @area.people # .paginate(page: params[:page], per_page: 50)
-        render 'areas/subjects/show'
+        render "areas/subjects/show"
       end
       format.json { render json: @area.people }
       format.csv do
@@ -30,9 +30,9 @@ class AreaSubjectsController < ApplicationController
         @people = people(@plaques)
         send_data(
           "\uFEFF#{PersonCsv.new(@people).build}",
-          type: 'text/csv',
+          type: "text/csv",
           filename: "open-plaques-#{@area.name}-subjects-#{Date.today}.csv",
-          disposition: 'attachment'
+          disposition: "attachment"
         )
       end
     end

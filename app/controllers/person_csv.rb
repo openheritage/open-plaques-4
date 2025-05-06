@@ -8,11 +8,11 @@ class PersonCsv < Julia::Builder
   column :born_in
   column :died_in
   column :age do |person|
-    person.age.to_s.gsub('c. ', '')
+    person.age.to_s.gsub("c. ", "")
   end
   column :sex
   column :ethnicity
-  column 'roles' do |person|
+  column "roles" do |person|
     roles = []
     person.roles.each { |role| roles << role.name }
     roles
@@ -21,20 +21,20 @@ class PersonCsv < Julia::Builder
     person.primary_role&.role&.name
   end
   column :clergy?
-  column 'mother' do |person|
+  column "mother" do |person|
     person.mother&.full_name
   end
-  column 'mother_id' do |person|
+  column "mother_id" do |person|
     person.mother&.id
   end
-  column 'father' do |person|
+  column "father" do |person|
     person.father&.full_name
   end
-  column 'father_id' do |person|
+  column "father_id" do |person|
     person.father&.id
   end
   column :wikidata_id
-  column 'en_wikipedia_url' do |person|
+  column "en_wikipedia_url" do |person|
     person.wikipedia_url
   end
   column :dbpedia_uri

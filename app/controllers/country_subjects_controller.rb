@@ -1,4 +1,4 @@
-require 'ostruct'
+require "ostruct"
 
 # show subjects in a country
 class CountrySubjectsController < ApplicationController
@@ -26,7 +26,7 @@ class CountrySubjectsController < ApplicationController
             LIMIT 50"
         )
         @top = @results
-               .reject { |p| p['plaques_count'] < 1 }
+               .reject { |p| p["plaques_count"] < 1 }
                .map { |attributes| OpenStruct.new(attributes) }
         @gender = ActiveRecord::Base.connection.execute(
           "SELECT people.gender, count(distinct person_id) as subject_count
@@ -39,17 +39,17 @@ class CountrySubjectsController < ApplicationController
         )
         @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
         @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
-        @gender.append(OpenStruct.new(gender: 'tba', subject_count: @uncurated_count))
-        render 'countries/subjects/show'
+        @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
+        render "countries/subjects/show"
       end
       format.csv do
         @plaques = @country.plaques.connected
         @people = people(@plaques)
         send_data(
           "\uFEFF#{PersonCsv.new(@people).build}",
-          type: 'text/csv',
+          type: "text/csv",
           filename: "open-plaques-#{@country.name}-subjects-#{Date.today}.csv",
-          disposition: 'attachment'
+          disposition: "attachment"
         )
       end
     end

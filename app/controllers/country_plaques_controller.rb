@@ -3,33 +3,33 @@ class CountryPlaquesController < ApplicationController
   before_action :find, only: :show
 
   def show
-    @display = 'all'
-    if params[:id] && params[:id] == 'unphotographed'
-      @plaques = if request.format == 'html'
+    @display = "all"
+    if params[:id] && params[:id] == "unphotographed"
+      @plaques = if request.format == "html"
                    @country.plaques.unphotographed.paginate(page: params[:page], per_page: 50)
-                 else
+      else
                    @country.plaques.unphotographed
-                 end
-      @display = 'unphotographed'
-    elsif params[:id] && params[:id] == 'current'
-      @plaques = if request.format == 'html'
+      end
+      @display = "unphotographed"
+    elsif params[:id] && params[:id] == "current"
+      @plaques = if request.format == "html"
                    @country.plaques.current.paginate(page: params[:page], per_page: 50)
-                 else
+      else
                    @country.plaques.current
-                 end
-    elsif params[:id] && params[:id] == 'ungeolocated'
-      @plaques = if request.format == 'html'
+      end
+    elsif params[:id] && params[:id] == "ungeolocated"
+      @plaques = if request.format == "html"
                    @country.plaques.ungeolocated.paginate(page: params[:page], per_page: 50)
-                 else
+      else
                    @country.plaques.ungeolocated
-                 end
-      @display = 'ungeolocated'
+      end
+      @display = "ungeolocated"
     else
-      @plaques = if request.format == 'html'
+      @plaques = if request.format == "html"
                    @country.plaques.paginate(page: params[:page], per_page: 50)
-                 else
+      else
                    @country.plaques
-                 end
+      end
     end
     respond_to do |format|
       format.json { render json: @plaques }
@@ -37,9 +37,9 @@ class CountryPlaquesController < ApplicationController
       format.csv do
         send_data(
           "\uFEFF#{PlaqueCsv.new(@plaques).build}",
-          type: 'text/csv',
+          type: "text/csv",
           filename: "open-plaques-#{@country.name}-#{Date.today}.csv",
-          disposition: 'attachment'
+          disposition: "attachment"
         )
       end
     end

@@ -13,7 +13,7 @@ class SponsorshipsController < ApplicationController
   def new
     @plaque = Plaque.find(params[:plaque_id])
     @sponsorship = @plaque.sponsorships.new
-    render 'plaques/sponsorships/new'
+    render "plaques/sponsorships/new"
   end
 
   def create

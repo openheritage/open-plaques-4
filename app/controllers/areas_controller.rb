@@ -20,18 +20,18 @@ class AreasController < ApplicationController
     country_id = params[:country_id]
     @areas = if params[:contains]
                Area.select(:id, :name, :country_id).name_contains(params[:contains]).includes(:country).limit(limit)
-             elsif params[:starts_with] && country_id.nil?
+    elsif params[:starts_with] && country_id.nil?
                Area.select(:id, :name, :country_id).name_starts_with(params[:starts_with]).includes(:country).limit(limit)
-             elsif params[:starts_with]
+    elsif params[:starts_with]
                Area.select(:id, :name, :country_id).where(country_id: country_id).name_starts_with(params[:starts_with]).includes(:country).limit(limit)
-             else
-               '{}'
-             end
+    else
+               "{}"
+    end
     render json: @areas.as_json(
       only: %i[id name country_id],
       include: {
         country: {
-          only: [:name]
+          only: [ :name ]
         }
       }
     )
@@ -68,7 +68,7 @@ class AreasController < ApplicationController
   end
 
   def update
-    flash[:notice] = 'Area was successfully updated.' if @area.update!(permitted_params)
+    flash[:notice] = "Area was successfully updated." if @area.update!(permitted_params)
     redirect_back(fallback_location: root_path)
   end
 

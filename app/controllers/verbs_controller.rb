@@ -12,23 +12,23 @@ class VerbsController < ApplicationController
 
   def autocomplete
     limit = params[:limit] || 5
-    @verbs = '{}'
+    @verbs = "{}"
     @verbs = if params[:contains]
                Verb
                  .select(:id, :name)
                  .name_contains(params[:contains])
                  .limit(limit)
-             elsif params[:starts_with]
+    elsif params[:starts_with]
                Verb
                  .select(:id, :name)
                  .name_starts_with(params[:starts_with])
                  .limit(limit)
-             end
+    end
     render json: @verbs.as_json(only: %i[id name])
   end
 
   def show
-    @verb = Verb.find_by(name: params[:id].tr('_', ' '))
+    @verb = Verb.find_by(name: params[:id].tr("_", " "))
     @personal_connections = @verb.personal_connections.paginate(page: params[:page], per_page: 50)
     respond_to do |format|
       format.html

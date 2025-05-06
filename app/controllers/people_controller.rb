@@ -7,7 +7,7 @@ class PeopleController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        if params[:filter] && params[:filter] != ''
+        if params[:filter] && params[:filter] != ""
           begin
             @people = Person.send(params[:filter].to_s).paginate(page: params[:page], per_page: 50)
             @display = params[:filter].to_s
@@ -22,9 +22,9 @@ class PeopleController < ApplicationController
         @people = Person.with_counts.all
         send_data(
           "\uFEFF#{PersonCsv.new(@people).build}",
-          type: 'text/csv',
+          type: "text/csv",
           filename: "open-plaques-subjects-all-#{Date.today}.csv",
-          disposition: 'attachment'
+          disposition: "attachment"
         ) and return
       end
     end
@@ -32,7 +32,7 @@ class PeopleController < ApplicationController
 
   def autocomplete
     limit = params[:limit] || 5
-    @people = '{}'
+    @people = "{}"
     if params[:contains]
       @people = Person.select(:born_on, :died_on, :gender, :id, :name)
                       .includes(:roles)
@@ -72,16 +72,16 @@ class PeopleController < ApplicationController
       set_meta_tags open_graph: {
         type: :website,
         url: url_for(only_path: false),
-        image: @person.main_photo ? @person.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path('openplaques.png'),
+        image: @person.main_photo ? @person.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
         title: "#{@person.name_and_dates} historical plaques and markers",
         description: @person.name_and_dates
       }
       set_meta_tags twitter: {
-        card: 'summary_large_image',
-        site: '@openplaques',
+        card: "summary_large_image",
+        site: "@openplaques",
         title: "#{@person.name_and_dates} historical plaques and markers",
         image: {
-          _: @person.main_photo ? @person.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path('openplaques.png'),
+          _: @person.main_photo ? @person.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
           width: 100,
           height: 100
         }
@@ -97,9 +97,9 @@ class PeopleController < ApplicationController
         @people << @person
         send_data(
           "\uFEFF#{PersonCsv.new(@people).build}",
-          type: 'text/csv',
+          type: "text/csv",
           filename: "open-plaque-subject-#{@person.id}.csv",
-          disposition: 'attachment'
+          disposition: "attachment"
         )
       end
     end
@@ -119,8 +119,8 @@ class PeopleController < ApplicationController
   end
 
   def create
-    params[:person][:born_on] += '-01-01' if params[:person][:born_on] =~ /\d{4}/
-    params[:person][:died_on] += '-01-01' if params[:person][:died_on] =~ /\d{4}/
+    params[:person][:born_on] += "-01-01" if params[:person][:born_on] =~ /\d{4}/
+    params[:person][:died_on] += "-01-01" if params[:person][:died_on] =~ /\d{4}/
     @person = Person.new(permitted_params)
     @person.sex
     respond_to do |format|
@@ -133,7 +133,7 @@ class PeopleController < ApplicationController
           @person.sex
           @person.save
         end
-        flash[:notice] = 'Person was successfully created.'
+        flash[:notice] = "Person was successfully created."
         format.html do
           @roles = Role.alphabetically
           @personal_role = PersonalRole.new
@@ -148,11 +148,11 @@ class PeopleController < ApplicationController
   end
 
   def update
-    params[:person][:born_on] += '-01-01' if params[:person][:born_on] =~ /\d{4}/
-    params[:person][:died_on] += '-01-01' if params[:person][:died_on] =~ /\d{4}/
+    params[:person][:born_on] += "-01-01" if params[:person][:born_on] =~ /\d{4}/
+    params[:person][:died_on] += "-01-01" if params[:person][:died_on] =~ /\d{4}/
     respond_to do |format|
       if @person.update(permitted_params)
-        flash[:notice] = 'Person was successfully updated.'
+        flash[:notice] = "Person was successfully updated."
         format.html { redirect_to(@person) }
         format.xml  { head :ok }
       else
@@ -179,7 +179,7 @@ class PeopleController < ApplicationController
   private
 
   def aka_to_a
-    cords = params.dig(:person, :aka).presence || '[]'
+    cords = params.dig(:person, :aka).presence || "[]"
     JSON.parse cords
   end
 

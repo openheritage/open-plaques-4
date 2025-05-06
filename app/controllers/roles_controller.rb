@@ -6,9 +6,9 @@ class RolesController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html { redirect_to(roles_by_index_path('a')) }
+      format.html { redirect_to(roles_by_index_path("a")) }
       format.json do
-        @roles = Role.all.order('personal_roles_count DESC nulls last')
+        @roles = Role.all.order("personal_roles_count DESC nulls last")
         render json: @roles
       end
     end
@@ -16,7 +16,7 @@ class RolesController < ApplicationController
 
   def autocomplete
     limit = params[:limit] || 5
-    @roles = '{}'
+    @roles = "{}"
     # show an exact match first
     @roles = Role.select(:id, :name)
                  .name_is(params[:contains] || params[:starts_with])
@@ -40,8 +40,8 @@ class RolesController < ApplicationController
   def show
     @role = Role.find_by(slug: params[:id])
     @role ||= Role.new(name: params[:id]) # dummy role
-    if @role.name.starts_with?('monarch')
-      @monarchs = Role.where(slug: [@role.name.gsub('monarch', 'king'), @role.name.gsub('monarch', 'queen')])
+    if @role.name.starts_with?("monarch")
+      @monarchs = Role.where(slug: [ @role.name.gsub("monarch", "king"), @role.name.gsub("monarch", "queen") ])
       @personal_roles = @role.personal_roles
       @monarchs.each { |m| @personal_roles << m.personal_roles }
       @personal_roles = @personal_roles.sort { |a, b| a.started_at.to_s <=> b.started_at.to_s }
@@ -66,7 +66,7 @@ class RolesController < ApplicationController
     @role = Role.new(role_params)
     respond_to do |format|
       if @role.save
-        flash[:notice] = 'Role was successfully created.'
+        flash[:notice] = "Role was successfully created."
         format.html { redirect_to(role_path(@role.slug)) }
       else
         format.html { render :new }
@@ -77,7 +77,7 @@ class RolesController < ApplicationController
   def update
     respond_to do |format|
       if @role.update(role_params)
-        flash[:notice] = 'Role was successfully updated.'
+        flash[:notice] = "Role was successfully updated."
         format.html { redirect_to(role_path(@role.slug)) }
       else
         format.html { render :edit }

@@ -7,20 +7,20 @@ class SeriesPlaquesController < ApplicationController
     if zoom.positive?
       x = params[:x].to_i
       y = params[:y].to_i
-      @plaques = @series.plaques.tile(zoom, x, y, '')
+      @plaques = @series.plaques.tile(zoom, x, y, "")
     else
       @plaques = @series.plaques
     end
     respond_to do |format|
-      format.html { render 'series/plaques/show' }
+      format.html { render "series/plaques/show" }
       format.json { render json: @plaques }
       format.geojson { render geojson: @plaques.geolocated, parent: @series }
       format.csv do
         send_data(
           "\uFEFF#{PlaqueCsv.new(@plaques).build}",
-          type: 'text/csv',
+          type: "text/csv",
           filename: "open-plaques-#{@series.slug}-#{Date.today}.csv",
-          disposition: 'attachment'
+          disposition: "attachment"
         )
       end
     end

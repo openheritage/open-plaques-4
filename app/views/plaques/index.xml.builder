@@ -1,8 +1,7 @@
-xml.instruct! :xml, :version=>"1.0"
-xml.openplaques(){
+xml.instruct! :xml, version: "1.0"
+xml.openplaques() {
     @plaques.each do |plaque|
-
-      xml.plaque(uri: plaque.uri, machine_tag: plaque.machine_tag, created_at: plaque.created_at.xmlschema, updated_at: plaque.updated_at.xmlschema){
+      xml.plaque(uri: plaque.uri, machine_tag: plaque.machine_tag, created_at: plaque.created_at.xmlschema, updated_at: plaque.updated_at.xmlschema) {
         xml.title plaque.title
         xml.subjects plaque.subjects
         if plaque.colour
@@ -42,8 +41,8 @@ xml.openplaques(){
         end
         plaque.people.each do |person|
           xml.person(uri: person_url(person)) {
-    	      xml.text! person.name
-    	    }
+            xml.text! person.name
+          }
         end
         plaque.photos.each do |photo|
           xml.photo(uri: photo_url(photo.id)) do
@@ -54,7 +53,7 @@ xml.openplaques(){
               begin
                 xml.text! photo.photographer
               rescue
-                xml.text! 'unknown'
+                xml.text! "unknown"
               end
             end
             if photo.shot_name
@@ -67,6 +66,5 @@ xml.openplaques(){
           end
         end
       }
-
     end
 }

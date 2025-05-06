@@ -22,22 +22,22 @@ class CountriesController < ApplicationController
         LIMIT 10"
     )
     @top = @results
-           .reject { |p| p['plaques_count'] < 2 }
+           .reject { |p| p["plaques_count"] < 2 }
            .map { |attributes| OpenStruct.new(attributes) }
-    @top.each_with_index { |p, i| p['rank'] = i + 1 }
+    @top.each_with_index { |p, i| p["rank"] = i + 1 }
     set_meta_tags open_graph: {
       type: :website,
       url: url_for(only_path: false),
-      image: view_context.root_url[0...-1] + view_context.image_path('openplaques-icon.png'),
-      title: 'countries that have plaques',
-      description: 'countries that have plaques'
+      image: view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
+      title: "countries that have plaques",
+      description: "countries that have plaques"
     }
     set_meta_tags twitter: {
-      card: 'summary_large_image',
-      site: '@openplaques',
-      title: 'countries that have plaques',
+      card: "summary_large_image",
+      site: "@openplaques",
+      title: "countries that have plaques",
       image: {
-        _: view_context.root_url[0...-1] + view_context.image_path('openplaques-icon.png'),
+        _: view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
         width: 100,
         height: 100
       }
@@ -75,9 +75,9 @@ class CountriesController < ApplicationController
     @curated_count = @plaques_count - @uncurated_count
     @percentage_curated = if @plaques_count.positive?
                             ((@curated_count.to_f / @plaques_count) * 100).to_i
-                          else
+    else
                             0
-                          end
+    end
     @results = ActiveRecord::Base.connection.execute(
       "SELECT people.id, people.name, people.gender,
         (
@@ -93,9 +93,9 @@ class CountriesController < ApplicationController
         LIMIT 10"
     )
     @top = @results
-           .reject { |p| p['plaques_count'] < 2 }
+           .reject { |p| p["plaques_count"] < 2 }
            .map { |attributes| OpenStruct.new(attributes) }
-    @top.each_with_index { |p, i| p['rank'] = i + 1 }
+    @top.each_with_index { |p, i| p["rank"] = i + 1 }
     @gender = ActiveRecord::Base.connection.execute(
       "SELECT people.gender, count(distinct person_id) as subject_count
         FROM areas, plaques, personal_connections, people
@@ -107,25 +107,25 @@ class CountriesController < ApplicationController
     )
     @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
     @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
-    @gender.append(OpenStruct.new(gender: 'tba', subject_count: @uncurated_count))
+    @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
     @gender.each do |g|
-      case g['gender']
-      when 'f'
-        g['gender'] = 'female'
-      when 'm'
-        g['gender'] = 'male'
-      when 'n'
-        g['gender'] = 'inanimate'
-      when 'u'
-        g['gender'] = 'not set'
-      when 'tba'
-        g['gender'] = 'to be advised'
+      case g["gender"]
+      when "f"
+        g["gender"] = "female"
+      when "m"
+        g["gender"] = "male"
+      when "n"
+        g["gender"] = "inanimate"
+      when "u"
+        g["gender"] = "not set"
+      when "tba"
+        g["gender"] = "to be advised"
       end
-      g['percent'] = if g['subject_count'].positive?
+      g["percent"] = if g["subject_count"].positive?
                        (100 * g.subject_count / (@subject_count.to_f + @uncurated_count)).to_i
-                     else
+      else
                        0
-                     end
+      end
     end
     respond_to do |format|
       format.html

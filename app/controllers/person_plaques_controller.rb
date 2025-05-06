@@ -4,7 +4,7 @@ class PersonPlaquesController < ApplicationController
     @person = Person.find(params[:person_id])
     @plaques = @person.plaques
     respond_to do |format|
-      format.html { render 'people/plaques/show' }
+      format.html { render "people/plaques/show" }
       format.json do
         render json: @plaques.as_json(
           only: %i[id inscription latitude longitude is_accurate_geolocation],
@@ -15,9 +15,9 @@ class PersonPlaquesController < ApplicationController
       format.csv do
         send_data(
           "\uFEFF#{PlaqueCsv.new(@plaques).build}",
-          type: 'text/csv',
+          type: "text/csv",
           filename: "open-plaques-#{@person.name}-#{Date.today}.csv",
-          disposition: 'attachment'
+          disposition: "attachment"
         )
       end
     end

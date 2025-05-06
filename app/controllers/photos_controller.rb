@@ -25,10 +25,10 @@ class PhotosController < ApplicationController
   def update
     respond_to do |format|
       flash[:notice] = if @photo.update(permitted_params)
-                         'Photo was successfully updated.'
-                       else
+                         "Photo was successfully updated."
+      else
                          @photo.errors
-                       end
+      end
       format.html { redirect_back(fallback_location: root_path) }
     end
   end
@@ -42,16 +42,16 @@ class PhotosController < ApplicationController
     @photo.populate
     if @photo.errors.empty?
       @already_existing_photo = Photo.find_by(file_url: @photo.file_url)
-      @already_existing_photo ||= Photo.find_by(file_url: @photo.file_url.gsub('https', 'http'))
+      @already_existing_photo ||= Photo.find_by(file_url: @photo.file_url.gsub("https", "http"))
       if @already_existing_photo
         @photo = @already_existing_photo
         @photo.update(permitted_params)
       end
       flash[:notice] = if @photo.save
-                         'Photo was successfully updated.'
-                       else
+                         "Photo was successfully updated."
+      else
                          @photo.errors.full_messages.to_sentence
-                       end
+      end
     else
       flash[:notice] = @photo.errors.full_messages.to_sentence
     end

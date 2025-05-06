@@ -37,7 +37,7 @@ class OrganisationsController < ApplicationController
   end
 
   def show
-    params[:id].gsub!('oxfordshire_blue_plaques_scheme', 'oxfordshire_blue_plaques_board')
+    params[:id].gsub!("oxfordshire_blue_plaques_scheme", "oxfordshire_blue_plaques_board")
     redirect_to(organisation_plaques_path(params[:id])) and return
   end
 
@@ -48,7 +48,7 @@ class OrganisationsController < ApplicationController
   def create
     @organisation = Organisation.new(permitted_params)
     if @organisation.save
-      flash[:notice] = 'Thanks for adding this organisation.'
+      flash[:notice] = "Thanks for adding this organisation."
       redirect_to organisation_path(@organisation.slug)
     else
       render :new
@@ -57,7 +57,7 @@ class OrganisationsController < ApplicationController
 
   def update
     old_slug = @organisation.slug
-    if params[:streetview_url] && params[:streetview_url] != ''
+    if params[:streetview_url] && params[:streetview_url] != ""
       point = help.geolocation_from(params[:streetview_url])
       if !point.latitude.blank? && !point.longitude.blank?
         params[:organisation][:latitude] = point.latitude
@@ -65,7 +65,7 @@ class OrganisationsController < ApplicationController
       end
     end
     if @organisation.update(permitted_params)
-      flash[:notice] = 'Updates to organisation saved.'
+      flash[:notice] = "Updates to organisation saved."
       redirect_to organisation_path(@organisation.slug)
     else
       @organisation.slug = old_slug

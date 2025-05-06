@@ -16,7 +16,7 @@ class SeriesController < ApplicationController
   def show
     if params[:series_ref]
       @plaque = Plaque.where(series_id: @series.id, series_ref: params[:series_ref]).first
-      render '/plaques/show'
+      render "/plaques/show"
     else
       @plaques = @series
                  .plaques
@@ -32,7 +32,7 @@ class SeriesController < ApplicationController
         set_meta_tags twitter: {
           title: "Open Plaques Series #{@series.name}",
           image: {
-            _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path('openplaques.png'),
+            _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
             width: 100,
             height: 100
           }
@@ -58,7 +58,7 @@ class SeriesController < ApplicationController
 
   def update
     if @series.update(permitted_params)
-      flash[:notice] = 'Updates to series saved.'
+      flash[:notice] = "Updates to series saved."
       redirect_to series_path(@series)
     else
       redirect_back(fallback_location: root_path)

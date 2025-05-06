@@ -18,9 +18,9 @@ class OrganisationSubjectsController < ApplicationController
         @gender = ActiveRecord::Base.connection.execute(query)
         @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
         @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
-        @gender.append(OpenStruct.new(gender: 'tba', subject_count: @uncurated_count))
+        @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
         @people = []
-        render 'organisations/subjects/show'
+        render "organisations/subjects/show"
       end
       format.json { render json: @people }
       format.geojson { render geojson: @people }
@@ -29,9 +29,9 @@ class OrganisationSubjectsController < ApplicationController
         @people = people(@plaques)
         send_data(
           "\uFEFF#{PersonCsv.new(@people).build}",
-          type: 'text/csv',
+          type: "text/csv",
           filename: "open-plaques-#{@organisation.slug}-subjects-#{Date.today}.csv",
-          disposition: 'attachment'
+          disposition: "attachment"
         )
       end
     end
