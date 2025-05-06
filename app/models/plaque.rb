@@ -269,7 +269,7 @@ class Plaque < ApplicationRecord
         where pc_main.plaque_id = #{id}
           and pc_related.plaque_id != #{id}"
       @related_plaques ||= Plaque.find_by_sql(sql)
-      ActiveRecord::Associations::Preloader.new(records: @related_plaques, associations: :relations).call
+      ActiveRecord::Associations::Preloader.new(records: @related_plaques, associations: %i[photos area]).call
       @related_plaques
     else
       # not been saved yet

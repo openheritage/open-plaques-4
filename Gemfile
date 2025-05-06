@@ -31,7 +31,10 @@ gem "kamal", require: false # Deploy this application anywhere as a Docker conta
 # gem "liquid" # user-editable templates
 # gem "matrix" # needed for ruby 3.1+
 # gem "mechanize" # for scraping web pages
+gem 'meta-tags'
 # gem "mcp_rails" # agentic AI API interfaces
+gem 'nokogiri'
+
 # gem "octokit" # query Github API
 gem "plissken" # convert javascript-style names to ruby-style
 gem "pg", "~> 1.1" # postgresl database
@@ -40,6 +43,7 @@ gem "puma", ">= 5.0" # a web server
 # gem 'que-view' # for seeing what is happening with background jobs
 gem "redcarpet" # use Markdown in fields
 # gem "rgeo-geojson" # geo ActiveModel
+gem 'sanitize' # for cleaning up html fragments
 gem "slack-notifier" # talk to Slack
 gem "solid_cache" # database-backed adapter for Rails.cache
 gem "solid_queue" # database-backed adapter for Active Job

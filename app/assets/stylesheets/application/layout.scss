@@ -1,0 +1,131 @@
+// Bootstrap variables
+$grid-gutter-width: 20px;
+$grid-float-breakpoint: 480px;
+
+// Jumbotron was removed from Bootstrap 5
+.jumbotron {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  background-color: #e9ecef;
+  border-radius: .3rem;
+}
+
+// Padding to clear fixed nav
+body {
+  font-family: 'Playwrite+DK+Loopet', sans-serif;
+  padding-top: 10px;
+  color: #5a5a5a;
+}
+
+// Make sure alerts are nicely formatted
+.alert {
+  a {
+    white-space: nowrap;
+  }
+}
+
+// everything except jumbotron gets a bit of padding
+.header,
+.row,
+.footer {
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+// Autocomplete
+.ui-autocomplete {
+  list-style-type: none;
+  width: 300px;
+}
+
+.ui-autocomplete .ui-menu-item {
+  background: rgba(255,255,255,.95);
+  border-bottom: dotted 1px #CCC;
+}
+
+html.no-rgba .ui-autocomplete .ui-menu-item {background: #FFF;}
+
+.ui-autocomplete .ui-menu-item a {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  padding: 8px;
+}
+
+.ui-autocomplete .ui-menu-item a.ui-state-hover {
+  color: #FFF;
+  cursor: pointer;
+}
+
+.ui-autocomplete .ui-menu-item a#ui-active-menuitem {
+  background: #4F7CBF;
+  text-shadow: 1px 1px #333;
+}
+
+.page__footer {
+  margin-top: 100px;
+  padding: 20px 10px;
+  border-top: 1px solid;
+  text-align: center;
+
+  ul {
+    @extend .list-unstyled !optional;
+    margin: 0;
+  }
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  a {
+    &:hover {
+      color: blue;
+    }
+  }
+}
+
+.pagination {
+  background: white;
+  cursor: default;
+  /* self-clearing method: */ }
+  .pagination a, .pagination span, .pagination em {
+    padding: 0.2em 0.5em;
+    display: block;
+    float: left;
+    margin-right: 1px; }
+  .pagination .disabled {
+    color: #999999;
+    border: 1px solid #dddddd; }
+  .pagination .current {
+    font-style: normal;
+    font-weight: bold;
+    background: #2e6ab1;
+    color: white;
+    border: 1px solid #2e6ab1; }
+  .pagination a {
+    text-decoration: none;
+    color: #105cb6;
+    border: 1px solid #9aafe5; }
+    .pagination a:hover, .pagination a:focus {
+      color: #000033;
+      border-color: #000033; }
+  .pagination .page_info {
+    background: #2e6ab1;
+    color: white;
+    padding: 0.4em 0.6em;
+    width: 22em;
+    margin-bottom: 0.3em;
+    text-align: center; }
+    .pagination .page_info b {
+      color: #000033;
+      background: #6aa6ed;
+      padding: 0.1em 0.25em; }
+  .pagination:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
+  * html .pagination {
+    height: 1%; }
+  *:first-child + html .pagination {
+    overflow: hidden; }

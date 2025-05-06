@@ -132,8 +132,6 @@ GEM
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
-    bootstrap (5.3.5)
-      popper_js (>= 2.11.8, < 3)
     brakeman (7.0.2)
       racc
     builder (3.3.0)
@@ -267,6 +265,8 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
+    meta-tags (2.22.1)
+      actionpack (>= 6.0.0, < 8.1)
     mini_mime (1.1.5)
     minitest (5.25.5)
     msgpack (1.8.0)
@@ -311,7 +311,6 @@ GEM
       racc
     pg (1.5.9)
     plissken (3.0.0)
-    popper_js (2.11.8)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -536,7 +535,6 @@ DEPENDENCIES
   aws-sdk-translate
   axe-core-rspec
   bootsnap
-  bootstrap (~> 5)
   brakeman
   capybara
   dartsass-rails
@@ -553,6 +551,8 @@ DEPENDENCIES
   jquery-rails
   julia_builder
   kamal
+  meta-tags
+  nokogiri
   pg (~> 1.1)
   plissken
   propshaft
@@ -561,6 +561,7 @@ DEPENDENCIES
   redcarpet
   rspec-rails
   rubocop-rails-omakase
+  sanitize
   selenium-webdriver
   slack-notifier
   solid_cable
@@ -569,7 +570,6 @@ DEPENDENCIES
   stimulus-rails
   thruster
   turbo-rails
-  tzinfo-data
   web-console
   wikimedia-commoner!
   will_paginate

@@ -115,24 +115,4 @@ module ApplicationHelper
 
     self.slug = name.to_s.strip.downcase.tr(" ", "_").tr("-", "_").tr(",", "_").tr(".", "_").tr("'", "").gsub("__", "_")
   end
-
-  def markdown(text)
-    markdown = Redcarpet::Markdown.new(
-      CustomRender,
-      no_intra_emphasis: true,
-      fenced_code_blocks: true,
-      disable_indented_code_blocks: true
-    )
-    ERB.new(markdown.render(text).html_safe).result(binding).html_safe
-  end
-end
-
-# Render plaques etc. inside Markdown
-class CustomRender < Redcarpet::Render::HTML
-  def paragraph(text)
-    text.gsub!(/plaque ([0-9]+)/) do |match|
-      %(<div class="col-xs-6 col-sm-4 col-md-3"><%= render partial: 'plaques/tile', object: Plaque.find(#{match[7..-1]}), as: :plaque  %></div>)
-    end
-    %(#{text})
-  end
 end
