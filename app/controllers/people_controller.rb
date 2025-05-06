@@ -9,7 +9,7 @@ class PeopleController < ApplicationController
       format.html do
         if params[:filter] && params[:filter] != ""
           begin
-            @people = Person.send(params[:filter].to_s).paginate(page: params[:page], per_page: 50)
+            @people = Person.send(params[:filter].to_s).paginate(page: permitted_show_params[:page], per_page: 50)
             @display = params[:filter].to_s
           rescue # an unrecognised filter method
             redirect_to(controller: :people_by_index, action: :show, id: :a)

@@ -26,24 +26,24 @@ class AreaPlaquesController < ApplicationController
     elsif params[:filter] && params[:filter] != ""
       begin
         @plaques = if request.format.html?
-                     @area.plaques.send(params[:filter].to_s).paginate(page: params[:page], per_page: 40)
+                     @area.plaques.send(params[:filter].to_s).paginate(page: permitted_show_params[:page], per_page: 40)
         else
-                     @area.plaques.send(params[:filter].to_s).paginate(page: params[:page], per_page: 5_000_000)
+                     @area.plaques.send(params[:filter].to_s).paginate(page: permitted_show_params[:page], per_page: 5_000_000)
         end
         @display = params[:filter].to_s
       rescue # an unrecognised filter method
         @plaques = if request.format.html?
-                     @area.plaques.paginate(page: params[:page], per_page: 40)
+                     @area.plaques.paginate(page: permitted_show_params[:page], per_page: 40)
         else
-                     @area.plaques.paginate(page: params[:page], per_page: 5_000_000)
+                     @area.plaques.paginate(page: permitted_show_params[:page], per_page: 5_000_000)
         end
         @display = "all"
       end
     else
       @plaques = if request.format.html?
-                   @area.plaques.paginate(page: params[:page], per_page: 40)
+                   @area.plaques.paginate(page: permitted_show_params[:page], per_page: 40)
       else
-                   @area.plaques.paginate(page: params[:page], per_page: 5_000_000)
+                   @area.plaques.paginate(page: permitted_show_params[:page], per_page: 5_000_000)
       end
       @display = "all"
     end

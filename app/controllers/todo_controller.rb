@@ -32,10 +32,10 @@ class TodoController < ApplicationController
   def show
     case params[:id]
     when "colours_from_photos"
-      @plaques = Plaque.photographed_not_coloured.paginate(page: params[:page], per_page: 100)
+      @plaques = Plaque.photographed_not_coloured.paginate(page: permitted_show_params[:page], per_page: 100)
       render :colours_from_photos
     when "locations_from_geolocations"
-      @plaques = Plaque.geo_no_location.paginate(page: params[:page], per_page: 100)
+      @plaques = Plaque.geo_no_location.paginate(page: permitted_show_params[:page], per_page: 100)
       render :locations_from_geolocations
     when "plaques_to_add"
       @plaques_to_add = TodoItem.to_add
@@ -48,34 +48,34 @@ class TodoController < ApplicationController
       @uk_plaques_count = uk.plaques.count
       @no_connection_count = uk.plaques.unconnected.count
       @no_connection_percentage = (@no_connection_count.to_f / @uk_plaques_count * 100).to_i
-      @plaques = uk.plaques.unconnected.paginate(page: params[:page], per_page: 100)
+      @plaques = uk.plaques.unconnected.paginate(page: permitted_show_params[:page], per_page: 100)
       render :no_connection
     when "partial_inscription"
-      @plaques = Plaque.partial_inscription.paginate(page: params[:page], per_page: 100)
+      @plaques = Plaque.partial_inscription.paginate(page: permitted_show_params[:page], per_page: 100)
       render :partial_inscription
     when "partial_inscription_photo"
-      @plaques = Plaque.partial_inscription_photo.paginate(page: params[:page], per_page: 100)
+      @plaques = Plaque.partial_inscription_photo.paginate(page: permitted_show_params[:page], per_page: 100)
       render :partial_inscription_photo
     when "detailed_address_no_geo"
-      @plaques = Plaque.detailed_address_no_geo.paginate(page: params[:page], per_page: 100)
+      @plaques = Plaque.detailed_address_no_geo.paginate(page: permitted_show_params[:page], per_page: 100)
       render :detailed_address_no_geo
     when "fetch_from_flickr"
       flash[:notice] = "#{pluralize(fetch_todo_items, 'photo')} added to the list."
       redirect_to "/todo/plaques_to_add"
     when "no_roles"
-      @people = Person.unroled.paginate(page: params[:page], per_page: 100)
+      @people = Person.unroled.paginate(page: permitted_show_params[:page], per_page: 100)
       render :no_roles
     when "needs_geolocating"
-      @plaques = Plaque.ungeolocated.paginate(page: params[:page], per_page: 100)
+      @plaques = Plaque.ungeolocated.paginate(page: permitted_show_params[:page], per_page: 100)
       render :detailed_address_no_geo
     when "needs_description"
-      @plaques = Plaque.no_description.paginate(page: params[:page], per_page: 100)
+      @plaques = Plaque.no_description.paginate(page: permitted_show_params[:page], per_page: 100)
       render :needs_description
     when "unassigned_photo"
-      @photos = Photo.unassigned.geolocated.order(:distance_to_nearest_plaque).paginate(page: params[:page], per_page: 100)
+      @photos = Photo.unassigned.geolocated.order(:distance_to_nearest_plaque).paginate(page: permitted_show_params[:page], per_page: 100)
       render :unassigned_photo
     when "unassigned_ungeolocated_photo"
-      @photos = Photo.unassigned.ungeolocated.order(:updated_at).paginate(page: params[:page], per_page: 100)
+      @photos = Photo.unassigned.ungeolocated.order(:updated_at).paginate(page: permitted_show_params[:page], per_page: 100)
       render :unassigned_photo
     when "microtask"
       case rand(5)

@@ -21,7 +21,7 @@ class SeriesController < ApplicationController
       @plaques = @series
                  .plaques
                  .by_series_ref
-                 .paginate(page: params[:page], per_page: 20)
+                 .paginate(page: permitted_show_params[:page], per_page: 20)
                  .preload(:language, :personal_connections, :photos, area: :country)
       begin
         set_meta_tags open_graph: {

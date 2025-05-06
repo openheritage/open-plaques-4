@@ -6,27 +6,27 @@ class CountryPlaquesController < ApplicationController
     @display = "all"
     if params[:id] && params[:id] == "unphotographed"
       @plaques = if request.format == "html"
-                   @country.plaques.unphotographed.paginate(page: params[:page], per_page: 50)
+                   @country.plaques.unphotographed.paginate(page: permitted_show_params[:page], per_page: 50)
       else
                    @country.plaques.unphotographed
       end
       @display = "unphotographed"
     elsif params[:id] && params[:id] == "current"
       @plaques = if request.format == "html"
-                   @country.plaques.current.paginate(page: params[:page], per_page: 50)
+                   @country.plaques.current.paginate(page: permitted_show_params[:page], per_page: 50)
       else
                    @country.plaques.current
       end
     elsif params[:id] && params[:id] == "ungeolocated"
       @plaques = if request.format == "html"
-                   @country.plaques.ungeolocated.paginate(page: params[:page], per_page: 50)
+                   @country.plaques.ungeolocated.paginate(page: permitted_show_params[:page], per_page: 50)
       else
                    @country.plaques.ungeolocated
       end
       @display = "ungeolocated"
     else
       @plaques = if request.format == "html"
-                   @country.plaques.paginate(page: params[:page], per_page: 50)
+                   @country.plaques.paginate(page: permitted_show_params[:page], per_page: 50)
       else
                    @country.plaques
       end

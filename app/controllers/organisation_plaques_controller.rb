@@ -32,21 +32,21 @@ class OrganisationPlaquesController < ApplicationController
     elsif params[:filter] && params[:filter] != ""
       begin
         @plaques = if request.format == "html"
-                     @organisation.plaques.send(params[:filter].to_s).paginate(page: params[:page], per_page: 50)
+                     @organisation.plaques.send(params[:filter].to_s).paginate(page: permitted_show_params[:page], per_page: 50)
         else
                      @organisation.plaques.send(params[:filter].to_s)
         end
         @display = params[:filter].to_s
       rescue # an unrecognised filter method
         @plaques = if request.format == "html"
-                     @organisation.plaques.paginate(page: params[:page], per_page: 50)
+                     @organisation.plaques.paginate(page: permitted_show_params[:page], per_page: 50)
         else
                      @organisation.plaques
         end
       end
     else
       @plaques = if request.format == "html"
-                   @organisation.plaques.paginate(page: params[:page], per_page: 50)
+                   @organisation.plaques.paginate(page: permitted_show_params[:page], per_page: 50)
       else
                    @organisation.plaques
       end

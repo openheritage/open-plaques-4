@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
   before_action :licences, only: %i[new create edit]
 
   def index
-    @photos = Photo.order(id: :desc).paginate(page: params[:page], per_page: 200)
+    @photos = Photo.order(id: :desc).paginate(page: permitted_show_params[:page], per_page: 200)
     respond_to do |format|
       format.html
       format.json { render json: @photos }
@@ -78,7 +78,7 @@ class PhotosController < ApplicationController
   protected
 
   def find
-    @photo = Photo.find(params[:id])
+    @photo = Photo.find(permitted_show_params[:id])
   end
 
   def licences

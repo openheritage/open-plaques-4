@@ -21,7 +21,7 @@ class AreaSubjectsController < ApplicationController
     @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
     respond_to do |format|
       format.html do
-        @people = @area.people # .paginate(page: params[:page], per_page: 50)
+        @people = @area.people # .paginate(page: permitted_show_params[:page], per_page: 50)
         render "areas/subjects/show"
       end
       format.json { render json: @area.people }

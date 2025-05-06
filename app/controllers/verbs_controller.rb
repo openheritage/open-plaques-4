@@ -29,7 +29,9 @@ class VerbsController < ApplicationController
 
   def show
     @verb = Verb.find_by(name: params[:id].tr("_", " "))
-    @personal_connections = @verb.personal_connections.paginate(page: params[:page], per_page: 50)
+    page = permitted_show_permitted_show_params[:page]
+    per_page = 50
+    @personal_connections = @verb.personal_connections.paginate(page:, per_page:)
     respond_to do |format|
       format.html
       format.json { render json: @verb }
