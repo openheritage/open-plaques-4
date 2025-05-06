@@ -17,6 +17,15 @@ class PhotographersController < ApplicationController
       site: "@openplaques",
       title: description
     }
+    @chart_data = {
+      labels: @photographers.map { |p| "#{p.rank}. #{p.id}" },
+      datasets: [ {
+        label: "Photographed plaques",
+        backgroundColor: "transparent",
+        borderColor: "#3B82F6",
+        data: @photographers.map(&:photos_count)
+      } ]
+    }
     respond_to do |format|
       format.html
       format.json { render json: @photographers }
