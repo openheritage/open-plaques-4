@@ -8,3 +8,16 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+ // Layout specific styles
+@use "application/typography";
+@use "application/layout";
+
+// Objects
+@use "application/objects/family-tree";
+@use "application/objects/flag-icon";
+@use "application/objects/featurette";
+@use "application/objects/person";
+@use "application/objects/photo";
+@use "application/objects/plaque-map";
+@use "application/objects/quote-card";

@@ -4,7 +4,6 @@ module BootstrapHelper
   def markdown(text)
     markdown = Redcarpet::Markdown.new(
       CustomRender,
-      # Redcarpet::Render::HTML,
       disable_indented_code_blocks: true,
       fenced_code_blocks: true,
       footnotes: true,
@@ -20,6 +19,13 @@ module BootstrapHelper
   # render Bootstrap-friendly html
   # see https://github.com/vmg/redcarpet/blob/master/ext/redcarpet/rc_render.c
   class CustomRender < Redcarpet::Render::HTML
+    def paragraph(text)
+      text.gsub!(/plaque ([0-9]+)/) do |match|
+        %(<div class="col-xs-6 col-sm-4 col-md-3"><%= render partial: 'plaques/tile', object: Plaque.find(#{match[7..-1]}), as: :plaque  %></div>)
+      end
+      %(#{text})
+    end
+
     def table(header, body)
       %(<div class='table-responsive'><table class='mx-auto w-auto table table-striped text-center mx-auto'>#{header}#{body}</table></div>)
     end
