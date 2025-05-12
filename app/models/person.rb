@@ -50,6 +50,7 @@ class Person < ApplicationRecord
       ) as plaques_count
     SQL
   }
+  scope :male, -> { where(gender: "m") }
   scope :female, -> { where(gender: "f") }
   scope :ungendered, -> { where(gender: "u") }
   scope :non_holocaust, -> { joins(:personal_roles).where("personal_roles.role_id != 5375") }

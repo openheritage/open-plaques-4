@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
 
   def permitted_show_params
     params.permit(
+      :area_id,
+      :country_id,
+      :filter,
       :id,
       :page
     )

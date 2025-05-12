@@ -3,23 +3,20 @@ class OrganisationPlaquesController < ApplicationController
   before_action :find, only: :show
 
   def show
-    begin
-      set_meta_tags description: "Blue plaques and historical markers from #{@organisation.name}"
-      set_meta_tags open_graph: {
-        title: "#{@organisation.name} plaques",
-        description: @organisation.description
+    set_meta_tags description: "Blue plaques and historical markers from #{@organisation.name}"
+    set_meta_tags open_graph: {
+      title: "#{@organisation.name} plaques",
+      description: @organisation.description
+    }
+    @main_photo = @organisation.main_photo
+    set_meta_tags twitter: {
+      title: "#{@organisation.name} plaques",
+      image: {
+        _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
+        width: 100,
+        height: 100
       }
-      @main_photo = @organisation.main_photo
-      set_meta_tags twitter: {
-        title: "#{@organisation.name} plaques",
-        image: {
-          _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
-          width: 100,
-          height: 100
-        }
-      }
-    rescue
-    end
+    }
     zoom = params[:zoom].to_i
 
     @display = "plaques"

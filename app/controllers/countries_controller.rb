@@ -1,3 +1,5 @@
+require "ostruct"
+
 # control countries
 class CountriesController < ApplicationController
   before_action :authenticate_admin!, only: :destroy

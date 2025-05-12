@@ -1,24 +1,23 @@
+require "ostruct"
+
 # control plaques in an area
 class AreaPlaquesController < ApplicationController
   before_action :find, only: :show
   respond_to :html, :json, :csv
 
   def show
-    begin
-      set_meta_tags open_graph: {
-        title: "Open Plaques Area #{@area.name}"
+    set_meta_tags open_graph: {
+      title: "Open Plaques Area #{@area.name}"
+    }
+    @main_photo = @area.main_photo
+    set_meta_tags twitter: {
+      title: "Open Plaques Area #{@area.name}",
+      image: {
+        _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
+        width: 100,
+        height: 100
       }
-      @main_photo = @area.main_photo
-      set_meta_tags twitter: {
-        title: "Open Plaques Area #{@area.name}",
-        image: {
-          _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
-          width: 100,
-          height: 100
-        }
-      }
-    rescue
-    end
+    }
     zoom = params[:zoom].to_i
     @display = "plaques"
     if zoom.positive?
@@ -81,6 +80,9 @@ class AreaPlaquesController < ApplicationController
         )
         @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
         @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
+        @gender.append(OpenStruct.new(gender: "f", subject_count: 0)) if @gender.select { |g| g.gender == "f" }.blank?
+        @gender.append(OpenStruct.new(gender: "m", subject_count: 0)) if @gender.select { |g| g.gender == "m" }.blank?
+        @gender.append(OpenStruct.new(gender: "n", subject_count: 0)) if @gender.select { |g| g.gender == "n" }.blank?
         @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count)) if @uncurated_count.positive?
         @gender.each do |g|
           case g["gender"]
@@ -119,7 +121,7 @@ class AreaPlaquesController < ApplicationController
   protected
 
   def find
-    @country = Country.find_by!(alpha2: params[:country_id])
-    @area = @country.areas.find_by!(slug: params[:area_id])
+    @country = Country.find_by!(alpha2: permitted_show_params[:country_id])
+    @area = @country.areas.find_by!(slug: permitted_show_params[:area_id])
   end
 end
