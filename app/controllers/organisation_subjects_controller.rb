@@ -1,3 +1,5 @@
+require "ostruct"
+
 # show subjects in an organisation
 class OrganisationSubjectsController < ApplicationController
   before_action :find, only: :show

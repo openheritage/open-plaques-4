@@ -107,7 +107,7 @@ module ApplicationHelper
   end
 
   def pluralize_word(count, singular, plural = nil)
-    count == 1 || count =~ %r{^1(\.0+)?$} ? singular : plural || singular.pluralize
+    count == 1 || count.to_s =~ %r{^1(\.0+)?$} ? singular : plural || singular.pluralize
   end
 
   def make_slug_not_war
