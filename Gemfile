@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+ruby "3.3.4"
 
 gem "rails", "~> 8.0.2"
 gem "propshaft" # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
@@ -14,7 +15,6 @@ gem "aws-sdk-comprehend"
 gem "aws-sdk-s3", require: false
 gem "aws-sdk-translate"
 gem "bootsnap", require: false # Reduce boot times through caching; required in config/boot.rb
-# gem "bootstrap", "~>5" # layout UI
 # gem "bcrypt", "~> 3.1.7" # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "chronic" # for time manipulation
 gem "dartsass-rails"
@@ -30,12 +30,9 @@ gem "julia_builder" # for outputting CSV files
 gem "kamal", require: false # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 # gem "liquid" # user-editable templates
 # gem "matrix" # needed for ruby 3.1+
-# gem "mechanize" # for scraping web pages
 gem "meta-tags"
 # gem "mcp_rails" # agentic AI API interfaces
 gem "nokogiri"
-
-# gem "octokit" # query Github API
 gem "plissken" # convert javascript-style names to ruby-style
 gem "pg", "~> 1.1" # postgresl database
 gem "puma", ">= 5.0" # a web server

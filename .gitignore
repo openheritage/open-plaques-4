@@ -7,8 +7,8 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore all environment files.
-/.env*
+# Ignore environment file.
+/.env
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -35,3 +35,4 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+latest.dump
