@@ -7,6 +7,7 @@
 class Page < ApplicationRecord
   include ApplicationHelper
 
+  acts_as_taggable_on :tags
   before_validation :make_slug_not_war
   validates_presence_of :name, :slug, :body
   validates_uniqueness_of :slug

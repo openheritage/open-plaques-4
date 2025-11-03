@@ -18,3 +18,4 @@ pin "get-size" # @2.0.3
 pin "outlayer" # @2.1.1
 pin "bootstrap" # @5.3.6
 pin "@popperjs/core", to: "@popperjs--core.js" # @2.11.8
+pin "zenblog"

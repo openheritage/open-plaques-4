@@ -6,6 +6,15 @@ GIT
       httparty (~> 0.10)
       sanitize
 
+GIT
+  remote: https://github.com/mbleigh/acts-as-taggable-on.git
+  revision: f18679a73fbea042e0ce2f1929e16a5e1abbcb64
+  branch: master
+  specs:
+    acts-as-taggable-on (12.0.0)
+      activerecord (>= 7.1, < 8.2)
+      zeitwerk (>= 2.4, < 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -344,7 +353,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.2.3)
+    rack (3.2.4)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -442,7 +451,7 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
-    rubyzip (3.2.1)
+    rubyzip (3.2.2)
     sanitize (7.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.16.8)
@@ -550,6 +559,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  acts-as-taggable-on!
   aws-sdk-comprehend
   aws-sdk-s3
   aws-sdk-translate

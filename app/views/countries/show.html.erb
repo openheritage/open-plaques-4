@@ -36,7 +36,7 @@
     map.setView([<%= @country.latitude %>, <%= @country.longitude %>], <%= @country.zoom %>)
     L.mapboxGL({
         attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
-        style: 'https://api.maptiler.com/maps/basic/style.json?key=qSorA16cJhhBZEhqDisF'
+        style: 'https://api.maptiler.com/maps/streets-v4/style.json?key=qSorA16cJhhBZEhqDisF'
       }).addTo(map)
     var blueIcon = new L.Icon({
       iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',

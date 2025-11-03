@@ -47,7 +47,8 @@ class PagesController < ApplicationController
       :body,
       :name,
       :slug,
-      :strapline
+      :strapline,
+      :tag_list
     )
   end
 end

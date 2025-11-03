@@ -11,6 +11,7 @@ gem "jbuilder" # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 
 gem "aasm" # manage object state
 # gem "activerecord-postgis-adapter' # link to Postgis geo database
+gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on", branch: :master # taggable contexts
 gem "aws-sdk-comprehend"
 gem "aws-sdk-s3", require: false
 gem "aws-sdk-translate"

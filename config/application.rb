@@ -24,5 +24,7 @@ module Openplaques
     config.logger = Logger.new(STDOUT)
     config.time_zone = "London"
     # config.eager_load_paths << Rails.root.join("extras")
+    #
+    config.paths["app/views"].unshift("#{Rails.root}/vendor/zenblog/views")
   end
 end
