@@ -60,7 +60,7 @@ class TodoController < ApplicationController
       @plaques = Plaque.detailed_address_no_geo.paginate(page: permitted_show_params[:page], per_page: 100)
       render :detailed_address_no_geo
     when "fetch_from_flickr"
-      flash[:notice] = "#{pluralize(fetch_todo_items, 'photo')} added to the list."
+      flash[:notice] = "#{fetch_todo_items} #{'photo'.pluralize_with_no(fetch_todo_items)} added to the list."
       redirect_to "/todo/plaques_to_add"
     when "no_roles"
       @people = Person.unroled.paginate(page: permitted_show_params[:page], per_page: 100)

@@ -1,6 +1,6 @@
 <% content_for(:page_title) {t '.page_title', photographer: @photographer.id} %>
 <% content_for(:title) {t '.page_heading', photographer:  @photographer.id} %>
-<% content_for(:page_subhead) {pluralize(@photographer.photos.size,'photo')} %>
+<% content_for(:page_subhead) {pluralize_with_no(@photographer.photos.size,'photo')} %>
 
 <div class="row" data-masonry='{"percentPosition": true }'>
   <% @photographer.photos.each do |photo| %>

@@ -20,22 +20,22 @@
 <h2>All todos</h2>
 <div class="row">
   <ul>
-    <li><%= link_to(pluralize(@unassigned_photo_count, "geolocated photo") +  " aren't linked to a plaque", todo_path('unassigned_photo')) %></li>
-    <li><%= link_to(pluralize(@unassigned_ungeolocated_photo_count, "ungeolocated photo") + " aren't linked to a plaque", todo_path('unassigned_ungeolocated_photo')) %></li>
-    <li><%= link_to("#{pluralize(@no_connection_count, 'UK plaque')} have no connections", todo_path('no_connection')) %>
+    <li><%= link_to(pluralize_with_no(@unassigned_photo_count, "geolocated photo") +  " aren't linked to a plaque", todo_path('unassigned_photo')) %></li>
+    <li><%= link_to(pluralize_with_no(@unassigned_ungeolocated_photo_count, "ungeolocated photo") + " aren't linked to a plaque", todo_path('unassigned_ungeolocated_photo')) %></li>
+    <li><%= link_to("#{pluralize_with_no(@no_connection_count, 'UK plaque')} have no connections", todo_path('no_connection')) %>
       ==
       <%= "#{@no_connection_percentage}%" %></li>
-    <li><%= link_to(pluralize(@lists_to_datacapture, "list") +  " with plaques to be datacaptured", todo_path('lists_to_datacapture')) %></li>
-    <li><%= link_to(pluralize(@photographed_not_coloured_plaques_count, "plaque") +  " with photos have no colour identified", todo_path('colours_from_photos')) %></li>
-    <li><%= link_to(pluralize(@geo_no_location_plaques_count, "geolocated plaque") +  " have no location name", todo_path('locations_from_geolocations')) %></li>
-    <li><%= link_to(pluralize(@location_no_area_plaques_count.to_i, "location") +  " have no area", todo_path('areas_from_locations')) %></li>
-    <li><%= link_to(pluralize(@plaques_to_add_count, "plaque") +  " to add from external sources", todo_path('plaques_to_add')) %></li>
-    <% # <li><%= link_to(pluralize(@detailed_address_no_geo_count, "plaque") +  " with detailed location but no latitude / longitude", todo_path('detailed_address_no_geo')) </li> %>
-    <li><%= link_to(pluralize(@partial_inscription_photo_count, "plaque") +  " with photos have a partial inscription" , todo_path('partial_inscription_photo')) %></li>
-    <li><%= link_to(pluralize(@partial_inscription_count, "plaque") +  " have partial inscription" , todo_path('partial_inscription')) %></li>
-    <li><%= link_to(pluralize(@no_roles_count, "people") +  " need a role" , todo_path('no_roles')) %></li>
-    <li><%= link_to(pluralize(@needs_geolocating_count, "plaque") +  " need geolocating", todo_path('needs_geolocating')) %></li>
-    <% # <li><%= link_to(pluralize(@no_description_count, "plaque") +  " have no description", todo_path('needs_description')) </li> %>
-    <li><%= link_to(pluralize(@unphotographed_plaque_count, "plaques") +  " don't have a photo", todo_path('unphotographed')) %></li>
+    <li><%= link_to(pluralize_with_no(@lists_to_datacapture, "list") +  " with plaques to be datacaptured", todo_path('lists_to_datacapture')) %></li>
+    <li><%= link_to(pluralize_with_no(@photographed_not_coloured_plaques_count, "plaque") +  " with photos have no colour identified", todo_path('colours_from_photos')) %></li>
+    <li><%= link_to(pluralize_with_no(@geo_no_location_plaques_count, "geolocated plaque") +  " have no location name", todo_path('locations_from_geolocations')) %></li>
+    <li><%= link_to(pluralize_with_no(@location_no_area_plaques_count.to_i, "location") +  " have no area", todo_path('areas_from_locations')) %></li>
+    <li><%= link_to(pluralize_with_no(@plaques_to_add_count, "plaque") +  " to add from external sources", todo_path('plaques_to_add')) %></li>
+    <% # <li><%= link_to(pluralize_with_no(@detailed_address_no_geo_count, "plaque") +  " with detailed location but no latitude / longitude", todo_path('detailed_address_no_geo')) </li> %>
+    <li><%= link_to(pluralize_with_no(@partial_inscription_photo_count, "plaque") +  " with photos have a partial inscription" , todo_path('partial_inscription_photo')) %></li>
+    <li><%= link_to(pluralize_with_no(@partial_inscription_count, "plaque") +  " have partial inscription" , todo_path('partial_inscription')) %></li>
+    <li><%= link_to(pluralize_with_no(@no_roles_count, "people") +  " need a role" , todo_path('no_roles')) %></li>
+    <li><%= link_to(pluralize_with_no(@needs_geolocating_count, "plaque") +  " need geolocating", todo_path('needs_geolocating')) %></li>
+    <% # <li><%= link_to(pluralize_with_no(@no_description_count, "plaque") +  " have no description", todo_path('needs_description')) </li> %>
+    <li><%= link_to(pluralize_with_no(@unphotographed_plaque_count, "plaques") +  " don't have a photo", todo_path('unphotographed')) %></li>
   </ul>
 </div>

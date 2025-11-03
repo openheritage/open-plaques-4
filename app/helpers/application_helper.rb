@@ -74,7 +74,7 @@ module ApplicationHelper
 
   def pluralize_is_or_are(number, name)
     word = number > 1 ? "are" : "is"
-    "#{word} #{pluralize(number, name)}"
+    "#{word} #{pluralize_with_no(number, name)}"
   end
 
   def pluralize_no_count(count, singular, plural = nil)
@@ -103,7 +103,7 @@ module ApplicationHelper
   end
 
   def pluralize_with_no(number, name)
-    number.zero? ? "no #{name}" : pluralize(number, name)
+    number.zero? ? "no #{name}" : "#{number} #{name.pluralize(number)}"
   end
 
   def pluralize_word(count, singular, plural = nil)

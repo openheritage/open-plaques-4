@@ -21,7 +21,7 @@
                 <small><%= person.gender %></small>
               <% end %>
             </span>
-            <span class="badge bg-primary"><%= pluralize(t.plaques_count, t('activerecord.models.plaque').downcase) %>  <%= @country.present? ? @area ? "in #{@area&.name}" : "in #{@country&.name}" : 'worldwide'  %></span>
+            <span class="badge bg-primary"><%= pluralize_with_no(t.plaques_count, t('activerecord.models.plaque').downcase) %> <%= @country.present? ? @area ? "in #{@area&.name}" : "in #{@country&.name}" : 'worldwide'  %></span>
           </div>
         </div>
       <% end %>

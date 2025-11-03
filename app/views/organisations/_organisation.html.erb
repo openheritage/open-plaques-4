@@ -9,7 +9,7 @@
           <%= link_to(content_tag('span', organisation.name, lang: organisation.language.alpha2), organisation) %>
         <% end %>
       </h4>
-      <span class="badge bg-secondary pull-right"><%= pluralize(organisation.sponsorships.size, t('activerecord.models.plaque').downcase) %></span>
+      <span class="badge bg-secondary pull-right"><%= pluralize_with_no(organisation.sponsorships.size, t('activerecord.models.plaque').downcase) %></span>
     </div>
   </div>
 </div>

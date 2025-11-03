@@ -318,14 +318,14 @@ class Plaque < ApplicationRecord
       people.first(number_of_subjects - 1).each do |person|
         first_people << person[:name]
       end
-      first_people << pluralize(people.size - number_of_subjects + 1, "other")
+      first_people << pluralize_with_no(people.size - number_of_subjects + 1, "other")
       first_people.to_sentence
     elsif people.size > number_of_subjects
       first_4_people = []
       people.first(number_of_subjects).each do |person|
         first_4_people << person[:name]
       end
-      first_4_people << pluralize(people.size - number_of_subjects, "other")
+      first_4_people << pluralize_with_no(people.size - number_of_subjects, "other")
       first_4_people.to_sentence
     elsif !people.empty?
       people.collect(&:name).to_sentence
@@ -344,7 +344,7 @@ class Plaque < ApplicationRecord
       people.first(4).each do |person|
         first_4_people << person[:name]
       end
-      first_4_people << pluralize(people.size - 4, "other")
+      first_4_people << pluralize_with_no(people.size - 4, "other")
       first_4_people.to_sentence
     elsif people.any?
       t = people.collect(&:name).to_sentence

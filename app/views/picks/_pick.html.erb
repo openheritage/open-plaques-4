@@ -4,5 +4,5 @@
     <p class="m-b-0">"<%= pick.description %>"</p>
     <footer class="blockquote-footer"><%= pick.proposer %></footer>
   </blockquote>
-  <p class="label label-default label-pill pull-right">featured <%= pluralize(pick.featured_count, "time") %></p>
+  <p class="label label-default label-pill pull-right">featured <%= pluralize_with_no(pick.featured_count, "time") %></p>
 </div>
