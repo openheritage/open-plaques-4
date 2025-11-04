@@ -37,6 +37,8 @@ class PagesController < ApplicationController
   protected
 
   def find
+    @page = Page.find(params[:id])
+  rescue
     @page = Page.find_by!(slug: params[:id])
   end
 

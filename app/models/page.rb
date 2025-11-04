@@ -4,6 +4,9 @@
 # * +name+ - The name of the page
 # * +slug+ - An identifier for the organisation, usually equivalent to its name in lower case, with spaces replaced by underscores. Used in URLs.
 # * +strapline+ - A sub heading
+# * +view_count+ - Total number of views
+# * +recent_view_count+ - Number of views in last period
+# * +recent_view_count_start+ - Date the last period count was started from
 class Page < ApplicationRecord
   include ApplicationHelper
 
