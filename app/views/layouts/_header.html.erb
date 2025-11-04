@@ -1,11 +1,11 @@
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+      <%= link_to root_path, class: "logo d-flex align-items-center me-auto me-xl-0" do %>
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- %= image_tag "logo.png", alt="logo" %> -->
+        <%= image_tag "logo.png", alt: "logo" %>
         <h1 class="sitename">OpenPlaques</h1>
-      </a>
+      <% end %>
 
       <nav id="navmenu" class="navmenu">
         <ul>
@@ -29,7 +29,7 @@
               <li><a href="category.html">Category 4</a></li>
             </ul>
           </li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="contact">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>

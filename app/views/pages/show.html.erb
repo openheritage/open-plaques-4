@@ -30,7 +30,7 @@
 
             <div class="meta-top">
               <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-details.html">John Doe</a></li>
+                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-details.html">Jez Nicholson</a></li>
                 <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-details.html"><time datetime="2020-01-01"><%= @page.created_at.strftime('%d %b %Y') %></time></a></li>
               </ul>
             </div><!-- End meta top -->
@@ -72,7 +72,7 @@
             <div class="d-flex align-items-center w-100">
               <%= image_tag "blog/blog-author.jpg", alt: "", class: "rounded-circle flex-shrink-0" %>
               <div>
-                <h4>Jane Smith</h4>
+                <h4>Jez Nicholson</h4>
                 <div class="social-links">
                   <a href="https://x.com/#"><i class="bi bi-twitter-x"></i></a>
                   <a href="https://facebook.com/#"><i class="bi bi-facebook"></i></a>
@@ -106,45 +106,15 @@
 
           <h3 class="widget-title">Recent Posts</h3>
 
-          <div class="post-item">
-            <%= image_tag "blog/blog-recent-1.jpg", alt: "", class: "flex-shrink-0" %>
-            <div>
-              <h4><a href="blog-details.html">Nihil blanditiis at in nihil autem</a></h4>
-              <time datetime="2020-01-01">Jan 1, 2020</time>
-            </div>
-          </div><!-- End recent post item-->
-
-          <div class="post-item">
-            <%= image_tag "blog/blog-recent-2.jpg", alt: "", class: "flex-shrink-0" %>
-            <div>
-              <h4><a href="blog-details.html">Quidem autem et impedit</a></h4>
-              <time datetime="2020-01-01">Jan 1, 2020</time>
-            </div>
-          </div><!-- End recent post item-->
-
-          <div class="post-item">
-            <%= image_tag "blog/blog-recent-3.jpg", alt: "", class: "flex-shrink-0" %>
-            <div>
-              <h4><a href="blog-details.html">Id quia et et ut maxime similique occaecati ut</a></h4>
-              <time datetime="2020-01-01">Jan 1, 2020</time>
-            </div>
-          </div><!-- End recent post item-->
-
-          <div class="post-item">
-            <%= image_tag "blog/blog-recent-4.jpg", alt: "", class: "flex-shrink-0" %>
-            <div>
-              <h4><a href="blog-details.html">Laborum corporis quo dara net para</a></h4>
-              <time datetime="2020-01-01">Jan 1, 2020</time>
-            </div>
-          </div><!-- End recent post item-->
-
-          <div class="post-item">
-            <%= image_tag "blog/blog-recent-5.jpg", alt: "", class: "flex-shrink-0" %>
-            <div>
-              <h4><a href="blog-details.html">Et dolores corrupti quae illo quod dolor</a></h4>
-              <time datetime="2020-01-01">Jan 1, 2020</time>
-            </div>
-          </div><!-- End recent post item-->
+          <% Page.random(5).each do |page| %>
+            <div class="post-item">
+              <%= image_tag "blog/blog-recent-#{rand(5) + 1}.jpg", alt: "", class: "flex-shrink-0" %>
+              <div>
+                <h4><a href="blog-details.html"><%= page.name %></a></h4>
+                <time datetime="2020-01-01">Jan 1, 2020</time>
+              </div>
+            </div><!-- End recent post item-->
+          <% end %>
 
         </div><!--/Recent Posts Widget -->
 

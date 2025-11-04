@@ -16,6 +16,18 @@ class Page < ApplicationRecord
   validates_uniqueness_of :slug
   validates_format_of :slug, with: /\A[a-z_]+\z/, message: "can only contain lowercase letters and underscores"
 
+  def author
+    User.random
+  end
+
+  def abstract
+    "#{body[..300]}..."
+  end
+
+  def category
+    %w[project favourites culture].sample
+  end
+
   def to_s
     name
   end
