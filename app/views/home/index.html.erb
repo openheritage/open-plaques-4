@@ -71,8 +71,8 @@
           <% Page.tagged_with("project")[0..0]&.each do |page| %>
             <div class="post-entry lg">
               <%= link_to page do %><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %><% end %>
-              <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-              <h2><a href="blog-details.html"><%= page.name %></a></h2>
+              <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+              <h2><%= link_to page.name, page %></h2>
               <p class="mb-4 d-block"><%= page.abstract %></p>
               <div class="d-flex align-items-center author">
                 <div class="photo"><%= image_tag "person-1.jpg", alt: "", class: "img-fluid" %></div>
@@ -91,7 +91,7 @@
               <% Page.tagged_with("project")[1..3]&.each do |page, i| %>
                 <div class="post-entry">
                   <a href="blog-details.html"><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %></a>
-                  <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+                  <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                   <h2><%= link_to page.name, page %></h2>
                 </div>
               <% end %>
@@ -100,7 +100,7 @@
               <% Page.tagged_with("project")[4..6]&.each do |page, i| %>
                 <div class="post-entry">
                   <a href="blog-details.html"><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %></a>
-                  <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+                  <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                   <h2><%= link_to page.name, page %></h2>
                 </div>
               <% end %>
@@ -157,7 +157,7 @@
               <%= image_tag "post-landscape-#{rand(6) + 1}.jpg", alt: "", class: "img-fluid" %>
             </a>
             <div>
-              <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+              <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
               <h3><%= link_to page.name, page %></h3>
               <p><%= page.abstract %></p>
               <div class="d-flex align-items-center author">
@@ -175,7 +175,7 @@
             <% Page.tagged_with("culture")[1..1]&.each do |page| %>
               <div class="post-list border-bottom">
                 <a href="blog-details.html"><%= image_tag "post-landscape-1.jpg", alt: "", class: "img-fluid" %></a>
-                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                 <h2 class="mb-2"><a href="blog-details.html">11 Work From Home Part-Time Jobs You Can Do Now</a></h2>
                 <span class="author mb-3 d-block"><%= page.author&.name %></span>
                 <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
@@ -183,7 +183,7 @@
             <% end %>
             <% Page.tagged_with("culture")[2..2]&.each do |page| %>
               <div class="post-list">
-                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                 <h2 class="mb-2"><a href="blog-details.html">5 Great Startup Tips for Female Founders</a></h2>
                 <span class="author mb-3 d-block"><%= page.author&.name %></span>
               </div>
@@ -193,7 +193,7 @@
             <% Page.tagged_with("culture")[3..3]&.each do |page| %>
               <div class="post-list">
                 <a href="blog-details.html"><%= image_tag "post-landscape-2.jpg", alt: "", class: "img-fluid" %></a>
-                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                 <h2 class="mb-2"><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
                 <span class="author mb-3 d-block"><%= page.author&.name %></span>
                 <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
@@ -206,7 +206,7 @@
       <div class="col-md-3">
         <% Page.tagged_with("top10").random(6)&.each do |page| %>
           <div class="post-list border-bottom">
-            <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+            <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
             <h2 class="mb-2"><a href="blog-details.html"><%= link_to page.name, page %></a></h2>
             <span class="author mb-3 d-block"><%= page.author&.name %></span>
           </div>
@@ -237,7 +237,7 @@
         <% Page.where(slug: "top_plaque_one")[0..0]&.each do |page| %>
           <div class="post-list lg">
             <a href="blog-details.html"><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %></a>
-            <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+            <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
             <h2><%= link_to page.name, page %></h2>
             <p><%= page.body %></p>
 
@@ -252,7 +252,7 @@
 
         <% Page.tagged_with("top10")[1..2]&.each_with_index do |page, i| %>
           <div class="post-list <%= 'border-bottom' if i > 1 %>">
-            <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+            <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
             <h2 class="mb-2"><%= link_to page.name, page %></h2>
             <span class="author mb-3 d-block"><%= page.author&.name %></span>
           </div>
@@ -266,7 +266,7 @@
             <% Page.tagged_with("top10")[3..5]&.each do |page| %>
               <div class="post-list">
                 <a href="blog-details.html"><%= image_tag "post-landscape-6.jpg", alt: "", class: "img-fluid" %></a>
-                <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+                <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                 <h2><%= link_to page.name, page %></h2>
               </div>
             <% end %>
@@ -275,7 +275,7 @@
             <% Page.tagged_with("top10")[6..9]&.each do |page| %>
               <div class="post-list">
                 <a href="blog-details.html"><%= image_tag "post-landscape-6.jpg", alt: "", class: "img-fluid" %></a>
-                <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+                <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                 <h2><%= link_to page.name, page %></h2>
               </div>
             <% end %>
@@ -284,7 +284,7 @@
 
             <% Page.tagged_with("top10").random(6)&.each do |page| %>
               <div class="post-list border-bottom">
-                <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+                <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                 <h2 class="mb-2"><%= link_to page.name, page %></h2>
                 <span class="author mb-3 d-block"><%= page.author&.name %></span>
               </div>

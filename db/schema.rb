@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_03_132230) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_04_174901) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -126,12 +126,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_03_132230) do
   end
 
   create_table "pages", id: :serial, force: :cascade do |t|
+    t.text "abstract"
+    t.bigint "author_id"
     t.text "body"
     t.datetime "created_at", precision: nil
     t.string "name", limit: 255
     t.string "slug", limit: 255
     t.string "strapline", limit: 255
     t.datetime "updated_at", precision: nil
+    t.index ["author_id"], name: "index_pages_on_author_id"
   end
 
   create_table "people", id: :serial, force: :cascade do |t|
@@ -330,24 +333,33 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_03_132230) do
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
+    t.text "biography"
+    t.string "bluesky"
     t.datetime "created_at", precision: nil
     t.string "crypted_password", limit: 40
     t.datetime "current_sign_in_at", precision: nil
     t.string "current_sign_in_ip", limit: 255
     t.string "email", limit: 100
     t.string "encrypted_password", limit: 128, null: false
+    t.string "facebook"
+    t.string "instagram"
     t.boolean "is_admin"
     t.boolean "is_verified", default: false, null: false
     t.datetime "last_sign_in_at", precision: nil
     t.string "last_sign_in_ip", limit: 255
+    t.string "linkedin"
+    t.string "mastodon"
     t.string "name", limit: 100
     t.boolean "opted_in", default: false
+    t.string "photo_uri"
     t.datetime "remember_created_at", precision: nil
     t.datetime "remember_token_expires_at", precision: nil
     t.datetime "reset_password_sent_at", precision: nil
     t.string "reset_password_token", limit: 255
     t.string "salt", limit: 40
     t.integer "sign_in_count", default: 0
+    t.string "title"
+    t.string "twitter"
     t.datetime "updated_at", precision: nil
     t.string "username", limit: 40
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -363,4 +375,5 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_03_132230) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "pages", "users", column: "author_id"
 end

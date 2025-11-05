@@ -122,4 +122,5 @@ Rails.application.routes.draw do
   scope "/women" do
     resources "a-z", controller: :women_by_index, as: "women_by_index", only: :show
   end
+  get "*", to: "pages#show"
 end

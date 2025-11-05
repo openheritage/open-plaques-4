@@ -39,7 +39,7 @@ class PagesController < ApplicationController
   def find
     @page = Page.find(params[:id])
   rescue
-    @page = Page.find_by!(slug: params[:id])
+    @page = Page.find_by!(slug: params[:id] || params[""])
   end
 
   private
