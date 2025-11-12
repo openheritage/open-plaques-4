@@ -46,6 +46,7 @@ class PagesController < ApplicationController
 
   def permitted_params
     params.require(:page).permit(
+      :category_list,
       :body,
       :name,
       :slug,
