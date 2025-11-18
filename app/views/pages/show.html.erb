@@ -74,10 +74,24 @@
               <div>
                 <h4><%= @page.author&.name %></h4>
                 <div class="social-links">
-                  <a href="https://x.com/#"><i class="bi bi-twitter-x"></i></a>
-                  <a href="https://facebook.com/#"><i class="bi bi-facebook"></i></a>
-                  <a href="https://instagram.com/#"><i class="biu bi-instagram"></i></a>
-                  <a href="https://instagram.com/#"><i class="biu bi-linkedin"></i></a>
+                  <% if @page.author&.bluesky %>
+                    <a href="https://bluesky.com/<%= @page.author&.bluesky %>" target="_new"><i class="bi bi-bluesky"></i></a>
+                  <% end %>
+                  <% if @page.author&.mastodon %>
+                    <a href="https://mastodon.com/<%= @page.author&.mastodon %>" target="_new"><i class="bi bi-mastodon"></i></a>
+                  <% end %>
+                  <% if @page.author&.twitter %>
+                    <a href="https://x.com/<%= @page.author&.twitter %>" target="_new"><i class="bi bi-twitter-x"></i></a>
+                  <% end %>
+                  <% if @page.author&.facebook %>
+                    <a href="https://facebook.com/<%= @page.author&.facebook %>" target="_new"><i class="bi bi-facebook"></i></a>
+                  <% end %>
+                  <% if @page.author&.instagram %>
+                    <a href="https://instagram.com/<%= @page.author&.instagram %>" target="_new"><i class="biu bi-instagram"></i></a>
+                  <% end %>
+                  <% if @page.author&.linkedin %>
+                    <a href="https://linkedin.com/<%= @page.author&.linkedin %>" target="_new"><i class="biu bi-linkedin"></i></a>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -121,7 +135,7 @@
         <!-- Tags Widget -->
         <div class="tags-widget widget-item">
 
-          <h3 class="widget-title">Tags</h3>
+          <h3 class="widget-title">Tag</h3>
           <ul>
             <% ActsAsTaggableOn::Tag.most_used(10).each do |tag| %>
               <li><a href="#"><%= tag.name %></a></li>

@@ -1,7 +1,7 @@
 <div class="team-member d-flex align-items-start">
   <div class="pic"><%= image_tag team_member.photo_uri || "team/team-4.jpg", class: "img-fluid", alt:"photo of #{team_member.name}" %></div>
   <div class="member-info">
-    <h4><%= team_member.name %></h4>
+    <h4><%= team_member.name.present? ? team_member.name : team_member.username %></h4>
     <span><%= team_member.title %></span>
     <p><%= team_member.biography %></p>
     <div class="social">
