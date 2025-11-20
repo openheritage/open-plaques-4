@@ -87,7 +87,7 @@ Rails.application.routes.draw do
   match "plaques/tiles/:zoom/:x/:y" => "plaques#index", constraints: { zoom: /\d{2}/, x: /\d+/, y: /\d+/ }, via: [ :get ]
   match "plaques/:filter/tiles/:zoom/:x/:y" => "plaques#index", id: :filter, constraints: { zoom: /\d{2}/, x: /\d+/, y: /\d+/ }, via: [ :get ]
   resources :photos, only: [ :create, :edit, :new, :show, :update ]
-  resources :photographers, as: :photographers, only: [ :create, :index, :show, :new ]
+  resources :photographers, as: :photographers, only: [ :create, :index, :new ]
   scope "/roles" do
     resources "a-z", controller: :roles_by_index, as: "roles_by_index", only: [ :show, :index ]
     resources "precedence", controller: :roles_by_precedence, as: "roles_by_precedence", only: [ :index ]

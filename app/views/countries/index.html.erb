@@ -3,8 +3,14 @@
 <% content_for(:page_subhead) {t '.different_strokes'} %>
 <% content_for(:admin_menu) {navbar_link_to(t('buttons.add'), new_country_path)} %>
 
-<div class="row" data-masonry='{"percentPosition": true }'>
-  <%= render @countries %>
-</div>
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-<%= render partial: 'people/top10' %>
+    <p>OpenPlaques currently has records of plaques in <%= Country.count %> countries around the world.</p>
+    <p><%= t ".different_strokes" %>
+    <div class="row" data-masonry='{"percentPosition": true }'>
+      <%= render @countries %>
+    </div>
+
+  </div>
+</section>

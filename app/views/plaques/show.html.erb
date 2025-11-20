@@ -1,12 +1,16 @@
 <% content_for :page_title, @plaque %>
-<% content_for :title do %>
+<% content_for :title, @plaque %>
+<%= render 'plaques/edit_bar', plaque: @plaque %>
+
+<p>
   <% if @plaque.foreign? %>
     <span class="flag-icon <%= @plaque.language.flag_icon %>">
     </span>
   <% end %>
   <%= linked_inscription @plaque %>
-<% end %>
-<% content_for :page_subhead do %>
+</p>
+
+<div>
   <span id="facebook_like_button">
     <iframe
       src="https://www.facebook.com/plugins/like.php?href=http://openplaques.org/<%= plaque_path(@plaque, only_path: false) %>&amp;layout=button_count&amp;show_faces=false&amp;width=90&amp;action=like&amp;font&amp;colorscheme=light&amp;height=35"
@@ -22,8 +26,7 @@
     </div>
   <% end %>
   <%= content_tag(:p, markdown(@plaque.description)) if @plaque.description.present? %>
-<% end %>
-<%= render 'plaques/edit_bar', plaque: @plaque %>
+</div>
 
 <div class="plaque">
   <div class="row">

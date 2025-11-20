@@ -24,6 +24,7 @@
   <!-- Vendor CSS Files (or pass as head contents from individual pages) -->
   <%= stylesheet_link_tag "aos.css", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "bootstrap-icons.min.css", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "swiper-bundle.min.css", "data-turbo-track": "reload" %>
 
   <!-- Main CSS File -->
   <%# Includes all stylesheet files in app/assets/stylesheets %>
@@ -31,8 +32,6 @@
   <%= stylesheet_link_tag "main.css", "data-turbo-track": "reload" %>
 
   <%= javascript_importmap_tags %>
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
-
   <%= javascript_import_module_tag "zenblog" %>
 
   <!-- stylesheets and javascript passed through from individual pages -->
@@ -52,6 +51,21 @@
   <%= render "layouts/header" %>
 
   <main class="main">
+
+    <% if content_for?(:title) %>
+      <!-- Page Title -->
+      <div class="page-title">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+          <h1 class="mb-2 mb-lg-0"><%= content_for(:title) %></h1>
+          <nav class="breadcrumbs">
+            <ol>
+              <li><a href="index.html">Home</a></li>
+              <li class="current"><%= content_for(:title) %></li>
+            </ol>
+          </nav>
+        </div>
+      </div><!-- End Page Title -->
+    <% end %>
 
     <%= yield %>
 

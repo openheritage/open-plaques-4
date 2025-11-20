@@ -1,19 +1,16 @@
 <% content_for(:page_title) { t('.page_title') } %>
-<% content_for(:title) { t('.strapline_html') } %>
-<% content_for(:page_subhead) {} %>
 <% content_for(:admin_menu) { navbar_link_to(t('.pages'), pages_path, { class: :edit, title: t('.pages') }) } %>
 
 <% content_for :head do %>
   <%= stylesheet_link_tag 'swiper-bundle.min.css', "data-turbo-track": "reload" %>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@12.0.3/swiper-bundle.min.js">;</script>
 <% end %>
 
 <!-- Slider Section -->
 <section id="slider" class="slider section dark-background">
 
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
+  <div class="container" data-aos="fade-up" data-aos-delay="100" data-controller="swiper">
 
-    <div class="swiper init-swiper">
+    <div class="swiper init-swiper" data-swiper-target="container">
 
       <script type="application/json" class="swiper-config">
         {
@@ -49,8 +46,8 @@
 
       </div>
 
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next" data-swiper-target="next"></div>
+      <div class="swiper-button-prev" data-swiper-target="prev"></div>
 
       <div class="swiper-pagination"></div>
     </div>

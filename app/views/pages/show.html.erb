@@ -37,20 +37,21 @@
 
             <div class="content">
               <%= markdown(@page.body) %>
-
             </div><!-- End post content -->
 
             <div class="meta-bottom">
               <i class="bi bi-folder"></i>
               <ul class="cats">
-                <li><a href="#">Business</a></li>
+                <% @page.category_list.each do |name| %>
+                  <li><a href="#"><%= name %></a></li>
+                <% end %>
               </ul>
 
               <i class="bi bi-tags"></i>
               <ul class="tags">
-                <li><a href="#">Creative</a></li>
-                <li><a href="#">Tips</a></li>
-                <li><a href="#">Marketing</a></li>
+                <% @page.tag_list.each do |name| %>
+                  <li><a href="#"><%= name %></a></li>
+                <% end %>
               </ul>
             </div><!-- End meta bottom -->
 
@@ -65,84 +66,13 @@
 
       <div class="widgets-container">
 
-        <!-- Blog Author Widget -->
-        <div class="blog-author-widget widget-item">
+        <%= render "author", author: @page.author %>
 
-          <div class="d-flex flex-column align-items-center">
-            <div class="d-flex align-items-center w-100">
-              <%= image_tag "blog/blog-author.jpg", alt: "", class: "rounded-circle flex-shrink-0" %>
-              <div>
-                <h4><%= @page.author&.name %></h4>
-                <div class="social-links">
-                  <% if @page.author&.bluesky %>
-                    <a href="https://bluesky.com/<%= @page.author&.bluesky %>" target="_new"><i class="bi bi-bluesky"></i></a>
-                  <% end %>
-                  <% if @page.author&.mastodon %>
-                    <a href="https://mastodon.com/<%= @page.author&.mastodon %>" target="_new"><i class="bi bi-mastodon"></i></a>
-                  <% end %>
-                  <% if @page.author&.twitter %>
-                    <a href="https://x.com/<%= @page.author&.twitter %>" target="_new"><i class="bi bi-twitter-x"></i></a>
-                  <% end %>
-                  <% if @page.author&.facebook %>
-                    <a href="https://facebook.com/<%= @page.author&.facebook %>" target="_new"><i class="bi bi-facebook"></i></a>
-                  <% end %>
-                  <% if @page.author&.instagram %>
-                    <a href="https://instagram.com/<%= @page.author&.instagram %>" target="_new"><i class="biu bi-instagram"></i></a>
-                  <% end %>
-                  <% if @page.author&.linkedin %>
-                    <a href="https://linkedin.com/<%= @page.author&.linkedin %>" target="_new"><i class="biu bi-linkedin"></i></a>
-                  <% end %>
-                </div>
-              </div>
-            </div>
+        <%= render "search" %>
 
-            <p>
-              <%= @page.author&.biography %>
-            </p>
+        <%= render "recent_posts" %>
 
-          </div>
-
-        </div><!--/Blog Author Widget -->
-
-        <!-- Search Widget -->
-        <div class="search-widget widget-item">
-
-          <h3 class="widget-title">Search</h3>
-          <form action="">
-            <input type="text">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-          </form>
-
-        </div><!--/Search Widget -->
-
-        <!-- Recent Posts Widget -->
-        <div class="recent-posts-widget widget-item">
-
-          <h3 class="widget-title">Recent Posts</h3>
-
-          <% Page.random(5).each do |page| %>
-            <div class="post-item">
-              <%= image_tag "blog/blog-recent-#{rand(5) + 1}.jpg", alt: "", class: "flex-shrink-0" %>
-              <div>
-                <h4><%= link_to page.name, page %></h4>
-                <time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time>
-              </div>
-            </div><!-- End recent post item-->
-          <% end %>
-
-        </div><!--/Recent Posts Widget -->
-
-        <!-- Tags Widget -->
-        <div class="tags-widget widget-item">
-
-          <h3 class="widget-title">Tag</h3>
-          <ul>
-            <% ActsAsTaggableOn::Tag.most_used(10).each do |tag| %>
-              <li><a href="#"><%= tag.name %></a></li>
-            <% end %>
-          </ul>
-
-        </div><!--/Tags Widget -->
+        <%= render "tags" %>
 
       </div>
 
