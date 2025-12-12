@@ -3,8 +3,3 @@
   <%= render partial: 'plaques/tile', collection: @plaques, as: :plaque %>
 </div>
 <%= will_paginate @plaques if @plaques.respond_to?(:total_pages) %>
-<script>
-  setTimeout(function () {
-    var msnry = new Masonry('.grid');
-  }, 1000);
-</script>

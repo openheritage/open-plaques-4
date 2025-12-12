@@ -81,6 +81,8 @@ GEM
       activerecord (= 8.1.1)
       activesupport (= 8.1.1)
       marcel (~> 1.0)
+    activestorage-validator (0.5.0)
+      rails (>= 6.1.0)
     activesupport (8.1.1)
       base64
       bigdecimal
@@ -98,11 +100,11 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1182.0)
+    aws-partitions (1.1185.0)
     aws-sdk-comprehend (1.108.0)
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-core (3.237.0)
+    aws-sdk-core (3.238.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -113,7 +115,7 @@ GEM
     aws-sdk-kms (1.117.0)
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.203.1)
+    aws-sdk-s3 (1.204.0)
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -137,13 +139,12 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     base64 (0.3.0)
     bcrypt (3.1.20)
-    bcrypt_pbkdf (1.1.1)
-    bcrypt_pbkdf (1.1.1-arm64-darwin)
-    bcrypt_pbkdf (1.1.1-x86_64-darwin)
     bigdecimal (3.3.1)
     bindex (0.8.1)
     bootsnap (1.19.0)
       msgpack (~> 1.2)
+    bootstrap (5.3.5)
+      popper_js (>= 2.11.8, < 3)
     brakeman (7.1.1)
       racc
     builder (3.3.0)
@@ -188,13 +189,14 @@ GEM
       globalid (>= 0.3.6)
       railties (>= 5.2.0)
     diff-lcs (1.6.2)
+    dockerfile-rails (1.7.10)
+      rails (>= 3.0.0)
     dotenv (3.1.8)
     dotenv-rails (3.1.8)
       dotenv (= 3.1.8)
       railties (>= 6.1)
     drb (2.2.3)
     dumb_delegator (1.1.0)
-    ed25519 (1.4.0)
     erb (6.0.0)
     erubi (1.13.1)
     et-orbi (1.4.0)
@@ -250,9 +252,6 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    jbuilder (2.14.1)
-      actionview (>= 7.0.0)
-      activesupport (>= 7.0.0)
     jmespath (1.6.2)
     jquery-rails (4.6.1)
       rails-dom-testing (>= 1, < 3)
@@ -260,17 +259,6 @@ GEM
       thor (>= 0.14, < 2.0)
     json (2.16.0)
     julia_builder (0.2.2)
-    kamal (2.8.2)
-      activesupport (>= 7.0)
-      base64 (~> 0.2)
-      bcrypt_pbkdf (~> 1.0)
-      concurrent-ruby (~> 1.2)
-      dotenv (~> 3.1)
-      ed25519 (~> 1.4)
-      net-ssh (~> 7.3)
-      sshkit (>= 1.23.0, < 2.0)
-      thor (~> 1.3)
-      zeitwerk (>= 2.6.18, < 3.0)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -288,7 +276,7 @@ GEM
     meta-tags (2.22.2)
       actionpack (>= 6.0.0, < 8.2)
     mini_mime (1.1.5)
-    minitest (5.26.1)
+    minitest (5.26.2)
     msgpack (1.8.0)
     multi_xml (0.7.2)
       bigdecimal (~> 3.1)
@@ -299,13 +287,8 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-scp (4.1.0)
-      net-ssh (>= 2.6.5, < 8.0.0)
-    net-sftp (4.0.0)
-      net-ssh (>= 5.0.0, < 8.0.0)
     net-smtp (0.5.1)
       net-protocol
-    net-ssh (7.3.0)
     nio4r (2.7.5)
     nokogiri (1.18.10-aarch64-linux-gnu)
       racc (~> 1.4)
@@ -337,6 +320,7 @@ GEM
     pg (1.6.2-x86_64-linux)
     pg (1.6.2-x86_64-linux-musl)
     plissken (4.0.0)
+    popper_js (2.11.8)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -455,21 +439,21 @@ GEM
     sanitize (7.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.16.8)
-    sass-embedded (1.94.0-aarch64-linux-gnu)
+    sass-embedded (1.94.2-aarch64-linux-gnu)
       google-protobuf (~> 4.31)
-    sass-embedded (1.94.0-aarch64-linux-musl)
+    sass-embedded (1.94.2-aarch64-linux-musl)
       google-protobuf (~> 4.31)
-    sass-embedded (1.94.0-arm-linux-gnueabihf)
+    sass-embedded (1.94.2-arm-linux-gnueabihf)
       google-protobuf (~> 4.31)
-    sass-embedded (1.94.0-arm-linux-musleabihf)
+    sass-embedded (1.94.2-arm-linux-musleabihf)
       google-protobuf (~> 4.31)
-    sass-embedded (1.94.0-arm64-darwin)
+    sass-embedded (1.94.2-arm64-darwin)
       google-protobuf (~> 4.31)
-    sass-embedded (1.94.0-x86_64-darwin)
+    sass-embedded (1.94.2-x86_64-darwin)
       google-protobuf (~> 4.31)
-    sass-embedded (1.94.0-x86_64-linux-gnu)
+    sass-embedded (1.94.2-x86_64-linux-gnu)
       google-protobuf (~> 4.31)
-    sass-embedded (1.94.0-x86_64-linux-musl)
+    sass-embedded (1.94.2-x86_64-linux-musl)
       google-protobuf (~> 4.31)
     securerandom (0.4.1)
     selenium-webdriver (4.38.0)
@@ -495,13 +479,6 @@ GEM
       fugit (~> 1.11)
       railties (>= 7.1)
       thor (>= 1.3.1)
-    sshkit (1.24.0)
-      base64
-      logger
-      net-scp (>= 1.1.2)
-      net-sftp (>= 2.1.2)
-      net-ssh (>= 2.8.0)
-      ostruct
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.8)
@@ -559,12 +536,14 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  activestorage-validator
   acts-as-taggable-on!
   aws-sdk-comprehend
   aws-sdk-s3
   aws-sdk-translate
   axe-core-rspec
   bootsnap
+  bootstrap
   brakeman
   capybara
   dartsass-rails
@@ -572,15 +551,14 @@ DEPENDENCIES
   debug
   devise
   devise_masquerade
+  dockerfile-rails (>= 1.7)
   dotenv-rails
   factory_bot_rails
   ffaker
   font_awesome5_rails
   importmap-rails
-  jbuilder
   jquery-rails
   julia_builder
-  kamal
   meta-tags
   nokogiri
   pg (~> 1.1)
