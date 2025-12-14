@@ -13,9 +13,8 @@ gem "aws-sdk-comprehend"
 gem "aws-sdk-s3", require: false
 gem "aws-sdk-translate"
 # gem "bcrypt", "~> 3.1.7" # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-gem "bootstrap" # Styling for UI elements
 gem "bootsnap", require: false # Reduce boot times through caching; required in config/boot.rb
-# gem "bootstrap" # Styling for UI elements
+gem "bootstrap" # Styling for UI elements
 # gem "chronic" # for time manipulation
 # gem "csv" # read and write CSV files
 # gem "csvreader" # parse CSVs reliably
@@ -40,6 +39,8 @@ gem "julia_builder" # for outputting CSV files
 gem "meta-tags"
 gem "nokogiri" # parse html
 # gem "pagy" # for fast-working record pagination
+gem "omniauth-google-oauth2" # authenticate with Google
+gem "omniauth-rails_csrf_protection" # include valid CSRF tokens with OAuth requests
 gem "pg", "~> 1.1" # postgresl database
 gem "plissken" # convert javascript-style names to ruby-style
 gem "propshaft" # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
@@ -60,7 +61,6 @@ gem "turbo-rails" # Hotwire's SPA-like page accelerator [https://turbo.hotwired.
 # gem "tzinfo-data", platforms: %i[ windows jruby ] # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem "wicked" # wizard controllers
 gem "wikimedia-commoner", github: "jnicho02/wikimedia-commoner" # best guess famous/historical people on Wikidata
-# gem 'wicked" # wizard controllers
 gem "will_paginate" # paginate long lists of data
 
 group :development, :test do

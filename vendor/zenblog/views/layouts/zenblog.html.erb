@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title><%= content_for(:title) || t('appname') %></title>
+  <title><%= content_for(:page_title) || t('appname') %></title>
   <%= display_meta_tags %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -30,6 +30,7 @@
   <%# Includes all stylesheet files in app/assets/stylesheets %>
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "main.css", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "phoenix-cutdown.css", "data-turbo-track": "reload" %>
 
   <%= javascript_importmap_tags %>
   <%= javascript_import_module_tag "zenblog" %>

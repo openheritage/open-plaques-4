@@ -25,6 +25,8 @@ class Plaque < ApplicationRecord
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
 
+  acts_as_taggable_on :categories
+  acts_as_taggable_on :tags
   belongs_to :area, counter_cache: true, optional: true
   belongs_to :colour, counter_cache: true, optional: true
   belongs_to :language, counter_cache: true, optional: true

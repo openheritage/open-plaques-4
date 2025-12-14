@@ -22,7 +22,7 @@
 # * +reset_password_sent_at+ - [used by Devise]
 class User < ApplicationRecord
   belongs_to :todo_item, optional: true
-  devise :database_authenticatable, :masqueradable, :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :masqueradable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:google_oauth2]
   validates_presence_of :username
   validates_length_of :username, within: 3..40
   validates_uniqueness_of :username

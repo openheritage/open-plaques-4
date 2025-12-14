@@ -1,0 +1,34 @@
+.text-start {
+  text-align: left !important;
+}
+
+.text-end {
+  text-align: right !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.form-icon-container {
+  position: relative;
+}
+
+.form-icon-container .form-icon-input,
+.form-icon-container .form-icon-label {
+  padding-left: 2.25rem;
+}
+
+.form-icon-container .form-icon {
+  position: absolute;
+  top: 12px;
+  left: 1rem;
+}
+
+.form-icon-container .form-floating .form-icon-input {
+  padding-left: 35px;
+}
+
+.form-icon-container .form-floating+.form-icon {
+  top: 1.0625rem;
+}
