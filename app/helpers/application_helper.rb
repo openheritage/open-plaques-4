@@ -103,6 +103,7 @@ module ApplicationHelper
   end
 
   def pluralize_with_no(number, name)
+    number ||= 0
     number.zero? ? "no #{name}" : "#{number} #{name.pluralize(number)}"
   end
 

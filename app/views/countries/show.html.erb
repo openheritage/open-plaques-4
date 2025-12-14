@@ -1,8 +1,20 @@
 <% content_for(:page_title) { t '.page_title', country: @country.name } %>
-<% content_for(:title) { @country.name } %>
-<% content_for(:page_subhead) { @country.description } %>
 <% content_for(:admin_menu) { navbar_link_to t('buttons.edit'), edit_country_path(@country) } %>
 <% content_for(:admin_menu) { navbar_link_to t('buttons.add'), new_country_area_path(@country.alpha2) } %>
+
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0"><%= t '.page_heading', country: @country %></h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Places", countries_path %></li>
+        <li class="current"><%= link_to @country.name, @country %></li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
 
 <section id="summary-category" class="summary-category section">
 
@@ -23,9 +35,9 @@
 
 </section>
 
-<%= render partial: 'people/diversity' %>
+<%= render "people/diversity" %>
 
-<%= render partial: 'people/top10' %>
+<%= render "people/top10" %>
 
 <% if @country.geolocated? %>
   <div id="map" class="mini"></div>
