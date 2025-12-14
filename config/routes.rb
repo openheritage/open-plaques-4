@@ -115,13 +115,13 @@ Rails.application.routes.draw do
   resources :todo
   devise_for :users,
             controllers: {
-              class: 'User',
-              registrations: 'registrations',
-              omniauth_callbacks: 'accounts/omniauth_callbacks'
+              class: "User",
+              registrations: "registrations",
+              omniauth_callbacks: "accounts/omniauth_callbacks"
             }
-  #resources :users, controller: 'accounts/users', only: %i[index show update] do
-  #  get :notifications
-  #end
+  # resources :users, controller: 'accounts/users', only: %i[index show update] do
+  #   get :notifications
+  # end
   resources :verbs, only: [ :create, :index, :show, :new ] do
     collection do
       get "autocomplete"

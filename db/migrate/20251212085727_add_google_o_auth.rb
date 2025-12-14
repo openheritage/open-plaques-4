@@ -6,6 +6,6 @@ class AddGoogleOAuth < ActiveRecord::Migration[8.1]
     add_column :users, :refresh_token, :string
     add_column :users, :expires_at, :datetime
 
-    add_index :users, [:provider, :uid]
+    add_index :users, [ :provider, :uid ]
   end
 end
