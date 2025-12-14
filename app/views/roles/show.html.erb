@@ -12,14 +12,10 @@
       <%= fa_icon(:'map-marker') if @role.thing? %>
       <%= @role.pluralize %>
     </h1>
-    <% if @role.used_as_a_prefix? || @role.used_as_a_suffix? %>
-      <p>
-        e.g. "<% if @role.used_as_a_prefix? %><strong><%= @role.prefix %> </strong><% end %>John Smith<% if @role.used_as_a_suffix? %><strong> <%= @role.letters %></strong><% end %>"
-      </p>
-    <% end %>
     <nav class="breadcrumbs">
       <ol>
-        <li><%= link_to('roles', roles_path)%></li>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Roles", roles_path %></li>
         <li class="current"><%= @role.name %></li>
       </ol>
     </nav>
@@ -27,8 +23,14 @@
 </div><!-- End Page Title -->
 
 <section id="role-summary" class="role-summary section">
-
+    
   <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <% if @role.used_as_a_prefix? || @role.used_as_a_suffix? %>
+      <p>
+        e.g. "<% if @role.used_as_a_prefix? %><strong><%= @role.prefix %> </strong><% end %>John Smith<% if @role.used_as_a_suffix? %><strong> <%= @role.letters %></strong><% end %>"
+      </p>
+    <% end %>
 
     <% unless !@role.description || @role.description.blank? %>
       <blockquote class="quote-card white-card">
