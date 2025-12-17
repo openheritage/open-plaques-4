@@ -22,6 +22,11 @@ class Page < ApplicationRecord
     %w[project favourites culture].sample
   end
 
+  def main_photo
+    matches = /plaque #(\d*)/.match(body)
+    matches ? Plaque.find(matches[1]).main_photo : nil
+  end
+
   def to_s
     name
   end
