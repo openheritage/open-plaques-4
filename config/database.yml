@@ -91,6 +91,7 @@ production:
   primary: &primary_production
     <<: *default
     database: openplaques_production
+    url: <%= ENV["DATABASE_URL"] %>
     username: openplaques
     password: <%= ENV["OPENPLAQUES_DATABASE_PASSWORD"] %>
   cache:
