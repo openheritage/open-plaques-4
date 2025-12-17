@@ -48,6 +48,7 @@ gem "puma", ">= 5.0" # a web server
 # gem "que" # for running background jobs
 # gem "que-view" # for seeing what is happening with background jobs
 gem "redcarpet" # use Markdown in fields
+gem "rexml" # process XML
 # gem "rgeo-geojson" # geo ActiveModel
 # gem "ruby_llm" # talk to a variety of LLMs
 gem "sanitize" # for cleaning up html fragments
