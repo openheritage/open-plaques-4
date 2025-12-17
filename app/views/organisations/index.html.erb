@@ -18,10 +18,10 @@
   </div>
 </div><!-- End Page Title -->
 
-<div class="container">
-  <div class="row">
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <div class="col-lg-8">
+    <div>
 
       <p>
         Popular opinion in the UK is that English Heritage are the only organisation that can create 'official' plaques.
@@ -46,7 +46,7 @@
 
     </div>
   </div>
-</div>
+</section>
 
 <script>
   data = [<% @top_ten.each do |organisation| %><%= organisation.sponsorships_count %>,<% end %>];
