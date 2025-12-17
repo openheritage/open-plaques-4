@@ -26,30 +26,6 @@ class Area < ApplicationRecord
   validates_presence_of :name, :slug, :country_id
   validates_uniqueness_of :slug, scope: :country_id
 
-  def name=(name)
-    write_attribute(:name, name.try(:squish))
-  end
-
-  def geolocated?
-    !(latitude.nil? || longitude.nil? || latitude == 51.475 && longitude.zero?)
-  end
-
-  def full_name
-    "#{name}, #{country.name}"
-  end
-
-  def people
-    people = []
-    plaques.each do |plaque|
-      next if plaque.people.nil?
-
-      plaque.people.each do |person|
-        people << person
-      end
-    end
-    people.uniq
-  end
-
   def as_json(options = nil)
     if !options || !options[:only]
       options = {
@@ -64,6 +40,58 @@ class Area < ApplicationRecord
       }
     end
     super options
+  end
+
+  def full_name
+    "#{name}, #{country.name}"
+  end
+
+  def geolocated?
+    !(latitude.nil? || longitude.nil? || latitude == 51.475 && longitude.zero?)
+  end
+
+  def main_photo
+    random_plaque = plaques.photographed.random
+    random_plaque == [] ? nil : random_plaque&.main_photo
+  end
+
+  def name=(name)
+    write_attribute(:name, name.try(:squish))
+  end
+
+  def people
+    people = []
+    plaques.each do |plaque|
+      next if plaque.people.nil?
+
+      plaque.people.each do |person|
+        people << person
+      end
+    end
+    people.uniq
+  end
+
+  def plaques_uri
+    return nil unless id && country
+
+    path = Rails.application.routes.url_helpers.country_area_plaques_path(
+      country, self, format: :json
+    )
+    "https://openplaques.org#{path}"
+  end
+
+  def state
+    matches = /(.*), ([A-Z][A-Z]\z)/.match(name)
+    matches[2] if matches
+  end
+
+  def town
+    matches = /(.*), ([A-Z][A-Z]\z)/.match(name)
+    if matches
+      matches[1]
+    else
+      name
+    end
   end
 
   def to_param
@@ -81,33 +109,5 @@ class Area < ApplicationRecord
       country, self, format: :json
     )
     "https://openplaques.org#{path}"
-  end
-
-  def plaques_uri
-    return nil unless id && country
-
-    path = Rails.application.routes.url_helpers.country_area_plaques_path(
-      country, self, format: :json
-    )
-    "https://openplaques.org#{path}"
-  end
-
-  def main_photo
-    random_plaque = plaques.photographed.random
-    random_plaque ? random_plaque.main_photo : nil
-  end
-
-  def state
-    matches = /(.*), ([A-Z][A-Z]\z)/.match(name)
-    matches[2] if matches
-  end
-
-  def town
-    matches = /(.*), ([A-Z][A-Z]\z)/.match(name)
-    if matches
-      matches[1]
-    else
-      name
-    end
   end
 end

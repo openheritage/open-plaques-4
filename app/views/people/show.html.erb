@@ -3,6 +3,25 @@
 <% content_for(:admin_menu) {navbar_link_to t('buttons.edit'), edit_person_path(@person)} %>
 <% content_for(:admin_menu) {navbar_link_to t('buttons.add'), new_person_path} %>
 
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0">
+      <%= @person.full_name %>
+    </h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to('subjects', people_path)%></li>
+        <li class="current"><%= @person.id %></li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
+
+<section id="role-summary" class="role-summary section">
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
 <div class="vcard person" typeof="<%= if (@person.person?) then "foaf:Person" else "foaf:Agent" end %> vcard:VCard" about="#person">
   <div class="card hovercard">
     <% if @person.main_photo %>
@@ -102,11 +121,28 @@
 
 </div>
 
-<% if @person.plaques.size > 0 %>
-  <h2><%= t '.commemorated_on', count: @person.plaques.size %></h2>
-<% else %>
-  <h2><%= t '.not_commemorated'%></h2>
-<% end %>
+  </div>
 
-<% @plaques = @person.plaques %>
-<%= render partial: 'plaques/tabbed' %>
+</section>
+
+<section id="role-summary" class="role-summary section">
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <div class="section-title-container d-flex align-items-center justify-content-between">
+        <% if @person.plaques.size > 0 %>
+          <h2><%= t '.commemorated_on', count: @person.plaques.size %></h2>
+        <% else %>
+          <h2><%= t '.not_commemorated'%></h2>
+        <% end %>
+      </div>
+    </div><!-- End Section Title -->
+
+    <% @plaques = @person.plaques %>
+    <%= render partial: 'plaques/tabbed' %>
+
+  </div>
+
+</section>

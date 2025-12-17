@@ -6,15 +6,6 @@ class AreasController < ApplicationController
   before_action :find, only: %i[show edit update destroy geolocate]
   before_action :streetview_to_params, only: :update
 
-  def index
-    @areas = @country.areas.all.alphabetically
-    respond_to do |format|
-      format.html
-      format.json { render json: @areas }
-      format.geojson { render geojson: @areas }
-    end
-  end
-
   def autocomplete
     limit = params[:limit] || 5
     country_id = params[:country_id]

@@ -9,9 +9,9 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
- // Layout specific styles
-@use "application/typography";
-@use "application/layout";
+// Layout specific styles
+//@use "application/typography";
+//@use "application/layout";
 
 // Objects
 @use "application/objects/family-tree";

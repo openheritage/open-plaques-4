@@ -12,12 +12,27 @@ class OrganisationPlaquesController < ApplicationController
     set_meta_tags twitter: {
       title: "#{@organisation.name} plaques",
       image: {
-        _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
+        _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
         width: 100,
         height: 100
       }
     }
     zoom = params[:zoom].to_i
+
+    @plaques_count = @organisation.plaques.count # size is 0
+    @uncurated_count = @organisation.plaques.unconnected.size
+    @curated_count = @plaques_count - @uncurated_count
+    @percentage_curated = ((@curated_count.to_f / @plaques_count) * 100).to_i
+    query = "SELECT people.gender, count(distinct person_id) as subject_count
+      FROM sponsorships, personal_connections, people
+      WHERE sponsorships.organisation_id = #{@organisation.id}
+      AND sponsorships.plaque_id = personal_connections.plaque_id
+      AND personal_connections.person_id = people.id
+      GROUP BY people.gender"
+    @gender = ActiveRecord::Base.connection.execute(query)
+    @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
+    @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
+    @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
 
     @display = "plaques"
     if zoom.positive?

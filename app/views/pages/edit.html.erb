@@ -15,7 +15,18 @@
     <%= f.text_field :strapline %>
   </div>
   <div class="mb-3">
-    <%= f.text_area :body, {rows: '40', cols: '80'} %>
+    <%= f.text_area :abstract, {rows: '20', cols: '100'} %>
+  </div>
+  <div class="mb-3">
+    <%= f.text_area :body, {rows: '40', cols: '100'} %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :category_list %>
+    <%= f.text_field :category_list %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :tag_list %>
+    <%= f.text_field :tag_list %>
   </div>
   <%= f.submit t('buttons.save') %>
 <% end %>

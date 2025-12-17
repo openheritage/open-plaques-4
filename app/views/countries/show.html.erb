@@ -1,20 +1,27 @@
 <% content_for(:page_title) { t '.page_title', country: @country.name } %>
-<% content_for(:title) { } %>
-<% content_for(:page_subhead) { @country.description } %>
 <% content_for(:admin_menu) { navbar_link_to t('buttons.edit'), edit_country_path(@country) } %>
 <% content_for(:admin_menu) { navbar_link_to t('buttons.add'), new_country_area_path(@country.alpha2) } %>
 
-<div class="card ">
-  <div class="card-header align-text-center">
-      <%= link_to 'Country', countries_path %> /
-      <span class="flag-icon flag-icon-<%= @country.alpha2 %>"></span>
-      <%= @country.name %>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0"><%= t '.page_heading', country: @country %></h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Places", countries_path %></li>
+        <li class="current"><%= link_to @country.name, @country %></li>
+      </ol>
+    </nav>
   </div>
-  <div class="card-body">
-    <div class="card-title">
+</div><!-- End Page Title -->
 
-    </div>
-    <p class="card-text">
+<section id="summary-category" class="summary-category section">
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <p><%= @country.description %></p>
+    <p>
       <span class="badge bg-secondary"><%= pluralize_with_no(@country.plaques_count, t('activerecord.models.plaque').downcase) %></span>
       <% if controller.controller_name.eql?('countries') && controller.action_name.eql?('show') %>
         <small><%= @percentage_curated %>% have been curated</small>
@@ -23,10 +30,14 @@
       <% end %>
     </p>
     <span class="badge bg-secondary pull-right"><%= pluralize_with_no(@subject_count, 'subject') %></span>
-  <%= render partial: 'people/diversity' %>
-  <%= render partial: 'people/top10' %>
+
   </div>
-</div>
+
+</section>
+
+<%= render "people/diversity" %>
+
+<%= render "people/top10" %>
 
 <% if @country.geolocated? %>
   <div id="map" class="mini"></div>
@@ -36,7 +47,7 @@
     map.setView([<%= @country.latitude %>, <%= @country.longitude %>], <%= @country.zoom %>)
     L.mapboxGL({
         attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
-        style: 'https://api.maptiler.com/maps/basic/style.json?key=qSorA16cJhhBZEhqDisF'
+        style: 'https://api.maptiler.com/maps/streets-v4/style.json?key=qSorA16cJhhBZEhqDisF'
       }).addTo(map)
     var blueIcon = new L.Icon({
       iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
@@ -65,12 +76,26 @@
   </script>
 <% end %>
 
-<h2>Areas</h2>
-<% @areas.sort { |a,b| a.state.to_s + a.name <=> b.state.to_s + b.name }.group_by(&:state).each do |state, areas| %>
-  <% if !state.blank? %>
-    <h2>Region: <%= state %></h2>
-  <% end %>
-  <div class="row" data-masonry='{"percentPosition": true }'>
-    <%= render areas %>
+<section id="areas-category" class="areas-category section">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <div class="section-title-container d-flex align-items-center justify-content-between">
+      <h2>Areas</h2>
+    </div>
+  </div><!-- End Section Title -->
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <% @areas.sort { |a,b| a.state.to_s + a.name <=> b.state.to_s + b.name }.group_by(&:state).each do |state, areas| %>
+      <% if !state.blank? %>
+        <h2>Region: <%= state %></h2>
+      <% end %>
+      <div class="row" data-masonry='{"percentPosition": true }'>
+        <%= render areas %>
+      </div>
+    <% end %>
+
   </div>
-<% end %>
+
+</section>

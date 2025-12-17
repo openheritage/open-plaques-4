@@ -1,42 +1,91 @@
 <% content_for(:page_title) {t '.page_title', role: @role.pluralize} %>
-<% content_for(:title) do %>
-  <%= fa_icon(:user) if @role.person? %>
-  <%= fa_icon(:paw) if @role.animal? %>
-  <%= fa_icon(:users) if @role.group? %>
-  <%= fa_icon(:building) if @role.place? %>
-  <%= fa_icon(:'map-marker') if @role.thing? %>
-  <%= @role.pluralize %>
-  <span class="badge bg-secondary">
-    <%= @personal_roles.total_entries if @personal_roles.respond_to?(:total_entries) %>
-    <%= @personal_roles.size unless @personal_roles.respond_to?(:total_entries) %>
-  </span>
-<% end %>
-<% content_for(:page_subhead) do %>
-  <% if @role.used_as_a_prefix? || @role.used_as_a_suffix? %>
-    <p>e.g. "<% if @role.used_as_a_prefix? %><strong><%= @role.prefix %> </strong><% end %>John Smith<% if @role.used_as_a_suffix? %><strong> <%= @role.letters %></strong><% end %>"</p><% end %>
-<% end %>
 <% content_for(:admin_menu) {navbar_link_to t('buttons.edit'), edit_role_path(@role)} if @role.id %>
 
-<% unless !@role.description || @role.description.blank? %>
-  <blockquote class="quote-card blue-card">
-    <p><%= @role.description %></p>
-    <cite><%= link_to(fa_icon(:link) + 'DbPedia', @role.dbpedia_uri, target: '_blank') unless @role.dbpedia_uri.blank? %></cite>
-  </blockquote>
-<% end %>
-<%= link_to(fa_icon(:link) + 'Wikidata', @role.wikidata_url, target: '_blank') unless @role.wikidata_url.blank? %>
-<%= link_to(fa_icon(:link) + 'Wikipedia', @role.wikipedia_url, target: '_blank') unless @role.wikipedia_url.blank? %>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0">
+      <%= fa_icon(:user) if @role.person? %>
+      <%= fa_icon(:paw) if @role.animal? %>
+      <%= fa_icon(:users) if @role.group? %>
+      <%= fa_icon(:building) if @role.place? %>
+      <%= fa_icon(:'map-marker') if @role.thing? %>
+      <%= @role.pluralize %>
+    </h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Roles", roles_path %></li>
+        <li class="current"><%= @role.name %></li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
 
-<%= render partial:'personal_roles/tiles' %>
+<section id="role-summary" class="role-summary section">
+    
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <% if @role.used_as_a_prefix? || @role.used_as_a_suffix? %>
+      <p>
+        e.g. "<% if @role.used_as_a_prefix? %><strong><%= @role.prefix %> </strong><% end %>John Smith<% if @role.used_as_a_suffix? %><strong> <%= @role.letters %></strong><% end %>"
+      </p>
+    <% end %>
+
+    <% unless !@role.description || @role.description.blank? %>
+      <blockquote class="quote-card white-card">
+        <p><%= @role.description %></p>
+        <cite><%= link_to(fa_icon(:link) + 'DbPedia', @role.dbpedia_uri, target: '_blank') unless @role.dbpedia_uri.blank? %></cite>
+      </blockquote>
+    <% end %>
+    <%= link_to(fa_icon(:link) + 'Wikidata', @role.wikidata_url, target: '_blank') unless @role.wikidata_url.blank? %>
+    <%= link_to(fa_icon(:link) + 'Wikipedia', @role.wikipedia_url, target: '_blank') unless @role.wikipedia_url.blank? %>
+
+  </div>
+
+</section>
+
+<section id="people-category" class="people-category section">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <div class="section-title-container d-flex align-items-center justify-content-between">
+      <h2>
+        <%= @personal_roles.total_entries if @personal_roles.respond_to?(:total_entries) %>
+        <%= @personal_roles.size unless @personal_roles.respond_to?(:total_entries) %>Plaque Subjects
+      </h2>
+    </div>
+  </div><!-- End Section Title -->
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <%= render partial:'personal_roles/tiles' %>
+
+  </div>
+
+</section>
 
 <% if @role.related_roles.size > 0 %>
-  <div class="row">
-    <h2><%= t '.related_roles'%></h2>
-  </div>
-  <div class="row" data-masonry='{"percentPosition": true }'>
-    <% @role.related_roles.each do |related_role| %>
-      <%= link_to related_role do %>
-        <%= render related_role %>
-      <% end %>
-    <% end %>
-  </div>
+  <section id="related-roles-category" class="related-roles-category section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <div class="section-title-container d-flex align-items-center justify-content-between">
+        <h2><%= @role.related_roles.count %> <%= t '.related_roles'%></h2>
+      </div>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+      <div class="row" data-masonry='{"percentPosition": true }'>
+        <% @role.related_roles.each do |related_role| %>
+          <%= link_to related_role do %>
+            <%= render related_role %>
+          <% end %>
+        <% end %>
+      </div>
+
+    </div>
+
+  </section>
 <% end %>

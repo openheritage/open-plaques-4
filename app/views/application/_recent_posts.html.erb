@@ -1,0 +1,16 @@
+<!-- Recent Posts Widget -->
+<div class="recent-posts-widget widget-item">
+
+  <h3 class="widget-title">Recent Posts</h3>
+
+  <% Page.random(5).each do |page| %>
+    <div class="post-item">
+      <%= image_tag "blog/blog-recent-#{rand(5) + 1}.jpg", alt: "", class: "flex-shrink-0" %>
+      <div>
+        <h4><%= link_to page.name, page %></h4>
+        <time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time>
+      </div>
+    </div><!-- End recent post item-->
+  <% end %>
+
+</div><!--/Recent Posts Widget -->

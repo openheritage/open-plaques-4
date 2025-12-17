@@ -28,19 +28,8 @@ class PersonalConnection < ApplicationRecord
     year
   end
 
-  def to
-    year = ended_at ? ended_at.year.to_s : ""
-    year = person.born_in.to_s if birth?
-    year = person.died_in.to_s if death?
-    year
-  end
-
   def full_address
     plaque&.full_address
-  end
-
-  def single_year?
-    from == to
   end
 
   def notify_slack
@@ -50,5 +39,16 @@ class PersonalConnection < ApplicationRecord
     notifier = Slack::Notifier.new(hook)
     phrase = [ "someone just connected", "there is a new connection from", "new connection alert!" ].sample
     notifier.ping "#{phrase} <a href='#{person.uri}'>#{person.name_and_dates}</a> to <a href='#{plaque.uri}'>#{plaque.inscription_preferably_in_english}</a>"
+  end
+
+  def single_year?
+    from == to
+  end
+
+  def to
+    year = ended_at ? ended_at.year.to_s : ""
+    year = person.born_in.to_s if birth?
+    year = person.died_in.to_s if death?
+    year
   end
 end

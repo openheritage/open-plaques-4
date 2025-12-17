@@ -58,6 +58,13 @@ Devise.setup do |config|
   # to authenticate or find a user. Default is :email.
   config.case_insensitive_keys = [ :email ]
 
+  config.omniauth :google_oauth2,
+                  ENV.fetch("GOOGLE_CLIENT_ID", ""),
+                  ENV.fetch("GOOGLE_CLIENT_SECRET", ""),
+                  scope: "email,profile,https://www.googleapis.com/auth/gmail.readonly,https://www.googleapis.com/auth/drive.readonly",
+                  access_type: "offline",
+                  prompt: "consent"
+
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.

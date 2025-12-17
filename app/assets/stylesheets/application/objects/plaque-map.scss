@@ -1,8 +1,14 @@
-#plaque-map {height: 300px;}
+#plaque-map {
+	height: 300px;
+}
 
-#plaque-map.full {height: 600px;}
+#plaque-map.full {
+	height: 600px;
+}
 
-#plaque-map.mini {height: 400px; }
+#plaque-map.mini {
+	height: 400px;
+}
 
 .plaque-marker {
 	background-color: rgba(56, 146, 227, 0.9);
@@ -12,6 +18,14 @@
 	border: 0;
 }
 
-#map {height: 300px;}
-#map.full {height: 600px;}
-#map.mini {height: 400px; }
+#map {
+	height: 300px;
+}
+
+#map.full {
+	height: 600px;
+}
+
+#map.mini {
+	height: 400px;
+}
