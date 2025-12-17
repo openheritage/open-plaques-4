@@ -23,7 +23,9 @@
           <article class="article">
 
             <div class="post-img">
-              <%= image_tag "blog/blog-#{rand(6) + 1}.jpg", alt: "", class: "img-fluid" %>
+              <% matches = /plaque #(\d*)/.match(@page.body) %>
+              <% plaque = matches ? Plaque.find(/plaque #(\d*)/.match(@page.body)[1]) : nil %>
+              <%= image_tag plaque ? plaque.main_photo.file_url : "blog/blog-#{rand(6) + 1}.jpg", alt: "", class: "img-fluid" %>
             </div>
 
             <h2 class="title"><%= @page.strapline %></h2>

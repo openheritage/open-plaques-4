@@ -155,7 +155,7 @@
             </a>
             <div>
               <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
-              <h3><%= link_to page.name, page %></h3>
+              <h3><%= link_to page %></h3>
               <p><%= page.abstract %></p>
               <div class="d-flex align-items-center author">
                 <div class="photo"><%= image_tag "person-#{%i[1 2 4 7].sample}.jpg", alt: "", class: "img-fluid" %></div>
@@ -233,13 +233,14 @@
       <div class="col-lg-4">
         <% Page.where(slug: "top_plaque_one")[0..0]&.each do |page| %>
           <div class="post-list lg">
-            <a href="blog-details.html"><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %></a>
+            <% plaque = Plaque.find(/plaque #(\d*)/.match(page.body)[1]) %>
+            <%= link_to page do %><%= image_tag plaque.main_photo.thumbnail_url, alt: "", class: "img-fluid" %><% end %>
             <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
             <h2><%= link_to page.name, page %></h2>
             <p><%= page.body %></p>
 
             <div class="d-flex align-items-center author">
-              <div class="photo"><%= image_tag "person-#{rand(2) + 1}.jpg", alt: "", class: "img-fluid" %></div>
+              <div class="photo"><%= image_tag "person-#{rand(2) + 1}.jpg", alt: page.author&.name, class: "img-fluid" %></div>
               <div class="name">
                 <h3 class="m-0 p-0"><%= page.author&.name %></h3>
               </div>
@@ -262,7 +263,8 @@
           <div class="col-lg-4 border-start custom-border">
             <% Page.tagged_with("top10")[3..5]&.each do |page| %>
               <div class="post-list">
-                <a href="blog-details.html"><%= image_tag "post-landscape-6.jpg", alt: "", class: "img-fluid" %></a>
+                <% plaque = Plaque.find(/plaque #(\d*)/.match(page.body)[1]) %>
+                <%= link_to page do %><%= image_tag plaque.main_photo.thumbnail_url, alt: "", class: "img-fluid" %><% end %>
                 <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                 <h2><%= link_to page.name, page %></h2>
               </div>
@@ -271,7 +273,8 @@
           <div class="col-lg-4 border-start custom-border">
             <% Page.tagged_with("top10")[6..9]&.each do |page| %>
               <div class="post-list">
-                <a href="blog-details.html"><%= image_tag "post-landscape-6.jpg", alt: "", class: "img-fluid" %></a>
+                <% plaque = Plaque.find(/plaque #(\d*)/.match(page.body)[1]) %>
+                <%= link_to page do %><%= image_tag plaque.main_photo.thumbnail_url, alt: "", class: "img-fluid" %><% end %>
                 <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                 <h2><%= link_to page.name, page %></h2>
               </div>
