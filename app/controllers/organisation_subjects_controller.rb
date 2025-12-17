@@ -5,6 +5,9 @@ class OrganisationSubjectsController < ApplicationController
   before_action :find, only: :show
 
   def show
+    @plaques = @organisation.plaques.connected
+    @people = people(@plaques)
+
     respond_to do |format|
       format.html do
         @plaques_count = @organisation.plaques.count # size is 0
@@ -21,14 +24,12 @@ class OrganisationSubjectsController < ApplicationController
         @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
         @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
         @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
-        @people = []
+
         render "organisations/subjects/show"
       end
       format.json { render json: @people }
       format.geojson { render geojson: @people }
       format.csv do
-        @plaques = @organisation.plaques.connected
-        @people = people(@plaques)
         send_data(
           "\uFEFF#{PersonCsv.new(@people).build}",
           type: "text/csv",

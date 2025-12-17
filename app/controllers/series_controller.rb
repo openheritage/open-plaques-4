@@ -32,7 +32,7 @@ class SeriesController < ApplicationController
         set_meta_tags twitter: {
           title: "Open Plaques Series #{@series.name}",
           image: {
-            _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
+            _: @main_photo ? @main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
             width: 100,
             height: 100
           }

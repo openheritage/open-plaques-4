@@ -15,4 +15,8 @@ class StaticPagesController < ApplicationController
   def data
     render "data/index"
   end
+
+  def show
+    render "#{params['']}/index"
+  end
 end

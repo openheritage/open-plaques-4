@@ -7,7 +7,7 @@ class PlaquesController < ApplicationController
   before_action :find, only: %i[show flickr_search flickr_search_all update destroy edit]
   # before_action :set_cache_header, only: :index
   # after_filter :set_access_control_headers, only: :index
-  layout "plaque_edit", only: :edit
+  # layout "plaque_edit", only: :edit
 
   def index
     conditions = {}
@@ -75,7 +75,7 @@ class PlaquesController < ApplicationController
       set_meta_tags open_graph: {
         type: :website,
         url: url_for(only_path: false),
-        image: @plaque.main_photo ? @plaque.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
+        image: @plaque.main_photo ? @plaque.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
         title: @plaque.title,
         description: @plaque.inscription
       }
@@ -84,7 +84,7 @@ class PlaquesController < ApplicationController
         site: "@openplaques",
         title: @plaque.title,
         image: {
-          _: @plaque.main_photo ? @plaque.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques.png"),
+          _: @plaque.main_photo ? @plaque.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
           width: 100,
           height: 100
         }

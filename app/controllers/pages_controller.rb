@@ -37,17 +37,21 @@ class PagesController < ApplicationController
   protected
 
   def find
-    @page = Page.find_by!(slug: params[:id])
+    @page = Page.find(params[:id])
+  rescue
+    @page = Page.find_by!(slug: params[:id] || params[""])
   end
 
   private
 
   def permitted_params
     params.require(:page).permit(
+      :category_list,
       :body,
       :name,
       :slug,
-      :strapline
+      :strapline,
+      :tag_list
     )
   end
 end

@@ -79,6 +79,8 @@ en-GB:
         name: Name
         description: Description
 
+  appname: OpenPlaques
+
   menu:
     home: Home
     people: Subjects

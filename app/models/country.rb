@@ -18,22 +18,6 @@ class Country < ApplicationRecord
   after_commit :notify_slack, on: :create
   scope :uk, -> { where(alpha2: "gb").first }
 
-  def name=(name)
-    write_attribute(:name, name.try(:squish))
-  end
-
-  def geolocated?
-    !(latitude.nil? || longitude.nil? || latitude == 51.475 && longitude.zero?)
-  end
-
-  def plaques_count
-    @plaques_count ||= areas.sum(:plaques_count)
-  end
-
-  def zoom
-    preferred_zoom_level || 6
-  end
-
   def as_json(options = {})
     if !options || !options[:only]
       options = {
@@ -44,16 +28,12 @@ class Country < ApplicationRecord
     super options
   end
 
-  def to_param
-    alpha2
+  def geolocated?
+    !(latitude.nil? || longitude.nil? || latitude == 51.475 && longitude.zero?)
   end
 
-  def uri
-    "https://openplaques.org#{Rails.application.routes.url_helpers.country_path(self, format: :json)}" if id
-  end
-
-  def to_s
-    name || ""
+  def name=(name)
+    write_attribute(:name, name.try(:squish))
   end
 
   def notify_slack
@@ -62,5 +42,25 @@ class Country < ApplicationRecord
 
     notifier = Slack::Notifier.new(hook)
     notifier.ping "Country <a href='#{uri}'>#{name}</a> was just created. ISO code #{alpha2}"
+  end
+
+  def plaques_count
+    @plaques_count ||= areas.sum(:plaques_count)
+  end
+
+  def to_param
+    alpha2
+  end
+
+  def to_s
+    name || ""
+  end
+
+  def uri
+    "https://openplaques.org#{Rails.application.routes.url_helpers.country_path(self, format: :json)}" if id
+  end
+
+  def zoom
+    preferred_zoom_level || 6
   end
 end

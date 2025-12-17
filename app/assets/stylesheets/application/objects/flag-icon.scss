@@ -10,21 +10,26 @@
   display: inline-block;
   width: calc(4 / 3) * 1em;
   line-height: 1em;
+
   &:before {
     content: '\00a0';
   }
+
   &.flag-icon-squared {
     width: 1em;
   }
 }
+
 @mixin flag-icon($country) {
   .flag-icon-#{$country} {
     background-image: asset-url('/flags/4x3/#{$country}.svg');
+
     &.flag-icon-squared {
       background-image: asset-url('/flags/1x1/#{$country}.svg');
     }
   }
 }
+
 @include flag-icon(ad);
 @include flag-icon(ae);
 @include flag-icon(af);

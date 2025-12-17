@@ -3,8 +3,3 @@
   <%= render @roles %>
 </div>
 <%= will_paginate @roles if @roles.respond_to?(:total_pages) %>
-<script>
-  setTimeout(function () {
-    var msnry = new Masonry('.grid');
-  }, 1000);
-</script>

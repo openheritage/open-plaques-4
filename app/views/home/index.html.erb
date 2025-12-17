@@ -1,43 +1,298 @@
 <% content_for(:page_title) { t('.page_title') } %>
-<% content_for(:title) { t('.strapline_html') } %>
-<% content_for(:page_subhead) {} %>
 <% content_for(:admin_menu) { navbar_link_to(t('.pages'), pages_path, { class: :edit, title: t('.pages') }) } %>
 
-<div class="row">
-  <div class="col-xs-12 col-md-6 col-lg-3">
-    <%= render partial: 'explore' %>
-  </div>
-  <div class="col-xs-12 col-md-6 col-lg-3">
-    <%= render partial: 'contribute' %>
-  </div>
-  <div class="col-xs-12 col-md-6 col-lg-3">
-    <%= render partial: 'open_data' %>
-  </div>
-  <div class="col-xs-12 col-md-6 col-lg-3">
-    <%= render partial: 'news' %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-12 col-lg-6">
-    <%= render partial: 'plaque_of_the_day' %>
-  </div>
-  <div class="col-md-12 col-lg-6">
-    <% if @famous_women %>
-      <%= render partial: 'international_womens_day' %>
-    <% else %>
-      <%= render partial: 'place_of_the_day' %>
-    <% end %>
-  </div>
-</div>
-
-<%= render partial: 'top_plaques' %>
-
-<% if @famous_women %>
-  <% @people = @famous_women %>
-  <h2><%= t '.famous_women' %></h2>
-  <%= render partial: 'people/tiles' %>
-<% elsif @plaques %>
-  <h2><%= t '.recently_photographed' %></h2>
-  <%= render partial: 'plaques/tabbed' %>
+<% content_for :head do %>
+  <%= stylesheet_link_tag 'swiper-bundle.min.css', "data-turbo-track": "reload" %>
 <% end %>
+
+<!-- Slider Section -->
+<section id="slider" class="slider section dark-background">
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100" data-controller="swiper">
+
+    <div class="swiper init-swiper" data-swiper-target="container">
+
+      <script type="application/json" class="swiper-config">
+        {
+          "loop": true,
+          "speed": 600,
+          "autoplay": {
+            "delay": 5000
+          },
+          "slidesPerView": "auto",
+          "centeredSlides": true,
+          "pagination": {
+            "el": ".swiper-pagination",
+            "type": "bullets",
+            "clickable": true
+          },
+          "navigation": {
+            "nextEl": ".swiper-button-next",
+            "prevEl": ".swiper-button-prev"
+          }
+        }
+      </script>
+
+      <div class="swiper-wrapper">
+
+        <% Page.tagged_with("swiper").each do |page| %>
+          <div class="swiper-slide" style="background-image: url(<%= asset_path "post-slide-#{rand(4) + 1}.jpg" %>);">
+            <div class="content">
+              <h2><%= link_to page.name, page %></h2>
+              <p><%= page.strapline %></p>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+
+      <div class="swiper-button-next" data-swiper-target="next"></div>
+      <div class="swiper-button-prev" data-swiper-target="prev"></div>
+
+      <div class="swiper-pagination"></div>
+    </div>
+
+  </div>
+
+</section><!-- /Slider Section -->
+
+<!-- Trending Category Section -->
+<section id="trending-category" class="trending-category section">
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="container" data-aos="fade-up">
+      <div class="row g-5">
+        <div class="col-lg-4">
+
+          <% Page.tagged_with("project")[0..0]&.each do |page| %>
+            <div class="post-entry lg">
+              <%= link_to page do %><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %><% end %>
+              <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+              <h2><%= link_to page.name, page %></h2>
+              <p class="mb-4 d-block"><%= page.abstract %></p>
+              <div class="d-flex align-items-center author">
+                <div class="photo"><%= image_tag "person-1.jpg", alt: "", class: "img-fluid" %></div>
+                <div class="name">
+                  <h3 class="m-0 p-0"><%= page.author&.name %></h3>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+
+        <div class="col-lg-8">
+          <div class="row g-5">
+            <div class="col-lg-4 border-start custom-border">
+              <% Page.tagged_with("project")[1..3]&.each do |page, i| %>
+                <div class="post-entry">
+                  <a href="blog-details.html"><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %></a>
+                  <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+                  <h2><%= link_to page.name, page %></h2>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-lg-4 border-start custom-border">
+              <% Page.tagged_with("project")[4..6]&.each do |page, i| %>
+                <div class="post-entry">
+                  <a href="blog-details.html"><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %></a>
+                  <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+                  <h2><%= link_to page.name, page %></h2>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- Trending Section -->
+            <div class="col-lg-4">
+
+              <div class="trending">
+                <h3>Trending</h3>
+                <ul class="trending-post">
+                  <% Page.random(5).each_with_index do |page, i| %>
+                    <li>
+                      <%= link_to page do %>
+                        <span class="number"><%= i + 1 %></span>
+                        <h3><%= page.name %></h3>
+                        <span class="author"><%= page.author&.name %></span>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+
+            </div> <!-- End Trending Section -->
+          </div>
+        </div>
+
+      </div> <!-- End .row -->
+    </div>
+
+  </div>
+
+</section><!-- /Trending Category Section -->
+
+<!-- Culture Category Section -->
+<section id="culture-category" class="culture-category section">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <div class="section-title-container d-flex align-items-center justify-content-between">
+      <h2>Culture</h2>
+      <p><a href="categories.html">See All Culture</a></p>
+    </div>
+  </div><!-- End Section Title -->
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="row">
+      <div class="col-md-9">
+
+        <% Page.tagged_with("culture")[0..0]&.each do |page| %>
+          <div class="d-lg-flex post-entry">
+            <a href="blog-details.html" class="me-4 thumbnail mb-4 mb-lg-0 d-inline-block">
+              <%= image_tag "post-landscape-#{rand(6) + 1}.jpg", alt: "", class: "img-fluid" %>
+            </a>
+            <div>
+              <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+              <h3><%= link_to page.name, page %></h3>
+              <p><%= page.abstract %></p>
+              <div class="d-flex align-items-center author">
+                <div class="photo"><%= image_tag "person-#{%i[1 2 4 7].sample}.jpg", alt: "", class: "img-fluid" %></div>
+                <div class="name">
+                  <h3 class="m-0 p-0"><%= page.author&.name %></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <% Page.tagged_with("culture")[1..1]&.each do |page| %>
+              <div class="post-list border-bottom">
+                <a href="blog-details.html"><%= image_tag "post-landscape-1.jpg", alt: "", class: "img-fluid" %></a>
+                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+                <h2 class="mb-2"><a href="blog-details.html">11 Work From Home Part-Time Jobs You Can Do Now</a></h2>
+                <span class="author mb-3 d-block"><%= page.author&.name %></span>
+                <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
+              </div>
+            <% end %>
+            <% Page.tagged_with("culture")[2..2]&.each do |page| %>
+              <div class="post-list">
+                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+                <h2 class="mb-2"><a href="blog-details.html">5 Great Startup Tips for Female Founders</a></h2>
+                <span class="author mb-3 d-block"><%= page.author&.name %></span>
+              </div>
+            <% end %>
+          </div>
+          <div class="col-lg-8">
+            <% Page.tagged_with("culture")[3..3]&.each do |page| %>
+              <div class="post-list">
+                <a href="blog-details.html"><%= image_tag "post-landscape-2.jpg", alt: "", class: "img-fluid" %></a>
+                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+                <h2 class="mb-2"><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
+                <span class="author mb-3 d-block"><%= page.author&.name %></span>
+                <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <% Page.tagged_with("top10").random(6)&.each do |page| %>
+          <div class="post-list border-bottom">
+            <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+            <h2 class="mb-2"><a href="blog-details.html"><%= link_to page.name, page %></a></h2>
+            <span class="author mb-3 d-block"><%= page.author&.name %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+</section><!-- /Culture Category Section -->
+
+<!-- Lifestyle Category Section -->
+<section id="lifestyle-category" class="lifestyle-category section">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <div class="section-title-container d-flex align-items-center justify-content-between">
+      <h2>Top Viewed Plaques</h2>
+      <p><a href="categories.html">See All Most Viewed Plaques</a></p>
+    </div>
+  </div><!-- End Section Title -->
+
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <% Page.where(slug: "top_plaque_one")[0..0]&.each do |page| %>
+          <div class="post-list lg">
+            <a href="blog-details.html"><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %></a>
+            <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+            <h2><%= link_to page.name, page %></h2>
+            <p><%= page.body %></p>
+
+            <div class="d-flex align-items-center author">
+              <div class="photo"><%= image_tag "person-#{rand(2) + 1}.jpg", alt: "", class: "img-fluid" %></div>
+              <div class="name">
+                <h3 class="m-0 p-0"><%= page.author&.name %></h3>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <% Page.tagged_with("top10")[1..2]&.each_with_index do |page, i| %>
+          <div class="post-list <%= 'border-bottom' if i > 1 %>">
+            <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+            <h2 class="mb-2"><%= link_to page.name, page %></h2>
+            <span class="author mb-3 d-block"><%= page.author&.name %></span>
+          </div>
+        <% end %>
+
+      </div>
+
+      <div class="col-lg-8">
+        <div class="row g-5">
+          <div class="col-lg-4 border-start custom-border">
+            <% Page.tagged_with("top10")[3..5]&.each do |page| %>
+              <div class="post-list">
+                <a href="blog-details.html"><%= image_tag "post-landscape-6.jpg", alt: "", class: "img-fluid" %></a>
+                <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+                <h2><%= link_to page.name, page %></h2>
+              </div>
+            <% end %>
+          </div>
+          <div class="col-lg-4 border-start custom-border">
+            <% Page.tagged_with("top10")[6..9]&.each do |page| %>
+              <div class="post-list">
+                <a href="blog-details.html"><%= image_tag "post-landscape-6.jpg", alt: "", class: "img-fluid" %></a>
+                <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+                <h2><%= link_to page.name, page %></h2>
+              </div>
+            <% end %>
+          </div>
+          <div class="col-lg-4">
+
+            <% Page.tagged_with("top10").random(6)&.each do |page| %>
+              <div class="post-list border-bottom">
+                <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+                <h2 class="mb-2"><%= link_to page.name, page %></h2>
+                <span class="author mb-3 d-block"><%= page.author&.name %></span>
+              </div>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section><!-- /Lifestyle Category Section -->

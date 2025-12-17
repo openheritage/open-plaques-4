@@ -87,7 +87,7 @@ Rails.application.routes.draw do
   match "plaques/tiles/:zoom/:x/:y" => "plaques#index", constraints: { zoom: /\d{2}/, x: /\d+/, y: /\d+/ }, via: [ :get ]
   match "plaques/:filter/tiles/:zoom/:x/:y" => "plaques#index", id: :filter, constraints: { zoom: /\d{2}/, x: /\d+/, y: /\d+/ }, via: [ :get ]
   resources :photos, only: [ :create, :edit, :new, :show, :update ]
-  resources :photographers, as: :photographers, only: [ :create, :index, :show, :new ]
+  resources :photographers, as: :photographers, only: [ :create, :index, :new ]
   scope "/roles" do
     resources "a-z", controller: :roles_by_index, as: "roles_by_index", only: [ :show, :index ]
     resources "precedence", controller: :roles_by_precedence, as: "roles_by_precedence", only: [ :index ]
@@ -113,7 +113,15 @@ Rails.application.routes.draw do
     resources "a-z", controller: :people_by_index, as: "people_by_index", only: :show
   end
   resources :todo
-  devise_for :users
+  devise_for :users,
+            controllers: {
+              class: "User",
+              registrations: "registrations",
+              omniauth_callbacks: "accounts/omniauth_callbacks"
+            }
+  # resources :users, controller: 'accounts/users', only: %i[index show update] do
+  #   get :notifications
+  # end
   resources :verbs, only: [ :create, :index, :show, :new ] do
     collection do
       get "autocomplete"
@@ -122,4 +130,5 @@ Rails.application.routes.draw do
   scope "/women" do
     resources "a-z", controller: :women_by_index, as: "women_by_index", only: :show
   end
+  get "*", to: "pages#show"
 end

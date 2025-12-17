@@ -1,0 +1,30 @@
+<!-- Recent Posts Widget -->
+<div class="recent-posts-widget widget-item">
+
+  <h3 class="widget-title"><%= pluralize_word(plaque.people.size, 'Plaque subject') %></h3>
+
+  <% if @plaque.people.size == 0 %>
+    <p>None identified yet. Subjects are curated by hand so please bear with us.</p>
+  <% end %>
+  <% plaque.people.each do |person| %>
+    <div class="post-item">
+      <%= image_tag person.main_photo.present? ? person.main_photo.thumbnail_url : "NoPhotoSqr.png", alt: person.name, class: "flex-shrink-0" %>
+      <div class="card-info">
+        <span class="card-title fn">
+        <h4><%= link_to person.full_name, person %> <small><%= person.dates %></small></h4>
+          <% if person.gender == 'm' %>
+            <small><%= fa_icon(:mars) %></small>
+          <% elsif person.gender == 'f' %>
+            <small><%= fa_icon(:venus) %></small>
+          <% elsif person.gender == 'u' %>
+            <small><%= person.gender %></small>
+          <% end %>
+          <% if person.primary_role %>
+            <small><%= person.primary_role.role.name %></small>
+          <% end %>
+        </span>
+      </div>
+    </div><!-- End recent post item-->
+  <% end %>
+
+</div><!--/Recent Posts Widget -->
