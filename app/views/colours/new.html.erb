@@ -1,5 +1,5 @@
-<% content_for(:page_title) {t '.page_title'} %>
-<% content_for(:title) {t '.page_heading'} %>
+<% content_for(:page_title) { t(".page_title") } %>
+<% content_for(:title) {t(".page_heading")} %>
 
 <%= form_for @colour do |f| %>
   <div class="mb-3">
@@ -10,5 +10,5 @@
     <%= f.label :dbpedia_uri %>
     <%= f.text_field :dbpedia_uri %>
   </div>
-  <%= f.submit t('buttons.save') %>
+  <%= f.submit t("buttons.save") %>
 <% end %>

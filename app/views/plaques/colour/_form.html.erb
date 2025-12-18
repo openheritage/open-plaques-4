@@ -1,0 +1,7 @@
+<%= form_for @plaque do |f| %>
+  <div class="form-group">
+    <%= f.label :colour_id, t(".colour_label") %>
+    <%= f.collection_select :colour_id, @colours, :id, :name, { class: "form-control", include_blank: true } %>
+  </div>
+  <%= f.submit t("buttons.save") %>
+<% end %>

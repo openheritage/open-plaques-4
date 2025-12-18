@@ -1,7 +1,6 @@
-<% content_for(:page_title) {t '.page_title', person: @person.name } %>
-<% content_for(:title) { } %>
-<% content_for(:admin_menu) {navbar_link_to t('buttons.edit'), edit_person_path(@person)} %>
-<% content_for(:admin_menu) {navbar_link_to t('buttons.add'), new_person_path} %>
+<% content_for(:page_title) { t(".page_title", person: @person.name) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.edit"), edit_person_path(@person) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.add"), new_person_path } %>
 
 <div class="vcard person" typeof="<%= if (@person.person?) then "foaf:Person" else "foaf:Agent" end %> vcard:VCard" about="#person">
   <div class="card hovercard">
@@ -26,10 +25,10 @@
 </div>
 
 <% if @person.plaques.size > 0 %>
-  <h2><%= t '.commemorated_on', count: @person.plaques.size %></h2>
+  <h2><%= t(".commemorated_on", count: @person.plaques.size) %></h2>
 <% else %>
-  <h2><%= t '.not_commemorated'%></h2>
+  <h2><%= t(".not_commemorated") %></h2>
 <% end %>
 
 <% @plaques = @person.plaques %>
-<%= render partial: 'plaques/tiles' %>
+<%= render partial: "plaques/tiles" %>

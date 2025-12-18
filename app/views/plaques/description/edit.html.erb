@@ -1,16 +1,39 @@
 <% content_for :page_title, "Edit description for " + @plaque.title %>
-<% content_for :title do %>
-  Description of the <%= link_to @plaque.title, @plaque %>
-<% end %>
-<% content_for :page_subhead do %>
-  <p>Enter any additional interesting information about the plaque and links to articles about it to be displayed on the plaque detail page.</p>
-  <p>Articles can be linked using the format [name of link](https://....)</p>
-<% end %>
-<%= render 'plaques/edit_bar', plaque: @plaque %>
+<%= render "plaques/edit_bar", plaque: @plaque %>
 
-<%= form_for @plaque do |f| %>
-  <div class="form-group">
-    <%= f.text_area :description, {class: 'form-control', rows: 6, autofocus: true} %>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0">Description of the <%= link_to @plaque.title, @plaque %></h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Plaques", plaques_path %></li>
+        <li><%= link_to @plaque %></li>
+        <li class="current">Edit description</li>
+      </ol>
+    </nav>
   </div>
-  <%= f.submit t('buttons.save') %>
-<% end %>
+</div><!-- End Page Title -->
+
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <p>Enter any additional interesting information about the plaque and links to articles about it to be displayed on the plaque detail page.</p>
+    <p>Articles can be linked using the format [name of link](https://....)</p>
+
+    <% if @plaque.main_photo %>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <%= render "plaques/description/form" %>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <%= render @plaque.main_photo, large: true %>
+        </div>
+      </div>
+    <% else %>
+      <%= render "plaques/description/form" %>
+    <% end %>
+
+  </div>
+</section>

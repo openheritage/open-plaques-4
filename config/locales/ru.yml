@@ -452,7 +452,7 @@ ru:
       page_title: Посвящена %{role}
       page_heading: Посвящена %{role}
       read_more_html: Узнать больше о %{link} в Википедии
-      related_roles: Связанные роли
+      related_roles: "%{count} Связанные роли"
 
   roles_by_index:
     show:

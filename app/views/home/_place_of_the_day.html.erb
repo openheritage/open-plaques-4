@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title"><%= t '.place_of_the_day' %></h5>
+          <h5 class="card-title"><%= t(".place_of_the_day") %></h5>
           <p class="card-text">
             <% if @todays_place.country %>
               <span class="flag-icon flag-icon-<%= @todays_place.country.alpha2 %>"></span>

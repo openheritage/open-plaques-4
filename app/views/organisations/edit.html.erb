@@ -1,5 +1,6 @@
-<% content_for(:page_title) {t '.page_title', organisation: @organisation.name} %>
-<% content_for(:title) {t '.page_heading', organisation: @organisation.name } %>
+<% content_for(:page_title) { t(".page_title", organisation: @organisation.name) } %>
+
+<%= t(".page_heading", organisation: @organisation.name) %>
 
 <%= form_for(@organisation) do |f| %>
   <div class="mb-3">
@@ -35,7 +36,7 @@
     <%= f.label :notes %>
     <%= f.text_area :notes %>
   </div>
-  <%= f.submit t('buttons.save')  %>
+  <%= f.submit t("buttons.save")  %>
 <% end %>
 
 <div id="map" style="height: 400px; width: 100%; margin-top: 15px;"></div>

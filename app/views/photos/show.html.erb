@@ -1,27 +1,46 @@
-<% content_for(:page_title) {t '.page_title', photo: @photo.title} %>
-<% content_for(:admin_menu) {navbar_link_to t('buttons.edit'), edit_photo_path(@photo)} %>
+<% content_for(:page_title) { t(".page_title", photo: @photo.title) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.edit"), edit_photo_path(@photo) } %>
 
-<% content_for(:title) do %>
-  <% if @photo.plaque %>
-    <%= t '.page_heading' %> <%= link_to(@photo.plaque.title, @photo.plaque) %>
-  <% elsif @photo.person %>
-    <%= t '.page_heading' %> <%= link_to(@photo.person.full_name, @photo.person) %>
-  <% else %>
-    <% if @photo.of_a_plaque? %>
-      <p>This photo has not been linked to a plaque yet.</p>
-    <% else %>
-      <p>This photo has been flagged as not being of a plaque.</p>
-    <% end %>
-  <% end %>
-<% end %>
-<% content_for(:page_subhead) do %>
-  This image comes from <%= @photo.source %>
-<% end %>
-
-<div class="row">
-  <div class="col-sm-6">
-  <%= link_to @photo.url do %>
-    <%= render @photo, large: true %>
-  <% end %>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0">
+      <% if @photo.plaque %>
+        <%= t(".page_heading") %> <%= link_to(@photo.plaque.title, @photo.plaque) %>
+      <% elsif @photo.person %>
+        <%= t(".page_heading") %> <%= link_to(@photo.person.full_name, @photo.person) %>
+      <% else %>
+        <% if @photo.of_a_plaque? %>
+          <p>This photo has not been linked to a plaque yet.</p>
+        <% else %>
+          <p>This photo has been flagged as not being of a plaque.</p>
+        <% end %>
+      <% end %>
+    </h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li>Photos</li>
+        <li class="current">#<%= @photo.id %></li>
+      </ol>
+    </nav>
   </div>
-</div>
+</div><!-- End Page Title -->
+
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <p>
+      This image comes from <%= @photo.source %>
+    </p>
+
+    <div class="row">
+      <div class="col-sm-6">
+      <%= link_to @photo.url do %>
+        <%= render @photo, large: true %>
+      <% end %>
+      </div>
+    </div>
+
+  </div>
+</section>

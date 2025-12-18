@@ -1,58 +1,75 @@
-<% content_for(:page_title) {t '.page_title', role: @role.name } %>
-<% content_for(:title) {t '.page_heading', role: @role.name } %>
+<% content_for(:page_title) { t(".page_title", role: @role.name) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.add"), new_role_path } %>
 
-<div class="row">
-  <%= render @role %>
-</div>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0"><%= t(".page_heading", role: @role.name) %></h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Roles", roles_path %></li>
+        <li><%= link_to @role %></li>
+        <li class="current">Edit</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
 
-<%= form_for(@role) do |f| %>
-  <div class="mb-3">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <%= form_for(@role) do |f| %>
+      <div class="mb-3">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :role_type %>
+        <%= f.collection_select :role_type, Role.types, :to_s, :to_s, include_blank: true %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :abbreviation %>
+        <%= f.text_field :abbreviation %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :prefix %>
+        <%= f.text_field :prefix %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :suffix %>
+        <%= f.text_field :suffix %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :priority %>
+        <%= f.number_field :priority %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :slug %>
+        <%= f.text_field :slug %>
+      </div>
+      <div class="mb-3">
+        <div class="col-sm-2">
+          <%= f.label :wikidata_id %>
+          <%= link_to(fa_icon(:link), @role.wikidata_url, target: "_blank") unless @role.wikidata_id.blank?%>
+        </div>
+        <%= f.text_field :wikidata_id %>
+      </div>
+      <div class="mb-3">
+        <div class="col-sm-2">
+          <%= f.label :wikipedia_url, class: "col-form-label" %>
+          <%= link_to(fa_icon(:link), @role.wikipedia_url, target: "_blank")  unless @role.wikipedia_url.blank? %>
+          <%= f.label :dbpedia_uri, class: "col-form-label" %>
+          <%= link_to(fa_icon(:link), @role.dbpedia_uri, target: "_blank") %>
+        </div>
+        <%= t(".wikipedia_comment") %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :description %>
+        <%= f.text_field :description %>
+      </div>
+      <%= f.submit t("buttons.save") %>
+    <% end %>
+
   </div>
-  <div class="mb-3">
-    <%= f.label :role_type %>
-    <%= f.collection_select :role_type, Role.types, :to_s, :to_s, include_blank: true %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :abbreviation %>
-    <%= f.text_field :abbreviation %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :prefix %>
-    <%= f.text_field :prefix %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :suffix %>
-    <%= f.text_field :suffix %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :priority %>
-    <%= f.number_field :priority %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :slug %>
-    <%= f.text_field :slug %>
-  </div>
-  <div class="mb-3">
-    <div class="col-sm-2">
-      <%= f.label :wikidata_id %>
-      <%= link_to(fa_icon(:link), @role.wikidata_url, target: '_blank') unless @role.wikidata_id.blank?%>
-    </div>
-    <%= f.text_field :wikidata_id %>
-  </div>
-  <div class="mb-3">
-    <div class="col-sm-2">
-      <%= f.label :wikipedia_url, class: 'col-form-label' %>
-      <%= link_to(fa_icon(:link), @role.wikipedia_url, target: '_blank')  unless @role.wikipedia_url.blank? %>
-      <%= f.label :dbpedia_uri, class: 'col-form-label' %>
-      <%= link_to(fa_icon(:link), @role.dbpedia_uri, target: '_blank') %>
-    </div>
-    <%= t '.wikipedia_comment' %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :description %>
-    <%= f.text_field :description %>
-  </div>
-  <%= f.submit t('buttons.save') %>
-<% end %>
+</section>

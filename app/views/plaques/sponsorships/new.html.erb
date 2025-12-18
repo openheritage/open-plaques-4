@@ -1,7 +1,69 @@
-<% content_for(:page_title) {t '.page_title'} %>
-<% content_for(:title) {t '.page_heading'} %>
-<% content_for(:page_subhead) {'Open Plaques credit every organisation listed on the plaque as well as monetary sponsors.'} %>
-<%= render 'plaques/edit_bar', plaque: @plaque %>
+<% content_for(:page_title) { t(".page_title") } %>
+<%= render "plaques/edit_bar", plaque: @plaque %>
+
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0"><%= t(".title") %></h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Plaques", plaques_path %></li>
+        <li><%= link_to @plaque %></li>
+        <li class="current">New sponsorship</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
+
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <%= t(".page_heading") %>
+    <p>Open Plaques credit every organisation listed on the plaque as well as monetary sponsors.</p>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6" id="organisation-chooser">
+        <div class="col-md-12">
+          <% @plaque.sponsorships.all.each do |sponsorship| %>
+            <% if sponsorship.organisation %>
+              <div class="row">
+                <div class="col-xs-10"><%= render sponsorship.organisation %></div>
+                <div class="col-xs-2"><%= button_to t("buttons.unlink"), plaque_sponsorship_path(@plaque, sponsorship.id), method: :delete, class: "btn btn-danger" %></div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <%= form_for @sponsorship, url: plaque_sponsorships_path(@plaque) do |f| %>
+          <%= f.hidden_field :plaque_id, value: @plaque.id %>
+          <div class="row mb-6">
+            <div class="col-md-12">
+              <div class="form-group">
+                <%= f.label(:organisation_id) %>
+                <%= text_field_tag :organisation_name, "", { class: "form-control", placeholder: "English Heritage" } %>
+                <%= f.collection_select :organisation_id, @organisations, :id, :name, { include_blank: "enter an organisation name or use dropdown" } %>
+              </div>
+            </div>
+          </div>
+          <%= f.submit t("buttons.link") %>
+        <% end %>
+        <% if current_user %>
+          <br/>
+          <div>
+            <%= link_to('Add new organisation', new_organisation_path) %>
+          </div>
+        <% end %>
+      </div>
+      <% if @plaque.main_photo %>
+        <div class="col-xs-12 col-sm-6" id="photo-display">
+          <%= render @plaque.main_photo, large: true %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</section>
 
 <script>
   $(function() {
@@ -31,43 +93,3 @@
     });
   });
 </script>
-
-<div class="row">
-  <div class="col-xs-12 col-sm-6" id="organisation-chooser">
-    <div class="col-md-12">
-      <% @plaque.sponsorships.all.each do |sponsorship| %>
-        <% if sponsorship.organisation %>
-          <div class="row">
-            <div class="col-xs-10"><%= render sponsorship.organisation %></div>
-            <div class="col-xs-2"><%= button_to t('buttons.unlink'), plaque_sponsorship_path(@plaque, sponsorship.id), method: :delete, class: 'btn btn-danger' %></div>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-
-    <%= form_for @sponsorship, url: plaque_sponsorships_path(@plaque) do |f| %>
-      <%= f.hidden_field :plaque_id, value: @plaque.id %>
-      <div class="row mb-6">
-        <div class="col-md-12">
-          <div class="form-group">
-            <%= f.label(:organisation_id) %>
-            <%= text_field_tag :organisation_name, '', { class: 'form-control', placeholder: 'English Heritage' } %>
-            <%= f.collection_select :organisation_id, @organisations, :id, :name, { include_blank: 'enter an organisation name or use dropdown' } %>
-          </div>
-        </div>
-      </div>
-      <%= f.submit t('buttons.link') %>
-    <% end %>
-    <% if current_user %>
-      <br/>
-      <div>
-        <%= link_to('Add new organisation', new_organisation_path) %>
-      </div>
-    <% end %>
-  </div>
-  <% if @plaque.main_photo %>
-    <div class="col-xs-12 col-sm-6" id="photo-display">
-      <%= render @plaque.main_photo, large: true %>
-    </div>
-  <% end %>
-</div>

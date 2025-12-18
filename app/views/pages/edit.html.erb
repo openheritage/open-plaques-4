@@ -1,9 +1,9 @@
-<% content_for(:page_title) {t '.page_title', page: @page.name} %>
+<% content_for(:page_title) { t(".page_title", page: @page.name) } %>
 
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
-    <h1 class="mb-2 mb-lg-0"><%= t '.page_heading', page: @page.name %></h1>
+    <h1 class="mb-2 mb-lg-0"><%= t(".page_heading", page: @page.name) %></h1>
     <nav class="breadcrumbs">
       <ol>
         <li><%= link_to "Home", root_path %></li>
@@ -44,7 +44,7 @@
         <%= f.label :tag_list %>
         <%= f.text_field :tag_list %>
       </div>
-      <%= f.submit t('buttons.save') %>
+      <%= f.submit t("buttons.save") %>
     <% end %>
 
   </div>

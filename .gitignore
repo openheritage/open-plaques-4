@@ -37,3 +37,6 @@
 !/app/assets/builds/.keep
 latest.dump
 .DS_Store
+db/open-plaques-*.csv
+db/open-plaques-*.geojson
+db/open-plaques-*.json

@@ -1,4 +1,5 @@
-<% content_for(:page_title) {t '.page_title', limit: @limit} %>
-<% content_for(:title) {t '.page_heading', limit: @limit} %>
+<% content_for(:page_title) { t(".page_title", limit: @limit) } %>
+
+<%= t(".page_heading", limit: @limit) %>
 
 <%= render partial: 'plaques/row', collection: @plaques, as: :plaque %>

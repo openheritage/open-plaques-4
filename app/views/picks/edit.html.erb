@@ -1,5 +1,6 @@
-<% content_for(:page_title) {t '.page_title', pick: @pick.title} %>
-<% content_for(:title) {t '.page_heading', pick: @pick.title} %>
+<% content_for(:page_title) { t(".page_title", pick: @pick.title) } %>
+
+<%= t(".page_heading", pick: @pick.title) %>
 
 <%= form_for(@pick) do |f| %>
   <div class="mb-3">
@@ -26,7 +27,7 @@
     <%= f.label :featured_count %>
     <div class='label label-default label-pill pull-left'><%= @pick.featured_count %></div>
   </div>
-  <%= f.submit t('buttons.save') %>
+  <%= f.submit t("buttons.save") %>
 <% end %>
 
 <div class="container">
@@ -35,4 +36,4 @@
   </div>
 </div>
 
-<%= button_to(t('buttons.delete'), pick_path(@pick), {method: :delete, class: :button}) if current_user.try(:is_admin?) %>
+<%= button_to(t "buttons.delete", pick_path(@pick), {method: :delete, class: :button}) if current_user.try(:is_admin?) %>

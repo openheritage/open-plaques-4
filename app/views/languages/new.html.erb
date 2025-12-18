@@ -1,9 +1,9 @@
-<% content_for(:page_title) {t '.page_title'} %>
+<% content_for(:page_title) { t(".page_title") } %>
 
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
-    <h1 class="mb-2 mb-lg-0"><%= t '.page_heading' %></h1>
+    <h1 class="mb-2 mb-lg-0"><%= t(".page_heading") %></h1>
     <nav class="breadcrumbs">
       <ol>
         <li><%= link_to "Home", root_path %></li>
@@ -28,7 +28,7 @@
           <%= f.label :name %>
           <%= f.text_field :name %>
         </div>
-        <%= f.submit t('buttons.save') %>
+        <%= f.submit t("buttons.save") %>
       <% end %>
 
     </div>
