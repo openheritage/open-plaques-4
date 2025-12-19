@@ -1,4 +1,5 @@
 <% content_for(:page_title) { t(".page_title", page: @page.name) } %>
+<% content_for(:admin_menu) { navbar_link_to(t("buttons.add"), new_page_path) } %>
 
 <!-- Page Title -->
 <div class="page-title">
@@ -31,9 +32,11 @@
         <%= f.text_field :strapline %>
       </div>
       <div class="mb-3">
+        <%= f.label :abstract %>
         <%= f.text_area :abstract, {rows: '20', cols: '100'} %>
       </div>
       <div class="mb-3">
+        <%= f.label :body %>
         <%= f.text_area :body, {rows: '40', cols: '100'} %>
       </div>
       <div class="mb-3">
