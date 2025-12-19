@@ -4,13 +4,13 @@
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
-    <h1 class="mb-2 mb-lg-0"><%= t(".title") %></h1>
+    <h1 class="mb-2 mb-lg-0"><%= t(".page_heading") %></h1>
     <nav class="breadcrumbs">
       <ol>
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Plaques", plaques_path %></li>
         <li><%= link_to @plaque %></li>
-        <li class="current">New sponsorship</li>
+        <li class="current">Sponsorships</li>
       </ol>
     </nav>
   </div>
@@ -19,8 +19,7 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <%= t(".page_heading") %>
-    <p>Open Plaques credit every organisation listed on the plaque as well as monetary sponsors.</p>
+    <p>Open Plaques credit every organisation listed on the plaque including monetary sponsors.</p>
 
     <div class="row">
       <div class="col-xs-12 col-sm-6" id="organisation-chooser">

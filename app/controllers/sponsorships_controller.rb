@@ -1,4 +1,4 @@
-# control sponsorships
+# control plaque sponsorships
 class SponsorshipsController < ApplicationController
   before_action :authenticate_admin!, only: :destroy
   before_action :find, only: :destroy
@@ -10,12 +10,6 @@ class SponsorshipsController < ApplicationController
     redirect_to plaque_sponsorships_path(plaque)
   end
 
-  def new
-    @plaque = Plaque.find(params[:plaque_id])
-    @sponsorship = @plaque.sponsorships.new
-    render "plaques/sponsorships/new"
-  end
-
   def create
     @plaque = Plaque.find(params[:sponsorship][:plaque_id])
     @sponsorship = @plaque.sponsorships.new(sponsorship_params)
@@ -24,7 +18,9 @@ class SponsorshipsController < ApplicationController
   end
 
   def index
-    new
+    @plaque = Plaque.find(params[:plaque_id])
+    @sponsorship = @plaque.sponsorships.new
+    render "plaques/sponsorships/index"
   end
 
   private

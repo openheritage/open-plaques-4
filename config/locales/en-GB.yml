@@ -498,7 +498,7 @@ en-GB:
         series_ref_label: Series reference
         add_new_series: Add new series
     sponsorships:
-      new:
+      index:
         page_title: Edit sponsor information for plaque
         page_heading: Which organisations were involved in erecting this plaque?
     show:
