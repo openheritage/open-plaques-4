@@ -1,3 +1,5 @@
+require "ostruct"
+
 # show subjects in an area
 class AreaSubjectsController < ApplicationController
   before_action :find_country, only: :show

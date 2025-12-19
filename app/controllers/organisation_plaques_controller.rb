@@ -1,3 +1,5 @@
+require "ostruct"
+
 # show plaques for an organisation
 class OrganisationPlaquesController < ApplicationController
   before_action :find, only: :show
