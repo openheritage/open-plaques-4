@@ -1,14 +1,11 @@
-<% content_for(:page_title) { t '.page_title', organisation: @organisation.name } %>
-
-<% content_for(:admin_menu) {
-  navbar_link_to t('buttons.edit'), edit_organisation_path(@organisation)
-} %>
+<% content_for(:page_title) { t(".page_title", organisation: @organisation.name) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.edit"), edit_organisation_path(@organisation) } %>
 
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
     <h1 class="mb-2 mb-lg-0">
-      <% if @organisation.language == nil || @organisation.language.alpha2 == 'en-GB' || @organisation.language.alpha2 == 'en' %>
+      <% if @organisation.language == nil || @organisation.language.alpha2 == "en-GB" || @organisation.language.alpha2 == "en" %>
         <%= link_to(@organisation.name, @organisation) %>
       <% else %>
         <span class="flag-icon <%= @organisation.language&.flag_icon %>"></span>
@@ -45,31 +42,31 @@
         (<%= @percentage_curated %>%)
         plaques have been curated
       </p>
-      <%= render partial: 'people/badge' %>
+      <%= render partial: "people/badge" %>
       
       <% if @display!='all' %>
-        <%= link_to t('buttons.all'), organisation_path(@organisation) %>
+        <%= link_to t("buttons.all"), organisation_path(@organisation) %>
       <% else %>
-        <strong><%= t 'buttons.all' %></strong>
+        <strong><%= t("buttons.all") %></strong>
       <% end %>
-      <%= t 'buttons.or' %>
+      <%= t("buttons.or") %>
       <% if @display!='unphotographed' %>
-        <%= link_to t('buttons.unphotographed'), organisation_unphotographed_path(@organisation) %>
+        <%= link_to t("buttons.unphotographed"), organisation_unphotographed_path(@organisation) %>
       <% else %>
-        <strong><%= t 'buttons.unphotographed' %></strong>
+        <strong><%= t("buttons.unphotographed") %></strong>
       <% end %>
       <% if current_user&.is_admin? %>
-        <%= t 'buttons.or' %>
+        <%= t("buttons.or") %>
         <% if @display!='ungeolocated' %>
-          <%= link_to t('buttons.ungeolocated'), organisation_ungeolocated_path(@organisation) %>
+          <%= link_to t("buttons.ungeolocated"), organisation_ungeolocated_path(@organisation) %>
         <% else %>
-          <strong><%= t 'buttons.ungeolocated' %></strong>
+          <strong><%= t("buttons.ungeolocated") %></strong>
         <% end %>
-        <%= t 'buttons.or' %>
+        <%= t("buttons.or") %>
         <% if @display!='unconnected' %>
-          <%= link_to t('buttons.unconnected'), organisation_unconnected_path(@organisation) %>
+          <%= link_to t("buttons.unconnected"), organisation_unconnected_path(@organisation) %>
         <% else %>
-          <strong><%= t 'buttons.unconnected' %></strong>
+          <strong><%= t("buttons.unconnected") %></strong>
         <% end %>
       <% end %>
 
@@ -77,8 +74,8 @@
         <div id="plaque-map" data-latitude="<%= @organisation.latitude %>" data-longitude="<%= @organisation.longitude %>" data-view="all" context="<%= request.path %>"></div>
       <% end %>
 
-      <%= render partial: 'people/diversity' %>
-      <%= render partial: 'plaques/tabbed' %>
+      <%= render partial: "people/diversity" %>
+      <%= render partial: "plaques/tabbed" %>
 
     </div>
   </div>

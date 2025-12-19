@@ -1,5 +1,5 @@
-<% content_for(:page_title) {t '.page_title', area: @area.name } %>
-<% content_for(:admin_menu) {navbar_link_to t('buttons.add'), new_person_path} %>
+<% content_for(:page_title) { t(".page_title", area: @area.name) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.add"), new_person_path } %>
 
 <div class="jumbotron">
   <h1>
@@ -7,7 +7,7 @@
     <%= link_to(@area.country.name, @area.country) %>
     /
     <%= link_to(@area.name, area_plaques_path(@area)) %>
-    <%= t '.page_heading' %>
+    <%= t(".page_heading") %>
   </h1>
   <p>
     <%= @curated_count %> out of <%= @plaques_count %>

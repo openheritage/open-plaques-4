@@ -1,0 +1,6 @@
+<%= form_for @plaque do |f| %>
+  <div class="form-group">
+    <%= f.text_area :description, { class: "form-control", rows: 6, autofocus: true } %>
+  </div>
+  <%= f.submit t("buttons.save") %>
+<% end %>

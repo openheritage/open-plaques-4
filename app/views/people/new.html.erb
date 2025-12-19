@@ -1,6 +1,6 @@
-<% content_for(:page_title) {t '.page_title'} %>
-<% content_for(:title) {t '.page_heading'} %>
-<% content_for(:page_subhead) {t '.page_subhead'} %>
+<% content_for(:page_title) { t(".page_title") } %>
+<% content_for(:title) {t(".page_heading")} %>
+<% content_for(:page_subhead) {t(".page_subhead")} %>
 
 <%= form_for(@person) do |f| %>
   <div class="mb-3">
@@ -26,7 +26,7 @@
     </small>
   </div>
   <%= hidden_field_tag :role_id %>
-  <%= f.submit t('buttons.save') %>
+  <%= f.submit t("buttons.save") %>
 <% end %>
 
 <script type="text/javascript">

@@ -1,5 +1,6 @@
-<% content_for(:page_title) {t '.page_title', series: @series.name} %>
-<% content_for(:title) {t '.page_heading', series: @series.name} %>
+<% content_for(:page_title) { t(".page_title", series: @series.name) } %>
+
+<%= t(".page_heading", series: @series.name) %>
 
 <%= form_for(@series) do |f| %>
   <div class="mb-3">

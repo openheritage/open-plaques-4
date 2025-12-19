@@ -1,10 +1,10 @@
-<% content_for(:page_title) { t '.page_title', phrase: @original_phrase } %>
+<% content_for(:page_title) { t(".page_title", phrase: @original_phrase) } %>
 
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
     <h1 class="mb-2 mb-lg-0">
-      <%= t '.page_heading', phrase: @original_phrase %>
+      <%= t(".page_heading", phrase: @original_phrase) %>
     </h1>
     <nav class="breadcrumbs">
       <ol>
@@ -16,7 +16,6 @@
 </div><!-- End Page Title -->
 
 <section id="role-summary" class="role-summary section">
-    
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <% if @organisations.count > 0 %>
@@ -66,7 +65,7 @@
     <% end %>
 
     <% if @people.count > 0 %>
-      <h2><%= pluralize @people.count,'subject' %> matching "<%= @original_phrase %>"</h2>
+      <h2><%= pluralize @people.count, "subject" %> matching "<%= @original_phrase %>"</h2>
       <% if @people.count < 3 %>
         <div class="row">
           <% @people.each do |person| %>
@@ -89,16 +88,16 @@
     <% end %>
 
     <% if @plaques.count > 0 %>
-      <h2><%= pluralize @plaques.count,'plaque' %>  matching "<%= @original_phrase %>"</h2>
+      <h2><%= pluralize @plaques.count, "plaque" %>  matching "<%= @original_phrase %>"</h2>
       <%= render partial: 'plaques/row', collection: @plaques, as: :plaque %>
     <% end %>
 
     <% if params[:from] && params[:from] == "submission" %>
-      <div class="row"><%= t '.not_found' %> <%= link_to t('.add_it'), new_plaque_path(checked: true), name: :goadd %>.</div>
+      <div class="row"><%= t(".not_found") %> <%= link_to t(".add_it"), new_plaque_path(checked: true), name: :goadd %>.</div>
     <% else %>
       <h2>
-        <%= t '.try_again' %>
-        <%= link_to t('.add_it'), new_plaque_path(checked: true, phrase: @original_phrase), id: :goadd %>
+        <%= t(".try_again") %>
+        <%= link_to t(".add_it"), new_plaque_path(checked: true, phrase: @original_phrase), id: :goadd %>
       </h2>
       <div class="row">
         <%= render partial: "search_form", locals: { phrase: @original_phrase } %>
@@ -106,5 +105,4 @@
     <% end %>
 
   </div>
-
 </section>

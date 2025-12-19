@@ -1,5 +1,5 @@
-<% content_for(:page_title) {t '.page_title'} %>
-<% content_for(:title) {t '.page_heading'} %>
+<% content_for(:page_title) { t(".page_title") } %>
+<% content_for(:title) {t(".page_heading")} %>
 
 <%= form_for @picks, url: picks_path do |f| %>
   <div class="mb-3">
@@ -14,5 +14,5 @@
     <%= f.label :proposer %>
     <%= f.text_field :proposer, maxlength: "40" %>
   </div>
-  <%= f.submit t('buttons.save') %>
+  <%= f.submit t("buttons.save") %>
 <% end %>

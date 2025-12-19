@@ -549,7 +549,7 @@ en-GB:
       page_title: Commemorated %{role}
       page_heading: Commemorated %{role}
       read_more_html: Read more about what %{link} is on Wikipedia
-      related_roles: Related roles
+      related_roles: "%{count} Related Roles"
     by_index:
       show:
         page_title: Roles - %{letter}
@@ -574,14 +574,14 @@ en-GB:
       page_heading: Edit series %{series}
     index:
       page_title: Series
-      page_heading: Series
+      page_heading: "%{count} Series"
       explanation: Plaques are issued by numerous organisations, and sometimes they are also part of a special set or series. We endeavour to identify the series and also the series identifier
     new:
       page_title: New series
       page_heading: New series
     show:
       page_title: Series '%{series}'
-      page_heading: Series '%{series}'
+      page_heading: "'%{series}' Series"
     plaques:
       show:
         page_title: Series '%{series}'
@@ -603,6 +603,7 @@ en-GB:
       page_title: Verbs
       page_heading: Verbs
       page_subhead: We keep a record of what the subject was doing at the plaque location
+      explanation: In Open Plaques, a verb indicates whet the plaque subject was doing at that particular location a that particular time
     new:
       page_title: New verb
       page_heading: New verb

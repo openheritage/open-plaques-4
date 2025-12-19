@@ -1,6 +1,6 @@
 # control verbs
 class VerbsController < ApplicationController
-  before_action :authenticate_user!, except: :index
+  before_action :authenticate_user!, except: %i[index show]
 
   def index
     @verbs = Verb.order(personal_connections_count: :desc)
@@ -29,7 +29,7 @@ class VerbsController < ApplicationController
 
   def show
     @verb = Verb.find_by(name: params[:id].tr("_", " "))
-    page = permitted_show_permitted_show_params[:page]
+    page = permitted_show_params[:page]
     per_page = 50
     @personal_connections = @verb.personal_connections.paginate(page:, per_page:)
     respond_to do |format|

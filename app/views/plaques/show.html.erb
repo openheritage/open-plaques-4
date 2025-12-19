@@ -1,6 +1,6 @@
 <% content_for :page_title, @plaque %>
 <% content_for :title, @plaque %>
-<%= render 'plaques/edit_bar', plaque: @plaque %>
+<%= render "plaques/edit_bar", plaque: @plaque %>
 
 <!-- Page Title -->
 <div class="page-title">
@@ -132,8 +132,8 @@
                 <% end %>
                 <% if @plaque.geolocated? %>
                   <br/>
-                  <%= link_to(fa_icon(:link) + 'Google Streetview', "https://maps.google.com/maps?q=&layer=c&cbll=#{@plaque.latitude},#{@plaque.longitude}&cbp=11,0,0,0,0", target: '_blank') %>
-                  <%= link_to(fa_icon(:link) + 'OpenStreetMap', "https://www.openstreetmap.org/#map=19/#{@plaque.latitude}/#{@plaque.longitude}", target: '_blank') %>
+                  <%= link_to(fa_icon(:link) + 'Google Streetview', "https://maps.google.com/maps?q=&layer=c&cbll=#{@plaque.latitude},#{@plaque.longitude}&cbp=11,0,0,0,0", target: "_blank") %>
+                  <%= link_to(fa_icon(:link) + 'OpenStreetMap', "https://www.openstreetmap.org/#map=19/#{@plaque.latitude}/#{@plaque.longitude}", target: "_blank") %>
                 <% end %>
               </p>
 

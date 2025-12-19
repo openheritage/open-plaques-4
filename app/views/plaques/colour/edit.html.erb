@@ -1,16 +1,37 @@
-<% content_for :page_title, t('.page_title', plaque: @plaque.title) %>
-<% content_for :title, t('.title') %>
-<% content_for :page_subhead do %>
-  <% if url_for(only_path: false).include?('microtask') %>
-    <%= button_to "Not sure. Give me another one", todo_path('microtask'), method: :get %>
-  <% end %>
-<% end %>
-<%= render 'plaques/edit_bar', plaque: @plaque %>
+<% content_for :page_title, t(".page_title", plaque: @plaque.title) %>
 
-<%= form_for @plaque do |f| %>
-  <div class="form-group">
-    <%= f.label :colour_id, t('.colour_label') %>
-    <%= f.collection_select :colour_id, @colours, :id, :name, {class: 'form-control', include_blank: true} %>
+<%= render "plaques/edit_bar", plaque: @plaque %>
+
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0"><%= t(".title") %></h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Plaques", plaques_path %></li>
+        <li><%= link_to @plaque %></li>
+        <li class="current">Edit colour</li>
+      </ol>
+    </nav>
   </div>
-  <%= f.submit t('buttons.save') %>
-<% end %>
+</div><!-- End Page Title -->
+
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <% if @plaque.main_photo %>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <%= render "plaques/colour/form" %>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <%= render @plaque.main_photo, large: true %>
+        </div>
+      </div>
+    <% else %>
+      <%= render "plaques/colour/form" %>
+    <% end %>
+
+  </div>
+</section>

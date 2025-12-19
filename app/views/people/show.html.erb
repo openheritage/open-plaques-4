@@ -1,7 +1,6 @@
-<% content_for(:page_title) {t '.page_title', person: @person.name_and_dates } %>
-<% content_for(:title) { } %>
-<% content_for(:admin_menu) {navbar_link_to t('buttons.edit'), edit_person_path(@person)} %>
-<% content_for(:admin_menu) {navbar_link_to t('buttons.add'), new_person_path} %>
+<% content_for(:page_title) { t(".page_title", person: @person.name_and_dates) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.edit"), edit_person_path(@person) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.add"), new_person_path } %>
 
 <!-- Page Title -->
 <div class="page-title">
@@ -70,12 +69,12 @@
           <% unless !@person.dbpedia_abstract || @person.dbpedia_abstract.empty? %>
             <blockquote class="quote-card blue-card">
               <p><%= @person.dbpedia_abstract %></p>
-              <cite><%= link_to(fa_icon(:link) + 'DbPedia', @person.dbpedia_uri, target: '_blank') unless @person.dbpedia_uri.blank? %></cite>
+              <cite><%= link_to(fa_icon(:link) + 'DbPedia', @person.dbpedia_uri, target: "_blank") unless @person.dbpedia_uri.blank? %></cite>
             </blockquote>
           <% end %>
-          <%= link_to(fa_icon(:link) + "Wikidata", @person.wikidata_url, target: '_blank') unless @person.wikidata_url.blank? %>
-          <%= link_to(fa_icon(:link) + "Wikipedia", @person.wikipedia_url, target: '_blank') unless @person.wikipedia_url.blank? %>
-          <%= link_to(fa_icon(:link) + "Find A Grave", @person.find_a_grave_url, target: '_blank') unless @person.find_a_grave_id.blank? %>
+          <%= link_to(fa_icon(:link) + "Wikidata", @person.wikidata_url, target: "_blank") unless @person.wikidata_url.blank? %>
+          <%= link_to(fa_icon(:link) + "Wikipedia", @person.wikipedia_url, target: "_blank") unless @person.wikipedia_url.blank? %>
+          <%= link_to(fa_icon(:link) + "Find A Grave", @person.find_a_grave_url, target: "_blank") unless @person.find_a_grave_id.blank? %>
       </div>
       </div>
 

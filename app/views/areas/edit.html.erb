@@ -1,9 +1,9 @@
-<% content_for(:page_title) { t('.page_title', area: "#{@area.name}, #{@area.country.name}") } %>
+<% content_for(:page_title) { t(".page_title", area: "#{@area.name}, #{@area.country.name}") } %>
 
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
-    <h1 class="mb-2 mb-lg-0"><%= t '.page_title', area: "#{@area.name}, #{@area.country.name}" %></h1>
+    <h1 class="mb-2 mb-lg-0"><%= t(".page_title", area: "#{@area.name}, #{@area.country.name}") %></h1>
     <nav class="breadcrumbs">
       <ol>
         <li><%= link_to "Home", root_path %></li>
@@ -27,18 +27,18 @@
       <div class="mb-3">
         <%= f.label :slug %>
         <%= f.text_field :slug %>
-        <small class="text-muted"><%= t 'must_be_underscored' %></small>
+        <small class="text-muted"><%= t("must_be_underscored") %></small>
       </div>
       <div class="mb-3">
         <%= f.label :country_id %>
         <%= f.collection_select :country_id, @countries, :id, :name, {}, { class: 'form-select' } %>
       </div>
       <%= render 'geolocate', {f: f, object: @area, q: "#{@area.name}, #{@area.country.name}"} %>
-      <%= f.submit t('buttons.update') %>
+      <%= f.submit t("buttons.update") %>
     <% end %>
     <br/>
     <% if @area.plaques.geolocated.size > 0 %>
-      <%= button_to 'geolocate from plaques', controller: :areas, action: :geolocate, id: @area %>
+      <%= button_to "geolocate from plaques", controller: :areas, action: :geolocate, id: @area %>
     <% end %>
     <br/>
     <%= button_delete(country_area_path(@area.country, @area)) %>

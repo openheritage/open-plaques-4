@@ -1,4 +1,4 @@
-<% content_for(:page_title) { t('.page_title') } %>
+<% content_for(:page_title) { t(".page_title") } %>
 <% content_for(:title) { t('.page_heading') } %>
 
 <h2><%= t '.required' %></h2>
@@ -32,5 +32,5 @@
     <%= f.label :shot %>
     <%= f.collection_select :shot, Photo.shots, :to_s, :to_s, {include_blank: true, class: 'form-select'} %>
   </div>
-  <%= f.submit t('buttons.save') %>
+  <%= f.submit t("buttons.save") %>
 <% end %>
