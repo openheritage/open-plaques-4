@@ -72,7 +72,7 @@
               <h2><%= link_to page %></h2>
               <p class="mb-4 d-block"><%= page.abstract %></p>
               <div class="d-flex align-items-center author">
-                <div class="photo"><%= image_tag 'blog/jez.jpg', alt: page.author.name, class: "img-fluid" %></div>
+                <div class="photo"><%= image_tag 'blog/jez.jpg', alt: page.author&.name, class: "img-fluid" %></div>
                 <div class="name">
                   <h3 class="m-0 p-0"><%= page.author&.name %></h3>
                 </div>
