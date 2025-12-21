@@ -9,6 +9,11 @@ module BootstrapTag
     super
   end
 
+  def hidden_label_tag(name = nil, content_or_options = nil, options = nil, &block)
+    options = add_bootstrap_class_to_options(options, "visually-hidden")
+    label_tag(name, content_or_options, options, &block)
+  end
+
   def select_tag(name, option_tags = nil, options = {})
     super
   end
@@ -26,11 +31,6 @@ module BootstrapTag
     options = add_bootstrap_class_to_options(options, "form-check-input") if options.present? && options["type"] =~ /checkbox|radio/
     options = add_bootstrap_class_to_options(options, "form-control", true) if name.to_s == "input"
     super
-  end
-
-  def hidden_label_tag(name = nil, content_or_options = nil, options = nil, &block)
-    options = add_bootstrap_class_to_options(options, "visually-hidden")
-    label_tag(name, content_or_options, options, &block)
   end
 
   private
