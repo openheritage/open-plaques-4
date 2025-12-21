@@ -84,13 +84,17 @@
                 </p>
                 <p>
                   Wikimedia:
-                  <i><input type="text" readonly value="<%= @plaque.wikimedia_tag %>"/></i>
-                  <%= button_tag fa_icon(:clipboard), id: 'copy-wikimedia-tag', type: 'button', class: :button %>
+                  <div class="input-group" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
+                    <input class="form-control" name="wikimedia_tag" type="text" readonly value="<%= @plaque.wikimedia_tag %>" data-clipboard-target="source" />
+                    <button class="btn btn-secondary" type="button" data-action="clipboard#copy" data-clipboard-target="button">Copy to clipboard</button>
+                  </div>
                 </p>
                 <p>
                   Flickr:
-                  <i><input type="text" readonly value="<%= @plaque.machine_tag %>"/></i>
-                  <%= button_tag fa_icon(:clipboard), id: 'copy-flickr-tag', type: 'button', class: :button %>
+                  <div class="input-group" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
+                    <input class="form-control" name="machine_tag" type="text" readonly value="<%= @plaque.machine_tag %>" data-clipboard-target="source" />
+                    <button class="btn btn-secondary" type="button" data-action="clipboard#copy" data-clipboard-target="button">Copy to clipboard</button>
+                  </div>
                 </p>
               </div>
               <% if @plaque.other_photos.present? %>
@@ -196,40 +200,3 @@
 
 <div<%= ' class=\"' + @plaque.colour.name + 'plaque\"' if @plaque.colour %>
  about="#this" typeof="op:Plaque"></div>
-
-<script>
-  function copyTextToClipboard(text) {
-    var textArea = document.createElement("textarea");
-    textArea.style.position = 'fixed';
-    textArea.style.top = 0;
-    textArea.style.left = 0;
-    textArea.style.width = '2em';
-    textArea.style.height = '2em';
-    textArea.style.padding = 0;
-    textArea.style.border = 'none';
-    textArea.style.outline = 'none';
-    textArea.style.boxShadow = 'none';
-    textArea.style.background = 'transparent';
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      var successful = document.execCommand('copy');
-      var msg = successful ? 'successful' : 'unsuccessful';
-      console.log('Copying text command was ' + msg);
-    } catch (err) {
-      console.log('Oops, unable to copy');
-    }
-    document.body.removeChild(textArea);
-  }
-
-  var copyFlickrTagBtn = document.querySelector('#copy-flickr-tag');
-  copyFlickrTagBtn.addEventListener('click', function (event) {
-    copyTextToClipboard('<%= @plaque.machine_tag %>');
-  });
-
-  var copyWikimediaTagBtn = document.querySelector('#copy-wikimedia-tag');
-  copyWikimediaTagBtn.addEventListener('click', function (event) {
-    copyTextToClipboard('<%= @plaque.wikimedia_tag %>');
-  });
-</script>
