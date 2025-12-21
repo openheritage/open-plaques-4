@@ -31,9 +31,17 @@
         OpenPlaques has <%= Organisation.count %> organisations registered.
       </p>
       <h2>Top 10</h2>
-      <div class="row">
-        <div id="top10-chart" class="col-8" style="height: 400px;"></div>
-      </div>
+      <% @chart_data = {
+          datasets: [ {
+            data: @top_ten.map { |organisation| organisation.sponsorships_count },
+            indexAxis: :y,
+            label: "Sponsorships"
+          } ],
+          labels: @top_ten.map(&:name)
+        } %>
+      <% @chart_options = {} %>
+      <canvas style="display: block; box-sizing: border-box; height: 400px; width: 800px;" data-controller="chartjs" data-chartjs-type-value="bar" data-chartjs-data-value="<%= @chart_data.to_json %>" data-chartjs-options-value="<%= @chart_options.to_json %>"
+    ></canvas>
 
       <h2>In alphabetical order</h2>
       <%= will_paginate @organisations if @organisations.respond_to?(:total_pages) %>
@@ -45,28 +53,3 @@
     </div>
   </div>
 </section>
-
-<script>
-  data = [<% @top_ten.each do |organisation| %><%= organisation.sponsorships_count %>,<% end %>];
-  hbar = new RGraph.SVG.HBar({
-    id: 'top10-chart',
-    data: data,
-    options: {
-      yaxisLabels: [<% @top_ten.each do |o| %>'<%= o %>',<% end %>],
-      colors: ['blue','red','green','orange','blue','red','green','orange','blue'],
-      strokestyle: 'rgba(0,0,0,0)',
-      labelsAbove: true,
-      vmargin: 15,
-      backgroundGrid: false,
-      colorsSequential: true,
-      xlabels: false,
-      gutterLeft: 350,
-      gutterRight: 50,
-      gutterTop: 25,
-      noxaxis: true,
-      noxtickmarks: true,
-      noytickmarks: true,
-    }
-  }).grow();
-
-</script>
