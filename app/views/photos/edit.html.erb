@@ -146,7 +146,7 @@
 
     <br/>
     <div class="row">
-      <%= button_to(t "buttons.delete", photo_path(@photo), { method: :delete, class: "btn btn-danger" }) if current_user.try(:is_admin?) %>
+      <%= button_to(t("buttons.delete"), photo_path(@photo), { method: :delete, class: "btn btn-danger" }) if current_user.try(:is_admin?) %>
     </div>
 
   </div>

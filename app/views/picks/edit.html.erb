@@ -36,4 +36,4 @@
   </div>
 </div>
 
-<%= button_to(t "buttons.delete", pick_path(@pick), {method: :delete, class: :button}) if current_user.try(:is_admin?) %>
+<%= button_to(t("buttons.delete"), pick_path(@pick), {method: :delete, class: :button}) if current_user.try(:is_admin?) %>

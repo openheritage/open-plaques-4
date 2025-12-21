@@ -2,32 +2,51 @@
 <% content_for(:title) {t(".page_heading")} %>
 <% content_for(:page_subhead) {t(".page_subhead")} %>
 
-<%= form_for(@person) do |f| %>
-  <div class="mb-3">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0"><%= @person.full_name %></h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to('subjects', people_path)%></li>
+        <li class="current"><%= @person.id %></li>
+      </ol>
+    </nav>
   </div>
-  <div class="mb-3">
-    <%= f.label :born_on %>
-    <%= f.text_field :born_on, {maxlength: "10", 'aria-describedby' => 'datesHelpBlock'} %>
-    <small id="datesHelpBlock" class="form-text text-muted">
-      Year-of-birth/death helps the Wikidata automatcher to better find this subject. You may research independently if not on the plaque.
-    </small>
+</div><!-- End Page Title -->
+
+<section id="role-summary" class="role-summary section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <%= form_for(@person) do |f| %>
+      <div class="mb-3">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :born_on %>
+        <%= f.text_field :born_on, {maxlength: "10", 'aria-describedby' => 'datesHelpBlock'} %>
+        <small id="datesHelpBlock" class="form-text text-muted">
+          Year-of-birth/death helps the Wikidata automatcher to better find this subject. You may research independently if not on the plaque.
+        </small>
+      </div>
+      <div class="mb-3">
+        <%= f.label :died_on %>
+        <%= f.text_field :died_on, {maxlength: "10"} %>
+      </div>
+      <div class="mb-3">
+        <%= f.label "primary role" %>
+        <%= text_field_tag :role, '', 'aria-describedby' => 'roleHelpBlock' %>
+        <small id="roleHelpBlock" class="form-text text-muted">
+          Please try to set a primary role ('actor', 'house', etc.) as it stops objects being displayed as people
+        </small>
+      </div>
+      <%= hidden_field_tag :role_id %>
+      <%= f.submit t("buttons.save") %>
+    <% end %>
+
   </div>
-  <div class="mb-3">
-    <%= f.label :died_on %>
-    <%= f.text_field :died_on, {maxlength: "10"} %>
-  </div>
-  <div class="mb-3">
-    <%= f.label "primary role" %>
-    <%= text_field_tag :role, '', 'aria-describedby' => 'roleHelpBlock' %>
-    <small id="roleHelpBlock" class="form-text text-muted">
-      Please try to set a primary role ('actor', 'house', etc.) as it stops objects being displayed as people
-    </small>
-  </div>
-  <%= hidden_field_tag :role_id %>
-  <%= f.submit t("buttons.save") %>
-<% end %>
+</section>
 
 <script type="text/javascript">
   $(function() {
