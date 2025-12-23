@@ -6,7 +6,6 @@ class PersonalConnectionsController < ApplicationController
   before_action :find, only: :destroy
   before_action :find_plaque, only: %i[new create]
   before_action :list_people_and_verbs, only: :new
-  layout "plaque_edit", only: :new
 
   def destroy
     @personal_connection.destroy

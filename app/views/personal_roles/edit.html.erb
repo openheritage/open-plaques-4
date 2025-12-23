@@ -1,4 +1,5 @@
 <% content_for(:page_title) {'Edit role: ' + @personal_role.person.full_name + (@personal_role.role ? ' was a ' + @personal_role.role&.name : '')} %>
+
 <% content_for(:title) do %>
   <%= link_to @personal_role.person.full_name, @personal_role.person %> was <%= 'best known as' if @personal_role.primary? %> <%= a_or_an(@personal_role.role&.name) %>
 <% end %>
