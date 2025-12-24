@@ -20,6 +20,10 @@
 
     <%= form_for @page, url: "/pages/" + @page.slug do |f| %>
       <div class="mb-3">
+        <%= f.label :author %>
+        <%= f.text_field :author_id %>
+      </div>
+      <div class="mb-3">
         <%= f.label :name %>
         <%= f.text_field :name %>
       </div>

@@ -22,8 +22,10 @@ class PagesController < ApplicationController
   end
 
   def create
+    permitted_params[:author_id] = 2
+    puts permitted_params
     @page = Page.new(permitted_params)
-    return unless @page.save
+    return unless @page.save!
 
     redirect_to pages_path
   end
@@ -46,6 +48,7 @@ class PagesController < ApplicationController
 
   def permitted_params
     params.require(:page).permit(
+      :author_id,
       :category_list,
       :body,
       :name,

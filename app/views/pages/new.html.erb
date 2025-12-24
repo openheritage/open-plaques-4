@@ -1,21 +1,40 @@
 <% content_for(:page_title) { t(".page_title") } %>
-<% content_for(:title) {t(".page_heading")} %>
 
-<%= form_for @page do |f| %>
-  <div class="mb-3">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0"><%= t(".page_heading") %></h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Pages", pages_path %></li>
+        <li class="current">New</li>
+      </ol>
+    </nav>
   </div>
-  <div class="mb-3">
-    <%= f.label :slug %>
-    <%= f.text_field :slug %>
+</div><!-- End Page Title -->
+
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <%= form_for @page do |f| %>
+      <div class="mb-3">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :slug %>
+        <%= f.text_field :slug %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :strapline %>
+        <%= f.text_field :strapline %>
+      </div>
+      <div class="mb-3">
+        <%= f.text_area :body, {rows: "40", cols: "80"} %>
+      </div>
+      <%= f.submit t("buttons.save") %>
+    <% end %>
+
   </div>
-  <div class="mb-3">
-    <%= f.label :strapline %>
-    <%= f.text_field :strapline %>
-  </div>
-  <div class="mb-3">
-    <%= f.text_area :body, {rows: "40", cols: "80"} %>
-  </div>
-  <%= f.submit t("buttons.save") %>
-<% end %>
+</section>
