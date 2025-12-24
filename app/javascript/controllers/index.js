@@ -6,5 +6,7 @@ import Chartjs from "@stimulus-components/chartjs"
 application.register("chartjs", Chartjs)
 import Clipboard from "@stimulus-components/clipboard"
 application.register("clipboard", Clipboard)
+import { Autocomplete } from "stimulus-autocomplete"
+application.register('autocomplete', Autocomplete)
 
 eagerLoadControllersFrom("controllers", application)

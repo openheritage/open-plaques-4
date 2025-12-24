@@ -2,7 +2,7 @@
 
 pin "application"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
-# pin "@hotwired/stimulus", to: "stimulus.min.js"
+pin "@hotwired/stimulus", to: "@hotwired--stimulus.js" # @3.2.2
 pin "@hotwired/stimulus", to: "@hotwired--stimulus.js" # @3.2.2
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "bootstrap" # @5.3.6
@@ -22,3 +22,4 @@ pin "masonry-layout" # @4.2.2
 pin "outlayer" # @2.1.1
 pin "swiper" # @12.0.3 https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js
 pin "zenblog"
+pin "stimulus-autocomplete" # @3.1.0
