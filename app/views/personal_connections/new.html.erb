@@ -1,7 +1,6 @@
 <% content_for(:page_title) { t(".page_title", plaque: @plaque.id.to_s) } %>
 <%= render "plaques/edit_bar", plaque: @plaque %>
 
-
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
@@ -40,12 +39,12 @@
               <%= connection.verb.name %>
               here
               <% if connection.single_year? %>
-                <%= "in #{connection.from}" if connection.from != '' %>
+                <%= "in #{connection.from}" if connection.from != "" %>
               <% else %>
-                <%= "from #{connection.from}" if connection.from != '' %><%= " to #{connection.to}" if connection.to != '' %>
+                <%= "from #{connection.from}" if connection.from != "" %><%= " to #{connection.to}" if connection.to != '' %>
               <% end %>
             </p>
-            <%= button_to(t('buttons.unlink'), plaque_connection_path(@plaque, connection), method: :delete, class: "btn btn-danger") %>
+            <%= button_to(t("buttons.unlink"), plaque_connection_path(@plaque, connection), method: :delete, class: "btn btn-danger") %>
           </div>
         <% end %>
       </div>
@@ -58,12 +57,12 @@
               <%= connection.verb.name %>
               here
               <% if connection.single_year? %>
-                <%= "in #{connection.from}" if connection.from != '' %>
+                <%= "in #{connection.from}" if connection.from != "" %>
               <% else %>
-                <%= "from #{connection.from}" if connection.from != '' %><%= " to #{connection.to}" if connection.to != '' %>
+                <%= "from #{connection.from}" if connection.from != "" %><%= " to #{connection.to}" if connection.to != '' %>
               <% end %>
             </p>
-            <%= button_to(t('buttons.unlink'), plaque_connection_path(@plaque, connection), method: :delete, class: "btn btn-danger") %>
+            <%= button_to(t("buttons.unlink"), plaque_connection_path(@plaque, connection), method: :delete, class: "btn btn-danger") %>
           </div>
         <% end %>
       </div>
@@ -86,17 +85,20 @@
     <% if @suggested_people && @suggested_people.size > 0 %>
       <div id="person-tiles" class="row" data-masonry='{"percentPosition": true }'>
         <% for person in @suggested_people %>
-          <%= render partial: 'people/tile', object: person, as: :person  %>
+          <%= render partial: "people/tile", object: person, as: :person %>
         <% end %>
       </div>
     <% end %>
 
     <%= form_for @personal_connection, url: plaque_connections_path(@plaque) do |f| %>
       <p><%= t '.from_which_we_can_establish' %></p>
+      <div class="form-group" data-controller="autocomplete" data-autocomplete-url-value="/people/autocomplete" role="combobox">
+        <%= text_field_tag :person_name, '', { class: "form-control", "data-autocomplete-target": "input", placeholder: "John Smith" } %>
+        <%= f.hidden_field :person_id, "data-autocomplete-target": "hidden" %>
+        <ul class="list-group" data-autocomplete-target="results"></ul>
+      </div>
       <div class="form-group">
-        <%= text_field_tag :person_name, '', {class: "form-control", placeholder: 'John Smith'} %>
-        <%= f.hidden_field :person_id %>
-        <%= link_to(fa_icon(:user) + t('.new_person'), '/people/new') %>
+        <%= link_to(fa_icon(:user) + t('.new_person'), new_person_path) %>
       </div>
 
       <% if @common_verbs %>
@@ -111,11 +113,11 @@
       <% end %>
       <div class="form-group">
         <%= f.collection_select :verb_id, @verbs, :id, :name, {selected: '222'}, {class: 'form-select', style: 'width:400px' } %>
-        <%= link_to(t('.new_verb'), "/verbs/new") %>
+        <%= link_to(t(".new_verb"), new_verb_path) %>
       </div>
       <% if @personal_connection.full_address %>
         <div class="form-group">
-          <%= "#{t('.at')} #{@personal_connection.full_address}" %>
+          <%= "#{t(".at")} #{@personal_connection.full_address}" %>
         </div>
       <% end %>
       <div class="mb-3">
@@ -131,47 +133,10 @@
         </div>
       </div>
       <div class="form-group">
-        <%= t '.reminder' %>
+        <%= t(".reminder") %>
       </div>
       <%= f.submit t("buttons.add") %>
     <% end %>
 
   </div>
 </section>
-
-<script type="text/javascript">
-  $(function() {
-    $('#person_name').autocomplete({
-      autofocus: true,
-      source: function(request, response) {
-        $.ajax({
-          url: '/people/autocomplete',
-          dataType: 'json',
-          data: {
-            contains: request.term,
-            limit: 10
-          },
-          success: function(data) {
-            response($.map(data, function(item) {
-              l = item.name_and_dates
-              if (item.primary_role_name) {
-                l = l + ' - ' + item.primary_role_name
-              }
-              return {
-                action_id: item.action_id,
-                id: item.id,
-                label: l,
-                type: item.type
-              }
-            }));
-          }
-        });
-      },
-      select: function(event, ui) {
-        console.log(ui.item)
-        $('#personal_connection_person_id').val(ui.item.id);
-        $('#personal_connection_verb_id').val(ui.item.action_id);
-      }
-    });
-  });
-</script>

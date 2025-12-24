@@ -33,32 +33,33 @@ class PeopleController < ApplicationController
   def autocomplete
     limit = params[:limit] || 5
     @people = "{}"
-    if params[:contains]
+    if params[:q]
       @people = Person.select(:born_on, :died_on, :gender, :id, :name)
                       .includes(:roles)
-                      .name_is(params[:contains])
+                      .name_is(params[:q])
                       .limit(limit)
       @people += Person.select(:born_on, :died_on, :gender, :id, :name)
                        .includes(:roles)
-                       .name_starts_with(params[:contains])
+                       .name_starts_with(params[:q])
                        .alphabetically
                        .limit(limit)
       @people += Person.select(:born_on, :died_on, :gender, :id, :name)
                        .includes(:roles)
-                       .name_contains(params[:contains])
+                       .name_contains(params[:q])
                        .alphabetically
                        .limit(limit)
       @people += Person.select(:born_on, :died_on, :gender, :id, :name)
                        .includes(:roles)
-                       .aka(params[:contains])
+                       .aka(params[:q])
                        .alphabetically
                        .limit(limit)
     end
     @people.uniq!
-    render json: @people.uniq.as_json(
-      only: %i[id name],
-      methods: %i[action_id name_and_dates primary_role_name type]
-    )
+    # render json: @people.uniq.as_json(
+    #  only: %i[id name],
+    #  methods: %i[action_id name_and_dates primary_role_name type]
+    # )
+    render html: @people.map { |person| "<li class=\"list-group-item\" role=\"option\" data-autocomplete-value=\"#{person.id}\">#{person.name}</li>" }.join.html_safe
   end
 
   def show
