@@ -93,7 +93,7 @@
     <%= form_for @personal_connection, url: plaque_connections_path(@plaque) do |f| %>
       <p><%= t '.from_which_we_can_establish' %></p>
       <div class="form-group" data-controller="autocomplete" data-autocomplete-url-value="/people/autocomplete" role="combobox">
-        <%= text_field_tag :person_name, '', { class: "form-control", "data-autocomplete-target": "input", placeholder: "John Smith" } %>
+        <%= text_field_tag :person_name, "", { class: "form-control", "data-autocomplete-target": "input", placeholder: "John Smith" } %>
         <%= f.hidden_field :person_id, "data-autocomplete-target": "hidden" %>
         <ul class="list-group" data-autocomplete-target="results"></ul>
       </div>
