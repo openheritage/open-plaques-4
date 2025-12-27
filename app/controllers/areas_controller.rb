@@ -18,14 +18,15 @@ class AreasController < ApplicationController
     else
                "{}"
     end
-    render json: @areas.as_json(
-      only: %i[id name country_id],
-      include: {
-        country: {
-          only: [ :name ]
-        }
-      }
-    )
+    respond_to do |format|
+      format.html { }
+      format.json do
+        render json: @areas.as_json(
+          only: %i[id name country_id],
+          include: { country: { only: [ :name ] } }
+        )
+      end
+    end
   end
 
   def new
