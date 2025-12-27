@@ -24,7 +24,7 @@
     <div class="row">
       <div class="col-xs-12 col-sm-6" id="organisation-chooser">
         <div class="col-md-12">
-          <% @plaque.sponsorships.all.each do |sponsorship| %>
+          <% @plaque.sponsorships.each do |sponsorship| %>
             <% if sponsorship.organisation %>
               <div class="row">
                 <div class="col-xs-10"><%= render sponsorship.organisation %></div>
@@ -37,21 +37,19 @@
         <%= form_for @sponsorship, url: plaque_sponsorships_path(@plaque) do |f| %>
           <%= f.hidden_field :plaque_id, value: @plaque.id %>
           <div class="row mb-6">
-            <div class="col-md-12">
-              <div class="form-group">
-                <%= f.label(:organisation_id) %>
-                <%= text_field_tag :organisation_name, "", { class: "form-control", placeholder: "English Heritage" } %>
-                <%= f.collection_select :organisation_id, @organisations, :id, :name, { include_blank: "enter an organisation name or use dropdown" } %>
+              <div class="form-group" data-controller="autocomplete" data-autocomplete-url-value="/organisations/autocomplete" role="combobox">
+                <%= f.label :organisation_id %>
+                <%= text_field_tag :organisation_name, "", { class: "form-control", "data-autocomplete-target": "input", placeholder: "English Heritage" } %>
+                <%= hidden_field_tag :organisation_id, "", { "data-autocomplete-target": "hidden" } %>
+                <ul class="list-group" data-autocomplete-target="results"></ul>
               </div>
-            </div>
           </div>
           <%= f.submit t("buttons.link") %>
         <% end %>
         <% if current_user %>
-          <br/>
-          <div>
+          <p>
             <%= link_to('Add new organisation', new_organisation_path) %>
-          </div>
+          </p>
         <% end %>
       </div>
       <% if @plaque.main_photo %>
@@ -63,32 +61,3 @@
 
   </div>
 </section>
-
-<script>
-  $(function() {
-    $( '#organisation_name' ).autocomplete({
-      autofocus: true,
-      source: function(request, response) {
-        $.ajax({
-          url: '/organisations/autocomplete',
-          dataType: 'json',
-          data: {
-            contains: request.term,
-            limit: 10
-          },
-          success: function(data) {
-            response($.map(data, function(item) {
-              return {
-                label: item.name,
-                id: item.id
-              }
-            }));
-          }
-        });
-      },
-      select: function(event, ui) {
-        $('#sponsorship_organisation_id').val(ui.item.id);
-      }
-    });
-  });
-</script>

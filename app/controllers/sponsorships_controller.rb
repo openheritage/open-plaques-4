@@ -12,8 +12,7 @@ class SponsorshipsController < ApplicationController
 
   def create
     @plaque = Plaque.find(params[:sponsorship][:plaque_id])
-    @sponsorship = @plaque.sponsorships.new(sponsorship_params)
-    @sponsorship.save
+    @sponsorship = Sponsorship.create!(organisation_id: params[:organisation_id], plaque: @plaque)
     redirect_back(fallback_location: root_path)
   end
 

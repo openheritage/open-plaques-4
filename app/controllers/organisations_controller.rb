@@ -29,11 +29,17 @@ class OrganisationsController < ApplicationController
 
   def autocomplete
     limit = params[:limit] || 5
-    @organisations = Organisation.select(:id, :name).name_is(params[:contains] || params[:starts_with]).limit(limit)
-    @organisations += Organisation.select(:id, :name).name_starts_with(params[:contains] || params[:starts_with]).alphabetically.limit(limit)
-    @organisations += Organisation.select(:id, :name).name_contains(params[:contains]).alphabetically.limit(limit) if params[:contains]
-    @organisations.uniq!
-    render json: @organisations.as_json(only: %i[id name])
+    @organisations = nil
+    if params[:q]
+      @organisations = Organisation.select(:id, :name).name_is(params[:q]).limit(limit)
+      @organisations += Organisation.select(:id, :name).name_starts_with(params[:q]).alphabetically.limit(limit)
+      @organisations += Organisation.select(:id, :name).name_contains(params[:q]).alphabetically.limit(limit)
+      @organisations.uniq!
+    end
+    respond_to do |format|
+      format.html { render html: @organisations.map { |organisation| "<li class=\"list-group-item\" role=\"option\" data-autocomplete-value=\"#{organisation.id}\">#{organisation.name}</li>" }.join.html_safe }
+      format.json { render json: @organisations.as_json(only: %i[id name]) }
+    end
   end
 
   def show
