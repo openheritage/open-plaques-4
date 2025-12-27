@@ -18,23 +18,24 @@ class RolesController < ApplicationController
     limit = params[:limit] || 5
     @roles = "{}"
     # show an exact match first
-    @roles = Role.select(:id, :name)
-                 .name_is(params[:contains] || params[:starts_with])
-                 .limit(limit)
-    @roles += Role.select(:id, :name)
-                  .name_starts_with(params[:contains] || params[:starts_with])
-                  .alphabetically
+    if params[:q]
+      @roles = Role.select(:id, :name)
+                  .name_is(params[:q])
                   .limit(limit)
-    if params[:contains]
       @roles += Role.select(:id, :name)
-                    .name_contains(params[:contains])
+                    .name_starts_with(params[:q])
                     .alphabetically
                     .limit(limit)
+      @roles += Role.select(:id, :name)
+                    .name_contains(params[:q])
+                    .alphabetically
+                    .limit(limit)
+      @roles.uniq!
     end
-    @roles.uniq!
-    render json: @roles.as_json(
-      only: %i[id name]
-    )
+    respond_to do |format|
+      format.html { render html: @roles.map { |role| "<li class=\"list-group-item\" role=\"option\" data-autocomplete-value=\"#{role.id}\">#{role.name}</li>" }.join.html_safe }
+      format.json { render json: @roles.as_json(only: %i[id name]) }
+    end
   end
 
   def show

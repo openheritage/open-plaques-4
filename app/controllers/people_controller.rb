@@ -55,11 +55,10 @@ class PeopleController < ApplicationController
                        .limit(limit)
     end
     @people.uniq!
-    # render json: @people.uniq.as_json(
-    #  only: %i[id name],
-    #  methods: %i[action_id name_and_dates primary_role_name type]
-    # )
-    render html: @people.map { |person| "<li class=\"list-group-item\" role=\"option\" data-autocomplete-value=\"#{person.id}\">#{person.name}</li>" }.join.html_safe
+    respond_to do |format|
+      format.html { render html: @people.map { |person| "<li class=\"list-group-item\" role=\"option\" data-autocomplete-value=\"#{person.id}\">#{person.name}</li>" }.join.html_safe }
+      format.json { render json: @people.uniq.as_json(methods: %i[action_id name_and_dates primary_role_name type], only: %i[id name]) }
+    end
   end
 
   def show
@@ -138,12 +137,10 @@ class PeopleController < ApplicationController
         format.html do
           @roles = Role.alphabetically
           @personal_role = PersonalRole.new
-          render :edit
+          render :show
         end
-        format.xml  { render xml: @person, status: :created, location: @person }
       else
         format.html { render :new }
-        format.xml  { render xml: @person.errors, status: :unprocessable_entity }
       end
     end
   end

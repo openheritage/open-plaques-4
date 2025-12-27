@@ -1,15 +1,13 @@
 <% content_for(:page_title) { t(".page_title") } %>
-<% content_for(:title) {t(".page_heading")} %>
-<% content_for(:page_subhead) {t(".page_subhead")} %>
 
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
-    <h1 class="mb-2 mb-lg-0"><%= @person.full_name %></h1>
+    <h1 class="mb-2 mb-lg-0"><%= t(".page_heading") %></h1>
     <nav class="breadcrumbs">
       <ol>
-        <li><%= link_to('subjects', people_path)%></li>
-        <li class="current"><%= @person.id %></li>
+        <li><%= link_to("subjects", people_path)%></li>
+        <li class="current">New</li>
       </ol>
     </nav>
   </div>
@@ -18,6 +16,8 @@
 <section id="role-summary" class="role-summary section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
+    <p><%= t(".page_subhead") %></p>
+
     <%= form_for(@person) do |f| %>
       <div class="mb-3">
         <%= f.label :name %>
@@ -25,54 +25,26 @@
       </div>
       <div class="mb-3">
         <%= f.label :born_on %>
-        <%= f.text_field :born_on, {maxlength: "10", 'aria-describedby' => 'datesHelpBlock'} %>
+        <%= f.text_field :born_on, { maxlength: 10, "aria-describedby": "datesHelpBlock" } %>
         <small id="datesHelpBlock" class="form-text text-muted">
           Year-of-birth/death helps the Wikidata automatcher to better find this subject. You may research independently if not on the plaque.
         </small>
       </div>
       <div class="mb-3">
         <%= f.label :died_on %>
-        <%= f.text_field :died_on, {maxlength: "10"} %>
+        <%= f.text_field :died_on, { maxlength: 10 } %>
       </div>
-      <div class="mb-3">
-        <%= f.label "primary role" %>
-        <%= text_field_tag :role, '', 'aria-describedby' => 'roleHelpBlock' %>
+      <div class="form-group" data-controller="autocomplete" data-autocomplete-url-value="/roles/autocomplete" role="combobox">
+        <%= f.label :role, "primary role" %>
+        <%= text_field_tag :person_role, "", { "aria-describedby": "roleHelpBlock", class: "form-control", "data-autocomplete-target": "input", placeholder: "primary role" } %>
+        <%= hidden_field_tag :role_id, "", { "data-autocomplete-target": "hidden" } %>
         <small id="roleHelpBlock" class="form-text text-muted">
           Please try to set a primary role ('actor', 'house', etc.) as it stops objects being displayed as people
         </small>
+        <ul class="list-group" data-autocomplete-target="results"></ul>
       </div>
-      <%= hidden_field_tag :role_id %>
       <%= f.submit t("buttons.save") %>
     <% end %>
 
   </div>
 </section>
-
-<script type="text/javascript">
-  $(function() {
-    $( "#role" ).autocomplete({
-      autofocus: true,
-      source: function(request, response) {
-        $.ajax({
-          url: "/roles/autocomplete",
-          dataType: "json",
-          data: {
-            contains: request.term,
-            limit: 10
-          },
-          success: function(data) {
-            response($.map(data, function(item) {
-              return {
-                label: item.name,
-                id: item.id
-              }
-            }));
-          }
-        });
-      },
-      select: function(event, ui) {
-        $('#role_id').val(ui.item.id);
-      }
-    });
-  });
-</script>
