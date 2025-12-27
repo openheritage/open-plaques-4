@@ -27,19 +27,23 @@ class Person < ApplicationRecord
   has_one :death_connection, -> { where("verb_id in (3, 49, 161, 1108)") }, class_name: "PersonalConnection"
   has_one :main_photo, class_name: "Photo"
   validates_presence_of :name
-  before_save :update_index
   before_save :aka_accented_name
   before_save :fill_wikidata_id
+  before_save :update_index
   after_save :depiction_from_dbpedia
-  scope :roled, -> { where("personal_roles_count > 0") }
-  scope :unroled, -> { where(personal_roles_count: [ nil, 0 ]) }
-  scope :dated, -> { where("born_on IS NOT NULL or died_on IS NOT NULL") }
-  scope :undated, -> { where("born_on IS NULL and died_on IS NULL") }
-  scope :photographed, -> { joins(:main_photo) }
-  scope :unphotographed, -> { where("id not in (select person_id from photos)") }
-  scope :connected, -> { where("personal_connections_count > 0") }
-  scope :unconnected, -> { where(personal_connections_count: [ nil, 0 ]) }
   scope :aka, ->(term) { where([ "array_to_string(aka, ' ') ILIKE ?", "#{term.gsub(' ', '%')}%" ]) }
+  scope :connected, -> { where("personal_connections_count > 0") }
+  scope :dated, -> { where("born_on IS NOT NULL or died_on IS NOT NULL") }
+  scope :female, -> { where(gender: "f") }
+  scope :male, -> { where(gender: "m") }
+  scope :non_holocaust, -> { joins(:personal_roles).where("personal_roles.role_id != 5375") }
+  scope :photographed, -> { joins(:main_photo) }
+  scope :roled, -> { where("personal_roles_count > 0") }
+  scope :unconnected, -> { where(personal_connections_count: [ nil, 0 ]) }
+  scope :undated, -> { where("born_on IS NULL and died_on IS NULL") }
+  scope :ungendered, -> { where(gender: "u") }
+  scope :unphotographed, -> { where("id not in (select person_id from photos)") }
+  scope :unroled, -> { where(personal_roles_count: [ nil, 0 ]) }
   scope :with_counts, lambda {
     select <<~SQL
       people.*,
@@ -50,10 +54,6 @@ class Person < ApplicationRecord
       ) as plaques_count
     SQL
   }
-  scope :male, -> { where(gender: "m") }
-  scope :female, -> { where(gender: "f") }
-  scope :ungendered, -> { where(gender: "u") }
-  scope :non_holocaust, -> { joins(:personal_roles).where("personal_roles.role_id != 5375") }
 
   DATE_REGEX = /c?[\d]{4}/.freeze
   DATE_RANGE_REGEX = /(?:\(#{DATE_REGEX}-#{DATE_REGEX}\)|#{DATE_REGEX}-#{DATE_REGEX})/.freeze

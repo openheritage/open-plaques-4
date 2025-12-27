@@ -65,7 +65,7 @@
       <div class="row g-5">
         <div class="col-lg-4">
 
-          <% Page.tagged_with("project")[0..0]&.each do |page| %>
+          <% Page.tagged_with("project").recency_ordered[0..0]&.each do |page| %>
             <div class="post-entry lg">
               <%= link_to page do %><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %><% end %>
               <div class="post-meta"><span class="date">Project</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
@@ -85,7 +85,7 @@
         <div class="col-lg-8">
           <div class="row g-5">
             <div class="col-lg-4 border-start custom-border">
-              <% Page.tagged_with("project")[1..3]&.each do |page, i| %>
+              <% Page.tagged_with("project").recency_ordered[1..3]&.each do |page, i| %>
                 <div class="post-entry">
                   <a href="blog-details.html"><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %></a>
                   <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
@@ -94,7 +94,7 @@
               <% end %>
             </div>
             <div class="col-lg-4 border-start custom-border">
-              <% Page.tagged_with("project")[4..6]&.each do |page, i| %>
+              <% Page.tagged_with("project").recency_ordered[4..6]&.each do |page, i| %>
                 <div class="post-entry">
                   <a href="blog-details.html"><%= image_tag "post-landscape-#{rand(8) + 1}.jpg", alt: "", class: "img-fluid" %></a>
                   <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
@@ -148,7 +148,7 @@
     <div class="row">
       <div class="col-md-9">
 
-        <% Page.tagged_with("culture")[0..0]&.each do |page| %>
+        <% Page.tagged_with("culture").recency_ordered[0..0]&.each do |page| %>
           <div class="d-lg-flex post-entry">
             <a href="blog-details.html" class="me-4 thumbnail mb-4 mb-lg-0 d-inline-block">
               <%= image_tag "post-landscape-#{rand(6) + 1}.jpg", alt: "", class: "img-fluid" %>
@@ -169,7 +169,7 @@
 
         <div class="row">
           <div class="col-lg-4">
-            <% Page.tagged_with("culture")[1..1]&.each do |page| %>
+            <% Page.tagged_with("culture").recency_ordered[1..1]&.each do |page| %>
               <div class="post-list border-bottom">
                 <a href="blog-details.html"><%= image_tag "post-landscape-1.jpg", alt: "", class: "img-fluid" %></a>
                 <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
@@ -178,7 +178,7 @@
                 <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
               </div>
             <% end %>
-            <% Page.tagged_with("culture")[2..2]&.each do |page| %>
+            <% Page.tagged_with("culture").recency_ordered[2..2]&.each do |page| %>
               <div class="post-list">
                 <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
                 <h2 class="mb-2"><a href="blog-details.html">5 Great Startup Tips for Female Founders</a></h2>
@@ -187,7 +187,7 @@
             <% end %>
           </div>
           <div class="col-lg-8">
-            <% Page.tagged_with("culture")[3..3]&.each do |page| %>
+            <% Page.tagged_with("culture").recency_ordered[3..3]&.each do |page| %>
               <div class="post-list">
                 <a href="blog-details.html"><%= image_tag "post-landscape-2.jpg", alt: "", class: "img-fluid" %></a>
                 <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
