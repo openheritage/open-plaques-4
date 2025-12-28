@@ -62,13 +62,6 @@ en-GB:
         subject: This may be about
         description: More details are
         shot: This is a
-      pick:
-        plaque_id: Plaque
-        description: Description
-        proposer: Proposer
-        feature_on: Feature on
-        last_featured: Last featured
-        featured_count: Times featured
       role:
         name: Name
         abbreviation: Abbreviation
@@ -149,26 +142,6 @@ en-GB:
       featurette_2_body: Datadumps are run on an ad-hoc basis. Plaque id numbers do not change, but we occasionally delete a duplicate record. Fields are fairly stable, but subject to change. You might want to design your app so that you can reload data from the next update. Tell us if you have difficulty loading or manipulating any of these datadumps. We cannot fix what we do not know.<br/><br/>[UK csv dump from May 2021](https://s3.eu-west-2.amazonaws.com/openplaques/open-plaques-gb-2021-05-14.csv) and [UK json dump from June 2021](https://s3.eu-west-2.amazonaws.com/openplaques/open-plaques-United-Kingdom-2021-06-26.json)
 
   home:
-    contribute:
-      contribute: contribute
-      mission: You are all part of our mission to find all of the plaques in the world!
-      contribute1: Spotted one? Anyone can help us and
-      add_a_plaque: add a plaque
-      take_a_photo: Take a photo. Add it to Wikimedia Commons or Flickr and link it to our record
-      spot_an_innaccuracy: Spot an innaccuracy. Tell us.
-      find_something: Or find something
-      to_do: to do
-    explore:
-      explore: explore
-    news:
-      news: news
-      news_detail_html: Follow us on <a href="http://www.twitter.com/openplaques">Twitter</a> and Facebook for updates.
-    open_data:
-      open_data: Open Data
-      who_can_use: We believe that the purpose of historical markers is to bring history alive. So we have made the data open. Anybody can use it to builds apps, charts, whatever they wish.
-    plaque_of_the_day:
-      plaque_of_the_day: Plaque Of The Day
-    special_offer:
     index:
       page_title: Open Plaques - linking historical people and places
       pages: pages
@@ -269,15 +242,6 @@ en-GB:
       page_title: Page not found
       page_heading: Page not found
       explanation: The page you are looking for cannot be found. You may have followed a bad link, or mis-typed a URL.
-
-  explore:
-    show:
-      page_title: Explore historical blue plaques by location, person or type
-      page_heading: Explore
-      people: People
-      people_blurb: Many plaques commemorate important people from history.
-      location: Location
-      location_blurb: Discover where plaques are located.
 
   languages:
     index:
@@ -429,24 +393,6 @@ en-GB:
     show:
       page_title: '%{photo}'
       page_heading: A photo of
-
-  picks:
-    edit:
-      page_title: Edit %{pick}
-      page_heading: Edit %{pick}
-    index:
-      page_title: Picks
-      page_heading: Picks
-      explanation: These are our all-time favourite plaques. The weird and the wonderful, the odd and the personal. The Open Plaques server rotates these 'picks' on the home page as 'Plaque of the day'. If you have a favourite then please suggest it to us with a reason why.
-    new:
-      page_title: New pick
-      page_heading: New pick
-      plaque_id: One of my favourite plaques is
-      description: I like it because
-      proposer: Please say that it was proposed by
-    show:
-      page_title: '%{pick}'
-      page_heading: '%{pick}'
 
   plaques:
     colour:

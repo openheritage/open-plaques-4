@@ -59,13 +59,6 @@ ru:
         subject: На фото возможно
         description: Подробности
         shot: Тип снимка
-      pick:
-        plaque_id: Табличка
-        description: Описание
-        proposer: Предложил
-        feature_on: Feature on
-        last_featured: Отображалась в последний раз
-        featured_count: Отображалась раз
       role:
         name: Название
         abbreviation: Сокращение
@@ -84,7 +77,6 @@ ru:
     verbs: Глаголы
     photographers: Фотографы
     todo_lists: Задачи
-    contribute: Участвовать
     about: О проекте
     contact: Контакты
     the_data: Данные
@@ -120,8 +112,6 @@ ru:
       pages: страницы
       page_heading: yy
       strapline_html: Документируем исторические связи <strong>людей</strong> и <strong>мест</strong>, сохраненные памятными <strong>табличками</strong>.
-      explore: Просмотр
-      contribute: Поучаствовать
       contribute1: Нашли табличку? Любой человек может помочь нам и
       add_a_plaque: добавить её
       take_a_photo: Сделайте фотографию. Загрузите её в Wikimedia Commons или Flickr и свяжите фото с нашей базой
@@ -184,15 +174,6 @@ ru:
       page_title: Страница не найдена
       page_heading: Страница не найдена
       explanation: Страница с данным адресом не найдена. Возможно, вы прошли по битой ссылке или ошиблись в наборе адреса.
-
-  explore:
-    show:
-      page_title: Просмотр памятных табличек по месту, типу или персоне
-      page_heading: Просмотр
-      people: Персона
-      people_blurb: Множество табличек посвящено историческим личностям.
-      location: Местоположение
-      location_blurb: Найдите где расположены таблички.
 
   languages:
     index:
@@ -364,24 +345,6 @@ ru:
     show:
       page_title: '%{photo}'
       page_heading: Фотография
-
-  picks:
-    edit:
-      page_title: Изменить %{pick}
-      page_heading: Изменить %{pick}
-    index:
-      page_title: Выбор редакции
-      page_heading: Выбор редакции
-      explanation: Это наши любимые таблички. Странные и чудесные, необычные и личные. Сервер Open Plaques отображает отмеченные выбором таблички на главной странице как 'Табличку дня'. Если у вас есть любимая табличка, вы можете предложить ее с описанием причины.
-    new:
-      page_title: Новый выбор
-      page_heading: Новый выбор
-      plaque_id: Одна из моих любимых табличек
-      description: Потому что
-      proposer: Предложил
-    show:
-      page_title: '%{pick}'
-      page_heading: '%{pick}'
 
   plaques:
     colour:
