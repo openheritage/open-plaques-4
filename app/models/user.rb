@@ -26,4 +26,8 @@ class User < ApplicationRecord
   validates_presence_of :username
   validates_length_of :username, within: 3..40
   validates_uniqueness_of :username
+
+  def main_photo
+    nil
+  end
 end

@@ -5,7 +5,7 @@
 
   <% Page.random(5).each do |page| %>
     <div class="post-item">
-      <%= image_tag "blog/blog-recent-#{rand(5) + 1}.jpg", alt: "", class: "flex-shrink-0" %>
+      <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "flex-shrink-0" if page.main_photo %>
       <div>
         <h4><%= link_to page.name, page %></h4>
         <time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time>
