@@ -19,7 +19,7 @@ class Page < ApplicationRecord
   validates_format_of :slug, with: /\A[a-z_]+\z/, message: "can only contain lowercase letters and underscores"
 
   def category
-    %w[project favourites culture].sample
+    (categories.first&.name || tags.first&.name).capitalize
   end
 
   def main_photo
