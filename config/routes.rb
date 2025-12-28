@@ -44,7 +44,6 @@ Rails.application.routes.draw do
     resource :roles, controller: :person_roles, only: :show
   end
   resources :personal_roles
-  resources :picks
   resources :places, controller: :countries, as: :countries do
     collection do
       get "autocomplete", controller: :areas

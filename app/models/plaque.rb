@@ -35,7 +35,6 @@ class Plaque < ApplicationRecord
   has_many :photos, -> { where(of_a_plaque: true).order(:shot) }, inverse_of: :plaque
   has_many :sponsorships, dependent: :destroy
   has_many :organisations, through: :sponsorships
-  has_one :pick
   delegate :name, to: :colour, prefix: true, allow_nil: true
   delegate :name, :alpha2, to: :language, prefix: true, allow_nil: true
   before_save :use_other_colour_id
