@@ -18,78 +18,30 @@
 <section id="role-summary" class="role-summary section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <% if @organisations.count > 0 %>
-      <h2><%= pluralize @organisations.count,'organisation' %> matching "<%= @original_phrase %>"</h2>
-      <% if @organisations.count < 3 %>
-        <div class="row">
-          <% @organisations.each do |organisation| %>
-            <div class="col-xs-6 col-sm-4 col-md-3"><%= render organisation %></div>
-          <% end %>
-        </div>
-      <% elsif @organisations.count < 11 %>
-        <div class="row">
-          <% cols = (12 / @organisations.count).ceil %>
-          <% cols = [cols,2].max %>
-          <% @organisations.each do |organisation| %>
-            <div class="col-xs-6 col-sm-<%= cols %>"><%= render organisation %></div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="row" data-masonry='{"percentPosition": true }'>
-          <%= render @organisations %>
-        </div>
-      <% end %>
+    <%= render partial: "search_form", locals: { phrase: @original_phrase } %>
+
+    <% if @organisations.any? %>
+      <h2>Organisations</h2>
+      <div class="row">
+        <%= render @organisations %>
+      </div>
     <% end %>
 
-    <% if @places.count > 0 %>
-      <h2><%= pluralize @places.count,'place' %> matching "<%= @original_phrase %>"</h2>
-      <% if @places.count < 3 %>
-        <div class="row">
-          <% @places.each do |place| %>
-            <div class="col-xs-6 col-sm-4 col-md-3"><%= render place %></div>
-          <% end %>
-        </div>
-      <% elsif @places.count < 11 %>
-        <div class="row">
-          <% cols = (12 / @places.count).ceil %>
-          <% cols = [cols,2].max %>
-          <% @places.each do |place| %>
-            <div class="col-xs-6 col-sm-<%= cols %>"><%= render place %></div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="row" data-masonry='{"percentPosition": true }'>
-          <%= render @places %>
-        </div>
-      <% end %>
+    <% if @places.any? %>
+      <h2>Places</h2>
+      <div class="row" data-masonry='{"percentPosition": true }'>
+        <%= render @places %>
+      </div>
     <% end %>
 
-    <% if @people.count > 0 %>
-      <h2><%= pluralize @people.count, "subject" %> matching "<%= @original_phrase %>"</h2>
-      <% if @people.count < 3 %>
-        <div class="row">
-          <% @people.each do |person| %>
-            <div class="col-xs-6 col-sm-4 col-md-3"><%= render person %></div>
-          <% end %>
-        </div>
-      <% elsif @people.count < 8 %>
-        <div class="row">
-          <% cols = (12 / @people.count).ceil %>
-          <% cols = [cols,2].max %>
-          <% @people.each do |person| %>
-            <div class="col-xs-6 col-sm-<%= cols %>"><%= render person %></div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="row" data-masonry='{"percentPosition": true }'>
-          <%= render @people %>
-        </div>
-      <% end %>
+    <% if @people.any? %>
+      <h2>Subjects</h2>
+      <%= render partial: 'people/tiles' %>
     <% end %>
 
-    <% if @plaques.count > 0 %>
-      <h2><%= pluralize @plaques.count, "plaque" %>  matching "<%= @original_phrase %>"</h2>
-      <%= render partial: 'plaques/row', collection: @plaques, as: :plaque %>
+    <% if @plaques.any? %>
+      <h2>Plaques</h2>
+      <%= render partial: 'plaques/tiles' %>
     <% end %>
 
     <% if params[:from] && params[:from] == "submission" %>
