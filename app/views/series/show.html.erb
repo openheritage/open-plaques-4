@@ -1,5 +1,6 @@
 <% content_for(:page_title) { t(".page_title", series: @series.name) } %>
 <% content_for(:admin_menu) { navbar_link_to t("buttons.edit"), edit_series_path(@series) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.add"), new_series_path } %>
 
 <!-- Page Title -->
 <div class="page-title">

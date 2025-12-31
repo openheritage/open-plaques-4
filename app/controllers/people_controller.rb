@@ -137,7 +137,7 @@ class PeopleController < ApplicationController
         format.html do
           @roles = Role.alphabetically
           @personal_role = PersonalRole.new
-          render :show
+          redirect_to person_path(@person)
         end
       else
         format.html { render :new }
