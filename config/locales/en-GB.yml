@@ -533,6 +533,39 @@ en-GB:
         page_title: Series '%{series}'
         page_heading: Series '%{series}'
 
+  todo:
+    index:
+      page_title: Todos
+      page_heading: Todos
+    colours_from_photos:
+      page_title: "To do: colours from photos"
+      page_heading: Colours from photos
+      success: Every plaque with a photo has a colour attribute assigned. Bravo!
+    lists_to_datacapture:
+      page_title: "To do: lists to be datacaptured"
+      page_heading: Lists to datacapture
+      success: There are no lists witing to be datacaptures. Bravo!
+    locations_from_geolocations:
+      page_title: "To do: has geolocations but not area"
+      page_heading: Plaques with no geolocation
+      success: Every plaque with a location has a geolocation. Bravo!
+    no_connection:
+      page_title: "To do: UK plaques with no connections"
+      page_heading: "%{percentage}% of UK plaques have no connections"
+      success: Every plaque has connections. Bravo!
+    no_roles:
+      page_title: "To do: people with no role"
+      page_heading: Subjects with no role
+      success: Every subject has a role. Bravo!
+    partial_inscription_photo:
+      page_title: "To do: Plaques with photos but partial inscriptions"
+      page_heading: Plaques with photos but partial inscriptions
+      success: Every photographed plaque has an inscription. Bravo!
+    unassigned_photo:
+      page_title: 
+      page_heading: Photos with no plaque
+      success: Every photo is connected to a plaque. Bravo!
+
   users:
     index:
       page_title: Users

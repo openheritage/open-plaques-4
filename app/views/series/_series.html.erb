@@ -4,7 +4,7 @@
     <p class="card-text"><%= series.description %></p>
     <div class="card-block">
       <% @plaques = series.plaques.photographed.limit(5) %>
-      <%= render partial: 'plaques/tiles' %>
+      <%= render partial: "plaques/tiles" %>
     </div>
   </div>
 </div>

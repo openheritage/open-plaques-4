@@ -1,41 +1,89 @@
-<% content_for :page_title, "To do lists" %>
-<% content_for :title, "To do lists" %>
+<% content_for :page_title, "Todo lists" %>
 
-<div class="row">
-  <p>Open Plaques are pioneering a process of collecting and enhancing geographical and historical data.</p>
-  <p>A record of a plaque could be initiated via a variety of sources: a mention in a book; a magazine article; a listing on a civic society's web page. We then verify and clean the information by finding photos on the web, reading articles, and
-    getting people to visit the site in person and give us proof by taking a photograph. At the same time, modern phone technology often includes a GPS meaning that we can get a closer geolocation. All these activities add to and refine the data, so all
-    of our information is in a state of flux, constantly improving.</p>
-  <p>Encouraged by thoughts of Amazon Mechanical Turk, we are exploring the concept of 'micro tasks' whereby anyone can assist in the improvement process. I can see a time when a mobile Open Plaques app whilst telling you facts about what you can see,
-    also asks you to improve or verify what it is telling you. If these questions are minimal then the general public can be actively engaged not only in consuming, but also in producing heritage data.</p>
-</div>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0">
+      <%= t(".page_heading") %>
+    </h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li class="current">Todo</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
 
-<h2>Micro tasks</h2>
-<div class="row">
-  <p>Why not attempt a
-    <%= link_to "random micro task", todo_path('microtask') %>
-    yourself?</p>
-</div>
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <ol class="list-group list-group-numbered">
 
-<h2>All todos</h2>
-<div class="row">
-  <ul>
-    <li><%= link_to(pluralize_with_no(@unassigned_photo_count, "geolocated photo") +  " aren't linked to a plaque", todo_path('unassigned_photo')) %></li>
-    <li><%= link_to(pluralize_with_no(@unassigned_ungeolocated_photo_count, "ungeolocated photo") + " aren't linked to a plaque", todo_path('unassigned_ungeolocated_photo')) %></li>
-    <li><%= link_to("#{pluralize_with_no(@no_connection_count, 'UK plaque')} have no connections", todo_path('no_connection')) %>
-      ==
-      <%= "#{@no_connection_percentage}%" %></li>
-    <li><%= link_to(pluralize_with_no(@lists_to_datacapture, "list") +  " with plaques to be datacaptured", todo_path('lists_to_datacapture')) %></li>
-    <li><%= link_to(pluralize_with_no(@photographed_not_coloured_plaques_count, "plaque") +  " with photos have no colour identified", todo_path('colours_from_photos')) %></li>
-    <li><%= link_to(pluralize_with_no(@geo_no_location_plaques_count, "geolocated plaque") +  " have no location name", todo_path('locations_from_geolocations')) %></li>
-    <li><%= link_to(pluralize_with_no(@location_no_area_plaques_count.to_i, "location") +  " have no area", todo_path('areas_from_locations')) %></li>
-    <li><%= link_to(pluralize_with_no(@plaques_to_add_count, "plaque") +  " to add from external sources", todo_path('plaques_to_add')) %></li>
-    <% # <li><%= link_to(pluralize_with_no(@detailed_address_no_geo_count, "plaque") +  " with detailed location but no latitude / longitude", todo_path('detailed_address_no_geo')) </li> %>
-    <li><%= link_to(pluralize_with_no(@partial_inscription_photo_count, "plaque") +  " with photos have a partial inscription" , todo_path('partial_inscription_photo')) %></li>
-    <li><%= link_to(pluralize_with_no(@partial_inscription_count, "plaque") +  " have partial inscription" , todo_path('partial_inscription')) %></li>
-    <li><%= link_to(pluralize_with_no(@no_roles_count, "people") +  " need a role" , todo_path('no_roles')) %></li>
-    <li><%= link_to(pluralize_with_no(@needs_geolocating_count, "plaque") +  " need geolocating", todo_path('needs_geolocating')) %></li>
-    <% # <li><%= link_to(pluralize_with_no(@no_description_count, "plaque") +  " have no description", todo_path('needs_description')) </li> %>
-    <li><%= link_to(pluralize_with_no(@unphotographed_plaque_count, "plaques") +  " don't have a photo", todo_path('unphotographed')) %></li>
-  </ul>
-</div>
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold"><%= link_to("geolocated photos not linked to a plaque", todo_path('unassigned_photo')) %></div>
+          Cras justo odio
+        </div>
+        <span class="badge bg-primary rounded-pill"><%= @unassigned_photo_count %></span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold"><%= link_to("ungeolocated photos not linked to a plaque", todo_path('unassigned_ungeolocated_photo')) %></div>
+          Cras justo odio
+        </div>
+        <span class="badge bg-primary rounded-pill"><%= @unassigned_ungeolocated_photo_count %></span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold"><%= link_to("UK plaques with no connections", todo_path('no_connection')) %></div>
+          Cras justo odio
+        </div>
+        <span class="badge bg-primary rounded-pill"><%= @no_connection_percentage %>%</span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold"><%= link_to("Lists with plaques to be datacaptured", todo_path('lists_to_datacapture')) %></div>
+          Cras justo odio
+        </div>
+        <span class="badge bg-primary rounded-pill"><%= @lists_to_datacapture %></span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold"><%= link_to("Plaques with photos and no colour identified", todo_path('colours_from_photos')) %></div>
+          Cras justo odio
+        </div>
+        <span class="badge bg-primary rounded-pill"><%= @photographed_not_coloured_plaques_count %></span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold"><%= link_to("Geolocated plaques with no location name", todo_path('locations_from_geolocations')) %></div>
+          Cras justo odio
+        </div>
+        <span class="badge bg-primary rounded-pill"><%= @geo_no_location_plaques_count %></span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold"><%= link_to("People without a role", todo_path('no_roles')) %></div>
+          Some subjects are added quickly and do not have a primary role assigned
+        </div>
+        <span class="badge bg-primary rounded-pill"><%= @no_roles_count %></span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold"><%= link_to("Plaques with photos and a partial inscription", todo_path('partial_inscription_photo')) %></div>
+          Cras justo odio
+        </div>
+        <span class="badge bg-primary rounded-pill"><%= @partial_inscription_photo_count.to_i %></span>
+      </li>
+
+    </ol>
+
+  </div>
+</section>

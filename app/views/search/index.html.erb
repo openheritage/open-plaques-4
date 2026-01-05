@@ -15,7 +15,7 @@
   </div>
 </div><!-- End Page Title -->
 
-<section id="role-summary" class="role-summary section">
+<section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <%= render partial: "search_form", locals: { phrase: @original_phrase } %>
@@ -41,7 +41,7 @@
 
     <% if @plaques.any? %>
       <h2>Plaques</h2>
-      <%= render partial: 'plaques/tiles' %>
+      <%= render partial: "plaques/tiles" %>
     <% end %>
 
     <% if params[:from] && params[:from] == "submission" %>
