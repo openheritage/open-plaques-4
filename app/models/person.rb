@@ -30,7 +30,7 @@ class Person < ApplicationRecord
   before_save :aka_accented_name
   before_save :fill_wikidata_id
   before_save :update_index
-  after_save :depiction_from_dbpedia
+  after_save :depiction_from_dbpedia!
   scope :aka, ->(term) { where([ "array_to_string(aka, ' ') ILIKE ?", "#{term.gsub(' ', '%')}%" ]) }
   scope :connected, -> { where("personal_connections_count > 0") }
   scope :dated, -> { where("born_on IS NOT NULL or died_on IS NOT NULL") }
@@ -58,141 +58,13 @@ class Person < ApplicationRecord
   DATE_REGEX = /c?[\d]{4}/.freeze
   DATE_RANGE_REGEX = /(?:\(#{DATE_REGEX}-#{DATE_REGEX}\)|#{DATE_REGEX}-#{DATE_REGEX})/.freeze
 
-  def relationships
-    @relationships ||= begin
-      relationships = personal_roles.select(&:relationship?)
-      relationships.sort { |a, b| a.started_at.to_s <=> b.started_at.to_s }
-    end
-  end
-
-  def straight_roles
-    @straight_roles ||= begin
-      straight_roles = personal_roles.reject(&:relationship?)
-      straight_roles.sort { |a, b| a.primary.to_s + a.started_at.to_s <=> a.primary.to_s + b.started_at.to_s }
-    end
-  end
-
-  def primary_roles
-    @primary_roles ||= begin
-      r = personal_roles.select(&:primary?)
-      if r.empty?
-        if !straight_roles.empty?
-          # if >1 then cannot judge which is the 'best' role
-          r << straight_roles.first
-        elsif !non_family_relationships.empty?
-          r << non_family_relationships.first
-        end
-      end
-      r
-    end
-  end
-
-  def primary_role
-    primary_roles&.first
-  end
-
-  def primary_role_name
-    primary_role&.name
-  end
-
-  def default_action
-    action = Verb.find_by(name: "was")
-    if type == "thing" || type == "place" || type == "place" || type == "group"
-      action = Verb.find_by(name: "sited")
-    elsif primary_role&.role&.name == "architect"
-      action = Verb.find_by(name: "designed")
-    elsif primary_role&.role&.name == "benefactor"
-      action = Verb.find_by(name: "donated")
-    end
-    action
+  def accented_name?
+    name != unaccented_name
   end
 
   # this sucks, but the autocomplete uses json and wants to pass it
   def action_id
     default_action&.id
-  end
-
-  def person?
-    !(animal? || thing? || group? || place?)
-  end
-
-  def animal?
-    roles.find(&:animal?) ? true : false
-  end
-
-  def thing?
-    roles.find(&:thing?) ? true : false
-  end
-
-  def group?
-    roles.find(&:group?) ? true : false
-  end
-
-  def place?
-    roles.find(&:place?) ? true : false
-  end
-
-  def type
-    return "man" if person? && male?
-
-    return "woman" if person? && female?
-
-    return "person" if person?
-
-    return "animal" if animal?
-
-    return "thing" if thing?
-
-    return "place" if place?
-
-    return "group" if group?
-
-    "?"
-  end
-
-  def born_in
-    born_on&.year
-  end
-
-  def died_in
-    died_on&.year
-  end
-
-  def dates
-    dates = ""
-    if born_in
-      dates = "("
-      dates << born_in.to_s
-      if died_in
-        dates << "-#{died_in}" if born_in != died_in
-      else
-        dates << (alive? ? "-present" : "-?")
-      end
-      dates << ")"
-    elsif died_in
-      dates = "(d.#{died_in})"
-    end
-    dates
-  end
-
-  def born_at
-    birth_connection&.location
-  end
-
-  def died_at
-    death_connection&.location
-  end
-
-  def dead?
-    !died_in.nil? || (person? || animal?) && !born_in.nil? && born_in < 1910
-  end
-
-  def alive?
-    !dead?
-  end
-
-  def existence_word
-    alive? ? "are" : "were"
   end
 
   def age
@@ -211,27 +83,134 @@ class Person < ApplicationRecord
     "unknown"
   end
 
-  def fill_wikidata_id
-    return if wikidata_id&.match(/Q\d*$/)
+  def aka_accented_name
+    return unless accented_name? && !aka.include?(unaccented_name)
 
-    t = name
-    t = "#{name} (#{born_in}-#{died_in})" if born_in && died_in
-    self.wikidata_id = Wikidata.qcode(t)
+    aka_will_change!
+    aka.push(unaccented_name)
   end
 
-  def wikidata_url
-    "https://www.wikidata.org/wiki/#{wikidata_id}" if wikidata_id && !wikidata_id&.blank? && wikidata_id != "Q"
+  def alive?
+    !dead?
   end
 
-  def wikipedia_url
-    Wikidata.new(wikidata_id).en_wikipedia_url
-  rescue
-    # timeout?
-    puts "Wikidata timeout?"
+  def ancestry_url
+    "http://www.ancestry.co.uk/genealogy/records/#{ancestry_id}" if ancestry_id && !ancestry_id&.blank?
   end
 
-  def dbpedia_uri
-    wikipedia_url&.gsub("en.wikipedia.org/wiki", "dbpedia.org/resource")&.gsub("https", "http")
+  def animal?
+    roles.find(&:animal?) ? true : false
+  end
+
+  def as_json(options = nil)
+    unless options && options[:only]
+      options = {
+        only: [],
+        include: {
+          personal_roles: {
+            only: [],
+            include: {
+              role: {
+                only: :name,
+                methods: [ :uri ]
+              },
+              related_person: {
+                only: [], methods: %i[uri full_name]
+              }
+            }
+          }
+        },
+        methods: %i[
+          uri
+          name_and_dates
+          full_name
+          surname
+          born_in
+          died_in
+          type
+          sex
+          primary_role
+          wikidata_id
+          wikipedia_url
+          dbpedia_uri
+          find_a_grave_url
+        ]
+      }
+    end
+    super(options)
+  end
+
+  def born_at
+    birth_connection&.location
+  end
+
+  def born_in
+    born_on&.year
+  end
+
+  def children
+    issue = []
+    relationships.each do |relationship|
+      issue << relationship.related_person if relationship.role.role_type == "parent"
+    end
+    issue.uniq.sort! { |a, b| a.born_on || 0 <=> b.born_on || 0 }
+  end
+
+  def children?
+    children.size.positive?
+  end
+
+  def citation_html
+    citation || "OpenPlaques"
+  end
+
+  def clergy?
+    roles.any? { |role| role.role_type == "clergy" }
+  end
+
+  def creation_word
+    return "from" if thing?
+
+    return "formed in" if group?
+
+    return "built in" if place?
+
+    "born in"
+  end
+
+  def current_personal_roles
+    current = personal_roles.select(&:current?)
+    current.sort! do |b, a|
+      if a.role.priority && b.role.priority
+        a.role.priority <=> b.role.priority
+      elsif a.role.priority
+        1
+      else
+        -1
+      end
+    end
+    current
+  end
+
+  def current_roles
+    current_personal_roles.collect(&:role)
+  end
+
+  def dates
+    dates = ""
+    if born_in
+      dates = "("
+      dates << born_in.to_s
+      if died_in
+        dates << "-#{died_in}" if born_in != died_in
+      else
+        dates << (alive? ? "-present" : "-?")
+      end
+      dates << ")"
+    elsif died_in
+      dates = "(d.#{died_in})"
+    end
+    dates
   end
 
   def dbpedia_abstract
@@ -268,175 +247,61 @@ class Person < ApplicationRecord
     end
   end
 
-  def name_and_dates
-    "#{full_name} #{dates}"
+  def dbpedia_uri
+    wikipedia_url&.gsub("en.wikipedia.org/wiki", "dbpedia.org/resource")&.gsub("https", "http")
+  end
+
+  def dead?
+    !died_in.nil? || (person? || animal?) && !born_in.nil? && born_in < 1910
+  end
+
+  def default_action
+    action = Verb.find_by(name: "was")
+    if type == "thing" || type == "place" || type == "place" || type == "group"
+      action = Verb.find_by(name: "sited")
+    elsif primary_role&.role&.name == "architect"
+      action = Verb.find_by(name: "designed")
+    elsif primary_role&.role&.name == "benefactor"
+      action = Verb.find_by(name: "donated")
+    end
+    action
   end
 
   def default_thumbnail_url
     "/assets/NoPersonSqr.png"
   end
 
-  def current_personal_roles
-    current = personal_roles.select(&:current?)
-    current.sort! do |b, a|
-      if a.role.priority && b.role.priority
-        a.role.priority <=> b.role.priority
-      elsif a.role.priority
-        1
-      else
-        -1
-      end
+  def depiction_from_dbpedia!
+    return if main_photo || dbpedia_depiction.nil?
+
+    begin
+      photo = Photo.new(url: dbpedia_depiction, person: self)
+      photo.populate
+      photo.save
+    rescue
     end
-    current
   end
 
-  def current_roles
-    current_personal_roles.collect(&:role)
+  def destruction_word
+    return "until" if thing?
+
+    return "ended in" if group?
+
+    return "closed in" if place?
+
+    "died in"
   end
 
-  def title
-    title = ""
-    current_personal_roles.each do |pr|
-      if !pr.role.prefix.blank?
-        # NB a clergyman or Commonwealth citizen does not get called 'Sir'
-        title << "#{pr.role.prefix} " if !title.include?(pr.role.prefix) && !(pr.role.prefix == "Sir" && clergy?)
-      elsif pr.role.used_as_a_prefix? && !title.include?(pr.role.display_name)
-        title << "#{role.display_name} "
-      end
-    end
-    title.strip
+  def died_in
+    died_on&.year
   end
 
-  def titled?
-    title != ""
+  def died_at
+    death_connection&.location
   end
 
-  def clergy?
-    roles.any? { |role| role.role_type == "clergy" }
-  end
-
-  def letters
-    letters = ""
-    current_personal_roles.each do |pr|
-      letters << " #{pr.suffix}" unless pr.role.suffix.blank? || letters.include?(pr.role.suffix)
-    end
-    letters.strip
-  end
-
-  def full_name
-    "#{title} #{name} #{letters}".strip
-  end
-
-  def firstname
-    name.split(" ").first
-  end
-
-  def role_names
-    names = []
-    personal_roles.each { |personal_role| names << personal_role.name }
-    names
-  end
-
-  def surname
-    name[name.downcase.rindex(" #{surname_starts_with.downcase}") ? name.downcase.rindex(" #{surname_starts_with.downcase}") + 1 : 0, name.size]
-  end
-
-  # a set of versions of a person's name, in precision order
-  def names
-    nameparts = name.split(" ")
-    firstinitial = nameparts.second ? "#{firstname[0, 1]}." : ""
-    secondname = nameparts.third ? nameparts.second : ""
-    secondinitial = nameparts.third ? "#{secondname[0, 1]}." : ""
-    middlenames = nameparts.length > 2 ? nameparts.from(1).to(nameparts.from(1).length - 2) : []
-    middleinitials = ""
-    middlenames.each_with_index do |name, index|
-      middleinitials << " " if index.positive?
-      middleinitials << "#{name.to_s[0, 1]}."
-    end
-    lastname = nameparts.last
-    names = []
-    names << full_name # Joseph Aloysius Hansom
-    names << "#{title} #{name}" if titled? # Sir Joseph Aloysius Hansom
-    names += aka # Boz, Charlie Cheese, and Crackers
-    names << "#{title} #{firstinitial} #{middleinitials} #{lastname}" if titled? && nameparts.length > 2
-    names << "#{title} #{firstinitial} #{lastname}" if titled? && nameparts.length > 1
-    names << name if name != full_name # Joseph Aloysius Hansom
-    if name.include? "," # George Inn, Barcombe
-      names << name.split(/,/).first
-      return names
-    end
-    names << "#{title} #{name.split(/ of /).first}" if name.include?(" of ") && titled? # King Charles II [of England]
-    names << name.split(/ of /).first if name.include?(" of ") # [King] Charles II [of England]
-    names << "#{firstname} #{middleinitials} #{lastname}" if nameparts.length > 2 # Joseph A[loysius]. R[obert]. Hansom
-    names << "#{firstinitial} #{middleinitials} #{lastname}" if nameparts.length > 2 # J. A. R. Hansom
-    names << "#{firstname} #{nameparts.second} #{lastname}" if nameparts.length > 2 # Joseph Aaron Hansom
-    names << "#{firstname} #{secondinitial} #{lastname}" if nameparts.length > 2 # Joseph A. Hansom
-    names << "#{firstinitial} #{secondname} #{lastname}" if nameparts.length > 2 # J. Aaron Hansom
-    names << "#{title} #{firstname} #{lastname}" if nameparts.length > 2 && titled? # Sir Joseph Hansom
-    names << "#{firstname} #{lastname}" if nameparts.length > 2 # Joseph Hansom
-    names << "#{firstinitial} #{lastname}" if nameparts.length > 1 # J. Hansom
-    names << "#{title} #{lastname}" if titled? # Lord Carlisle
-    names << "#{title} #{firstname}" if titled? # Sir William
-    names << firstname if nameparts.length > 1 # Charles
-    names << lastname if nameparts.length > 1 # Kitchener
-    names.uniq
-  end
-
-  def father
-    relationships.each do |relationship|
-      return relationship.related_person if relationship.role.role_type == "child" && !relationship.related_person.nil? && relationship.related_person.male?
-    end
-    nil
-  end
-
-  def mother
-    relationships.each do |relationship|
-      return relationship.related_person if relationship.role.role_type == "child" && !relationship.related_person.nil? && relationship.related_person.female?
-    end
-    nil
-  end
-
-  def children
-    issue = []
-    relationships.each do |relationship|
-      issue << relationship.related_person if relationship.role.role_type == "parent"
-    end
-    issue.uniq.sort! { |a, b| a.born_on || 0 <=> b.born_on || 0 }
-  end
-
-  def children?
-    children.size.positive?
-  end
-
-  def siblings
-    siblings = []
-    father&.children&.each { |child| siblings << child if child != self }
-    mother&.children&.each { |child| siblings << child if child != self }
-    siblings.uniq.sort! { |a, b| a.born_on || 0 <=> b.born_on || 0 }
-  end
-
-  def spouses
-    people = []
-    relationships.each do |relationship|
-      people << relationship.related_person if relationship.role.role_type == "spouse"
-    end
-    people
-  end
-
-  def spousal_relationships
-    spousal_relationships = []
-    relationships.each do |relationship|
-      spousal_relationships << relationship if relationship.role.role_type == "spouse"
-    end
-    spousal_relationships
-  end
-
-  def non_family_relationships
-    non_family = []
-    relationships.each do |relationship|
-      non_family << relationship if relationship.role.family? != true
-    end
-    non_family
+  def existence_word
+    alive? ? "is" : "was"
   end
 
   def family_relationships
@@ -451,24 +316,115 @@ class Person < ApplicationRecord
     family_relationships.size.positive?
   end
 
-  def creation_word
-    return "from" if thing?
-
-    return "formed in" if group?
-
-    return "built in" if place?
-
-    "born in"
+  def father
+    relationships.each do |relationship|
+      return relationship.related_person if relationship.role.role_type == "child" && !relationship.related_person.nil? && relationship.related_person.male?
+    end
+    nil
   end
 
-  def destruction_word
-    return "until" if thing?
+  def female?
+    self.gender = "f" if gender == "u" && roles.any?(&:female?)
+    self.gender = "f" if
+      gender == "u" &&
+      %w[
+        Abigail
+        Adelaide Adele Ada
+        Agnes
+        Alessandra Alexandra Alice Alison
+        Amalie Amelia
+        Anastasia Ann Anna Anne Annie Antoinette
+        Beatriz
+        Bertha
+        Betsy Betsey Betty
+        Brenda
+        Caroline Cäcilie
+        Charlotte
+        Clara
+        Constance
+        Daisy
+        Deborah
+        Diana
+        Dolly Doris Dorothea Dorothy
+        Edith
+        Elaine Elfriede Elisabeth Elise Elizabeth Ella Ellen Elly Elsbeth Elsa Else Elsie
+        Emilie Emily Emma
+        Erika Erna Ernestine
+        Eva
+        Fanny
+        Flora Florence
+        Franziska Frida Frieda
+        Georgia Georgina Gerda Gertrud Gertrude
+        Gladys
+        Grace Greta Grete
+        Hanna Hattie Hazel
+        Helen Helene Henrietta Henriette Herta Hertha
+        Hilde Hildegard
+        Ida
+        Ilse Irene Irma
+        Jane Janet Jacqueline
+        Jeanne Jenny Jennifer
+        Johanna Josephine
+        Judith Julia Julie
+        Kate Käte Käthe Katherine Kathleen
+        Klara
+        Laura
+        Letitia
+        Lidia Lina Liz
+        Lotte Louise Louisa
+        Lucie Lucy Luise
+        Mabel Mala Margaret Margery Margot Maria Marianne Marie Marjorie Marjory Martha Mary Maryse Mathilde May
+        Mercy Meta
+        Minna Minnie
+        Monica Monika
+        Nancy
+        Nelly Nellie
+        Olga
+        Paloma Paula Pauline
+        Peggy
+        Phoebe
+        Priscilla
+        Rachel
+        Regina
+        Roberta Rosa Rose Rosemary
+        Ruth
+        Sally Sarah Sara
+        Selma
+        Shelley Shirley
+        Sonia Sophie
+        Susan Susanna
+        Toni Therese
+        Ursula
+        Vera
+        Victoria Violet Virginia
+        Wilhelmina Winifred
+      ].include?(firstname)
+    self.gender = "m" if gender == "u" && !inanimate_object?
+    gender == "f"
+  end
 
-    return "ended in" if group?
+  def fill_wikidata_id
+    return if wikidata_id&.match(/Q\d*$/)
 
-    return "closed in" if place?
+    t = name
+    t = "#{name} (#{born_in}-#{died_in})" if born_in && died_in
+    self.wikidata_id = Wikidata.qcode(t)
+  end
 
-    "died in"
+  def find_a_grave_url
+    "http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=#{find_a_grave_id}" if find_a_grave_id && !find_a_grave_id&.blank?
+  end
+
+  def firstname
+    name.split(" ").first
+  end
+
+  def full_name
+    "#{title} #{name} #{letters}".strip
+  end
+
+  def group?
+    roles.find(&:group?) ? true : false
   end
 
   def inanimate_object?
@@ -477,10 +433,16 @@ class Person < ApplicationRecord
     inanimate
   end
 
-  def personal_pronoun
-    return "it" if inanimate_object?
+  def letters
+    letters = ""
+    current_personal_roles.each do |pr|
+      letters << " #{pr.suffix}" unless pr.role.suffix.blank? || letters.include?(pr.role.suffix)
+    end
+    letters.strip
+  end
 
-    "they"
+  def machine_tag
+    "openplaques:subject:id=#{id}"
   end
 
   def male?
@@ -574,92 +536,78 @@ class Person < ApplicationRecord
     !female?
   end
 
-  def female?
-    self.gender = "f" if gender == "u" && roles.any?(&:female?)
-    self.gender = "f" if
-      gender == "u" &&
-      %w[
-        Abigail
-        Adelaide Adele Ada
-        Agnes
-        Alessandra Alexandra Alice Alison
-        Amalie Amelia
-        Anastasia Ann Anna Anne Annie Antoinette
-        Beatriz
-        Bertha
-        Betsy Betsey Betty
-        Brenda
-        Caroline Cäcilie
-        Charlotte
-        Clara
-        Constance
-        Daisy
-        Deborah
-        Diana
-        Dolly Doris Dorothea Dorothy
-        Edith
-        Elaine Elfriede Elisabeth Elise Elizabeth Ella Ellen Elly Elsbeth Elsa Else Elsie
-        Emilie Emily Emma
-        Erika Erna Ernestine
-        Eva
-        Fanny
-        Flora Florence
-        Franziska Frida Frieda
-        Georgia Georgina Gerda Gertrud Gertrude
-        Gladys
-        Grace Greta Grete
-        Hanna Hattie Hazel
-        Helen Helene Henrietta Henriette Herta Hertha
-        Hilde Hildegard
-        Ida
-        Ilse Irene Irma
-        Jane Janet Jacqueline
-        Jeanne Jenny Jennifer
-        Johanna Josephine
-        Judith Julia Julie
-        Kate Käte Käthe Katherine Kathleen
-        Klara
-        Laura
-        Letitia
-        Lidia Lina Liz
-        Lotte Louise Louisa
-        Lucie Lucy Luise
-        Mabel Mala Margaret Margery Margot Maria Marianne Marie Marjorie Marjory Martha Mary Maryse Mathilde May
-        Mercy Meta
-        Minna Minnie
-        Monica Monika
-        Nancy
-        Nelly Nellie
-        Olga
-        Paloma Paula Pauline
-        Peggy
-        Phoebe
-        Priscilla
-        Rachel
-        Regina
-        Roberta Rosa Rose Rosemary
-        Ruth
-        Sally Sarah Sara
-        Selma
-        Shelley Shirley
-        Sonia Sophie
-        Susan Susanna
-        Toni Therese
-        Ursula
-        Vera
-        Victoria Violet Virginia
-        Wilhelmina Winifred
-      ].include?(firstname)
-    self.gender = "m" if gender == "u" && !inanimate_object?
-    gender == "f"
+  def mother
+    relationships.each do |relationship|
+      return relationship.related_person if relationship.role.role_type == "child" && !relationship.related_person.nil? && relationship.related_person.female?
+    end
+    nil
   end
 
-  def sex
-    return "female" if female?
+  def name_and_dates
+    "#{full_name} #{dates}"
+  end
 
-    return "object" if inanimate_object?
+  # a set of versions of a person's name, in precision order
+  def names
+    nameparts = name.split(" ")
+    firstinitial = nameparts.second ? "#{firstname[0, 1]}." : ""
+    secondname = nameparts.third ? nameparts.second : ""
+    secondinitial = nameparts.third ? "#{secondname[0, 1]}." : ""
+    middlenames = nameparts.length > 2 ? nameparts.from(1).to(nameparts.from(1).length - 2) : []
+    middleinitials = ""
+    middlenames.each_with_index do |name, index|
+      middleinitials << " " if index.positive?
+      middleinitials << "#{name.to_s[0, 1]}."
+    end
+    lastname = nameparts.last
+    names = []
+    names << full_name # Joseph Aloysius Hansom
+    names << "#{title} #{name}" if titled? # Sir Joseph Aloysius Hansom
+    names += aka # Boz, Charlie Cheese, and Crackers
+    names << "#{title} #{firstinitial} #{middleinitials} #{lastname}" if titled? && nameparts.length > 2
+    names << "#{title} #{firstinitial} #{lastname}" if titled? && nameparts.length > 1
+    names << name if name != full_name # Joseph Aloysius Hansom
+    if name.include? "," # George Inn, Barcombe
+      names << name.split(/,/).first
+      return names
+    end
+    names << "#{title} #{name.split(/ of /).first}" if name.include?(" of ") && titled? # King Charles II [of England]
+    names << name.split(/ of /).first if name.include?(" of ") # [King] Charles II [of England]
+    names << "#{firstname} #{middleinitials} #{lastname}" if nameparts.length > 2 # Joseph A[loysius]. R[obert]. Hansom
+    names << "#{firstinitial} #{middleinitials} #{lastname}" if nameparts.length > 2 # J. A. R. Hansom
+    names << "#{firstname} #{nameparts.second} #{lastname}" if nameparts.length > 2 # Joseph Aaron Hansom
+    names << "#{firstname} #{secondinitial} #{lastname}" if nameparts.length > 2 # Joseph A. Hansom
+    names << "#{firstinitial} #{secondname} #{lastname}" if nameparts.length > 2 # J. Aaron Hansom
+    names << "#{title} #{firstname} #{lastname}" if nameparts.length > 2 && titled? # Sir Joseph Hansom
+    names << "#{firstname} #{lastname}" if nameparts.length > 2 # Joseph Hansom
+    names << "#{firstinitial} #{lastname}" if nameparts.length > 1 # J. Hansom
+    names << "#{title} #{lastname}" if titled? # Lord Carlisle
+    names << "#{title} #{firstname}" if titled? # Sir William
+    names << firstname if nameparts.length > 1 # Charles
+    names << lastname if nameparts.length > 1 # Kitchener
+    names.uniq
+  end
 
-    "male"
+  def non_family_relationships
+    non_family = []
+    relationships.each do |relationship|
+      non_family << relationship if relationship.role.family? != true
+    end
+    non_family
+  end
+
+  def person?
+    !(animal? || thing? || group? || place?)
+  end
+
+  def personal_pronoun
+    return "it" if inanimate_object?
+
+    "they"
+  end
+
+  def place?
+    roles.find(&:place?) ? true : false
   end
 
   def possessive
@@ -672,6 +620,29 @@ class Person < ApplicationRecord
     "their"
   end
 
+  def primary_role
+    primary_roles&.first
+  end
+
+  def primary_roles
+    @primary_roles ||= begin
+      r = personal_roles.select(&:primary?)
+      if r.empty?
+        if !straight_roles.empty?
+          # if >1 then cannot judge which is the 'best' role
+          r << straight_roles.first
+        elsif !non_family_relationships.empty?
+          r << non_family_relationships.first
+        end
+      end
+      r
+    end
+  end
+
+  def primary_role_name
+    primary_role&.name
+  end
+
   def related_to?(person)
     relationships.each do |r|
       return true if r.related_person == person
@@ -679,12 +650,25 @@ class Person < ApplicationRecord
     false
   end
 
-  def find_a_grave_url
-    "http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=#{find_a_grave_id}" if find_a_grave_id && !find_a_grave_id&.blank?
+  def relationships
+    @relationships ||= begin
+      relationships = personal_roles.select(&:relationship?)
+      relationships.sort { |a, b| a.started_at.to_s <=> b.started_at.to_s }
+    end
   end
 
-  def ancestry_url
-    "http://www.ancestry.co.uk/genealogy/records/#{ancestry_id}" if ancestry_id && !ancestry_id&.blank?
+  def role_names
+    names = []
+    personal_roles.each { |personal_role| names << personal_role.name }
+    names
+  end
+
+  def sex
+    return "female" if female?
+
+    return "object" if inanimate_object?
+
+    "male"
   end
 
   def self.search(term)
@@ -720,54 +704,88 @@ class Person < ApplicationRecord
     matches
   end
 
-  def uri(format = :html)
-    "https://openplaques.org#{Rails.application.routes.url_helpers.person_path(self, format: format)}"
+  def siblings
+    siblings = []
+    father&.children&.each { |child| siblings << child if child != self }
+    mother&.children&.each { |child| siblings << child if child != self }
+    siblings.uniq.sort! { |a, b| a.born_on || 0 <=> b.born_on || 0 }
   end
 
-  def machine_tag
-    "openplaques:subject:id=#{id}"
+  def spousal_relationships
+    spousal_relationships = []
+    relationships.each do |relationship|
+      spousal_relationships << relationship if relationship.role.role_type == "spouse"
+    end
+    spousal_relationships
+  end
+
+  def spouses
+    people = []
+    relationships.each do |relationship|
+      people << relationship.related_person if relationship.role.role_type == "spouse"
+    end
+    people
+  end
+
+  def straight_roles
+    @straight_roles ||= begin
+      straight_roles = personal_roles.reject(&:relationship?)
+      straight_roles.sort { |a, b| a.primary.to_s + a.started_at.to_s <=> a.primary.to_s + b.started_at.to_s }
+    end
+  end
+
+  def surname
+    name[name.downcase.rindex(" #{surname_starts_with.downcase}") ? name.downcase.rindex(" #{surname_starts_with.downcase}") + 1 : 0, name.size]
+  end
+
+  def thing?
+    roles.find(&:thing?) ? true : false
+  end
+
+  def title
+    title = ""
+    current_personal_roles.each do |pr|
+      if !pr.role.prefix.blank?
+        # NB a clergyman or Commonwealth citizen does not get called 'Sir'
+        title << "#{pr.role.prefix} " if !title.include?(pr.role.prefix) && !(pr.role.prefix == "Sir" && clergy?)
+      elsif pr.role.used_as_a_prefix? && !title.include?(pr.role.display_name)
+        title << "#{role.display_name} "
+      end
+    end
+    title.strip
+  end
+
+  def titled?
+    title != ""
   end
 
   def to_s
     name
   end
 
-  def as_json(options = nil)
-    unless options && options[:only]
-      options = {
-        only: [],
-        include: {
-          personal_roles: {
-            only: [],
-            include: {
-              role: {
-                only: :name,
-                methods: [ :uri ]
-              },
-              related_person: {
-                only: [], methods: %i[uri full_name]
-              }
-            }
-          }
-        },
-        methods: %i[
-          uri
-          name_and_dates
-          full_name
-          surname
-          born_in
-          died_in
-          type
-          sex
-          primary_role
-          wikidata_id
-          wikipedia_url
-          dbpedia_uri
-          find_a_grave_url
-        ]
-      }
-    end
-    super(options)
+  def type
+    return "man" if person? && male?
+
+    return "woman" if person? && female?
+
+    return "person" if person?
+
+    return "animal" if animal?
+
+    return "thing" if thing?
+
+    return "place" if place?
+
+    return "group" if group?
+
+    "?"
+  end
+
+  def unaccented_name
+    name.tr(
+      "ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
+      "AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz"
+    )
   end
 
   def update_index
@@ -778,36 +796,18 @@ class Person < ApplicationRecord
     surname_starts_with.downcase!
   end
 
-  def unaccented_name
-    name.tr(
-      "ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
-      "AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz"
-    )
+  def uri(format = :html)
+    "https://openplaques.org#{Rails.application.routes.url_helpers.person_path(self, format: format)}"
   end
 
-  def accented_name?
-    name != unaccented_name
+  def wikidata_url
+    "https://www.wikidata.org/wiki/#{wikidata_id}" if wikidata_id && !wikidata_id&.blank? && wikidata_id != "Q"
   end
 
-  def aka_accented_name
-    return unless accented_name? && !aka.include?(unaccented_name)
-
-    aka_will_change!
-    aka.push(unaccented_name)
-  end
-
-  def citation_html
-    citation || "OpenPlaques"
-  end
-
-  def depiction_from_dbpedia
-    return unless !main_photo && dbpedia_depiction
-
-    begin
-      photo = Photo.new(url: dbpedia_depiction, person: self)
-      photo.populate
-      photo.save
-    rescue
-    end
+  def wikipedia_url
+    Wikidata.new(wikidata_id).en_wikipedia_url
+  rescue
+    # timeout?
+    puts "Wikidata timeout?"
   end
 end

@@ -13,7 +13,7 @@ require "wikimedia/commoner"
 # * +subject+ - What we think this is a photo of (used if not linked to a plaque)
 # * +taken_at+ - Date and time if known
 # * +thumbnail+ - A link to a thumbnail image if there is one
-# * +url+ - The primary stable webpage for the photorequire 'wikimedia/commoner'
+# * +url+ - The primary stable webpage for the photo
 class Photo < ApplicationRecord
   belongs_to :plaque, counter_cache: true, optional: true
   belongs_to :person, optional: true
