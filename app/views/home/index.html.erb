@@ -1,21 +1,18 @@
 <% content_for(:page_title) { t(".page_title") } %>
 <% content_for(:admin_menu) { navbar_link_to(t(".pages"), pages_path, { class: :edit, title: t(".pages") }) } %>
 
-<% content_for :head do %>
-  <%= stylesheet_link_tag "swiper-bundle.min.css", "data-turbo-track": "reload" %>
-<% end %>
 
 <!-- Slider Section -->
 <section id="slider" class="section dark-background">
 
-  <div class="container slider" data-aos="fade-up" data-aos-delay="100" data-controller="swiper">
-    <div class="swiper" data-swiper-target="container">
+  <div class="container slider" data-aos="fade-up" data-aos-delay="100">
+    <div data-swiper-target="container" data-controller="swiper">
       <div class="swiper-wrapper">
         <%= render partial: "swiper_slide", collection: Page.tagged_with("swiper"), as: :page %>
       </div>
-      <div class="swiper-button-next" data-swiper-target="next"></div>
-      <div class="swiper-button-prev" data-swiper-target="prev"></div>
-      <div class="swiper-pagination" data-swiper-target="pagination"></div>
+      <div data-swiper-target="pagination"></div>
+      <div data-swiper-target="next"></div>
+      <div data-swiper-target="prev"></div>
     </div>
   </div>
 
