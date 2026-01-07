@@ -3,9 +3,9 @@
   <div class="container footer-top">
     <div class="row gy-4">
       <div class="col-lg-4 col-md-6 footer-about">
-        <a href="index.html" class="logo d-flex align-items-center">
+        <%= link_to root_path, class: "logo d-flex align-items-center" do %>
           <span class="sitename">OpenPlaques</span>
-        </a>
+        <% end %>
         <div class="footer-contact pt-3">
           <p>Brighton and Glasgow, UK</p>
           <p><strong>Email:</strong> <span>info@openplaques.org</span></p>
@@ -32,7 +32,6 @@
       <div class="col-lg-2 col-md-3 footer-links">
         <h4>Links</h4>
         <ul>
-          <li><a href="/">Home</a></li>
           <li><a href="/about">About us</a></li>
           <li><a href="/data">Services</a></li>
           <li><a href="/terms_of_service">Terms of service</a></li>
