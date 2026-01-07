@@ -14,9 +14,9 @@ class ApplicationController < ActionController::Base
     http_user_agent = request.env["HTTP_USER_AGENT"]&.downcase
     is_meta = http_user_agent&.include?("meta-")
     is_semrush = http_user_agent&.include?("semrush")
-    is_terracotta = http_user_agent&.include?("TerraCotta")
+    is_terracotta = http_user_agent&.include?("terracotta")
     is_the_knowledge_ai = http_user_agent&.include?("the knowledge ai")
-    is_winhttp = http_user_agent&.include?("winHttp")
+    is_winhttp = http_user_agent&.include?("winhttp")
     is_a_bot = http_user_agent&.include?("bot") ||
                http_user_agent&.include?("crawler")
                http_user_agent&.include?("bingpreview") ||
