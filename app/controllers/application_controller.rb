@@ -17,7 +17,9 @@ class ApplicationController < ActionController::Base
     is_terracotta = http_user_agent&.include?("terracotta")
     is_the_knowledge_ai = http_user_agent&.include?("the knowledge ai")
     is_winhttp = http_user_agent&.include?("winhttp")
-    is_a_bot = http_user_agent&.include?("bot") ||
+    clicked_the_honey = %r{/i-am-a-bot}.match?(request.path)
+    is_a_bot = clicked_the_honey ||
+               http_user_agent&.include?("bot") ||
                http_user_agent&.include?("crawler")
                http_user_agent&.include?("bingpreview") ||
                http_user_agent&.include?("bubing") ||
@@ -31,7 +33,8 @@ class ApplicationController < ActionController::Base
                is_winhttp
     is_a_data_request = [ "application/json", "application/xml", "application/kml" ].include?(request.format)
     puts "USERAGENT: #{is_a_bot ? "bot" : "not-bot"} '#{http_user_agent}' -> #{request.format} #{request.path} #{request.headers["HTTP_USER_AGENT"]}"
-    is_not_following_robots_txt = is_a_data_request ||
+    is_not_following_robots_txt = clicked_the_honey ||
+                                  is_a_data_request ||
                                   request.path.end_with?("/new") ||
                                   request.path.end_with?("/edit") ||
                                   %r{/people}.match?(request.path) ||
