@@ -56,7 +56,7 @@ class AreasController < ApplicationController
   end
 
   def edit
-    @countries = Country.all.select(:id, :name)
+    @countries = Country.all.alphabetically.select(:id, :name)
   end
 
   def update
