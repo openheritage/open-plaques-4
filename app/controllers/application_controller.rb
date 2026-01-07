@@ -18,11 +18,12 @@ class ApplicationController < ActionController::Base
     is_the_knowledge_ai = http_user_agent&.include?("the knowledge ai")
     is_winhttp = http_user_agent&.include?("winHttp")
     is_a_bot = http_user_agent&.include?("bot") ||
-               http_user_agent&.include?("spider") ||
+               http_user_agent&.include?("crawler")
                http_user_agent&.include?("bingpreview") ||
                http_user_agent&.include?("bubing") ||
                http_user_agent&.include?("slurp") ||
-               http_user_agent&.include?("java/1.7.0_79") ||
+               http_user_agent&.include?("spider") ||
+               http_user_agent&.include?("java/") ||
                is_meta ||
                is_semrush ||
                is_terracotta ||
