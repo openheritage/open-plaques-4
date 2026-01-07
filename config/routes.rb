@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   get "about", controller: :static_pages
   resources :colours, only: [ :new, :create ]
   get "contact", controller: :static_pages
-  get "contribute", controller: :static_pages
   resources :languages, only: [ :new, :create ]
   match "match" => "match#index", via: [ :get ]
   resources :organisations do

@@ -30,11 +30,13 @@ class ApplicationController < ActionController::Base
                is_the_knowledge_ai ||
                is_winhttp
     is_a_data_request = [ "application/json", "application/xml", "application/kml" ].include?(request.format)
-    puts "USERAGENT: #{is_a_bot ? "bot" : "not-bot"} #{request.format} #{request.path} #{request.headers["HTTP_USER_AGENT"]}"
+    puts "USERAGENT: #{is_a_bot ? "bot" : "not-bot"} '#{http_user_agent}' -> #{request.format} #{request.path} #{request.headers["HTTP_USER_AGENT"]}"
     is_not_following_robots_txt = is_a_data_request ||
                                   request.path.end_with?("/new") ||
                                   request.path.end_with?("/edit") ||
+                                  %r{/people}.match?(request.path) ||
                                   %r{/places}.match?(request.path) ||
+                                  %r{/plaques}.match?(request.path) ||
                                   %r{/organisation}.match?(request.path) ||
                                   %r{/photographers}.match?(request.path) ||
                                   %r{/roles}.match?(request.path) ||
