@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
 
   def bot_blocker
     http_user_agent = request.env["HTTP_USER_AGENT"]&.downcase
+    is_meta = http_user_agent&.include?("meta-")
     is_semrush = http_user_agent&.include?("semrush")
     is_terracotta = http_user_agent&.include?("TerraCotta")
     is_the_knowledge_ai = http_user_agent&.include?("the knowledge ai")
@@ -22,6 +23,7 @@ class ApplicationController < ActionController::Base
                http_user_agent&.include?("bubing") ||
                http_user_agent&.include?("slurp") ||
                http_user_agent&.include?("java/1.7.0_79") ||
+               is_meta ||
                is_semrush ||
                is_terracotta ||
                is_the_knowledge_ai ||
