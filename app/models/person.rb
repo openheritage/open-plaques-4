@@ -371,7 +371,7 @@ class Person < ApplicationRecord
         Laura
         Letitia
         Lidia Lina Liz
-        Lotte Louise Louisa
+        Lola Lotte Louise Louisa
         Lucie Lucy Luise
         Mabel Mala Margaret Margery Margot Maria Marianne Marie Marjorie Marjory Martha Mary Maryse Mathilde May
         Mercy Meta
