@@ -14,7 +14,7 @@ class VerbsController < ApplicationController
     limit = params[:limit] || 5
     @verbs = "{}"
     q = params[:q]
-    if q do
+    if q
       @verbs = Verb.select(:id, :name).name_starts_with(q).limit(limit)
       @verbs += Verb.select(:id, :name).name_contains(q).limit(limit)
       @verbs.uniq!
@@ -52,8 +52,6 @@ class VerbsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:verb).permit(
-      :name
-    )
+    params.require(:verb).permit(:name)
   end
 end
