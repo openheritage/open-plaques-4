@@ -129,7 +129,6 @@
       </div>
       <div class="mb-3">
         <%= f.label :photographer %>
-        <%= link_to(fa_icon(:link), photographer_url(@photo.photographer.gsub(".","_").gsub("/","_"))) if @photo.photographer && @photo.photographer != '' %>
         <%= f.text_field :photographer %>
       </div>
       <div class="mb-3">
