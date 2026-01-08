@@ -37,12 +37,12 @@
         <%= form_for @sponsorship, url: plaque_sponsorships_path(@plaque) do |f| %>
           <%= f.hidden_field :plaque_id, value: @plaque.id %>
           <div class="row mb-6">
-              <div class="form-group" data-controller="autocomplete" data-autocomplete-url-value="/organisations/autocomplete" role="combobox">
-                <%= f.label :organisation_id %>
-                <%= text_field_tag :organisation_name, "", { class: "form-control", "data-autocomplete-target": "input", placeholder: "English Heritage" } %>
-                <%= hidden_field_tag :organisation_id, "", { "data-autocomplete-target": "hidden" } %>
-                <ul class="list-group" data-autocomplete-target="results"></ul>
-              </div>
+            <div class="form-group" data-controller="autocomplete" data-autocomplete-url-value="/organisations/autocomplete" role="combobox">
+              <%= f.label :organisation_id %>
+              <%= text_field_tag :organisation_name, "", { class: "form-control", "data-autocomplete-target": "input", placeholder: "English Heritage" } %>
+              <%= hidden_field_tag :organisation_id, "", { "data-autocomplete-target": "hidden" } %>
+              <ul class="list-group" data-autocomplete-target="results"></ul>
+            </div>
           </div>
           <%= f.submit t("buttons.link") %>
         <% end %>

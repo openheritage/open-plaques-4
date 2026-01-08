@@ -13,18 +13,16 @@ class VerbsController < ApplicationController
   def autocomplete
     limit = params[:limit] || 5
     @verbs = "{}"
-    @verbs = if params[:contains]
-               Verb
-                 .select(:id, :name)
-                 .name_contains(params[:contains])
-                 .limit(limit)
-    elsif params[:starts_with]
-               Verb
-                 .select(:id, :name)
-                 .name_starts_with(params[:starts_with])
-                 .limit(limit)
+    q = params[:q]
+    if q do
+      @verbs = Verb.select(:id, :name).name_starts_with(q).limit(limit)
+      @verbs += Verb.select(:id, :name).name_contains(q).limit(limit)
+      @verbs.uniq!
     end
-    render json: @verbs.as_json(only: %i[id name])
+    respond_to do |format|
+      format.html { render html: @verbs.map { |verb| "<li class=\"list-group-item\" role=\"option\" data-autocomplete-value=\"#{verb.id}\">#{verb.name}</li>" }.join.html_safe }
+      format.json { render json: @verbs.as_json(only: %i[id name]) }
+    end
   end
 
   def show

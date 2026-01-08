@@ -30,10 +30,11 @@ class OrganisationsController < ApplicationController
   def autocomplete
     limit = params[:limit] || 5
     @organisations = nil
-    if params[:q]
-      @organisations = Organisation.select(:id, :name).name_is(params[:q]).limit(limit)
-      @organisations += Organisation.select(:id, :name).name_starts_with(params[:q]).alphabetically.limit(limit)
-      @organisations += Organisation.select(:id, :name).name_contains(params[:q]).alphabetically.limit(limit)
+    q = params[:q]
+    if q
+      @organisations = Organisation.select(:id, :name).name_is(q).limit(limit)
+      @organisations += Organisation.select(:id, :name).name_starts_with(q).alphabetically.limit(limit)
+      @organisations += Organisation.select(:id, :name).name_contains(q).alphabetically.limit(limit)
       @organisations.uniq!
     end
     respond_to do |format|

@@ -18,6 +18,10 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
+    <div>
+      <%= t(".try_again") %>
+      <%= link_to t(".add_it"), new_plaque_path(checked: true, phrase: @original_phrase), id: :goadd %>
+    </div>
     <%= render partial: "search_form", locals: { phrase: @original_phrase } %>
 
     <% if @organisations.any? %>
@@ -47,10 +51,10 @@
     <% if params[:from] && params[:from] == "submission" %>
       <div class="row"><%= t(".not_found") %> <%= link_to t(".add_it"), new_plaque_path(checked: true), name: :goadd %>.</div>
     <% else %>
-      <h2>
+      <div>
         <%= t(".try_again") %>
         <%= link_to t(".add_it"), new_plaque_path(checked: true, phrase: @original_phrase), id: :goadd %>
-      </h2>
+      </div>
       <div class="row">
         <%= render partial: "search_form", locals: { phrase: @original_phrase } %>
       </div>

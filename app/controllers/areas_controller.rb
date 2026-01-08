@@ -9,17 +9,17 @@ class AreasController < ApplicationController
   def autocomplete
     limit = params[:limit] || 5
     country_id = params[:country_id]
-    @areas = if params[:contains]
-               Area.select(:id, :name, :country_id).name_contains(params[:contains]).includes(:country).limit(limit)
-    elsif params[:starts_with] && country_id.nil?
-               Area.select(:id, :name, :country_id).name_starts_with(params[:starts_with]).includes(:country).limit(limit)
-    elsif params[:starts_with]
-               Area.select(:id, :name, :country_id).where(country_id: country_id).name_starts_with(params[:starts_with]).includes(:country).limit(limit)
-    else
-               "{}"
+    @areas = {}
+    q = params[:q]
+    if q
+      @areas = Area.select(:id, :name, :country_id).name_is(q).includes(:country).limit(limit)
+      @areas += Area.select(:id, :name, :country_id).name_starts_with(q).includes(:country).limit(limit)
+      @areas += Area.select(:id, :name, :country_id).name_contains(q).includes(:country).limit(limit)
+      @areas += Area.select(:id, :name, :country_id).where(country_id: country_id).name_starts_with(q).includes(:country).limit(limit) if country_id
+      @areas.uniq!
     end
     respond_to do |format|
-      format.html { }
+      format.html { render html: @areas.map { |area| "<li class=\"list-group-item\" role=\"option\" data-autocomplete-value=\"#{area.id}\">#{area.full_name}</li>" }.join.html_safe }
       format.json do
         render json: @areas.as_json(
           only: %i[id name country_id],

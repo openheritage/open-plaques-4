@@ -96,6 +96,9 @@ Rails.application.routes.draw do
   match "search" => "search#index", via: [ :get ]
   match "search/:phrase" => "search#index", via: [ :get ]
   resources :series do
+    collection do
+      get "autocomplete"
+    end
     member do
       post "geolocate"
     end

@@ -17,19 +17,11 @@ class RolesController < ApplicationController
   def autocomplete
     limit = params[:limit] || 5
     @roles = "{}"
-    # show an exact match first
-    if params[:q]
-      @roles = Role.select(:id, :name)
-                  .name_is(params[:q])
-                  .limit(limit)
-      @roles += Role.select(:id, :name)
-                    .name_starts_with(params[:q])
-                    .alphabetically
-                    .limit(limit)
-      @roles += Role.select(:id, :name)
-                    .name_contains(params[:q])
-                    .alphabetically
-                    .limit(limit)
+    q = params[:q]
+    if q
+      @roles = Role.select(:id, :name).name_is(q).limit(limit)
+      @roles += Role.select(:id, :name).name_starts_with(q).alphabetically.limit(limit)
+      @roles += Role.select(:id, :name).name_contains(q).alphabetically.limit(limit)
       @roles.uniq!
     end
     respond_to do |format|
