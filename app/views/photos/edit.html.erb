@@ -1,4 +1,5 @@
 <% content_for(:page_title) { t(".page_title", photo: @photo.title) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.new"), new_photo_path } %>
 
 <!-- Page Title -->
 <div class="page-title">
