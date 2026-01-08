@@ -26,7 +26,7 @@ class PersonalConnectionsController < ApplicationController
       )
       @entities = @entities["entities"]
       @entities.each_with_index do |ent, i|
-        next unless ent.type == "PERSON"
+        # next unless ent.type == "PERSON"
 
         term = ent.text
         term += " (#{@entities[i + 1].text}" if @entities[i + 1]&.type == "DATE"

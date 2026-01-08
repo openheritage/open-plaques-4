@@ -688,6 +688,7 @@ class Person < ApplicationRecord
     )
     phrase_like = "%#{name.tr(' ', '%').tr('.', '%')}%"
     unaccented_phrase_like = "%#{unaccented_phrase.tr(' ', '%').tr('.', '%')}%"
+    @people += Person.name_starts_with(name).limit(cap)
     @people += Person.name_contains(name).limit(cap)
     @people += Person.where([ "name ILIKE ?", phrase_like ]).limit(cap)
     @people += Person.where([ "name ILIKE ?", unaccented_phrase_like ]).limit(cap) if name.match(/[À-ž]/)
