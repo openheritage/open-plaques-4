@@ -19,21 +19,24 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <p>Enter any additional interesting information about the plaque and links to articles about it to be displayed on the plaque detail page.</p>
-    <p>Articles can be linked using the format [name of link](https://....)</p>
-
-    <% if @plaque.main_photo %>
-      <div class="row">
-        <div class="col-xs-12 col-sm-6">
-          <%= render "plaques/description/form" %>
-        </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <p>Enter any additional interesting information about the plaque and links to articles about it to be displayed on the plaque detail page.</p>
+        <p>Articles can be linked using the format [name of link](https://....)</p>
+        <%= form_for @plaque do |f| %>
+          <div class="form-group">
+            <%= f.label :description, t(".description") %>
+            <%= f.text_area :description, { rows: 6, autofocus: true } %>
+          </div>
+          <%= f.submit t("buttons.save") %>
+        <% end %>
+      </div>
+      <% if @plaque.main_photo %>
         <div class="col-xs-12 col-sm-6">
           <%= render @plaque.main_photo, large: true %>
         </div>
-      </div>
-    <% else %>
-      <%= render "plaques/description/form" %>
-    <% end %>
+      <% end %>
+    </div>
 
   </div>
 </section>

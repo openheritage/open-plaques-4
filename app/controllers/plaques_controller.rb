@@ -184,8 +184,7 @@ class PlaquesController < ApplicationController
     if params[:plaque] && params[:plaque][:colour_id]
       @colour = Colour.find(params[:plaque][:colour_id])
       if @plaque.colour_id != @colour.id
-        @plaque.colour = @colour
-        @plaque.save
+        @plaque.update!(colour: @colour)
       end
     end
     respond_to do |format|

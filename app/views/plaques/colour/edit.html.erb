@@ -20,18 +20,22 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <% if @plaque.main_photo %>
-      <div class="row">
-        <div class="col-xs-12 col-sm-6">
-          <%= render "plaques/colour/form" %>
-        </div>
+    <div class="row">
+      <div class="col-xs-12 <%= "col-sm-6" if @plaque.main_photo %>">
+        <%= form_for @plaque do |f| %>
+          <div class="form-group">
+            <%= f.label :colour_id, t(".colour_label") %>
+            <%= f.collection_select :colour_id, @colours, :id, :name, { include_blank: true } %>
+          </div>
+          <%= f.submit t("buttons.save") %>
+        <% end %>
+      </div>
+      <% if @plaque.main_photo %>
         <div class="col-xs-12 col-sm-6">
           <%= render @plaque.main_photo, large: true %>
         </div>
-      </div>
-    <% else %>
-      <%= render "plaques/colour/form" %>
-    <% end %>
+      <% end %>
+    </div>
 
   </div>
 </section>

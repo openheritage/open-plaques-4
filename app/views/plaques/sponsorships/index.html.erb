@@ -19,20 +19,22 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <p>Open Plaques credit every organisation listed on the plaque including monetary sponsors.</p>
-
     <div class="row">
       <div class="col-xs-12 col-sm-6" id="organisation-chooser">
-        <div class="col-md-12">
+        <p>Open Plaques credit every organisation listed on the plaque including monetary sponsors.</p>
+
+        <ul class="list-group">
           <% @plaque.sponsorships.each do |sponsorship| %>
             <% if sponsorship.organisation %>
-              <div class="row">
-                <div class="col-xs-10"><%= render sponsorship.organisation %></div>
-                <div class="col-xs-2"><%= button_to t("buttons.unlink"), plaque_sponsorship_path(@plaque, sponsorship.id), method: :delete, class: "btn btn-danger" %></div>
-              </div>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold"><%= link_to sponsorship.organisation.name, sponsorship.organisation %></div>
+                </div>
+                <%= button_to t("buttons.unlink"), plaque_sponsorship_path(@plaque, sponsorship.id), method: :delete, class: "btn btn-danger" %>
+              </li>
             <% end %>
           <% end %>
-        </div>
+        </ul>
 
         <%= form_for @sponsorship, url: plaque_sponsorships_path(@plaque) do |f| %>
           <%= f.hidden_field :plaque_id, value: @plaque.id %>
@@ -47,9 +49,7 @@
           <%= f.submit t("buttons.link") %>
         <% end %>
         <% if current_user %>
-          <p>
-            <%= link_to('Add new organisation', new_organisation_path) %>
-          </p>
+          <p><%= link_to('Add new organisation', new_organisation_path) %></p>
         <% end %>
       </div>
       <% if @plaque.main_photo %>
