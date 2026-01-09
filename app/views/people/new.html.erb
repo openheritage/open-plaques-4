@@ -42,6 +42,7 @@
           Please try to set a primary role ('actor', 'house', etc.) as it stops objects being displayed as people
         </small>
         <ul class="list-group" data-autocomplete-target="results"></ul>
+        <%= link_to t(".new_role"), new_role_path %>
       </div>
       <%= f.submit t("buttons.save") %>
     <% end %>

@@ -72,12 +72,10 @@
       <h2>AWS suggests...</h2>
       <% for entity in @entities %>
         <div>
-        <% if ['PERSON', 'ORGANIZATION'].include?(entity.type) %>
           <%= fa_icon(:user) if entity.type == 'PERSON' %>
           <%= fa_icon(:building) if entity.type == 'ORGANIZATION' %>
           <%= entity.text %>
           <span class="badge badge-success"><%= (entity.score * 100).round(1) %>%</span>
-        <% end %>
         </div>
       <% end %>
     <% end %>
@@ -113,7 +111,7 @@
       <% end %>
       <div class="form-group">
         <%= f.collection_select :verb_id, @verbs, :id, :name, {selected: '222'}, {class: 'form-select', style: 'width:400px' } %>
-        <%= link_to(t(".new_verb"), new_verb_path) %>
+        <%= link_to t(".new_verb"), new_verb_path %>
       </div>
       <% if @personal_connection.full_address %>
         <div class="form-group">
