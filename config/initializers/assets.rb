@@ -8,3 +8,4 @@ Rails.application.config.assets.version = "1.0"
 Rails.application.config.assets.paths << Rails.root.join("vendor/zenblog/css")
 Rails.application.config.assets.paths << Rails.root.join("vendor/zenblog/img")
 Rails.application.config.assets.paths << Rails.root.join("vendor/zenblog/js")
+Rails.application.config.assets.paths << Rails.root.join("vendor/ordnance_survey/images")

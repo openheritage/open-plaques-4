@@ -59,7 +59,14 @@
 
     <% if @display!='ungeolocated' %>
       <% if @area.geolocated? %>
-        <div id="plaque-map" class="full" data-latitude="<%= @area.latitude %>" data-longitude="<%= @area.longitude %>" data-view="all" context="<%= request.path %>"></div>
+        <section id="area_map" data-controller="maplibre" data-maplibre-style="<%= JSON[
+          {
+            centroid: @area.center_point_array
+          }
+        ] %>" style="height: 400px; width: 100%; margin-top: 15px;"></section>
+        <template data-controller="geojson" data-url="<%= area_plaques_path(@area, format: :geojson) %>" data-map-id="area_map">
+          when this is displayed it sends a message to the map to display popups then autodestructs
+        </template>
       <% else %>
         <%= form_for(@area, url: country_area_path(@area.country, @area)) do |f| %>
           <div class="edit_lat_long panel clearfix">

@@ -120,6 +120,10 @@ class Plaque < ApplicationRecord
     super options
   end
 
+  def center_point_array
+    [ longitude, latitude ]
+  end
+
   def coordinates
     geolocated? ? "#{latitude},#{longitude}" : ""
   end

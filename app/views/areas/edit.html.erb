@@ -31,9 +31,9 @@
       </div>
       <div class="mb-3">
         <%= f.label :country_id %>
-        <%= f.collection_select :country_id, @countries, :id, :name, {}, { class: 'form-select' } %>
+        <%= f.collection_select :country_id, @countries, :id, :name, {} %>
       </div>
-      <%= render 'geolocate', {f: f, object: @area, q: "#{@area.name}, #{@area.country.name}"} %>
+      <%= render 'geolocate', { f: f, object: @area, q: "#{@area.name}, #{@area.country.name}" } %>
       <%= f.submit t("buttons.update") %>
     <% end %>
     <br/>
