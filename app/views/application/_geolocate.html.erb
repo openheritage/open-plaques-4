@@ -15,5 +15,15 @@
     </div>
   </div>
   <% if object.geolocated? %>
-    <div id="map" style="height: 400px; width: 100%; margin-top: 15px;"></div>
+    <section id="geolocate" data-controller="maplibre" data-maplibre-style="<%= JSON[
+      {
+        centroid: object.center_point_array
+        # style: 'https://demotiles.maplibre.org/style.json',
+        # style: asset_path('os-outdoor-style.json'),
+        # style: asset_path('os-standard-map-style.json'),
+      }
+    ] %>" style="height: 400px; width: 100%; margin-top: 15px;"></section>
+    <template data-controller="marker" data-center-point-array="<%= object.center_point_array %>" data-map-id="geolocate">
+      when this is displayed it sends a message to the map to display popups then autodestructs
+    </template>
   <% end %>

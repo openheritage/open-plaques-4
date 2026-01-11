@@ -23,3 +23,7 @@ pin "outlayer" # @2.1.1
 pin "swiper" # @12.0.3 https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js
 pin "zenblog"
 pin "stimulus-autocomplete" # @3.1.0
+pin "lodash" # @4.17.21
+pin "lodash.debounce" # @4.0.8
+pin "layer-switcher"
+pin "maplibre-gl" # @5.15.0

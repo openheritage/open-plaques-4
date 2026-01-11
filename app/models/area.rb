@@ -42,6 +42,10 @@ class Area < ApplicationRecord
     super options
   end
 
+  def center_point_array
+    [ longitude, latitude ]
+  end
+
   def full_name
     "#{name}, #{country.name}"
   end
