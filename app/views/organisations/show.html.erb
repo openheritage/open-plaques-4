@@ -72,9 +72,15 @@
 
       <% if @display!='ungeolocated' && @organisation.geolocated? %>
         <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
+          @organisation.bbox_array ? 
           {
-            centroid: @organisation.center_point_array
+            bounds: @organisation.bbox_array,
+            fitBoundsOptions: {
+              padding: 50
+            }
           }
+          :
+          { centroid: @organisation.center_point_array }
         ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
           <template data-controller="geojson" data-url="<%= organisation_plaques_path(@organisation, format: :geojson) %>" data-map-id="plaque-map">
             when this is displayed it sends a message to the map to display popups then autodestructs
@@ -87,7 +93,15 @@
 
       <h2>Subjects</h2>
       <%= render partial: "people/tiles" %>
-      <%= render partial: "people/diversity" %>
+    </div>
+
+    <div class="col-lg-4 sidebar">
+
+      <div class="widgets-container">
+        <%= render "search" %>
+        <%= render partial: "people/diversity" %>
+      </div>
+
     </div>
   </div>
 </div>
