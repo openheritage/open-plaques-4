@@ -18,10 +18,6 @@ class Series < ApplicationRecord
     random_plaque&.main_photo
   end
 
-  def geolocated?
-    !(latitude.nil? && longitude.nil? || latitude == 51.475 && longitude.zero?)
-  end
-
   def zoom
     10
   end

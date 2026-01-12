@@ -343,31 +343,6 @@ module PlaquesHelper
     inscription&.html_safe
   end
 
-  # given a set of plaques, or a thing that has plaques (like an organisation) tell me what the mean point is
-  def find_mean(things)
-    @centre = Point.new
-    @centre.latitude = 51.475 # Greenwich Meridian
-    @centre.longitude = 0
-    begin
-      @lat = 0
-      @lon = 0
-      @count = 0
-      things.each do |thing|
-        next unless thing.geolocated?
-
-        @lat += thing.latitude
-        @lon += thing.longitude
-        @count += 1
-      end
-      @centre.latitude = @lat / @count
-      @centre.longitude = @lon / @count
-      @centre
-    rescue
-      # oh, maybe it's a thing that has plaques
-      find_mean(thing.plaques)
-    end
-  end
-
   def geolocation_from(url)
     # https://www.google.com/maps/place/ulitsa+Goncharova,+48,+Ulyanovsk,+Ulyanovskaya+oblast',+Russia,+432011/@54.319775,48.39987,17z/data=!3m1!4b1!4m2!3m1!1s0x415d37692250ea21:0xeab69349916c0171
     # https://www.google.com/maps/@37.0625,-95.677068,4z

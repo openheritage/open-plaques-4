@@ -32,10 +32,6 @@ class Organisation < ApplicationRecord
     sponsorships_count
   end
 
-  def geolocated?
-    !(latitude.nil? && longitude.nil? || latitude == 51.475 && longitude.zero?)
-  end
-
   def main_photo
     random_plaque = plaques.photographed.random
     random_plaque&.main_photo

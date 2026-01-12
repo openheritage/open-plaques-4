@@ -159,14 +159,6 @@ class Photo < ApplicationRecord
     !unlinked?
   end
 
-  def ungeolocated?
-    latitude.nil?
-  end
-
-  def geolocated?
-    !ungeolocated?
-  end
-
   def nearest_plaques
     return unless unlinked? && geolocated?
 
