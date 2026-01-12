@@ -19,7 +19,7 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <%= form_for(@plaque) do |f| %>
+    <%= form_for @plaque do |f| %>
       <div class="mb-3">
         <%= f.label :erected_at_string, t('.erected_in'), {class: 'form-label'} %>
         <%= f.text_field :erected_at_string, { class: "form-control", include_blank: true } %>

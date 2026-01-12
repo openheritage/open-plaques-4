@@ -90,7 +90,7 @@ class PeopleController < ApplicationController
     rescue
     end
     respond_to do |format|
-      format.html
+      format.html { @plaques = @person.plaques }
       format.json { render json: @person }
       format.geojson { render geojson: @person }
       format.csv do

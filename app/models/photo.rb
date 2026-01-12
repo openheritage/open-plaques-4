@@ -15,6 +15,8 @@ require "wikimedia/commoner"
 # * +thumbnail+ - A link to a thumbnail image if there is one
 # * +url+ - The primary stable webpage for the photo
 class Photo < ApplicationRecord
+  include Geolocatable
+
   belongs_to :plaque, counter_cache: true, optional: true
   belongs_to :person, optional: true
   belongs_to :licence, counter_cache: true, optional: true

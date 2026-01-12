@@ -8,6 +8,7 @@
 # * +name+ - the country's common name (not necessarily its official one).
 # * +wikidata_id+ - Q-code to match to Wikidata
 class Country < ApplicationRecord
+  include Geolocatable
   include Nameable
   include PlaquesHelper
 

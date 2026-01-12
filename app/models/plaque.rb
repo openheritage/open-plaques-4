@@ -24,6 +24,7 @@ require "aws-sdk-translate"
 class Plaque < ApplicationRecord
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
+  include Geolocatable
 
   acts_as_taggable_on :categories
   acts_as_taggable_on :tags
@@ -118,10 +119,6 @@ class Plaque < ApplicationRecord
       }
     end
     super options
-  end
-
-  def center_point_array
-    [ longitude, latitude ]
   end
 
   def coordinates

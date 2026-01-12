@@ -17,6 +17,7 @@
 #            with spaces replaced by underscores. Used in URLs.
 class Area < ApplicationRecord
   include ApplicationHelper
+  include Geolocatable
   include PlaquesHelper
 
   belongs_to :country, counter_cache: true
@@ -40,10 +41,6 @@ class Area < ApplicationRecord
       }
     end
     super options
-  end
-
-  def center_point_array
-    [ longitude, latitude ]
   end
 
   def full_name
