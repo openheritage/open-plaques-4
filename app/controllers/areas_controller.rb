@@ -65,12 +65,7 @@ class AreasController < ApplicationController
   end
 
   def geolocate
-    unless @area.geolocated?
-      @mean = Helper.instance.find_mean(@area.plaques.geolocated.random(50))
-      @area.latitude = @mean.latitude
-      @area.longitude = @mean.longitude
-      @area.save
-    end
+    @area.geolocate!
     redirect_back(fallback_location: root_path)
   end
 
@@ -107,6 +102,10 @@ class AreasController < ApplicationController
       :country_id,
       :latitude,
       :longitude,
+      :max_latitude,
+      :max_longitude,
+      :min_latitude,
+      :min_longitude,
       :name,
       :slug,
       :streetview_url

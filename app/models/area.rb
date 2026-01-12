@@ -47,10 +47,6 @@ class Area < ApplicationRecord
     "#{name}, #{country.name}"
   end
 
-  def geolocated?
-    !(latitude.nil? || longitude.nil? || latitude == 51.475 && longitude.zero?)
-  end
-
   def main_photo
     random_plaque = plaques.photographed.random
     random_plaque == [] ? nil : random_plaque&.main_photo

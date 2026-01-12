@@ -29,10 +29,6 @@ class Country < ApplicationRecord
     super options
   end
 
-  def geolocated?
-    !(latitude.nil? || longitude.nil? || latitude == 51.475 && longitude.zero?)
-  end
-
   def name=(name)
     write_attribute(:name, name.try(:squish))
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_28_150331) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_12_103422) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -42,6 +42,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_150331) do
     t.string "dbpedia_uri", limit: 255
     t.float "latitude"
     t.float "longitude"
+    t.float "max_latitude"
+    t.float "max_longitude"
+    t.float "min_latitude"
+    t.float "min_longitude"
     t.string "name", limit: 255
     t.integer "plaques_count"
     t.string "slug", limit: 255
@@ -69,6 +73,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_150331) do
     t.text "description"
     t.float "latitude"
     t.float "longitude"
+    t.float "max_latitude"
+    t.float "max_longitude"
+    t.float "min_latitude"
+    t.float "min_longitude"
     t.string "name", limit: 255
     t.integer "plaques_count"
     t.integer "preferred_zoom_level"
@@ -94,6 +102,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_150331) do
   create_table "languages", id: :serial, force: :cascade do |t|
     t.string "alpha2", limit: 255
     t.datetime "created_at"
+    t.float "latitude"
+    t.float "longitude"
+    t.float "max_latitude"
+    t.float "max_longitude"
+    t.float "min_latitude"
+    t.float "min_longitude"
     t.string "name", limit: 255
     t.integer "plaques_count"
     t.datetime "updated_at"
@@ -115,6 +129,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_150331) do
     t.integer "language_id"
     t.float "latitude"
     t.float "longitude"
+    t.float "max_latitude"
+    t.float "max_longitude"
+    t.float "min_latitude"
+    t.float "min_longitude"
     t.string "name", limit: 255
     t.text "notes"
     t.string "slug", limit: 255
@@ -130,6 +148,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_150331) do
     t.bigint "author_id"
     t.text "body"
     t.datetime "created_at"
+    t.float "latitude"
+    t.float "longitude"
+    t.float "max_latitude"
+    t.float "max_longitude"
+    t.float "min_latitude"
+    t.float "min_longitude"
     t.string "name", limit: 255
     t.string "slug", limit: 255
     t.string "strapline", limit: 255
@@ -151,6 +175,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_150331) do
     t.string "gender", limit: 255, default: "u"
     t.string "index", limit: 255
     t.text "introduction"
+    t.float "latitude"
+    t.float "longitude"
+    t.float "max_latitude"
+    t.float "max_longitude"
+    t.float "min_latitude"
+    t.float "min_longitude"
     t.string "name", limit: 255
     t.integer "personal_connections_count"
     t.integer "personal_roles_count"
@@ -271,6 +301,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_150331) do
     t.string "description", limit: 255
     t.float "latitude"
     t.float "longitude"
+    t.float "max_latitude"
+    t.float "max_longitude"
+    t.float "min_latitude"
+    t.float "min_longitude"
     t.string "name", limit: 255
     t.integer "plaques_count"
     t.datetime "updated_at"

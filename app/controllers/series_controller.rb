@@ -66,12 +66,7 @@ class SeriesController < ApplicationController
   end
 
   def geolocate
-    unless @series.geolocated?
-      @mean = Helper.instance.find_mean(@series.plaques.geolocated.random(50))
-      @series.latitude = @mean.latitude
-      @series.longitude = @mean.longitude
-      @series.save
-    end
+    @series.geolocate!
     redirect_back(fallback_location: root_path)
   end
 
@@ -104,6 +99,10 @@ class SeriesController < ApplicationController
       :description,
       :latitude,
       :longitude,
+      :max_latitude,
+      :max_longitude,
+      :min_latitude,
+      :min_longitude,
       :name,
       :streetview_url
     )

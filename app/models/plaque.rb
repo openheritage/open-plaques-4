@@ -182,10 +182,6 @@ class Plaque < ApplicationRecord
     a
   end
 
-  def geolocated?
-    !latitude.nil? && !longitude.nil?
-  end
-
   def inscription_preferably_in_english
     translate
     inscription_in_english && !inscription_in_english.blank? ? inscription_in_english.gsub(/\r/, " ").gsub(/\n/, " ") : inscription.gsub(/\r/, " ").gsub(/\n/, " ")

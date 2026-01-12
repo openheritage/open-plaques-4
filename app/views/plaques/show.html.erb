@@ -1,5 +1,4 @@
 <% content_for :page_title, @plaque %>
-
 <%= render "plaques/edit_bar", plaque: @plaque %>
 
 <!-- Page Title -->
@@ -187,8 +186,15 @@
         <%= render "tags" %>
 
         <% if @plaque.geolocated? %>
-          <div id="plaque-map" data-latitude="<%= @plaque.latitude %>" data-longitude="<%= @plaque.longitude %>" class="mini" data-zoom="17" data-view="one">
-          </div>
+          <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
+            {
+              centroid: @plaque.center_point_array,
+            }
+          ] %>"  style="height: 400px; width: 100%; margin-top: 15px;">
+            <template data-controller="geojson" data-url="<%= plaque_path(@plaque, format: :geojson) %>" data-map-id="plaque-map">
+              when this is displayed it sends a message to the map to display popups then autodestructs
+            </template>
+          </section>
           <%= content_tag(:div, t('.approximate_position'), class: 'bg-warning') unless @plaque.is_accurate_geolocation %>
         <% end %>
       </div>

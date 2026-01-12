@@ -136,6 +136,21 @@
       </div>
     </div><!-- End Section Title -->
 
+    <% if @person.geolocated? %>
+      <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
+        {
+          bounds: @person.bbox_array,
+          fitBoundsOptions: {
+            padding: 50
+          }
+        }
+      ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
+        <template data-controller="geojson" data-url="<%= person_plaques_path(@person, format: :geojson) %>" data-map-id="plaque-map">
+          when this is displayed it sends a message to the map to display popups then autodestructs
+        </template>
+      </section>
+    <% end %>
+
     <%= render partial: "plaques/tabbed" %>
 
   </div>
