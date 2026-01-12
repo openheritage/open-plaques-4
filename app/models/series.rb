@@ -7,6 +7,8 @@
 # * +name+ - The name of the series as it appears on the plaques
 # * +plaques_count+
 class Series < ApplicationRecord
+  include Geolocatable
+
   has_many :plaques
   validates_presence_of :name
   scope :by_popularity, -> { order(plaques_count: :desc) }

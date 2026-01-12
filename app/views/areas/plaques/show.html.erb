@@ -63,10 +63,11 @@
           {
             centroid: @area.center_point_array
           }
-        ] %>" style="height: 400px; width: 100%; margin-top: 15px;"></section>
-        <template data-controller="geojson" data-url="<%= area_plaques_path(@area, format: :geojson) %>" data-map-id="area_map">
-          when this is displayed it sends a message to the map to display popups then autodestructs
-        </template>
+        ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
+          <template data-controller="geojson" data-url="<%= area_plaques_path(@area, format: :geojson) %>" data-map-id="area_map">
+            when this is displayed it sends a message to the map to display popups then autodestructs
+          </template>
+        </section>
       <% else %>
         <%= form_for(@area, url: country_area_path(@area.country, @area)) do |f| %>
           <div class="edit_lat_long panel clearfix">
@@ -76,13 +77,13 @@
             <p>Just find '<%= @area.full_name %>' <a href="https://maps.google.com/maps?q=<%= @area.full_name %>&z=18" target="_new">on Google Maps</a> and tell us the <%= label_tag(:streetview_url, "web url:") %> <%= text_field_tag(:streetview_url, ' ', size: 100) %>.</p>
             <p>We will extract the geolocation. Probably.</p>
             <%= f.hidden_field :name %>
-            <p><%= f.submit t('buttons.update') %></p>
+            <p><%= f.submit t("buttons.update") %></p>
           </div>
         <% end %>
       <% end %>
     <% end %>
 
-    <%= render partial: 'plaques/tabbed' %>
+    <%= render partial: "plaques/tabbed" %>
 
   </div>
 </section>

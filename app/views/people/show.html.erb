@@ -8,7 +8,7 @@
     <h1 class="mb-2 mb-lg-0"><%= @person.full_name %></h1>
     <nav class="breadcrumbs">
       <ol>
-        <li><%= link_to('subjects', people_path)%></li>
+        <li><%= link_to("subjects", people_path)%></li>
         <li class="current"><%= @person.id %></li>
       </ol>
     </nav>
@@ -75,7 +75,7 @@
       </div>
       </div>
 
-      <%= render partial: 'family_tree' %>
+      <%= render partial: "family_tree" %>
 
       <% if @person.group? && @person.non_family_relationships.count > 0 %>
         <% if @person.non_family_relationships.count < 3 %>
@@ -128,16 +128,15 @@
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
       <div class="section-title-container d-flex align-items-center justify-content-between">
-        <% if @person.plaques.size > 0 %>
-          <h2><%= t '.commemorated_on', count: @person.plaques.size %></h2>
+        <% if @plaques.size > 0 %>
+          <h2><%= t(".commemorated_on", count: @plaques.size) %></h2>
         <% else %>
-          <h2><%= t '.not_commemorated'%></h2>
+          <h2><%= t(".not_commemorated") %></h2>
         <% end %>
       </div>
     </div><!-- End Section Title -->
 
-    <% @plaques = @person.plaques %>
-    <%= render partial: 'plaques/tabbed' %>
+    <%= render partial: "plaques/tabbed" %>
 
   </div>
 </section>

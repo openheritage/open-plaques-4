@@ -19,10 +19,8 @@
 
     <p><%= t(".explanation") %></p>
     <%= form_for :verb, url: verbs_path do |f| -%>
-      <div class="mb-3">
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-      </div>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
       <%= f.submit t("buttons.save") %>
     <% end %>
 

@@ -71,7 +71,15 @@
       <% end %>
 
       <% if @display!='ungeolocated' && @organisation.geolocated? %>
-        <div id="plaque-map" data-latitude="<%= @organisation.latitude %>" data-longitude="<%= @organisation.longitude %>" data-view="all" context="<%= request.path %>"></div>
+        <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
+          {
+            centroid: @organisation.center_point_array
+          }
+        ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
+          <template data-controller="geojson" data-url="<%= organisation_plaques_path(@organisation, format: :geojson) %>" data-map-id="plaque-map">
+            when this is displayed it sends a message to the map to display popups then autodestructs
+          </template>
+        </section>
       <% end %>
 
       <h2>Plaques</h2>

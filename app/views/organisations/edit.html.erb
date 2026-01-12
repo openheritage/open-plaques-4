@@ -1,43 +1,62 @@
 <% content_for(:page_title) { t(".page_title", organisation: @organisation.name) } %>
 
-<%= t(".page_heading", organisation: @organisation.name) %>
+<!-- Page Title -->
+<div class="page-title">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0"><%= t(".page_heading", organisation: @organisation.name) %></h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Organisations", organisations_path %></li>
+        <li><%= link_to @organisation %></li>
+        <li class="current">Edit</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
 
-<%= form_for(@organisation) do |f| %>
-  <div class="mb-3">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+<section class="section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <%= form_for @organisation do |f| %>
+      <div class="mb-3">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :language_id, t('.language') %>
+        <%= f.collection_select :language_id, @languages, :id, :name, { include_blank: "Select a language" }, class: 'form-select' %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :slug %>
+        <%= f.text_field :slug %>
+      </div>
+      <div class="mb-3">
+        <%= label_tag(nil, t('.geolocation')) %>
+        <%= f.label :latitude %> <%= f.text_field :latitude %>
+        <%= f.label :longitude %> <%= f.text_field :longitude %>
+      </div>
+      <div class="mb-3">
+        <%= label_tag(:streetview_url, t('.google_streetview_url')) %>
+        <%= text_field_tag(:streetview_url, nil) %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :website %>
+        <%= f.text_field :website %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :description %>
+        <%= f.text_area :description %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :notes %>
+        <%= f.text_area :notes %>
+      </div>
+      <%= f.submit t("buttons.save")  %>
+    <% end %>
+
   </div>
-  <div class="mb-3">
-    <%= f.label :language_id, t('.language') %>
-    <%= f.collection_select :language_id, @languages, :id, :name, { include_blank: "Select a language" }, class: 'form-select' %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :slug %>
-    <%= f.text_field :slug %>
-  </div>
-  <div class="mb-3">
-    <%= label_tag(nil, t('.geolocation')) %>
-    <%= f.label :latitude %> <%= f.text_field :latitude %>
-    <%= f.label :longitude %> <%= f.text_field :longitude %>
-  </div>
-  <div class="mb-3">
-    <%= label_tag(:streetview_url, t('.google_streetview_url')) %>
-    <%= text_field_tag(:streetview_url, nil) %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :website %>
-    <%= f.text_field :website %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
-  </div>
-  <div class="mb-3">
-    <%= f.label :notes %>
-    <%= f.text_area :notes %>
-  </div>
-  <%= f.submit t("buttons.save")  %>
-<% end %>
+</section>
 
 <div id="map" style="height: 400px; width: 100%; margin-top: 15px;"></div>
 
