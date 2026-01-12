@@ -4,6 +4,8 @@ module Geolocatable
 
   # Mapbox bounding box (southwest corner, northeast corner)
   def bbox_array
+    return unless respond_to?(:min_longitude) && min_longitude
+
     sw_corner = [ min_longitude, min_latitude ]
     ne_corner = [ max_longitude, max_latitude ]
     [ sw_corner, ne_corner ]
