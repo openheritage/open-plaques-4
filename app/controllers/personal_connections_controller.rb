@@ -19,14 +19,11 @@ class PersonalConnectionsController < ApplicationController
     begin
       client = Aws::Comprehend::Client.new(region: "eu-west-1")
       @entities = client.detect_entities(
-        {
-          text: @plaque.inscription_preferably_in_english,
-          language_code: :en
-        }
+        { text: @plaque.inscription_preferably_in_english, language_code: :en }
       )
       @entities = @entities["entities"]
       @entities.each_with_index do |ent, i|
-        # next unless ent.type == "PERSON"
+        next unless ent.type == "PERSON" || ent.type == "ORGANIZATION"
 
         term = ent.text
         term += " (#{@entities[i + 1].text}" if @entities[i + 1]&.type == "DATE"
@@ -35,6 +32,7 @@ class PersonalConnectionsController < ApplicationController
         @suggested_people += search_result if search_result
       end
     rescue
+      Rails.logger.error("Unable to call AWS Comprehend. Maybe env credentials are wrong.")
     end
   end
 

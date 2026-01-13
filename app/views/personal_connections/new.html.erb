@@ -70,17 +70,20 @@
 
     <% if @entities && @entities != [] %>
       <h2>AWS suggests...</h2>
-      <% for entity in @entities %>
-        <div>
-          <%= fa_icon(:user) if entity.type == 'PERSON' %>
-          <%= fa_icon(:building) if entity.type == 'ORGANIZATION' %>
-          <%= entity.text %>
-          <span class="badge badge-success"><%= (entity.score * 100).round(1) %>%</span>
-        </div>
-      <% end %>
+      <ul class="list-group">
+        <% for entity in @entities %>
+          <li class="list-group-item d-flex justify-content-left align-items-start">
+            <%= fa_icon(:user) if entity.type == 'PERSON' %>
+            <%= fa_icon(:building) if entity.type == 'ORGANIZATION' %>
+            <%= entity.text %> [<%= entity.type %>]
+            <span class="badge badge-success"><%= (entity.score * 100).round(1) %>%</span>
+          </li>
+        <% end %>
+      </ul>
     <% end %>
 
     <% if @suggested_people && @suggested_people.size > 0 %>
+      <h2>OpenPlaques suggests...</h2>
       <div id="person-tiles" class="row" data-masonry='{"percentPosition": true }'>
         <% for person in @suggested_people %>
           <%= render partial: "people/tile", object: person, as: :person %>
