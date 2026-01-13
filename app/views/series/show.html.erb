@@ -19,7 +19,7 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <p><%= @series.description %></p>
+    <p><%= markdown @series.description %></p>
     <%= render partial: "plaques/badge", object: @series.plaques_count, as: @plaques_count %>
 
     <% if @series.geolocated? %>

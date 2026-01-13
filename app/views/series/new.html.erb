@@ -18,14 +18,10 @@
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <%= form_for @series do |f| %>
-      <div class="mb-3">
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-      </div>
-      <div class="mb-3">
-        <%= f.label :description %>
-        <%= f.text_field :description %>
-      </div>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+      <%= f.label :description %>
+      <%= f.text_field :description %>
       <%= f.submit t("buttons.save") %>
     <% end %>
 

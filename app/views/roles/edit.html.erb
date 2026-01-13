@@ -20,34 +20,20 @@
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <%= form_for @role do |f| %>
-      <div class="mb-3">
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-      </div>
-      <div class="mb-3">
-        <%= f.label :role_type %>
-        <%= f.collection_select :role_type, Role.types, :to_s, :to_s, include_blank: true %>
-      </div>
-      <div class="mb-3">
-        <%= f.label :abbreviation %>
-        <%= f.text_field :abbreviation %>
-      </div>
-      <div class="mb-3">
-        <%= f.label :prefix %>
-        <%= f.text_field :prefix %>
-      </div>
-      <div class="mb-3">
-        <%= f.label :suffix %>
-        <%= f.text_field :suffix %>
-      </div>
-      <div class="mb-3">
-        <%= f.label :priority %>
-        <%= f.number_field :priority %>
-      </div>
-      <div class="mb-3">
-        <%= f.label :slug %>
-        <%= f.text_field :slug %>
-      </div>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+      <%= f.label :role_type %>
+      <%= f.collection_select :role_type, Role.types, :to_s, :to_s, include_blank: true %>
+      <%= f.label :abbreviation %>
+      <%= f.text_field :abbreviation %>
+      <%= f.label :prefix %>
+      <%= f.text_field :prefix %>
+      <%= f.label :suffix %>
+      <%= f.text_field :suffix %>
+      <%= f.label :priority %>
+      <%= f.number_field :priority %>
+      <%= f.label :slug %>
+      <%= f.text_field :slug %>
       <div class="mb-3">
         <div class="col-sm-2">
           <%= f.label :wikidata_id %>
@@ -64,10 +50,8 @@
         </div>
         <%= t(".wikipedia_comment") %>
       </div>
-      <div class="mb-3">
-        <%= f.label :description %>
-        <%= f.text_field :description %>
-      </div>
+      <%= f.label :description %>
+      <%= f.text_field :description %>
       <%= f.submit t("buttons.save") %>
     <% end %>
 
