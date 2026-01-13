@@ -57,9 +57,21 @@ class PeopleController < ApplicationController
       @people.uniq!
     end
     respond_to do |format|
-      format.html { render html: @people.map { |person| "<li class=\"list-group-item\" role=\"option\" data-autocomplete-value=\"#{person.id}\">#{person.name}</li>" }.join.html_safe }
+      format.html { render html: @people.map { |person| person_partial(person) }.join.html_safe }
       format.json { render json: @people.as_json(methods: %i[action_id name_and_dates primary_role_name type], only: %i[id name]) }
     end
+  end
+
+  def person_partial(person)
+    <<~HTML
+      <li class="list-group-item d-flex justify-content-left align-items-start" role="option" data-autocomplete-value="#{person.id}">
+        <div class="avatar avatar-s border border-white rounded-pill">
+        #{ ActionController::Base.helpers.image_tag(person.main_photo.thumbnail_url, class: 'rounded-circle', style: "height: 100px;") if person.main_photo&.thumbnail_url }
+        </div>
+        #{ person.name_and_dates }
+        #{ person.primary_role&.role&.name }
+      </li>
+    HTML
   end
 
   def show
