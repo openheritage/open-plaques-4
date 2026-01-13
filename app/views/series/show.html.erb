@@ -23,7 +23,21 @@
     <%= render partial: "plaques/badge", object: @series.plaques_count, as: @plaques_count %>
 
     <% if @series.geolocated? %>
-      <div id="plaque-map" class="mini" data-latitude="<%= @series.latitude %>" data-longitude="<%= @series.longitude %>" data-view="all" context="<%= request.path %>/plaques"></div>
+      <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
+        @series.bbox_array ? 
+        {
+          bounds: @series.bbox_array,
+          fitBoundsOptions: {
+            padding: 50
+          }
+        }
+        :
+        { centroid: @series.center_point_array }
+      ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
+        <template data-controller="geojson" data-url="<%= series_plaques_path(@series, format: :geojson) %>" data-map-id="plaque-map">
+          when this is displayed it sends a message to the map to display popups then autodestructs
+        </template>
+      </section>
     <% end %>
 
     <%= render partial: "plaques/tabbed" %>
