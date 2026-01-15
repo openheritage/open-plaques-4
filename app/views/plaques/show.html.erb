@@ -29,7 +29,12 @@
               <% if @plaque.main_photo %>
                 <%= render @plaque.main_photo, large: true, class: "img-fluid" %>
               <% else %>
-                <%= image_tag "NoPhotoSqr.png", alt: @plaque.title, class: "img-fluid" %>
+                <%= link_to plaque_photos_path(@plaque) do %>
+                  <%= image_tag("NoPhotoSqr.png", alt: @plaque.title, class: "img-fluid") %>
+                  <p class="card-text">
+                    <%= t '.how_to_add_yours' %>
+                  </p>
+                <% end %>
               <% end %>
             </div>
 
@@ -80,20 +85,6 @@
                       <%= f.submit t("buttons.save"), class: :button %>
                     <% end %>
                   <% end %>
-                </p>
-                <p>
-                  Wikimedia:
-                  <div class="input-group" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
-                    <input class="form-control" name="wikimedia_tag" type="text" readonly value="<%= @plaque.wikimedia_tag %>" data-clipboard-target="source" />
-                    <button class="btn btn-secondary" type="button" data-action="clipboard#copy" data-clipboard-target="button">Copy to clipboard</button>
-                  </div>
-                </p>
-                <p>
-                  Flickr:
-                  <div class="input-group" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
-                    <input class="form-control" name="machine_tag" type="text" readonly value="<%= @plaque.machine_tag %>" data-clipboard-target="source" />
-                    <button class="btn btn-secondary" type="button" data-action="clipboard#copy" data-clipboard-target="button">Copy to clipboard</button>
-                  </div>
                 </p>
               </div>
               <% if @plaque.other_photos.present? %>
@@ -182,6 +173,24 @@
         <%= render "search" %>
 
         <%= render "subjects", plaque: @plaque %>
+
+        <div class="widget-item">
+          <h3 class="widget-title">External site tags</h3>
+          <p>
+            Wikimedia:
+            <div class="input-group" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
+              <input class="form-control" name="wikimedia_tag" type="text" readonly value="<%= @plaque.wikimedia_tag %>" data-clipboard-target="source" />
+              <button class="btn btn-secondary" type="button" data-action="clipboard#copy" data-clipboard-target="button">Copy to clipboard</button>
+            </div>
+          </p>
+          <p>
+            Flickr:
+            <div class="input-group" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
+              <input class="form-control" name="machine_tag" type="text" readonly value="<%= @plaque.machine_tag %>" data-clipboard-target="source" />
+              <button class="btn btn-secondary" type="button" data-action="clipboard#copy" data-clipboard-target="button">Copy to clipboard</button>
+            </div>
+          </p>
+        </div>
 
         <%= render "tags" %>
 
