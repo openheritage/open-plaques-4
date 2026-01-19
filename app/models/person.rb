@@ -303,7 +303,7 @@ class Person < ApplicationRecord
   end
 
   def existence_word
-    alive? ? "is" : "was"
+    alive? ? "is" : "were"
   end
 
   def family_relationships

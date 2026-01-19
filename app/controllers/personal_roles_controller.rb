@@ -112,21 +112,21 @@ class PersonalRolesController < ApplicationController
           @vice_versa.save
         end
       end
-      redirect_to(edit_person_path(@personal_role.person))
+      redirect_to(edit_person_path(@person))
     else
       render :edit
     end
   end
 
   def destroy
-    @person = @personal_role.person
     @personal_role.destroy
-    redirect_to(edit_person_url(@person))
+    redirect_to(edit_person_path(@person))
   end
 
   protected
 
   def find
     @personal_role = PersonalRole.find(params[:id])
+    @person = @personal_role.person
   end
 end

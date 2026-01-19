@@ -229,7 +229,7 @@
     <% @person.personal_roles.each_with_index do |personal_role, index| %>
       <div class="row">
         <span class="col-sm-1">
-          <%= link_to t("buttons.edit"), edit_personal_role_path(personal_role) %>
+          <%= link_to t("buttons.edit"), edit_personal_role_path(personal_role), class: "btn btn-warning" %>
         </span>
         <span class="col-sm-11">
           <% if index == 0 %>
@@ -241,7 +241,7 @@
           <%= "best known as " if personal_role.primary %><%= a_or_an(personal_role.name, false) %>
           <%= dated_role(personal_role).html_safe %>
           <%= t('.conferring_the_letters') + ' ' + personal_role.role.suffix if personal_role.role.used_as_a_suffix? %><%= t('.conferring_the_title') + ' ' + personal_role.role.prefix if personal_role.role.used_as_a_prefix? %>
-          <%= link_to t("buttons.delete"), personal_role, method: :delete, class: "btn btn-danger" %>
+          <%= button_delete(personal_role_path(personal_role)) %>
         </span>
       </div>
     <% end %>
@@ -264,7 +264,7 @@
         <% end %>
       </span>
       <span class="col-sm-12">
-        <%= link_to(t('.add_a_role'), new_role_path) %>
+        <%= link_to(t('.add_a_role'), new_role_path, target: :_blank, class: "btn btn-warning") %>
       </span>
     </div>
 
