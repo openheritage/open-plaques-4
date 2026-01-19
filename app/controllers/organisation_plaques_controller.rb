@@ -66,7 +66,7 @@ class OrganisationPlaquesController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { render "organisations/plaques/show" }
+      format.html { render "organisations/show" }
       format.json { render json: @plaques }
       format.geojson { render geojson: @plaques, parent: @organisation }
       format.csv do
