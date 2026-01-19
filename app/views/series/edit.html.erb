@@ -20,10 +20,18 @@
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <%= form_for @series do |f| %>
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-      <%= f.label :description %>
-      <%= f.text_field :description %>
+      <div class="col-sm-6 col-md-8">
+        <div class="form-floating">
+          <%= f.text_field :name %>
+          <%= f.label :name %>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-8">
+        <div class="form-floating">
+          <%= f.text_area :description, style: "height: 100px" %>
+          <%= f.label :description %>
+        </div>
+      </div>
       <%= render "geolocate", { f: f, object: @series, q: "#{@series.name}" } %>
       <%= f.submit t("buttons.update") %>
     <% end %>

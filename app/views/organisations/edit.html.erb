@@ -19,18 +19,42 @@
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <%= form_for @organisation do |f| %>
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-      <%= f.label :language_id, t('.language') %>
-      <%= f.collection_select :language_id, @languages, :id, :name, { include_blank: "Select a language" }, class: 'form-select' %>
-      <%= f.label :slug %>
-      <%= f.text_field :slug %>
-      <%= f.label :website %>
-      <%= f.text_field :website %>
-      <%= f.label :description %>
-      <%= f.text_area :description %>
-      <%= f.label :notes %>
-      <%= f.text_area :notes %>
+      <div class="col-sm-6 col-md-8">
+        <div class="form-floating">
+          <%= f.text_field :name %>
+          <%= f.label :name %>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <%= f.collection_select :language_id, @languages, :id, :name, { include_blank: "Select a language" }, class: 'form-select' %>
+          <%= f.label :language_id, t('.language') %>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <%= f.text_field :slug %>
+          <%= f.label :slug %>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <%= f.label :website %>
+          <%= f.text_field :website %>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-8">
+        <div class="form-floating">
+          <%= f.text_area :description, style: "height: 100px" %>
+          <%= f.label :description %>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-8">
+        <div class="form-floating">
+          <%= f.text_area :notes, style: "height: 100px" %>
+          <%= f.label :notes %>
+        </div>
+      </div>
       <%= render "geolocate", { f: f, object: @organisation, q: "#{@organisation.name}" } %>
       <%= f.submit t("buttons.save")  %>
     <% end %>

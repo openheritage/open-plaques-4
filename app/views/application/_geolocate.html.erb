@@ -1,7 +1,11 @@
   <div class="mb-3">
     <h3><%= label_tag(nil, t('.geolocation')) %></h3>
-    <%= label_tag :streetview_url, t('find_on_google_maps_html', q: q) %>
-    <%= text_field_tag(:streetview_url, nil) %>
+    <div class="col-sm-6 col-md-8">
+      <div class="form-floating">
+        <%= text_field_tag(:streetview_url, nil) %>
+        <%= label_tag :streetview_url, t('find_on_google_maps_html', q: q) %>
+      </div>
+    </div>
     <div class="col-sm-6">
       <div class="input-group">
         <span class="input-group-text"><%= f.label :latitude %></span>
