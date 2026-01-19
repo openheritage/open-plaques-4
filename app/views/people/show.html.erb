@@ -138,12 +138,15 @@
 
     <% if @person.geolocated? %>
       <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
+        @person.bbox_array ? 
         {
           bounds: @person.bbox_array,
           fitBoundsOptions: {
             padding: 50
           }
         }
+        :
+        { centroid: @person.center_point_array }
       ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
         <template data-controller="geojson" data-url="<%= person_plaques_path(@person, format: :geojson) %>" data-map-id="plaque-map">
           when this is displayed it sends a message to the map to display popups then autodestructs

@@ -268,5 +268,12 @@
       </span>
     </div>
 
+    <%= form_for @person do |f| %>
+      <%= render "geolocate", { f: f, object: @person, q: "#{@person.name}" } %>
+    <% end %>
+    <% if @person.plaques.geolocated.any? %>
+      <%= button_to "geolocate from plaques", controller: :people, action: :geolocate, id: @person %>
+    <% end %>
+
   </div>
 </section>

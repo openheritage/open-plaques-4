@@ -37,6 +37,9 @@ Rails.application.routes.draw do
     collection do
       get "autocomplete"
     end
+    member do
+      post "geolocate"
+    end
     resource :plaques, controller: :person_plaques, only: :show
     resource :roles, controller: :person_roles, only: :show
   end

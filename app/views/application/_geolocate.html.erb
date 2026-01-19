@@ -1,27 +1,39 @@
   <div class="mb-3">
-    <%= label_tag(
-      :streetview_url,
-      t('find_on_google_maps_html', q: q),
-      class: 'form-label') %>
-    <div class="col-sm-10">
-      <%= text_field_tag(:streetview_url, nil) %>
-    </div>
-  </div>
-  <div class="mb-3">
-    <%= label_tag(nil, t('.geolocation')) %>
-    <div class="col-sm-10">
-      <%= f.label :latitude %> <%= f.text_field :latitude %>
-      <%= f.label :longitude %> <%= f.text_field :longitude %>
+    <h3><%= label_tag(nil, t('.geolocation')) %></h3>
+    <%= label_tag :streetview_url, t('find_on_google_maps_html', q: q) %>
+    <%= text_field_tag(:streetview_url, nil) %>
+    <div class="col-sm-6">
+      <div class="input-group">
+        <span class="input-group-text"><%= f.label :latitude %></span>
+        <%= f.text_field :latitude %>
+        <span class="input-group-text"><%= f.label :longitude %></span>
+        <%= f.text_field :longitude %>
+      </div>
+      <div class="input-group">
+        <span class="input-group-text"><%= f.label :min_latitude %></span>
+        <%= f.text_field :min_latitude %>
+        <span class="input-group-text"><%= f.label :min_longitude %></span>
+        <%= f.text_field :min_longitude %>
+      </div>
+      <div class="input-group">
+        <span class="input-group-text"><%= f.label :max_latitude %></span>
+        <%= f.text_field :max_latitude %>
+        <span class="input-group-text"><%= f.label :max_longitude %></span>
+        <%= f.text_field :max_longitude %>
+      </div>
     </div>
   </div>
   <% if object.geolocated? %>
     <section id="geolocate" data-controller="maplibre" data-maplibre-style="<%= JSON[
+      object.bbox_array ? 
       {
-        centroid: object.center_point_array
-        # style: 'https://demotiles.maplibre.org/style.json',
-        # style: asset_path('os-outdoor-style.json'),
-        # style: asset_path('os-standard-map-style.json'),
+        bounds: object.bbox_array,
+        fitBoundsOptions: {
+          padding: 50
+        }
       }
+      :
+      { centroid: object.center_point_array }
     ] %>" style="height: 400px; width: 100%; margin-top: 15px;"></section>
     <template data-controller="marker" data-center-point-array="<%= object.center_point_array %>" data-map-id="geolocate">
       when this is displayed it sends a message to the map to display popups then autodestructs

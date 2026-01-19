@@ -2,7 +2,7 @@
 class OrganisationsController < ApplicationController
   before_action :authenticate_admin!, only: :destroy
   before_action :authenticate_user!, except: %i[autocomplete index show]
-  before_action :find, only: %i[edit show update]
+  before_action :find, only: %i[edit geolocate show update]
   before_action :find_languages, only: %i[edit create]
 
   def index
@@ -106,6 +106,11 @@ class OrganisationsController < ApplicationController
     end
   end
 
+  def geolocate
+    @organisation.geolocate!
+    redirect_back(fallback_location: root_path)
+  end
+
   def new
     @organisation = Organisation.new
   end
@@ -166,6 +171,10 @@ class OrganisationsController < ApplicationController
       :language_id,
       :latitude,
       :longitude,
+      :max_latitude,
+      :max_longitude,
+      :min_latitude,
+      :min_longitude,
       :name,
       :notes,
       :slug,

@@ -28,7 +28,7 @@
       <%= f.submit t("buttons.update") %>
     <% end %>
     <br/>
-    <% if @series.plaques.geolocated.size > 0 %>
+    <% if @series.plaques.geolocated.any? %>
       <%= button_to "geolocate from plaques", controller: :series, action: :geolocate, id: @series %>
     <% end %>
 
