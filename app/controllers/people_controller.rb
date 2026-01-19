@@ -2,7 +2,7 @@
 class PeopleController < ApplicationController
   before_action :authenticate_admin!, only: :destroy
   before_action :authenticate_user!, except: %i[autocomplete index show update]
-  before_action :find, only: %i[edit update destroy]
+  before_action :find, only: %i[edit update destroy geolocate]
 
   def index
     respond_to do |format|
@@ -72,6 +72,11 @@ class PeopleController < ApplicationController
         #{ person.primary_role&.role&.name }
       </li>
     HTML
+  end
+
+  def geolocate
+    @person.geolocate!
+    redirect_back(fallback_location: root_path)
   end
 
   def show
