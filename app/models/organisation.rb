@@ -34,7 +34,7 @@ class Organisation < ApplicationRecord
 
   def main_photo
     random_plaque = plaques.photographed.random
-    random_plaque&.main_photo
+    random_plaque == [] ? nil : random_plaque&.main_photo
   end
 
   def uri
