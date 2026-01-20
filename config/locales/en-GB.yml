@@ -392,7 +392,7 @@ en-GB:
       optional: Optional
     show:
       page_title: '%{photo}'
-      page_heading: A photo of
+      page_heading: Photo %{name}
 
   plaques:
     colour:

@@ -45,7 +45,7 @@
           </div>
           <div class="mb-3">
             <%= label_tag(nil, t('.geolocation')) %>
-            <%= link_to(fa_icon(:link), "https://www.google.co.uk/maps/?q=#{@photo.latitude},#{@photo.longitude}", target: "_blank") %>
+            <%= link_to(fa_icon(:link), "https://www.google.co.uk/maps/?q=#{@photo.latitude},#{@photo.longitude}", target: :_blank) %>
             POINT(<%= @photo.longitude %>, <%= @photo.latitude %>)
           </div>
           <div class="mb-3">
@@ -54,7 +54,7 @@
           </div>
           <% if /\[\[/ =~ @photo.description %>
             <div class='row'>
-              <%= link_to(fa_icon(:link) + 'Geograph image mentioned', "http://www.geograph.org.uk/photo/#{@photo.description.match(/\[\[(\d*)\]\]/i).try(:captures)[0]}", target: "_blank") %>
+              <%= link_to(fa_icon(:link) + 'Geograph image mentioned', "http://www.geograph.org.uk/photo/#{@photo.description.match(/\[\[(\d*)\]\]/i).try(:captures)[0]}", target: :_blank) %>
             </div>
           <% end %>
           <div class="mb-3">
@@ -110,22 +110,22 @@
       <h2>URLs</h2>
       <div class="mb-3">
         <%= f.label :url %>
-        <%= link_to(fa_icon(:link), @photo.url, target: "_blank") %>
+        <%= link_to(fa_icon(:link), @photo.url, target: :_blank) %>
         <%= f.text_field :url, maxlength: "100" %>
       </div>
       <div class="mb-3">
         <%= f.label :file_url %>
-        <%= link_to(fa_icon(:link), @photo.file_url, target: "_blank") %>
+        <%= link_to(fa_icon(:link), @photo.file_url, target: :_blank) %>
         <%= f.text_field :file_url, maxlength: "100" %>
       </div>
       <div class="mb-3">
         <%= f.label :thumbnail %>
-        <%= link_to(fa_icon(:link), @photo.thumbnail, target: "_blank") %>
+        <%= link_to(fa_icon(:link), @photo.thumbnail, target: :_blank) %>
         <%= f.text_field :thumbnail, maxlength: "100" %>
       </div>
       <div class="mb-3">
         <%= f.label :thumbnail_url %>
-        <%= link_to(fa_icon(:link), @photo.thumbnail_url, target: "_blank") %>
+        <%= link_to(fa_icon(:link), @photo.thumbnail_url, target: :_blank) %>
         <span class="form-control-static"><%= @photo.thumbnail_url %></span>
       </div>
       <div class="mb-3">
@@ -134,7 +134,7 @@
       </div>
       <div class="mb-3">
         <%= f.label :photographer_url %>
-        <%= link_to(fa_icon(:link), @photo.photographer_url, target: "_blank") %>
+        <%= link_to(fa_icon(:link), @photo.photographer_url, target: :_blank) %>
         <%= f.text_field :photographer_url, size: 80 %>
       </div>
       <div class="mb-3">
