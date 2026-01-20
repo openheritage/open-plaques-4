@@ -1,3 +1,5 @@
+<%# locals: (plaque:, show_subjects: true) %>
+
 <% begin %>
   <% if plaque.inscription %><% end %>
 <% rescue %>
@@ -39,7 +41,7 @@
         </div>
       </div>
     <% end %>
-    <% if !controller.controller_name.eql?('people') && plaque.people.count > 0 %>
+    <% if show_subjects && plaque.people.any? %>
       <h5>Subjects</h5>
       <div class="container">
         <div class="row" data-masonry='{"percentPosition": true }'>

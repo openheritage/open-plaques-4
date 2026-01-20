@@ -41,12 +41,38 @@ class Photo < ApplicationRecord
   scope :ungeolocated, -> { where([ "latitude IS NULL" ]) }
   attr_accessor :photo_url, :accept_cc_by_licence
 
-  def title
-    title = "a photo"
-    title = "photo № #{id}" unless id.nil?
-    title = "a photo of a #{plaque.title}" if plaque
-    title = "a photo of #{person.name}" if person
-    title
+  def as_geojson(options = {})
+    if !options || !options[:only]
+      options =
+        {
+          only: %i[photographer photographer_url url],
+          methods: %i[thumbnail_url shot_name source]
+        }
+    end
+    {
+      type: "Feature",
+      geometry:
+      {
+        type: "Point",
+        coordinates: [ longitude, latitude ]
+      },
+      properties: as_json(options)
+    }
+  end
+
+  def as_json(options = {})
+    if !options || !options[:only]
+      options =
+        {
+          only: %i[file_url photographer photographer_url shot url longitude latitude],
+          include: {
+            licence: { only: [ :name ], methods: [ :url ] },
+            plaque: { only: [], methods: [ :uri ] }
+          },
+          methods: %i[title uri thumbnail_url shot_name source]
+        }
+    end
+    super options
   end
 
   def attribution
@@ -56,6 +82,82 @@ class Photo < ApplicationRecord
     attrib += " #{licence.abbreviation}" if licence && !licence.abbreviation.nil?
     attrib += " #{licence.name}" if licence && licence.abbreviation.nil?
     attrib
+  end
+
+  def cloned?
+    clone_id&.positive?
+  end
+
+  # retrieve Flickr photo id from url e.g. http://www.flickr.com/photos/84195101@N00/3412825200/
+  def self.flickr_photo_id(url)
+    mtch = url.match(%r{flickr.com/photos/[^/]*/([^/]*)})
+    mtch ? mtch[1].to_s : nil
+  end
+
+  def flickr?
+    url&.include?("flickr.com")
+  end
+
+  def geograph?
+    url&.include?("geograph.org")
+  end
+
+  def linked?
+    !unlinked?
+  end
+
+  def match
+    return if plaque_id
+
+    nearest_plaques&.each do |nearest|
+      if nearest.inscription.downcase.include?(subject.downcase) || (
+          subject.match(/([\w\s]*),/) &&
+          nearest.inscription.downcase.include?(subject.match(/([\w\s]*),/)[1].downcase)
+        )
+        self.plaque_id = nearest.id
+        break
+      end
+    end
+  end
+
+  def name
+    "##{id}"
+  end
+
+  def nearest_plaque
+    return unless unlinked? && geolocated?
+
+    p = nearest_plaques.first
+    if p
+      self.nearest_plaque_id = p.id
+      self.distance_to_nearest_plaque = p.distance_to(self)
+    end
+    p
+  end
+
+  def nearest_plaques
+    return unless unlinked? && geolocated?
+
+    distance = 0.01
+    @plaques = Plaque.where(
+      longitude: (longitude.to_f - distance)..(longitude.to_f + distance),
+      latitude: (latitude.to_f - distance)..(latitude.to_f + distance)
+    )
+    @plaques.to_a.sort! { |a, b| a.distance_to(self) <=> b.distance_to(self) }
+  end
+
+  def new?
+    file_url.blank?
+  end
+
+  def populate
+    wikimedia_data
+    geograph_data
+    flickr_data
+  end
+
+  def preferred_clone?
+    cloned? ? !flickr? : true
   end
 
   def shot_name
@@ -81,18 +183,6 @@ class Photo < ApplicationRecord
     ]
   end
 
-  def flickr?
-    url&.include?("flickr.com")
-  end
-
-  def wikimedia?
-    url&.include?("edia.org")
-  end
-
-  def geograph?
-    url&.include?("geograph.org")
-  end
-
   def source
     return "Flickr" if flickr?
 
@@ -101,6 +191,30 @@ class Photo < ApplicationRecord
     return "Geograph" if geograph?
 
     "the web"
+  end
+
+  def thumbnail_url
+    return thumbnail if thumbnail?
+
+    return file_url.gsub(/[bzo].jpg/, "m.jpg").gsub("z.jpg?zz=1", "m.jpg") if file_url.ends_with?("_b.jpg", "_z.jpg", "_z.jpg?zz=1", "_m.jpg", "_o.jpg")
+
+    "https://commons.wikimedia.org/wiki/Special:FilePath/#{wikimedia_filename}?width=250" if wikimedia?
+  end
+
+  def title
+    title = "a photo"
+    title = "photo № #{id}" unless id.nil?
+    title = "a photo of a #{plaque.title}" if plaque
+    title = "a photo of #{person.name}" if person
+    title
+  end
+
+  def unlinked?
+    plaque.nil? || person.nil?
+  end
+
+  def wikimedia?
+    url&.include?("edia.org")
   end
 
   def wikimedia_filename
@@ -117,191 +231,15 @@ class Photo < ApplicationRecord
     "https://commons.wikimedia.org/wiki/Special:FilePath/#{wikimedia_filename}?width=640"
   end
 
-  # retrieve Flickr photo id from url e.g. http://www.flickr.com/photos/84195101@N00/3412825200/
-  def self.flickr_photo_id(url)
-    mtch = url.match(%r{flickr.com/photos/[^/]*/([^/]*)})
-    mtch ? mtch[1].to_s : nil
-  end
-
-  def thumbnail_url
-    return thumbnail if thumbnail?
-
-    return file_url.gsub(/[bzo].jpg/, "m.jpg").gsub("z.jpg?zz=1", "m.jpg") if file_url.ends_with?("_b.jpg", "_z.jpg", "_z.jpg?zz=1", "_m.jpg", "_o.jpg")
-
-    "https://commons.wikimedia.org/wiki/Special:FilePath/#{wikimedia_filename}?width=250" if wikimedia?
-  end
-
-  def populate
-    wikimedia_data
-    geograph_data
-    flickr_data
-  end
-
-  def match
-    return if plaque_id
-
-    nearest_plaques&.each do |nearest|
-      if nearest.inscription.downcase.include?(subject.downcase) || (
-          subject.match(/([\w\s]*),/) &&
-          nearest.inscription.downcase.include?(subject.match(/([\w\s]*),/)[1].downcase)
-        )
-        self.plaque_id = nearest.id
-        break
-      end
-    end
-  end
-
-  def unlinked?
-    plaque.nil? || person.nil?
-  end
-
-  def linked?
-    !unlinked?
-  end
-
-  def nearest_plaques
-    return unless unlinked? && geolocated?
-
-    distance = 0.01
-    @plaques = Plaque.where(
-      longitude: (longitude.to_f - distance)..(longitude.to_f + distance),
-      latitude: (latitude.to_f - distance)..(latitude.to_f + distance)
-    )
-    @plaques.to_a.sort! { |a, b| a.distance_to(self) <=> b.distance_to(self) }
-  end
-
-  def nearest_plaque
-    return unless unlinked? && geolocated?
-
-    p = nearest_plaques.first
-    if p
-      self.nearest_plaque_id = p.id
-      self.distance_to_nearest_plaque = p.distance_to(self)
-    end
-    p
-  end
-
-  def cloned?
-    clone_id&.positive?
-  end
-
-  def preferred_clone?
-    cloned? ? !flickr? : true
-  end
-
-  def as_json(options = {})
-    if !options || !options[:only]
-      options =
-        {
-          only: %i[file_url photographer photographer_url shot url longitude latitude],
-          include: {
-            licence: { only: [ :name ], methods: [ :url ] },
-            plaque: { only: [], methods: [ :uri ] }
-          },
-          methods: %i[title uri thumbnail_url shot_name source]
-        }
-    end
-    super options
-  end
-
-  def as_geojson(options = {})
-    if !options || !options[:only]
-      options =
-        {
-          only: %i[photographer photographer_url url],
-          methods: %i[thumbnail_url shot_name source]
-        }
-    end
-    {
-      type: "Feature",
-      geometry:
-      {
-        type: "Point",
-        coordinates: [ longitude, latitude ]
-      },
-      properties: as_json(options)
-    }
+  def to_s
+    title
   end
 
   def uri
     "https://openplaques.org#{Rails.application.routes.url_helpers.photo_path(self, format: :json)}"
   end
 
-  def to_s
-    title
-  end
-
   private
-
-  def https_urls
-    return unless flickr? || geograph? || wikimedia?
-
-    self.url = url&.gsub("http:", "https:")
-    self.file_url = file_url&.gsub("http:", "https:")
-    self.thumbnail = thumbnail&.gsub("http:", "https:")
-    self.photographer_url = photographer_url&.gsub("http:", "https:")
-  end
-
-  def unique_file_url
-    errors.add(:file_url, "already exists") if Photo.find_by(file_url: file_url) || Photo.find_by(file_url: file_url&.gsub("https", "http"))
-  end
-
-  def reset_plaque_photo_count
-    return unless saved_change_to_plaque_id?
-
-    Plaque.reset_counters(plaque_id_before_last_save, :photos) unless plaque_id_before_last_save.nil? || plaque_id_before_last_save.zero?
-    Plaque.reset_counters(plaque.id, :photos) unless plaque.nil? || !plaque_id_before_last_save.nil?
-  end
-
-  def new?
-    file_url.blank?
-  end
-
-  def wikimedia_data
-    return unless wikimedia? && new?
-
-    begin
-      wikimedia = Wikimedia::Commoner.details("File:#{wikimedia_filename}")
-      if wikimedia[:description] == "missing"
-        errors.add :file_url, "cannot find File:#{wikimedia_filename} on Wikimedia Commons"
-      else
-        self.url = wikimedia[:page_url]
-        self.subject = wikimedia[:description].gsub("English: ", "")
-        self.photographer = wikimedia[:author]
-        self.photographer_url = wikimedia[:author_url]
-        self.file_url = wikimedia_special
-
-        if wikimedia[:licence_url]
-          wikimedia[:licence_url] += "/" unless wikimedia[:licence_url].ends_with?("/") || wikimedia[:licence_url].ends_with?("html")
-          licence = Licence.find_by(url: wikimedia[:licence_url])
-          licence ||= Licence.create(name: wikimedia[:licence], url: wikimedia[:licence_url])
-          self.licence = licence unless licence.nil?
-        end
-        self.latitude = wikimedia[:latitude] if wikimedia[:latitude]
-        self.longitude = wikimedia[:longitude] if wikimedia[:longitude]
-      end
-    rescue RuntimeError => e
-      errors.add :file_url, "Commoner errored #{e.full_messages}"
-    end
-  end
-
-  def geograph_data
-    return unless geograph? && new?
-
-    api = "http://api.geograph.org.uk/api/oembed?&&url=#{url}&output=json"
-    response = URI.parse(api).open
-    resp = response.read
-    parsed_json = JSON.parse(resp)
-    self.photographer = parsed_json["author_name"]
-    self.photographer_url = parsed_json["author_url"].gsub("http:", "https:")
-    self.thumbnail = parsed_json["thumbnail_url"].gsub("http:", "https:")
-    self.file_url = parsed_json["url"].gsub("http:", "https:")
-    self.licence = Licence.find_by(url: parsed_json["license_url"])
-    self.subject = parsed_json["title"][0, 255] if parsed_json["title"]
-    self.description = parsed_json["description"] if parsed_json["description"]
-    self.latitude = parsed_json["geo"]["lat"] if parsed_json["geo"]
-    self.longitude = parsed_json["geo"]["long"] if parsed_json["geo"]
-  end
 
   def flickr_data
     return unless flickr? && new?
@@ -346,6 +284,24 @@ class Photo < ApplicationRecord
     end
   end
 
+  def geograph_data
+    return unless geograph? && new?
+
+    api = "http://api.geograph.org.uk/api/oembed?&&url=#{url}&output=json"
+    response = URI.parse(api).open
+    resp = response.read
+    parsed_json = JSON.parse(resp)
+    self.photographer = parsed_json["author_name"]
+    self.photographer_url = parsed_json["author_url"].gsub("http:", "https:")
+    self.thumbnail = parsed_json["thumbnail_url"].gsub("http:", "https:")
+    self.file_url = parsed_json["url"].gsub("http:", "https:")
+    self.licence = Licence.find_by(url: parsed_json["license_url"])
+    self.subject = parsed_json["title"][0, 255] if parsed_json["title"]
+    self.description = parsed_json["description"] if parsed_json["description"]
+    self.latitude = parsed_json["geo"]["lat"] if parsed_json["geo"]
+    self.longitude = parsed_json["geo"]["long"] if parsed_json["geo"]
+  end
+
   def geolocate_plaque
     if plaque && geolocated? && (!plaque.geolocated? || (plaque.geolocated? && !plaque.is_accurate_geolocation))
       plaque.longitude = longitude
@@ -354,6 +310,15 @@ class Photo < ApplicationRecord
       plaque.save
     end
     true
+  end
+
+  def https_urls
+    return unless flickr? || geograph? || wikimedia?
+
+    self.url = url&.gsub("http:", "https:")
+    self.file_url = file_url&.gsub("http:", "https:")
+    self.thumbnail = thumbnail&.gsub("http:", "https:")
+    self.photographer_url = photographer_url&.gsub("http:", "https:")
   end
 
   def merge_known_photographer_names
@@ -373,8 +338,47 @@ class Photo < ApplicationRecord
     opposite.save
   end
 
+  def reset_plaque_photo_count
+    return unless saved_change_to_plaque_id?
+
+    Plaque.reset_counters(plaque_id_before_last_save, :photos) unless plaque_id_before_last_save.nil? || plaque_id_before_last_save.zero?
+    Plaque.reset_counters(plaque.id, :photos) unless plaque.nil? || !plaque_id_before_last_save.nil?
+  end
+
   def set_of_a_plaque
     self.of_a_plaque = false if !person_id.nil? && person_id != 0
     self.of_a_plaque = true if !plaque_id.nil? && plaque_id != 0
+  end
+
+  def unique_file_url
+    errors.add(:file_url, "already exists") if Photo.find_by(file_url: file_url) || Photo.find_by(file_url: file_url&.gsub("https", "http"))
+  end
+
+  def wikimedia_data
+    return unless wikimedia? && new?
+
+    begin
+      wikimedia = Wikimedia::Commoner.details("File:#{wikimedia_filename}")
+      if wikimedia[:description] == "missing"
+        errors.add :file_url, "cannot find File:#{wikimedia_filename} on Wikimedia Commons"
+      else
+        self.url = wikimedia[:page_url]
+        self.subject = wikimedia[:description].gsub("English: ", "")
+        self.photographer = wikimedia[:author]
+        self.photographer_url = wikimedia[:author_url]
+        self.file_url = wikimedia_special
+
+        if wikimedia[:licence_url]
+          wikimedia[:licence_url] += "/" unless wikimedia[:licence_url].ends_with?("/") || wikimedia[:licence_url].ends_with?("html")
+          licence = Licence.find_by(url: wikimedia[:licence_url])
+          licence ||= Licence.create(name: wikimedia[:licence], url: wikimedia[:licence_url])
+          self.licence = licence unless licence.nil?
+        end
+        self.latitude = wikimedia[:latitude] if wikimedia[:latitude]
+        self.longitude = wikimedia[:longitude] if wikimedia[:longitude]
+      end
+    rescue RuntimeError => e
+      errors.add :file_url, "Commoner errored #{e.full_messages}"
+    end
   end
 end

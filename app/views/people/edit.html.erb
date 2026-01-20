@@ -30,7 +30,7 @@
         <% if @person.main_photo %>
         <%= link_to render(@person.main_photo), @person.main_photo %>
       <% else %>
-        <%= link_to image_tag('https://upload.wikimedia.org/wikipedia/commons/7/79/Wiki-commons.png'), 'https://commons.wikimedia.org/w/index.php?title=Special:Search&limit=20&offset=40&profile=default&search="' + @person.name + '"', target: "_blank" %>
+        <%= link_to image_tag('https://upload.wikimedia.org/wikipedia/commons/7/79/Wiki-commons.png'), 'https://commons.wikimedia.org/w/index.php?title=Special:Search&limit=20&offset=40&profile=default&search="' + @person.name + '"', target: :_blank %>
         <% end %>
       </div>
       <% if !@person.main_photo %>
@@ -38,9 +38,9 @@
         <p>We use images from Wikimedia Commons to depict subjects as they are open licenced and free to use.</p>
         <p>
           Find a depiction image on
-          <%= link_to(fa_icon(:link) + 'Wikipedia', @person.wikipedia_url, target: "_blank")  unless @person.wikipedia_url.blank? %>
+          <%= link_to(fa_icon(:link) + 'Wikipedia', @person.wikipedia_url, target: :_blank)  unless @person.wikipedia_url.blank? %>
           <%= 'or' unless @person.wikipedia_url.blank? %>
-          <%= link_to(fa_icon(:link) + 'Wikimedia Commons', 'https://commons.wikimedia.org/w/index.php?title=Special:Search&limit=20&offset=40&profile=default&search="' + @person.name + '"', target: "_blank") %>
+          <%= link_to(fa_icon(:link) + 'Wikimedia Commons', 'https://commons.wikimedia.org/w/index.php?title=Special:Search&limit=20&offset=40&profile=default&search="' + @person.name + '"', target: :_blank) %>
         </p>
         <p>
           <% @photo = Photo.new %>
@@ -58,7 +58,7 @@
         <p>We use images from Wikimedia Commons to depict subjects as they are open licenced and free to use.</p>
         <p>If this image is wrong, click on it, edit and delete it</p>
         <p>
-          <%= link_to(fa_icon(:link) + 'Wikipedia', @person.wikipedia_url, target: "_blank")  unless @person.wikipedia_url.blank? %>
+          <%= link_to(fa_icon(:link) + 'Wikipedia', @person.wikipedia_url, target: :_blank)  unless @person.wikipedia_url.blank? %>
         </p>
       </div>
       <% end %>
@@ -95,7 +95,7 @@
       <div class="row">
         <blockquote class="quote-card blue-card">
           <p><%= @person.dbpedia_abstract %></p>
-          <cite><%= link_to(fa_icon(:link) + "DbPedia", @person.dbpedia_uri, target: "_blank") unless @person.dbpedia_uri.blank? %></cite>
+          <cite><%= link_to(fa_icon(:link) + "DbPedia", @person.dbpedia_uri, target: :_blank) unless @person.dbpedia_uri.blank? %></cite>
         </blockquote>
       </div>
     <% end %>
@@ -157,7 +157,7 @@
     <div class="mb-3">
       <div class="col-sm-2">
         <%= f.label :wikidata_id, class: "col-form-label" %>
-        <%= link_to(fa_icon(:link), @person.wikidata_url, target: "_blank") unless @person.wikidata_id.blank?%>
+        <%= link_to(fa_icon(:link), @person.wikidata_url, target: :_blank) unless @person.wikidata_id.blank?%>
       </div>
       <div class="col-sm-10">
         <%= f.text_field :wikidata_id %>
@@ -166,9 +166,9 @@
     <div class="mb-3">
       <div class="col-sm-2">
         <%= f.label :wikipedia_url, class: "col-form-label" %>
-        <%= link_to(fa_icon(:link), @person.wikipedia_url, target: "_blank")  unless @person.wikipedia_url.blank? %>
+        <%= link_to(fa_icon(:link), @person.wikipedia_url, target: :_blank)  unless @person.wikipedia_url.blank? %>
         <%= f.label :dbpedia_uri, class: "col-form-label" %>
-        <%= link_to(fa_icon(:link), @person.dbpedia_uri, target: "_blank") %>
+        <%= link_to(fa_icon(:link), @person.dbpedia_uri, target: :_blank) %>
       </div>
       <div class="col-sm-10">
         <%= t(".wikipedia_comment") %>
@@ -177,8 +177,8 @@
     <div class="mb-3">
       <div class="col-sm-2">
         <%= f.label :find_a_grave_id, class: "col-form-label" %>
-        <%= link_to(fa_icon(:link), "https://www.findagrave.com/famous-memorial/global-search?globalsearch=#{@person.name}", target: "_blank") if @person.find_a_grave_id.blank?%>
-        <%= link_to(fa_icon(:link), @person.find_a_grave_url, target: "_blank") unless @person.find_a_grave_id.blank?%>
+        <%= link_to(fa_icon(:link), "https://www.findagrave.com/famous-memorial/global-search?globalsearch=#{@person.name}", target: :_blank) if @person.find_a_grave_id.blank?%>
+        <%= link_to(fa_icon(:link), @person.find_a_grave_url, target: :_blank) unless @person.find_a_grave_id.blank?%>
       </div>
       <div class="col-sm-10">
         <%= f.text_field :find_a_grave_id %>
@@ -187,7 +187,7 @@
     <div class="mb-3">
       <div class="col-sm-2">
         <%= f.label :ancestry_id, class: "col-form-label" %>
-        <%= link_to(fa_icon(:link), @person.ancestry_url, target: "_blank") unless @person.ancestry_id.blank?%>
+        <%= link_to(fa_icon(:link), @person.ancestry_url, target: :_blank) unless @person.ancestry_id.blank?%>
       </div>
       <div class="col-sm-10">
         <%= f.text_field :ancestry_id %>

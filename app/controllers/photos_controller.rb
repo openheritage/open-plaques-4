@@ -87,16 +87,6 @@ class PhotosController < ApplicationController
 
   private
 
-  def help
-    Helper.instance
-  end
-
-  # access helpers from controller
-  class Helper
-    include Singleton
-    include PlaquesHelper
-  end
-
   def permitted_params
     params.require(:photo).permit(
       :clone_id,
