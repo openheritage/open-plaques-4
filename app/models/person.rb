@@ -228,7 +228,7 @@ class Person < ApplicationRecord
     return nil unless dbpedia_json
 
     begin
-      dbpedia_json[dbpedia_uri.to_s]["http://xmlns.com/foaf/0.1/depiction"].first["value"]
+      dbpedia_json[dbpedia_uri]["http://xmlns.com/foaf/0.1/depiction"].first["value"]
     rescue
     end
   end

@@ -55,7 +55,7 @@ class PhotosController < ApplicationController
     else
       flash[:notice] = @photo.errors.full_messages.to_sentence
     end
-    redirect_back(fallback_location: root_path)
+    redirect_to photo_path(@photo)
   end
 
   def edit

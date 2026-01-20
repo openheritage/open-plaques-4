@@ -17,36 +17,49 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <h2><%= t '.required' %></h2>
-
+    <p>If this is a Wikimedia Commons, Geograph, or Flickr photo you only need provide the URL and Open Plaques will extract the details.</p>
     <%= form_for @photo do |f| %>
-      <div class="mb-3">
-        <%= f.label :url %>
-        <%= f.text_field :url %>
+      <div class="col-sm-6 col-md-8">
+        <div class="form-floating">
+          <%= f.text_field :url %>
+          <%= f.label :url, 'URL (required)' %>
+        </div>
       </div>
-      <div class="mb-3">
-        <%= f.label :licence_id %>
-        <%= f.collection_select :licence_id, @licences, :id, :name, {include_blank: true, class: 'form-select'} %>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <%= f.collection_select :licence_id, @licences, :id, :name, { include_blank: true } %>
+          <%= f.label :licence_id %>
+        </div>
       </div>
-      <div class="mb-3">
-        <%= f.label :photographer %>
-        <%= f.text_field :photographer %>
+      <div class="col-sm-6 col-md-8">
+        <div class="form-floating">
+          <%= f.text_field :photographer %>
+          <%= f.label :photographer %>
+        </div>
       </div>
-      <div class="mb-3">
-        <%= f.label :photographer_url %>
-        <%= f.text_field :photographer_url %>
+      <div class="col-sm-6 col-md-8">
+        <div class="form-floating">
+          <%= f.text_field :photographer_url %>
+          <%= f.label :photographer_url %>
+        </div>
       </div>
-      <div class="mb-3">
-        <%= f.label :file_url %>
-        <%= f.text_field :file_url %>
+      <div class="col-sm-6 col-md-8">
+        <div class="form-floating">
+          <%= f.text_field :file_url %>
+          <%= f.label :file_url %>
+        </div>
       </div>
-      <div class="mb-3">
-        <%= f.label :plaque_id %>
-        <%= f.text_field :plaque_id %>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <%= f.text_field :plaque_id %>
+          <%= f.label :plaque_id %>
+        </div>
       </div>
-      <div class="mb-3">
-        <%= f.label :shot %>
-        <%= f.collection_select :shot, Photo.shots, :to_s, :to_s, {include_blank: true, class: 'form-select'} %>
+      <div class="col-sm-6 col-md-4">
+        <div class="form-floating">
+          <%= f.collection_select :shot, Photo.shots, :to_s, :to_s, {include_blank: true, class: 'form-select'} %>
+          <%= f.label :shot %>
+        </div>
       </div>
       <%= f.submit t("buttons.save") %>
     <% end %>
