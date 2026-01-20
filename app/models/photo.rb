@@ -381,5 +381,4 @@ class Photo < ApplicationRecord
       errors.add :file_url, "Commoner errored #{e.full_messages}"
     end
   end
-
 end
