@@ -27,6 +27,21 @@ class Area < ApplicationRecord
   validates_presence_of :name, :slug, :country_id
   validates_uniqueness_of :slug, scope: :country_id
 
+  def alpha2
+    case state
+    when "England"
+      "gb-eng"
+    when "Scotland"
+      "gb-sct"
+    when "Wales"
+      "gb-wls"
+    when "Northern Ireland"
+      "gb-nir"
+    else
+      country.alpha2
+    end
+  end
+
   def as_json(options = nil)
     if !options || !options[:only]
       options = {
@@ -78,12 +93,12 @@ class Area < ApplicationRecord
   end
 
   def state
-    matches = /(.*), ([A-Z][A-Z]|England|Scotland|Wales|Northern Ireland\z)/.match(name)
+    matches = /(.*), ([A-Z][A-Z]|Channel Islands|England|Northern Ireland|Scotland|Wales\z)/.match(name)
     matches[2] if matches
   end
 
   def town
-    matches = /(.*), ([A-Z][A-Z]|England|Scotland|Wales|Northern Ireland\z)/.match(name)
+    matches = /(.*), ([A-Z][A-Z]|Channel Islands|England|Northern Ireland|Scotland|Wales\z)/.match(name)
     if matches
       matches[1]
     else

@@ -6,7 +6,7 @@
     <%= fa_icon(:compass) if area.geolocated? %>
   </div>
   <% if area.country %>
-    <span class="flag-icon flag-icon-<%= area.country.alpha2 %>"></span>
+    <span class="flag-icon flag-icon-<%= area.alpha2 %>"></span>
   <% end %>
   <%= link_to area.name, area_plaques_path(area) %>
 </div>
