@@ -37,11 +37,12 @@
                 <% end %>
               <% end %>
             </div>
+            <%= content_tag :div, t(".does_not_exist"), class: "alert alert-danger" unless @plaque.is_current %>
+            <%= content_tag :div, t(".not_erected"), class: "alert alert-warning" unless @plaque.erected? %>
 
             <h2 class="title">
               <% if @plaque.foreign? %>
-                <span class="flag-icon <%= @plaque.language.flag_icon %>">
-                </span>
+                <span class="flag-icon <%= @plaque.language.flag_icon %>"></span>
               <% end %>
               <%= linked_inscription @plaque %>
             </h2>
@@ -52,10 +53,11 @@
             <% end %>
             <div class="meta-top">
               <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-house"></i> <%= @plaque.address %>, <%= link_to @plaque.area.name, @plaque.area if @plaque.area %></li>
+                <li class="d-flex align-items-center"><i class="bi bi-house"></i> <%= @plaque.address %>,&nbsp;<%= link_to @plaque.area.name, @plaque.area if @plaque.area %></li>
                 <% if @plaque.erected_at? %>
                   <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <time datetime="<%= @plaque.erected_at.strftime('%Y-%m-%d') %>"><%= @plaque.erected_at.strftime('%-d %b %Y') %></time></li>
                 <% end %>
+                <li class="d-flex align-items-center"><%= erected_information @plaque %></li>
               </ul>
             </div><!-- End meta top -->
 
@@ -63,7 +65,6 @@
               <%= markdown(@plaque.description) %>
               <div id="details">
                 <p>
-                  <%= erected_information @plaque %>
                   <% if @plaque.series %>
                     <% if @plaque.series_ref? %>
                       #<span><%= @plaque.series_ref %></span>
@@ -74,14 +75,17 @@
                   <% end %>
                 </p>
                 <p>
-                  Colour:
                   <% if @plaque.colour %>
-                    <%= @plaque.colour.name %>
+                    Colour: <%= @plaque.colour.name %>
                   <% else %>
                     <% @colours = Colour.all %>
-                    <%= form_for @plaque do |f| %>
-                      <%= f.label :colour_id, "This plaque is" %>
-                      <%= f.collection_select :colour_id, @colours, :id, :name, {include_blank: true} %>
+                    <%= form_for @plaque, html: { class: "row g-3 mb-9" } do |f| %>
+                      <div class="col-sm-6 col-md-4">
+                        <div class="form-floating">
+                          <%= f.collection_select :colour_id, @colours, :id, :name, { include_blank: true } %>
+                          <%= f.label :colour_id, t(".colour_label") %>
+                        </div>
+                      </div>
                       <%= f.submit t("buttons.save"), class: :button %>
                     <% end %>
                   <% end %>
@@ -117,8 +121,6 @@
                 <% end %>
               </div>
 
-              <%= content_tag(:p, t(".does_not_exist"), class: "card-text bg-danger") unless @plaque.is_current %>
-              <%= content_tag(:p, t(".not_erected"), class: "bg-warning") unless @plaque.erected? %>
               <p class="card-text">
                 
                 <% if @plaque.roughly_geolocated? %>
@@ -165,7 +167,6 @@
     </div>
 
     <div class="col-lg-4 sidebar">
-
       <div class="widgets-container">
 
         <!-- %= render "author", author: @page.author % -->
@@ -206,10 +207,9 @@
           </section>
           <%= content_tag(:div, t(".approximate_position"), class: "bg-warning") unless @plaque.is_accurate_geolocation %>
         <% end %>
+
       </div>
-
     </div>
-
   </div>
 </div>
 

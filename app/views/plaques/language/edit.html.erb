@@ -20,7 +20,7 @@
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <p>Which language is the <%= link_to @plaque.title, @plaque %> written in?</p>
-    <%= form_for @plaque do |f| %>
+    <%= form_for @plaque, html: { class: "row g-3 mb-9" } do |f| %>
       <div class="form-group">
         <%= f.label :language_id, t(".language_label") %>
         <%= f.collection_select :language_id, @languages, :id, :name, { class: "form-control" } %>

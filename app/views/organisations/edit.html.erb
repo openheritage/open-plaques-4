@@ -17,107 +17,56 @@
 
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="row">
+      <div class="col-xl-9">
 
-    <%= form_for @organisation do |f| %>
-      <div class="col-sm-6 col-md-8">
-        <div class="form-floating">
-          <%= f.text_field :name %>
-          <%= f.label :name %>
-        </div>
+        <%= form_for @organisation, html: { class: "row g-3 mb-9" } do |f| %>
+          <div class="col-sm-6 col-md-8">
+            <div class="form-floating">
+              <%= f.text_field :name %>
+              <%= f.label :name %>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-floating">
+              <%= f.collection_select :language_id, @languages, :id, :name, { include_blank: "Select a language" }, class: 'form-select' %>
+              <%= f.label :language_id, t('.language') %>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-floating">
+              <%= f.text_field :slug %>
+              <%= f.label :slug %>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-floating">
+              <%= f.label :website %>
+              <%= f.text_field :website %>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+              <%= f.text_area :description, style: "height: 100px" %>
+              <%= f.label :description %>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+              <%= f.text_area :notes, style: "height: 100px" %>
+              <%= f.label :notes %>
+            </div>
+          </div>
+          <%= render "geolocate", { f: f, object: @organisation, q: "#{@organisation.name}" } %>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+              <%= f.submit t("buttons.update") %>
+            </div>
+          </div>
+        <% end %>
+        <%= button_to "geolocate from plaques", { controller: :organisations, action: :geolocate, id: @organisation }, class: "btn btn-warning my-3" if @organisation.plaques.geolocated.any? %>
+
       </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="form-floating">
-          <%= f.collection_select :language_id, @languages, :id, :name, { include_blank: "Select a language" }, class: 'form-select' %>
-          <%= f.label :language_id, t('.language') %>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="form-floating">
-          <%= f.text_field :slug %>
-          <%= f.label :slug %>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="form-floating">
-          <%= f.label :website %>
-          <%= f.text_field :website %>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-8">
-        <div class="form-floating">
-          <%= f.text_area :description, style: "height: 100px" %>
-          <%= f.label :description %>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-8">
-        <div class="form-floating">
-          <%= f.text_area :notes, style: "height: 100px" %>
-          <%= f.label :notes %>
-        </div>
-      </div>
-      <%= render "geolocate", { f: f, object: @organisation, q: "#{@organisation.name}" } %>
-      <%= f.submit t("buttons.save")  %>
-    <% end %>
-    <% if @organisation.plaques.geolocated.any? %>
-      <%= button_to "geolocate from plaques", controller: :organisations, action: :geolocate, id: @organisation %>
-    <% end %>
+    </div>
   </div>
 </section>
-
-<div id="map" style="height: 400px; width: 100%; margin-top: 15px;"></div>
-
-<script>
-  var map = null;
-  var lat_element = null;
-  var lon_element = null;
-  var geolocation = new L.LatLng(52, 0);
-  var view = 5;
-
-  document.addEventListener("DOMContentLoaded", function()
-  {
-    lat_element = document.getElementById('organisation_latitude');
-    lon_element = document.getElementById('organisation_longitude');
-
-    lat_element.addEventListener('blur', update_map);
-    lon_element.addEventListener('blur', update_map);
-
-    update_geolocation_from_text_fields();
-
-    var plaque_icon = new L.DivIcon({ className: 'plaque-marker', html: '', iconSize : 16 });
-
-    map = L.map('map').setView(geolocation, view);
-    map.scrollWheelZoom.disable();
-//    var basemap = new L.StamenTileLayer("toner"); // toner, terrain, or watercolor
-    var basemap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    	maxZoom: 19,
-    	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-    map.addLayer(basemap);
-    marker = L.marker(geolocation, {draggable: true, icon: plaque_icon});
-    marker.on('dragend', update_text_fields_from_marker);
-    marker.addTo(map);
-
-    function update_geolocation_from_text_fields()
-    {
-      if (lat_element && lat_element.value != '' && lon_element && lon_element.value != '')
-      {
-        geolocation.lat = lat_element.value;
-        geolocation.lng = lon_element.value;
-        view = 18;
-      }
-    }
-
-    function update_map()
-    {
-      update_geolocation_from_text_fields();
-      marker.setLatLng(geolocation);
-      map.setView(geolocation, view);
-    }
-
-    function update_text_fields_from_marker()
-    {
-      lat_element.value = marker.getLatLng().lat;
-      lon_element.value = marker.getLatLng().lng;
-    }
-  });
-</script>

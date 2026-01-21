@@ -449,6 +449,7 @@ en-GB:
         page_heading: Which organisations were involved in erecting this plaque?
     show:
       english_translation: English translation
+      colour_label: This plaque is coloured
       does_not_exist: Plaque is now missing
       not_erected: Has not been erected yet
       approximate_position: This is an approximate position
@@ -465,8 +466,7 @@ en-GB:
     new:
       page_title: Open Plaques - new plaque
       page_heading: Tell us about the plaque
-      inscription_heading: What does the plaque say?
-      inscription_help: Type in the words on the plaque, in sentence case, excluding the organisation. e.g. 'John Smith 1900-1980 lived here'.
+      inscription_heading: What does the plaque say? Type in the words on the plaque, in sentence case, excluding the organisation. e.g. 'John Smith 1900-1980 lived here'.
       inscription_is_stub: Completeness
       inscription_full: This is the full inscription
       inscription_partial: I don't know the full, exact wording yet
@@ -517,7 +517,7 @@ en-GB:
   series:
     edit:
       page_title: Edit series %{series}
-      page_heading: Edit series %{series}
+      page_heading: Edit series
     index:
       page_title: Series
       page_heading: "%{count} Series"

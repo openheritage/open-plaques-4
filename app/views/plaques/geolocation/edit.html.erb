@@ -23,7 +23,7 @@
 
     <div class="row">
       <div class="col-xs-12 col-sm-6">
-        <%= form_for @plaque do |f| %>
+        <%= form_for @plaque, html: { class: "row g-3 mb-9" } do |f| %>
           <% if current_user %>
             <%= f.text_field(:address) %>
             <%= f.collection_select(:area_id, @areas, :id, :full_name, include_blank: true) %>

@@ -139,6 +139,7 @@ class PlaquesController < ApplicationController
     redirect_to plaques_url and return if params[:plaque][:inscription].start_with?("1") && params[:plaque][:inscription].to_s.size < 10
     redirect_to plaques_url and return if params[:plaque][:inscription].to_s.size < 8
     redirect_to plaques_url and return if params[:area] == "New York" && params[:plaque][:country] != "13"
+
     country = if params[:plaque][:country].blank?
                 Country.uk
     else
@@ -158,6 +159,8 @@ class PlaquesController < ApplicationController
       organisation = Organisation.where(name: params[:organisation_name]).first_or_create
       @plaque.organisations << organisation if organisation.valid?
     end
+
+    @plaque.erected_at_string = [ permitted_params["erected_at(1i)"], permitted_params["erected_at(2i)"], permitted_params["erected_at(3i)"] ].reject { |data| data.blank? }.join("-")
 
     if @plaque.save
       flash[:notice] = "Thanks for adding this plaque."
