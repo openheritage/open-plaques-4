@@ -1,14 +1,14 @@
 <% if @display != "unphotographed" %>
-  <% content_for(:page_title) { t(".page_title", area: @area.name + ", " + @area.country.name) } %>
+  <% content_for(:page_title) { t(".page_title", area: "#{@area.name}, #{@area.country.name}") } %>
 <% else %>
-  <% content_for(:page_title) { t(".page_title_unphotographed", area: @area.name + ", " + @area.country.name) } %>
+  <% content_for(:page_title) { t(".page_title_unphotographed", area: "#{@area.name}, #{@area.country.name}") } %>
 <% end %>
 <% content_for(:admin_menu) { navbar_link_to t("buttons.edit"), edit_area_path(@area) } %>
 
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
-    <h1 class="mb-2 mb-lg-0"><span class="flag-icon flag-icon-<%= @area.country.alpha2 %>"></span> <%= @area.name %></h1>
+    <h1 class="mb-2 mb-lg-0"><span class="flag-icon flag-icon-<%= @area.alpha2 %>"></span> <%= @area.name %></h1>
     <nav class="breadcrumbs">
       <ol>
         <li><%= link_to "Home", root_path %></li>
