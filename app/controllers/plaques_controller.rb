@@ -160,7 +160,7 @@ class PlaquesController < ApplicationController
       @plaque.organisations << organisation if organisation.valid?
     end
 
-    @plaque.erected_at_string = [permitted_params["erected_at(1i)"], permitted_params["erected_at(2i)"], permitted_params["erected_at(3i)"]].reject { |data| data.blank? }.join("-")
+    @plaque.erected_at_string = [ permitted_params["erected_at(1i)"], permitted_params["erected_at(2i)"], permitted_params["erected_at(3i)"] ].reject { |data| data.blank? }.join("-")
 
     if @plaque.save
       flash[:notice] = "Thanks for adding this plaque."

@@ -163,10 +163,10 @@ class Plaque < ApplicationRecord
 
   def erected_at_string=(date)
     self.erected_at = if date.length == 4
-                        Date.parse("#{date}-01-01")
-                      else
-                        Date.parse(date)
-                      end
+      Date.parse("#{date}-01-01")
+    else
+      Date.parse(date)
+    end
   end
 
   def foreign?
