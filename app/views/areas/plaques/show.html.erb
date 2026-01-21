@@ -90,6 +90,16 @@
         <% end %>
       </section>
 
+      <section class="section">
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <div class="section-title-container d-flex align-items-center justify-content-between">
+            <h2>Plaques</h2>
+          </div>
+        </div><!-- End Section Title -->
+        <%= render partial: "plaques/tabbed" %>
+      </section>
+
     </div>
 
     <div class="col-lg-4 sidebar">
@@ -103,18 +113,3 @@
 
   </div>
 </div>
-
-<section class="section">
-
-  <!-- Section Title -->
-  <div class="container section-title" data-aos="fade-up">
-    <div class="section-title-container d-flex align-items-center justify-content-between">
-      <h2>Plaques</h2>
-    </div>
-  </div><!-- End Section Title -->
-
-  <div class="container">
-    <%= render partial: "plaques/tabbed" %>
-  </div>
-
-</section>

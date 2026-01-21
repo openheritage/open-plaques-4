@@ -1,5 +1,6 @@
 <% content_for(:page_title) { t(".page_title", organisation: @organisation.name) } %>
 <% content_for(:admin_menu) { navbar_link_to t("buttons.edit"), edit_organisation_path(@organisation) } %>
+<% content_for(:admin_menu) { navbar_link_to t("buttons.add"), new_organisation_path } %>
 
 <!-- Page Title -->
 <div class="page-title">

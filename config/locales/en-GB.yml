@@ -33,7 +33,7 @@ en-GB:
         longitude: Longitude
         website: Website
         description: Description
-        notes: Notes
+        notes: Notes (for internal use only)
       page:
         name: Name
         slug: Slug
@@ -278,7 +278,6 @@ en-GB:
       optional: Optional
       note_about_name: please don't include the word 'The' unless it is absolutely an indivisible part of the name
       note_about_description: is displayed on the page
-      note_about_notes: is for internal use only
     show:
       page_title: "%{organisation}"
       page_heading: Organisation - %{organisation}

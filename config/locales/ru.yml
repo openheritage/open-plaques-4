@@ -30,7 +30,7 @@ ru:
         longitude: Долгота
         website: Сайт
         description: Описание
-        notes: Заметки
+        notes: Заметки (для внутреннего использования)
       page:
         name: Название
         slug: Slug
@@ -220,7 +220,6 @@ ru:
       optional: Не обязательно
       note_about_name: Не включайте в название 'The' если только это не неотьемлемая его часть
       note_about_description: отображается на странице
-      note_about_notes: для внутреннего использования
     show:
       page_title: Организация %{organisation}
       page_heading: Организация - %{organisation}
