@@ -296,16 +296,12 @@ module PlaquesHelper
   def erected_information(plaque)
     info = "".html_safe
     if plaque.erected_at? || !plaque.organisations.empty?
-      info += "by ".html_safe unless plaque.organisations.empty?
+      info += "by&nbsp;".html_safe unless plaque.organisations.empty?
       org_list = []
       plaque.organisations.each do |organisation|
         org_list << link_to(h(organisation.name), organisation)
       end
       info += org_list.to_sentence.html_safe
-      if plaque.erected_at?
-        info += " ".html_safe
-        info += erected_date(plaque)
-      end
     end
     info
   end

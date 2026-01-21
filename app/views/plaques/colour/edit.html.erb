@@ -22,10 +22,12 @@
 
     <div class="row">
       <div class="col-xs-12 <%= "col-sm-6" if @plaque.main_photo %>">
-        <%= form_for @plaque do |f| %>
-          <div class="form-group">
-            <%= f.label :colour_id, t(".colour_label") %>
-            <%= f.collection_select :colour_id, @colours, :id, :name, { include_blank: true } %>
+        <%= form_for @plaque, html: { class: "row g-3 mb-9" } do |f| %>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-floating">
+              <%= f.collection_select :colour_id, @colours, :id, :name, { include_blank: true } %>
+              <%= f.label :colour_id, t(".colour_label") %>
+            </div>
           </div>
           <%= f.submit t("buttons.save") %>
         <% end %>

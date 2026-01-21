@@ -23,7 +23,7 @@
       <div class="col-xs-12 col-sm-6">
         <p>Enter any additional interesting information about the plaque and links to articles about it to be displayed on the plaque detail page.</p>
         <p>Articles can be linked using the format [name of link](https://....)</p>
-        <%= form_for @plaque do |f| %>
+        <%= form_for @plaque, html: { class: "row g-3 mb-9" } do |f| %>
           <div class="form-group">
             <%= f.label :description, t(".description") %>
             <%= f.text_area :description, { rows: 6, autofocus: true } %>
