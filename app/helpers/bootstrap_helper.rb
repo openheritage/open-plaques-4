@@ -23,7 +23,7 @@ module BootstrapHelper
       text.gsub!(/plaque ([0-9]+)/) do |match|
         %(<div class="col-xs-6 col-sm-4 col-md-3"><%= render partial: 'plaques/tile', object: Plaque.find(#{match[7..-1]}), as: :plaque  %></div>)
       end
-      %(#{text})
+      %(<p>#{text}</p>)
     end
 
     def table(header, body)
