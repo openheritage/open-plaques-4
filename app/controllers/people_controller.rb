@@ -124,6 +124,7 @@ class PeopleController < ApplicationController
   end
 
   def new
+    @plaque = Plaque.find(params[:plaque_id]) if params[:plaque_id]
     @person = Person.new
     respond_to do |format|
       format.html
