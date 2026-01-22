@@ -5,7 +5,7 @@ class PersonalConnectionsController < ApplicationController
   before_action :authenticate_admin!, only: :destroy
   before_action :find, only: :destroy
   before_action :find_plaque, only: %i[new create]
-  before_action :list_people_and_verbs, only: :new
+  before_action :list_verbs, only: :new
 
   def destroy
     @personal_connection.destroy
@@ -13,6 +13,7 @@ class PersonalConnectionsController < ApplicationController
   end
 
   def new
+    @person = Person.find(params[:person_id]) if params[:person_id]
     @personal_connection = @plaque.personal_connections.new
     @suggested_people = []
     @entities = []
@@ -40,15 +41,18 @@ class PersonalConnectionsController < ApplicationController
     params[:personal_connection][:started_at] += "-01-01 00:00:01" if params[:personal_connection][:started_at] =~ /\d{4}/
     params[:personal_connection][:ended_at] += "-01-01 00:00:01" if params[:personal_connection][:ended_at] =~ /\d{4}/
     @personal_connection = @plaque.personal_connections.new
-    @personal_connection.started_at = params[:personal_connection][:started_at]
-    @personal_connection.ended_at = params[:personal_connection][:ended_at]
+    # whom..
     @personal_connection.person_id = params[:personal_connection][:person_id]
+    # did what...
     @personal_connection.verb_id = params[:personal_connection][:verb_id]
+    # when...
+    @personal_connection.ended_at = params[:personal_connection][:ended_at]
+    @personal_connection.started_at = params[:personal_connection][:started_at]
     if @personal_connection.save!
       redirect_back(fallback_location: root_path)
     else
       # can we just redirect to new?
-      list_people_and_verbs
+      list_verbs
       render :new
     end
   end
@@ -63,7 +67,7 @@ class PersonalConnectionsController < ApplicationController
     @plaque = Plaque.find(params[:plaque_id])
   end
 
-  def list_people_and_verbs
+  def list_verbs
     @verbs = Verb.alphabetically.select("id, name")
   end
 
