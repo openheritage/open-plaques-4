@@ -25,6 +25,7 @@
           <p>Please try to set a primary role ('actor', 'house', etc.) as it stops objects being displayed as people</p>
 
           <%= form_for @person, html: { class: "row g-3 mb-9" } do |f| %>
+            <%= hidden_field_tag :plaque_id, @plaque&.id %>
             <div class="col-sm-6 col-md-8">
               <div class="form-floating">
                 <%= f.text_field :name %>

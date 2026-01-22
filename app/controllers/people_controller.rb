@@ -138,6 +138,7 @@ class PeopleController < ApplicationController
   end
 
   def create
+    @plaque = Plaque.find(params[:plaque_id]) if params[:plaque_id]
     params[:person][:born_on] += "-01-01" if params[:person][:born_on] =~ /\d{4}/
     params[:person][:died_on] += "-01-01" if params[:person][:died_on] =~ /\d{4}/
     @person = Person.new(permitted_params)
@@ -156,7 +157,11 @@ class PeopleController < ApplicationController
         format.html do
           @roles = Role.alphabetically
           @personal_role = PersonalRole.new
-          redirect_to person_path(@person)
+          if @plaque
+            redirect_to new_plaque_connection_path(@plaque, person_id: @person)
+          else
+            redirect_to person_path(@person)
+          end
         end
       else
         format.html { render :new }
