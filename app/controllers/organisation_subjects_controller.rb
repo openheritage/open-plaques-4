@@ -13,7 +13,11 @@ class OrganisationSubjectsController < ApplicationController
         @plaques_count = @organisation.plaques.count # size is 0
         @uncurated_count = @organisation.plaques.unconnected.size
         @curated_count = @plaques_count - @uncurated_count
-        @percentage_curated = ((@curated_count.to_f / @plaques_count) * 100).to_i
+        @percentage_curated = if @plaques_count.positive?
+          ((@curated_count.to_f / @plaques_count) * 100).to_i
+        else
+                  0
+        end
         query = "SELECT people.gender, count(distinct person_id) as subject_count
           FROM sponsorships, personal_connections, people
           WHERE sponsorships.organisation_id = #{@organisation.id}
