@@ -23,7 +23,7 @@ export default class extends Controller {
         draw: { position: 'bottom-right' },
         fullscreen: true,
         geolocate: false,
-        layerswitcher: true,
+        layerswitcher: false,
         scale: true
       },
       layers: {},
@@ -46,7 +46,7 @@ export default class extends Controller {
     }
   }
 
-  connect() {    
+  connect() {
     var style = this.__style
     if (style.accessToken) {
       maplibregl.accessToken = style.accessToken
@@ -68,7 +68,7 @@ export default class extends Controller {
     })
     this.__map.on('draw.create', function (e) {
       var geojson_setter = document.getElementById('project_geojson_setter')
-      if (geojson_setter !== null && typeof(geojson_setter) != 'undefined' && e.features[0].geometry.type !== 'LineString') {
+      if (geojson_setter !== null && typeof (geojson_setter) != 'undefined' && e.features[0].geometry.type !== 'LineString') {
         console.log(JSON.stringify(e.features[0]))
         geojson_setter.value = JSON.stringify(e.features[0])
         Rails.fire(geojson_setter, 'change')
@@ -150,7 +150,7 @@ export default class extends Controller {
         map.setPaintProperty(id, k, values.paint[k])
       })
     } else {
-      map.addLayer(Object.assign(values, {id: id}), this.__lastSymbolLayer())
+      map.addLayer(Object.assign(values, { id: id }), this.__lastSymbolLayer())
     }
     var layerSwitcher = this.__controls['layerswitcher']
     layerSwitcher.menuItem(id)
@@ -290,20 +290,20 @@ export default class extends Controller {
       tileSize: 256
     })
     map.addLayer({
-        id: `app-${layer}`,
-        type: 'raster',
-        source: `app-${layer}-source`,
-        layout: {
-          visibility: 'none'
-        },
-        paint: {
-          'raster-opacity': 0.7
-        }
-      }, this.__lastSymbolLayer()
+      id: `app-${layer}`,
+      type: 'raster',
+      source: `app-${layer}-source`,
+      layout: {
+        visibility: 'none'
+      },
+      paint: {
+        'raster-opacity': 0.7
+      }
+    }, this.__lastSymbolLayer()
     )
   }
 
-  fitBounds(bounds_param, buffer=0.001) {
+  fitBounds(bounds_param, buffer = 0.001) {
     let bounds = [0, 0, 0, 0]
     if (Array.isArray(bounds_param)) {
       bounds = bounds_param
@@ -326,7 +326,7 @@ export default class extends Controller {
     if (fs) {
       this.context.logDebugActivity(`reload`)
       fs.setData(fs._data)
-      function onSourceData (e) {
+      function onSourceData(e) {
         if (e.isSourceLoaded) {
           // the update is complete: unsubscribe this listener
           map.off('sourcedata', onSourceData)
@@ -350,7 +350,7 @@ export default class extends Controller {
       }
     }
   }
-   
+
   // resetting the style will remove our sources and layers
   // layers and sources have been prefixed with 'app-'
   // so they can be remembered and reapplied
@@ -360,7 +360,7 @@ export default class extends Controller {
     function forEachLayer(text, cb) {
       map.getStyle().layers.forEach((layer) => {
         if (!layer.id.startsWith(text)) return
-    
+
         cb(layer)
       })
     }
