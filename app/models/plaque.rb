@@ -162,10 +162,12 @@ class Plaque < ApplicationRecord
   end
 
   def erected_at_string=(date)
-    self.erected_at = if date.length == 4
+    self.erected_at = if date&.length == 4
       Date.parse("#{date}-01-01")
-    else
+    elsif !date.blank?
       Date.parse(date)
+    else
+      date
     end
   end
 
