@@ -54,7 +54,7 @@ class AreaPlaquesController < ApplicationController
         @percentage_curated = if @plaques_count.positive?
           ((@curated_count.to_f / @plaques_count) * 100).to_i
         else
-                  0
+          0
         end
         @results = ActiveRecord::Base.connection.execute(
           "SELECT people.id, people.name, people.gender,

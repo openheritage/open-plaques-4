@@ -22,6 +22,16 @@
         "reveal": "always",
         "panel": "new"
       }
+    },
+    {
+      "label": "Production console",
+      "type": "shell",
+      "command": "heroku run rails console --app open-plaques-beta",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
     }
   ]
 }
