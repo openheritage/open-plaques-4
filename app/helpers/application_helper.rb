@@ -73,7 +73,7 @@ module ApplicationHelper
   end
 
   def external_link(text, url)
-    link_to "<i class=\"bi bi-box-arrow-up-right\"></i> #{text}".html_safe, url, target: :_blank 
+    link_to "<i class=\"bi bi-box-arrow-up-right\"></i> #{text}".html_safe, url, target: :_blank
   end
 
   def pluralize_is_or_are(number, name)
