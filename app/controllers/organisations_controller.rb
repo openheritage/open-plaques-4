@@ -81,7 +81,7 @@ class OrganisationsController < ApplicationController
     @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
     @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count)) unless @uncurated_count.zero?
     @people = people(@organisation.plaques.connected)
-  
+
     @display = "plaques"
     if zoom.positive?
       @plaques = @organisation.plaques.tile(zoom, params[:x].to_i, params[:y].to_i, params[:filter])
