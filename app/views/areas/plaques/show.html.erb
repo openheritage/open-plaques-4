@@ -75,7 +75,7 @@
               </template>
             </section>
           <% else %>
-            <%= form_for(@area, url: country_area_path(@area.country, @area)) do |f| %>
+            <%= form_for @area, url: country_area_path(@area.country, @area) do |f| %>
               <div class="edit_lat_long panel clearfix">
                 <h2>Area is not geolocated yet</h2>
                 <p>Open Plaques is quite smart. When a few plaques have been geolocated it will use the average to define where this area is.</p>
@@ -91,12 +91,7 @@
       </section>
 
       <section class="section">
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-          <div class="section-title-container d-flex align-items-center justify-content-between">
-            <h2>Plaques</h2>
-          </div>
-        </div><!-- End Section Title -->
+        <%= render "section_title", title: "Plaques" %>
         <%= render partial: "plaques/tabbed" %>
       </section>
 

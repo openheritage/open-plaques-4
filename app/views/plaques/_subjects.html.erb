@@ -8,14 +8,14 @@
   <% end %>
   <% plaque.people.each do |person| %>
     <div class="post-item">
-      <%= image_tag person.main_photo.present? ? person.main_photo.thumbnail_url : "NoPhotoSqr.png", alt: person.name, class: "flex-shrink-0" %>
+      <%= image_tag person.main_photo.present? ? person.main_photo.thumbnail_url : "NoPhotoSqr.png", alt: person.name, class: "flex-shrink-0" if person.main_photo.present? %>
       <div class="card-info">
         <span class="card-title fn">
         <h4><%= link_to person.full_name, person %> <small><%= person.dates %></small></h4>
           <% if person.gender == 'm' %>
-            <small><%= fa_icon(:mars) %></small>
+            <small><i class="bi bi-gender-male"></i></small>
           <% elsif person.gender == 'f' %>
-            <small><%= fa_icon(:venus) %></small>
+            <small><i class="bi bi-gender-female"></i></small>
           <% elsif person.gender == 'u' %>
             <small><%= person.gender %></small>
           <% end %>

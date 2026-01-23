@@ -18,25 +18,20 @@
 
 <div class="container" data-aos="fade-up" data-aos-delay="100">
   <div class="row">
-
     <div class="col-lg-8">
 
-      <section id="summary-category" class="summary-category section">
+      <section class="section">
         <p><%= @country.description %></p>
-        <p>
+        <div>
           <span class="badge bg-secondary"><%= pluralize_with_no(@country.plaques_count, t('activerecord.models.plaque').downcase) %></span>
-          <% if controller.controller_name.eql?('countries') && controller.action_name.eql?('show') %>
-            <small><%= @percentage_curated %>% have been curated</small>
-          <% else %>
-          <%= fa_icon(:compass) if @country.geolocated? %>
-          <% end %>
-        </p>
+          <small><%= @percentage_curated %>% have been curated</small>
+          <%= fa_icon :compass if @country.geolocated? %>
+        </div>
         <span class="badge bg-secondary pull-right"><%= pluralize_with_no(@subject_count, 'subject') %></span>
       </section>
       <%= render "people/top10" %>
 
     </div>
-
     <div class="col-lg-4 sidebar">
       <div class="widgets-container">
 
@@ -46,18 +41,11 @@
       </div>
     </div>
   </div>
+</div>
 
-<section id="areas-category" class="areas-category section">
-
-  <!-- Section Title -->
-  <div class="container section-title" data-aos="fade-up">
-    <div class="section-title-container d-flex align-items-center justify-content-between">
-      <h2>Areas</h2>
-    </div>
-  </div><!-- End Section Title -->
-
+<section class="section">
+  <%= render "section_title", title: "Areas" %>
   <div class="container" data-aos="fade-up" data-aos-delay="100">
-
     <% @areas.sort { |a,b| a.state.to_s + a.name <=> b.state.to_s + b.name }.group_by(&:state).each do |state, areas| %>
       <% if !state.blank? %>
         <h2>Region: <%= state %></h2>
@@ -66,7 +54,5 @@
         <%= render areas %>
       </div>
     <% end %>
-
   </div>
-
 </section>

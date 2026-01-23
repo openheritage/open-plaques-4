@@ -53,11 +53,17 @@
             <% end %>
             <div class="meta-top">
               <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-house"></i> <%= @plaque.address %>,&nbsp;<%= link_to @plaque.area.name, @plaque.area if @plaque.area %></li>
+
                 <% if @plaque.erected_at? %>
-                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <time datetime="<%= @plaque.erected_at.strftime('%Y-%m-%d') %>"><%= @plaque.erected_at.strftime('%-d %b %Y') %></time></li>
+                  <li class="d-flex align-items-center">
+                    <i class="bi bi-clock"></i> <time datetime="<%= @plaque.erected_at.strftime('%Y-%m-%d') %>"><%= @plaque.erected_at.strftime('%-d %b %Y') %></time>
+                  </li>
                 <% end %>
-                <li class="d-flex align-items-center"><%= erected_information @plaque %></li>
+                <% unless erected_information(@plaque).blank? %>
+                  <li class="d-flex align-items-center">
+                    <i class="bi bi-clipboard2"></i> <%= erected_information @plaque %>
+                  </li>
+                <% end %>
               </ul>
             </div><!-- End meta top -->
 
@@ -91,55 +97,43 @@
                   <% end %>
                 </p>
               </div>
-              <% if @plaque.other_photos.present? %>
-                <div class="col-xs-6 col-sm-4">
-                  <div class="card">
-                    <%= link_to plaque_photos_path(@plaque) do %>
-                      <%= image_tag "NoPhotoSqr.png", class: "card-img img-rounded w-100" %>
-                      <p class="card-text">
-                        <%= t(".how_to_add_yours") %>
-                      </p>
-                    <% end %>
-                  </div>
-                </div>
-                <div class="col-xs-4">
-                  <%= render @plaque.other_photos[0] %>
-                </div>
-              <% end %>
-              <div class="row">
-                <% @plaque.other_photos[1..4]&.each do |photo| %>
-                  <div class="col-sm-3">
-                    <%= render photo %>
-                  </div>
-                <% end %>
-              </div>
-              <div class="row">
-                <% @plaque.other_photos[5..]&.each do |photo| %>
-                  <div class="col-sm-2">
-                    <%= render photo %>
-                  </div>
-                <% end %>
-              </div>
 
-              <p class="card-text">
-                
-                <% if @plaque.roughly_geolocated? %>
-                  <br/>[<%= link_to "geolocate this address", edit_plaque_geolocation_path(@plaque), { class: :edit, title: "Geolocate" } %>]
-                <% end %>
-                <% if @plaque.geolocated? %>
-                  <br/>
-                  <%= link_to(fa_icon(:link) + "Google Streetview", "https://maps.google.com/maps?q=&layer=c&cbll=#{@plaque.latitude},#{@plaque.longitude}&cbp=11,0,0,0,0", target: :_blank) %>
-                  <%= link_to(fa_icon(:link) + "OpenStreetMap", "https://www.openstreetmap.org/#map=19/#{@plaque.latitude}/#{@plaque.longitude}", target: :_blank) %>
-                <% end %>
-              </p>
+              <section class="section">
+                <%= render "section_title", title: "Other photos" %>
+                <div class="row">
+                  <div class="col-xs-6 col-sm-4">
+                    <div class="card">
+                      <%= link_to plaque_photos_path(@plaque) do %>
+                        <%= image_tag "NoPhotoSqr.png", class: "card-img img-rounded w-100" %>
+                        <p class="card-text">
+                          <%= t(".how_to_add_yours") %>
+                        </p>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <% @plaque.other_photos[1..2]&.each do |photo| %>
+                    <div class="col-xs-6 col-sm-4">
+                      <%= render photo %>
+                    </div>
+                  <% end %>
+ 
+                  <% @plaque.other_photos[3..]&.each do |photo| %>
+                    <div class="col-xs-6 col-sm-2">
+                      <%= render photo %>
+                    </div>
+                  <% end %>
+                </div>
+              </section>
+
 
               <% if @plaque.see_also.present? %>
-                <div class="card" id="see-also">
-                  <h6 class="card-header">See also...</h6>
+                <section class="section" id="see-also">
+                  <%= render "section_title", title: "See also..." %>
                   <div class="row" data-masonry='{"percentPosition": true }'>
                     <%= render partial: "plaques/tile", collection: @plaque.see_also, as: :plaque %>
                   </div>
-                </div>
+                </section>
               <% end %>
             </div><!-- End post content -->
 
@@ -176,6 +170,35 @@
         <%= render "subjects", plaque: @plaque %>
 
         <div class="widget-item">
+          <h3 class="widget-title">Location</h3>
+          <div>
+            <%= @plaque.address %>,&nbsp;<%= link_to @plaque.area.name, @plaque.area if @plaque.area %>
+          </div>
+          <% if @plaque.geolocated? %>
+            <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
+              {
+                centroid: @plaque.center_point_array,
+              }
+            ] %>"  style="height: 400px; width: 100%; margin-top: 15px;">
+              <template data-controller="geojson" data-url="<%= plaque_path(@plaque, format: :geojson) %>" data-map-id="plaque-map">
+                when this is displayed it sends a message to the map to display popups then autodestructs
+              </template>
+            </section>
+          <% end %>
+          <%= content_tag(:div, t(".approximate_position"), class: "bg-warning") unless @plaque.is_accurate_geolocation %>
+                      <div>
+              <% if @plaque.roughly_geolocated? %>
+                &nbsp;[<%= link_to "geolocate this address", edit_plaque_geolocation_path(@plaque), { class: :edit, title: "Geolocate" } %>]
+              <% end %>
+              <% if @plaque.geolocated? %>
+                &nbsp;
+                <%= external_link "Google Streetview", "https://maps.google.com/maps?q=&layer=c&cbll=#{@plaque.latitude},#{@plaque.longitude}&cbp=11,0,0,0,0" %>
+                &nbsp;<%= external_link "OpenStreetMap", "https://www.openstreetmap.org/#map=19/#{@plaque.latitude}/#{@plaque.longitude}" %>
+              <% end %>
+            </div>
+        </div>
+
+        <div class="widget-item">
           <h3 class="widget-title">External site tags</h3>
           <p>
             Wikimedia:
@@ -194,19 +217,6 @@
         </div>
 
         <%= render "tags" %>
-
-        <% if @plaque.geolocated? %>
-          <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
-            {
-              centroid: @plaque.center_point_array,
-            }
-          ] %>"  style="height: 400px; width: 100%; margin-top: 15px;">
-            <template data-controller="geojson" data-url="<%= plaque_path(@plaque, format: :geojson) %>" data-map-id="plaque-map">
-              when this is displayed it sends a message to the map to display popups then autodestructs
-            </template>
-          </section>
-          <%= content_tag(:div, t(".approximate_position"), class: "bg-warning") unless @plaque.is_accurate_geolocation %>
-        <% end %>
 
       </div>
     </div>

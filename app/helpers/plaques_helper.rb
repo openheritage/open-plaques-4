@@ -294,16 +294,16 @@ module PlaquesHelper
   end
 
   def erected_information(plaque)
-    info = "".html_safe
+    info = ""
     if plaque.erected_at? || !plaque.organisations.empty?
-      info += "by&nbsp;".html_safe unless plaque.organisations.empty?
+      # info += "by&nbsp;".html_safe unless plaque.organisations.empty?
       org_list = []
       plaque.organisations.each do |organisation|
         org_list << link_to(h(organisation.name), organisation)
       end
-      info += org_list.to_sentence.html_safe
+      info += org_list.to_sentence
     end
-    info
+    info.html_safe
   end
 
   def linked_inscription(plaque)

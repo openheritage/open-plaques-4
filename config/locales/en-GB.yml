@@ -152,7 +152,7 @@ en-GB:
   areas:
     edit:
       page_title: Edit %{area}
-      page_heading_html: Edit %{area}
+      page_heading: Edit area
       geolocation: Geolocation
       google_streetview_url: Google Streetview url
     new:

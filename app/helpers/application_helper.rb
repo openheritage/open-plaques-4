@@ -72,6 +72,10 @@ module ApplicationHelper
     end
   end
 
+  def external_link(text, url)
+    link_to "<i class=\"bi bi-box-arrow-up-right\"></i> #{text}".html_safe, url, target: :_blank 
+  end
+
   def pluralize_is_or_are(number, name)
     word = number > 1 ? "are" : "is"
     "#{word} #{pluralize_with_no(number, name)}"

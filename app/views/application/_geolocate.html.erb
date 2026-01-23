@@ -1,4 +1,4 @@
-<h3><%= label_tag(nil, t('.geolocation')) %></h3>
+<%= render "section_title", title: t(".geolocation") %>
 <div class="col-sm-6 col-md-8">
   <div class="form-floating">
     <%= text_field_tag(:streetview_url, nil) %>
