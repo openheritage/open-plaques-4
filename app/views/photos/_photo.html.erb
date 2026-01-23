@@ -9,14 +9,14 @@
   <% if url %>
     <% url = url.gsub('http:', 'https:') unless photo.geograph? %>
     <div class="card photo">
-      <%= image_tag(url, { class: "card-img img-rounded w-100", rel: "foaf:depiction" }) %>
+      <%= image_tag url, { class: "card-img img-rounded w-100", rel: "foaf:depiction" } %>
       <div class="card-info">
-        <cite>
-          <%= photo.licence.creative_commons? ? "<i class=\"bi bi-badge-cc\"></i>".html_safe : "<i class=\"bi bi-c-circle\"></i>".html_safe if photo.licence %> <a href="<%= photo.url %>"><%= photo.photographer if photo.photographer %> on <%= photo.source %></a>
+        <small class="text-muted">
+          <%= photo.licence.creative_commons? ? "<i class=\"bi bi-badge-cc\"></i>".html_safe : "<i class=\"bi bi-c-circle\"></i>".html_safe if photo.licence %> <%= photo.photographer if photo.photographer %>, <%= photo.source %>
           <% if photo.licence && !photo.licence.creative_commons? %>
             <%= photo.licence.abbreviation ? photo.licence.abbreviation : photo.licence.name %>
           <% end %>
-        </cite>
+        </small>
       </div>
     </div>
   <% end %>

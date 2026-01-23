@@ -29,16 +29,6 @@ class OrganisationPlaquesController < ApplicationController
     else
       0
     end
-    query = "SELECT people.gender, count(distinct person_id) as subject_count
-      FROM sponsorships, personal_connections, people
-      WHERE sponsorships.organisation_id = #{@organisation.id}
-      AND sponsorships.plaque_id = personal_connections.plaque_id
-      AND personal_connections.person_id = people.id
-      GROUP BY people.gender"
-    @gender = ActiveRecord::Base.connection.execute(query)
-    @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
-    @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
-    @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
 
     @display = "plaques"
     if zoom.positive?

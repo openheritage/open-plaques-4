@@ -79,7 +79,8 @@ class OrganisationsController < ApplicationController
     @gender = ActiveRecord::Base.connection.execute(query)
     @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
     @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
-    @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
+    @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count)) unless @uncurated_count.zero?
+    @people = people(@organisation.plaques.connected)
 
     @display = "plaques"
     if zoom.positive?
@@ -157,6 +158,19 @@ class OrganisationsController < ApplicationController
 
   def find_languages
     @languages = Language.order(name: :desc)
+  end
+
+  def people(plaques)
+    @people = []
+    plaques.each do |p|
+      p.people.each do |per|
+        per.define_singleton_method(:plaques_count) do
+          1
+        end
+        @people << per
+      end
+    end
+    @people.uniq
   end
 
   private

@@ -36,7 +36,7 @@
         </p>
       <% end %>
 
-      <%= content_tag('p', markdown(@organisation.description)) if @organisation.description.present? %>
+      <%= markdown @organisation.description if @organisation.description.present? %>
 
       <p>
         <%= @curated_count %> out of <%= @plaques_count %>
@@ -71,7 +71,7 @@
         <% end %>
       <% end %>
 
-      <% if @display!='ungeolocated' && @organisation.geolocated? %>
+      <% if @organisation.geolocated? && @display != "ungeolocated" %>
         <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
           @organisation.bbox_array ? 
           {
@@ -83,17 +83,21 @@
           :
           { centroid: @organisation.center_point_array }
         ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
-          <template data-controller="geojson" data-url="<%= organisation_plaques_path(@organisation, format: :geojson) %>" data-map-id="plaque-map">
+          <template data-controller="geojson" data-url="<%= organisation_plaques_path @organisation, format: :geojson %>" data-map-id="plaque-map">
             when this is displayed it sends a message to the map to display popups then autodestructs
           </template>
         </section>
       <% end %>
 
-      <h2>Plaques</h2>
-      <%= render partial: "plaques/tabbed" %>
+      <section class="section">
+        <%= render "section_title", title: "Plaques" %>
+        <%= render partial: "plaques/tabbed" %>
+      </section>
 
-      <h2>Subjects</h2>
-      <%= render partial: "people/tiles" %>
+      <section class="section">
+        <%= render "section_title", title: "Subjects" %>
+        <%= render partial: "people/tiles" %>
+      </section>
     </div>
 
     <div class="col-lg-4 sidebar">

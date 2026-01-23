@@ -16,31 +16,47 @@
   </div>
 </div><!-- End Page Title -->
 
-<section class="section">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <p><%= markdown @series.description %></p>
-    <%= render partial: "plaques/badge", object: @series.plaques_count, as: @plaques_count %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
 
-    <% if @series.geolocated? %>
-      <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
-        @series.bbox_array ? 
-        {
-          bounds: @series.bbox_array,
-          fitBoundsOptions: {
-            padding: 50
-          }
-        }
-        :
-        { centroid: @series.center_point_array }
-      ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
-        <template data-controller="geojson" data-url="<%= series_plaques_path(@series, format: :geojson) %>" data-map-id="plaque-map">
-          when this is displayed it sends a message to the map to display popups then autodestructs
-        </template>
+      <section class="section" data-aos="fade-up" data-aos-delay="100">
+        <p><%= markdown @series.description %></p>
+        <%= render partial: "plaques/badge", object: @series.plaques_count, as: @plaques_count %>
       </section>
-    <% end %>
 
-    <%= render partial: "plaques/tabbed" %>
+      <% if @series.geolocated? %>
+        <section id="plaque-map" data-aos="fade-up" data-aos-delay="100" data-controller="maplibre" data-maplibre-style="<%= JSON[
+          @series.bbox_array ? 
+          {
+            bounds: @series.bbox_array,
+            fitBoundsOptions: {
+              padding: 50
+            }
+          }
+          :
+          { centroid: @series.center_point_array }
+        ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
+          <template data-controller="geojson" data-url="<%= series_plaques_path(@series, format: :geojson) %>" data-map-id="plaque-map">
+            when this is displayed it sends a message to the map to display popups then autodestructs
+          </template>
+        </section>
+      <% end %>
 
+      <section class="section" data-aos="fade-up" data-aos-delay="100">
+        <%= render "section_title", title: "Plaques" %>
+        <%= render partial: "plaques/tabbed" %>
+      </section>
+
+    </div>
+    <div class="col-lg-4 sidebar">
+
+      <div class="widgets-container">
+        <%= render "search" %>
+        <%= render partial: "people/diversity" %>
+      </div>
+
+    </div>
   </div>
-</section>
+</div>

@@ -109,7 +109,7 @@ class CountriesController < ApplicationController
     )
     @gender = @gender.map { |attributes| OpenStruct.new(attributes) }
     @subject_count = @gender.inject(0) { |sum, g| sum + g.subject_count }
-    @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count))
+    @gender.append(OpenStruct.new(gender: "tba", subject_count: @uncurated_count)) unless @uncurated_count.zero?
     @gender.each do |g|
       case g["gender"]
       when "f"
