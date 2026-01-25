@@ -126,10 +126,9 @@ class PeopleController < ApplicationController
   def new
     @plaque = Plaque.find(params[:plaque_id]) if params[:plaque_id]
     @person = Person.new
-    respond_to do |format|
-      format.html
-      format.xml { render xml: @person }
-    end
+    @person.name = params[:name] if params[:name]
+    @person.born_on = params[:born_on] if params[:born_on]
+    @person.died_on = params[:died_on] if params[:died_on]
   end
 
   def edit
@@ -143,53 +142,42 @@ class PeopleController < ApplicationController
     params[:person][:died_on] += "-01-01" if params[:person][:died_on] =~ /\d{4}/
     @person = Person.new(permitted_params)
     @person.sex
-    respond_to do |format|
-      if @person.save
-        if params[:role_id] && !params[:role_id].blank?
-          @personal_role = PersonalRole.new(person_id: @person.id, role_id: params[:role_id], primary: true)
-          @personal_role.save!
-          # reget the person now that they have a role
-          @person = Person.find @person.id
-          @person.sex
-          @person.save
-        end
-        flash[:notice] = "Person was successfully created."
-        format.html do
-          @roles = Role.alphabetically
-          @personal_role = PersonalRole.new
-          if @plaque
-            redirect_to new_plaque_connection_path(@plaque, person_id: @person)
-          else
-            redirect_to person_path(@person)
-          end
-        end
-      else
-        format.html { render :new }
+    if @person.save
+      if params[:role_id] && !params[:role_id].blank?
+        @personal_role = PersonalRole.new(person_id: @person.id, role_id: params[:role_id], primary: true)
+        @personal_role.save!
+        # reget the person now that they have a role
+        @person = Person.find @person.id
+        @person.sex
+        @person.save
       end
+      flash[:notice] = "Person was successfully created."
+      @roles = Role.alphabetically
+      @personal_role = PersonalRole.new
+      if @plaque
+        redirect_to new_plaque_connection_path(@plaque, person_id: @person)
+      else
+        redirect_to person_path(@person)
+      end
+    else
+      render :new 
     end
   end
 
   def update
     params[:person][:born_on] += "-01-01" if params[:person][:born_on] =~ /\d{4}/
     params[:person][:died_on] += "-01-01" if params[:person][:died_on] =~ /\d{4}/
-    respond_to do |format|
-      if @person.update(permitted_params)
-        flash[:notice] = "Person was successfully updated."
-        format.html { redirect_to(@person) }
-        format.xml  { head :ok }
-      else
-        format.html { render :edit }
-        format.xml  { render xml: @person.errors, status: :unprocessable_entity }
-      end
+    if @person.update(permitted_params)
+      flash[:notice] = "Person was successfully updated."
+      redirect_to @person
+    else
+      render :edit 
     end
   end
 
   def destroy
     @person.destroy
-    respond_to do |format|
-      format.html { redirect_to(people_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to people_url
   end
 
   protected
