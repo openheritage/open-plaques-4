@@ -58,7 +58,7 @@ class PersonalConnection < ApplicationRecord
     rescue
       Rails.logger.error("Unable to call AWS Comprehend. Maybe env credentials are wrong.")
     end
-    
+
     entities.each_with_index do |ent, i|
       Rails.logger.debug(ent)
       next unless ent.type == "PERSON" || ent.type == "ORGANIZATION"
