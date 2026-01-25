@@ -674,10 +674,11 @@ class Person < ApplicationRecord
   end
 
   def self.search(term)
+    Rails.logger.debug("search for '#{term}'")
     cap = 20 # to protect from stupid searches like "%a%"
     matches = []
     name = term
-    name_and_dates = term.match(/(.*) \((\d\d\d\d)\s*-*\s*(\d\d\d\d)\)/)
+    name_and_dates = term.match(/(.*) \(*(\d\d\d\d)\s*-*\s*(\d\d\d\d)*\)*/)
     if name_and_dates
       name = name_and_dates[1]
       born = name_and_dates[2]
@@ -698,6 +699,7 @@ class Person < ApplicationRecord
     @people += Person.where([ "array_to_string(aka, ' ') ILIKE ?", phrase_like ]).limit(cap)
     @people += Person.where([ "array_to_string(aka, ' ') ILIKE ?", unaccented_phrase_like ]).limit(cap) if name.match(/[À-ž]/)
     @people.uniq!
+    Rails.logger.debug("people so far #{@people}")
     if name_and_dates
       exact_matches = @people.find_all { |person| person.born_in.to_i == born.to_i && person.died_in.to_i == died.to_i }
       matches = exact_matches.nil? ? exact_matches : @people
