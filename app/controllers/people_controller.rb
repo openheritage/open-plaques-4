@@ -160,7 +160,7 @@ class PeopleController < ApplicationController
         redirect_to person_path(@person)
       end
     else
-      render :new 
+      render :new
     end
   end
 
@@ -171,7 +171,7 @@ class PeopleController < ApplicationController
       flash[:notice] = "Person was successfully updated."
       redirect_to @person
     else
-      render :edit 
+      render :edit
     end
   end
 
