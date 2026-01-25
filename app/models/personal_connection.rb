@@ -45,6 +45,34 @@ class PersonalConnection < ApplicationRecord
     from == to
   end
 
+  # suggest subjects for a plaque
+  def suggestions
+    suggested_people = []
+    entities = []
+    begin
+      client = Aws::Comprehend::Client.new(region: "eu-west-1")
+      result = client.detect_entities(
+        { text: plaque.inscription_preferably_in_english, language_code: :en }
+      )
+      entities = result["entities"]
+    rescue
+      Rails.logger.error("Unable to call AWS Comprehend. Maybe env credentials are wrong.")
+    end
+
+    entities.each_with_index do |ent, i|
+      Rails.logger.debug(ent)
+      next unless ent.type == "PERSON" || ent.type == "ORGANIZATION"
+
+      term = ent.text
+      term += " #{entities[i + 1].text}" if entities[i + 1]&.type == "DATE" # plus, it could already be a range
+      term += "-#{entities[i + 2].text}" if entities[i + 2]&.type == "DATE"
+      search_result = Person.search(term)
+      suggested_people += search_result if search_result
+    end
+    Rails.logger.debug("suggestions #{suggested_people}")
+    return suggested_people, entities
+  end
+
   def to
     year = ended_at ? ended_at.year.to_s : ""
     year = person.born_in.to_s if birth?

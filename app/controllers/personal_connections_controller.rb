@@ -13,27 +13,14 @@ class PersonalConnectionsController < ApplicationController
   end
 
   def new
-    @person = Person.find(params[:person_id]) if params[:person_id]
     @personal_connection = @plaque.personal_connections.new
-    @suggested_people = []
-    @entities = []
-    begin
-      client = Aws::Comprehend::Client.new(region: "eu-west-1")
-      @entities = client.detect_entities(
-        { text: @plaque.inscription_preferably_in_english, language_code: :en }
-      )
-      @entities = @entities["entities"]
-      @entities.each_with_index do |ent, i|
-        next unless ent.type == "PERSON" || ent.type == "ORGANIZATION"
-
-        term = ent.text
-        term += " (#{@entities[i + 1].text}" if @entities[i + 1]&.type == "DATE"
-        term += "-#{@entities[i + 2].text})" if @entities[i + 2]&.type == "DATE"
-        search_result = Person.search(term)
-        @suggested_people += search_result if search_result
-      end
-    rescue
-      Rails.logger.error("Unable to call AWS Comprehend. Maybe env credentials are wrong.")
+    suggestions = @personal_connection.suggestions
+    @entities = suggestions[1]
+    @suggested_people = suggestions[0]
+    if params[:person_id]
+      @person = Person.find(params[:person_id])
+    else
+      @person = @suggested_people.first unless @person || @suggested_people.size > 1
     end
   end
 
