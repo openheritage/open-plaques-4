@@ -67,45 +67,16 @@
         </section>
       <% end %>
 
-      <section class="section" id="suggestions">
+      <section class="section">
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-          <h2>Add a connection</h2>
-
-          <% if @entities && @entities != [] %>
-            <h3>AWS suggests...</h3>
-            <ul class="list-group">
-              <% for entity in @entities %>
-                <li class="list-group-item d-flex justify-content-left align-items-start">
-                  <%= fa_icon(:user) if entity.type == 'PERSON' %>
-                  <%= fa_icon(:building) if entity.type == 'ORGANIZATION' %>
-                  <%= entity.text %> [<%= entity.type %>]
-                  <span class="badge badge-success"><%= (entity.score * 100).round(1) %>%</span>
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
-
-          <% if @suggested_people && @suggested_people.size > 0 %>
-            <h3>OpenPlaques suggests...</h3>
-            <div id="person-tiles" class="row" data-masonry='{"percentPosition": true }'>
-              <% for person in @suggested_people %>
-                <%= render partial: "people/tile", object: person, as: :person %>
-              <% end %>
-            </div>
-          <% end %>
-
-          <p><%= t '.from_which_we_can_establish' %></p>
+          <%= render "section_title", title: t(".from_which_we_can_establish") %>
           <%= form_for @personal_connection, url: plaque_connections_path(@plaque) do |f| %>
             <div class="form-group" data-controller="autocomplete" data-autocomplete-url-value="/people/autocomplete" role="combobox">
               <%= text_field_tag :person_name, @person&.name, { "data-autocomplete-target": "input", placeholder: "John Smith" } %>
               <%= f.hidden_field :person_id, value: @person&.id, "data-autocomplete-target": "hidden" %>
               <ul class="list-group" data-autocomplete-target="results"></ul>
             </div>
-            <div class="form-group">
-              <%= link_to(fa_icon(:user) + t('.new_person'), new_person_path(plaque_id: @plaque), class: "btn btn-warning") %>
-            </div>
-
             <% if @common_verbs %>
               <div>
                 <% @common_verbs.each do |verb| %>
@@ -118,7 +89,6 @@
             <% end %>
             <div class="form-group">
               <%= f.collection_select :verb_id, @verbs, :id, :name, { selected: @person&.default_action&.id || '222' }, { class: 'form-select', style: 'width:400px' } %>
-              <%= link_to t(".new_verb"), new_verb_path, class: "btn btn-warning", target: :_blank %>
             </div>
             <% if @personal_connection.full_address %>
               <div class="form-group">
@@ -140,12 +110,52 @@
         </div>
       </section>
 
+      <section class="section" id="aws_suggests">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+          <% if @entities && @entities != [] %>
+            <%= render "section_title", title: "AWS suggests..." %>
+            <ul class="list-group">
+              <% for entity in @entities %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div class="ms-2 me-auto">
+                    <%= "<i class=\"bi bi-person\"></i>".html_safe if entity.type == "PERSON" %>
+                    <%= "<i class=\"bi bi-house\"></i>".html_safe if %w[LOCATION ORGANIZATION].include? entity.type %>
+                    <%= entity.text %>
+                  </div>
+                  <% if entity.type == "PERSON" %>
+                    <%= link_to("<i class=\"bi bi-person-add\"></i>&nbsp;new person".html_safe, new_person_path(plaque_id: @plaque, name: entity.text), class: "btn btn-warning") %>
+                  <% elsif entity.type == "LOCATION" %>
+                    <%= link_to("<i class=\"bi bi-house-add\"></i>&nbsp;new place/thing".html_safe, new_person_path(plaque_id: @plaque, name: entity.text), class: "btn btn-warning") %>
+                  <% elsif entity.type == "ORGANIZATION" %>
+                    <%= link_to("<i class=\"bi bi-people\"></i>&nbsp;new group".html_safe, new_person_path(plaque_id: @plaque, name: entity.text), class: "btn btn-warning") %>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="section" id="op_suggests">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+          <%= render "section_title", title: "OpenPlaques suggests..." %>
+          <%= link_to("<i class=\"bi bi-person-add\"></i>&nbsp;#{t(".new_person")}".html_safe, new_person_path(plaque_id: @plaque), class: "btn btn-warning") %>
+          <%= link_to t(".new_verb"), new_verb_path, class: "btn btn-warning", target: :_blank %>
+          <% if @suggested_people && @suggested_people.size > 0 %>
+            <div id="person-tiles" class="row" data-masonry='{"percentPosition": true }'>
+              <% for person in @suggested_people %>
+                <%= render partial: "people/tile", object: person, as: :person %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </section>
     </div>
 
     <div class="col-lg-4 sidebar">
       <div class="widgets-container">
-        <%= render "search" %>
         <%= render @plaque, show_subjects: false %>
+        <%= render "search" %>
       </div>
     </div>
   </div>
