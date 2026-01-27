@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Backup Production db",
+      "label": "op4: Backup Production db",
       "type": "shell",
       "command": "./prod_backup.sh",
       "group": "test",
@@ -14,7 +14,7 @@
       }
     },
     {
-      "label": "Restore Dev db",
+      "label": "op4: Restore Dev db",
       "type": "shell",
       "command": "./local_restore.sh",
       "group": "test",
@@ -24,7 +24,17 @@
       }
     },
     {
-      "label": "Production console",
+      "label": "op4: server",
+      "type": "shell",
+      "command": "rails s",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "op4: Production console",
       "type": "shell",
       "command": "heroku run rails console --app open-plaques-beta",
       "group": "test",

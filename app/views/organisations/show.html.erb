@@ -7,10 +7,10 @@
   <div class="container d-lg-flex justify-content-between align-items-center">
     <h1 class="mb-2 mb-lg-0">
       <% if @organisation.language == nil || @organisation.language.alpha2 == "en-GB" || @organisation.language.alpha2 == "en" %>
-        <%= link_to(@organisation.name, @organisation) %>
+        <%= @organisation.name %>
       <% else %>
         <span class="flag-icon <%= @organisation.language&.flag_icon %>"></span>
-        <%= link_to(content_tag('span', @organisation.name, lang: @organisation.language&.alpha2), @organisation) %>
+        <%= content_tag 'span', @organisation.name, lang: @organisation.language&.alpha2 %>
       <% end %>
     </h1>
     <nav class="breadcrumbs">
@@ -25,7 +25,6 @@
 
 <div class="container">
   <div class="row">
-
     <div class="col-lg-8">
 
       <% if !@organisation.website.blank? %>
@@ -35,16 +34,13 @@
           </small>
         </p>
       <% end %>
-
       <%= markdown @organisation.description if @organisation.description.present? %>
-
       <p>
         <%= @curated_count %> out of <%= @plaques_count %>
         (<%= @percentage_curated %>%)
         plaques have been curated
       </p>
-      <%= render partial: "people/badge" %>
-      
+      <div>
       <% if @display!='all' %>
         <%= link_to t("buttons.all"), organisation_path(@organisation) %>
       <% else %>
@@ -70,7 +66,7 @@
           <strong><%= t("buttons.unconnected") %></strong>
         <% end %>
       <% end %>
-
+      </div>
       <% if @organisation.geolocated? && @display != "ungeolocated" %>
         <section id="plaque-map" data-controller="maplibre" data-maplibre-style="<%= JSON[
           @organisation.bbox_array ? 
