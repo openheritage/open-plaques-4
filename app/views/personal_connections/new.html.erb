@@ -116,26 +116,19 @@
             <%= render "section_title", title: "AWS suggests..." %>
             <ul class="list-group">
               <% @entities.each.with_index do |entity, i| %>
+                <% icon = { "DATE": "bi-calendar-date", "EVENT": "bi-calendar-event", "PERSON": "bi-person", "LOCATION": "bi-house", "ORGANIZATION": "bi-people" }[entity.type.to_sym] %>
+                <% icon_add = { "DATE": "bi-calendar-date", "PERSON": "bi-person-add", "LOCATION": "bi-house-add", "ORGANIZATION": "bi-people" }[entity.type.to_sym] %>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <%= i %>. 
                   <div class="ms-2 me-auto">
-                    <%= "<i class=\"bi bi-person\"></i>".html_safe if entity.type == "PERSON" %>
-                    <%= "<i class=\"bi bi-house\"></i>".html_safe if %w[LOCATION ORGANIZATION].include? entity.type %>
+                    <%= "<i class=\"bi #{icon}\"></i>".html_safe if icon %>
                     <%= entity.text %>
-                    <% if @entities[i + 1] && @entities[i + 1].type == "DATE" %>
-                    <%= @entities[i + 1]&.text %>
-                    <% end %>
                   </div>
                   <% if %w[PERSON LOCATION ORGANIZATION].include? entity.type %>
-                    <% icon = { "PERSON": "bi-person-add", "LOCATION": "bi-house-add", "ORGANIZATION": "bi-people" }[entity.type.to_sym] %>
                     <% label = { "PERSON": "new person", "LOCATION": "new place/thing", "ORGANIZATION": "new group" }[entity.type.to_sym] %>
-                    <% if @entities[i + 1] && @entities[i + 1].type == "DATE" %>
-                      <% started_at = @entities[i + 1].text.match(/(\d*)[-\s]*(\d*)/)[1] %>
-                      <% ended_at = @entities[i + 1].text.match(/(\d*)[-\s]*(\d*)/)[2] %>
-                      <%= link_to("<i class=\"bi #{icon}\"></i>&nbsp;#{label}".html_safe, new_person_path(ended_at: ended_at, name: entity.text, plaque_id: @plaque, started_at: started_at), class: "btn btn-warning") %>
-                    <% else %>
-                      <%= link_to("<i class=\"bi #{icon}\"></i>&nbsp;#{label}".html_safe, new_person_path(name: entity.text, plaque_id: @plaque), class: "btn btn-warning") %>
-                    <% end %>
+                      <% started_at = @entities[i + 1].text.match(/(\d*)[-\s]*(\d*)/)[1] if @entities[i + 1] %>
+                      <% ended_at = @entities[i + 1].text.match(/(\d*)[-\s]*(\d*)/)[2] if @entities[i + 1] %>
+                      <% ended_at = @entities[i + 2].text.match(/(\d*)/)[1] if ended_at.blank? && @entities[i + 2] %>
+                      <%= link_to("<i class=\"bi #{icon_add}\"></i>&nbsp;#{label}".html_safe, new_person_path(ended_at: ended_at, name: entity.text, plaque_id: @plaque, started_at: started_at), class: "btn btn-warning") %>
                   <% end %>
                 </li>
               <% end %>
