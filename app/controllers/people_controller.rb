@@ -127,8 +127,8 @@ class PeopleController < ApplicationController
     @plaque = Plaque.find(params[:plaque_id]) if params[:plaque_id]
     @person = Person.new
     @person.name = params[:name] if params[:name]
-    @person.born_on = params[:born_on] if params[:born_on]
-    @person.died_on = params[:died_on] if params[:died_on]
+    @person.born_on = params[:started_at] # if params[:born_on]
+    @person.died_on = params[:ended_at] # if params[:died_on]
   end
 
   def edit
