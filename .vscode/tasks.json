@@ -42,6 +42,16 @@
         "reveal": "always",
         "panel": "new"
       }
+    },
+    {
+      "label": "op4: Production logs",
+      "type": "shell",
+      "command": "heroku logs --tail --app open-plaques-beta",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
     }
   ]
 }

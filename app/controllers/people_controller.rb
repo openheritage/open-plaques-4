@@ -137,7 +137,7 @@ class PeopleController < ApplicationController
   end
 
   def create
-    @plaque = Plaque.find(params[:plaque_id]) if params[:plaque_id]
+    @plaque = Plaque.find_by(id: params[:plaque_id])
     params[:person][:born_on] += "-01-01" if params[:person][:born_on] =~ /\d{4}/
     params[:person][:died_on] += "-01-01" if params[:person][:died_on] =~ /\d{4}/
     @person = Person.new(permitted_params)
