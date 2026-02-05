@@ -23,10 +23,14 @@ class PersonalConnectionsController < ApplicationController
       @person = @suggested_people.first unless @person || @suggested_people.size > 1
     end
     default_verb = @person&.default_action || Verb.find_by(name: "was")
-    if default_verb.name == "was" && @plaque.inscription.include?("lived near")
+    if default_verb.name == "was" && @plaque.inscription.downcase.include?("lived near")
       default_verb = Verb.find_by(name: "lived near")
-    elsif default_verb.name == "was" && @plaque.inscription.include?("lived")
+    elsif default_verb.name == "was" && @plaque.inscription.downcase.include?("lived")
       default_verb = Verb.find_by(name: "lived")
+    elsif default_verb.name == "was" && @plaque.inscription.downcase.include?("born")
+      default_verb = Verb.find_by(name: "was born")
+    elsif default_verb.name == "was" && @plaque.inscription.downcase.include?("died")
+      default_verb = Verb.find_by(name: "died")
     end
     @personal_connection.verb = default_verb
   end
