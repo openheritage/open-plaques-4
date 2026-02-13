@@ -38,10 +38,6 @@ class Wikidata
     @wikidata = JSON.parse(resp, object_class: OpenStruct)
   end
 
-  def self.logger
-    Rails.logger
-  end
-
   def qcode
     return if !@wikidata || @wikidata.not_found?
 
@@ -80,7 +76,7 @@ class Wikidata
     return false if disambiguation?
     return false unless (born.present? && born_in.present?) || (died.present? && died_in.present?)
 
-    Wikidata.logger.debug("#{qcode} (#{born}-#{died}) == (#{born_in}-#{died_in})")
+    Rails.logger.debug("#{qcode} (#{born}-#{died}) == (#{born_in}-#{died_in})")
     b_match = born.present? && born_in.present? ? born == born_in: true
     d_match = died.present? && died_in.present? ? died == died_in : true
     b_match && d_match
@@ -114,7 +110,7 @@ class Wikidata
     end
     begin
       api = "#{api_root}wbgetentities&sites=enwiki&titles=#{name}&format=json"
-      logger.debug(api)
+      Rails.logger.debug(api)
       response = URI.parse(api).open
       resp = response.read
       wikidata = JSON.parse(resp, object_class: OpenStruct)
@@ -122,14 +118,14 @@ class Wikidata
         #  try again with first letter in uppercase
         name = name[0].upcase + name[1..]
         api = "#{api_root}wbgetentities&sites=enwiki&titles=#{name}&format=json"
-        logger.debug(api)
+        Rails.logger.debug(api)
         response = URI.parse(api).open
         resp = response.read
         wikidata = JSON.parse(resp, object_class: OpenStruct)
       end
       if (wikidata.not_found? || wikidata.disambiguation?) && (born || died)
         api = "#{api_root}query&list=search&srsearch=#{name}&format=json"
-        logger.debug(api)
+        Rails.logger.debug(api)
         response = URI.parse(api).open
         resp = response.read
         search_wikidata = JSON.parse(resp, object_class: OpenStruct)
@@ -147,7 +143,9 @@ class Wikidata
         wikidata.qcode
       end
     rescue URI::InvalidURIError
-      logger.error "nasty char in there"
+      Rails.logger.error "nasty char in there"
+    rescue OpenURI::HTTPError => e
+      Rails.logger.error e.message
     end
   end
 
