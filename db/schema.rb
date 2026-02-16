@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_16_143411) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_16_160122) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -282,6 +282,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_143411) do
     t.string "abbreviation", limit: 255
     t.datetime "created_at", precision: nil
     t.text "description"
+    t.string "en_wikipedia_url"
     t.string "index", limit: 255
     t.string "name", limit: 255
     t.integer "personal_roles_count"

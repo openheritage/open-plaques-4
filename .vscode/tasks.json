@@ -52,6 +52,16 @@
         "reveal": "always",
         "panel": "new"
       }
+    },
+    {
+      "label": "op4: Production migration",
+      "type": "shell",
+      "command": "heroku run rails db:migrate --app open-plaques-beta",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
     }
   ]
 }
