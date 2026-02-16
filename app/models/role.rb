@@ -213,9 +213,9 @@ class Role < ApplicationRecord
     url = Wikidata.new(wikidata_id).en_wikipedia_url
     update(en_wikipedia_url: url) if url
     en_wikipedia_url
-  #rescue
+  rescue
     # timeout?
-    #puts "Wikidata timeout?"
+    puts "Wikidata timeout?"
   end
 
   def self.types
