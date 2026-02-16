@@ -331,75 +331,97 @@ class Person < ApplicationRecord
       gender == "u" &&
       %w[
         Abigail
-        Adelaide Adele Ada
+        Ada Adelaide Adele
         Agnes
         Alessandra Alexandra Alice Alison
         Amalie Amelia
         Anastasia Ann Anna Anne Annie Antoinette
-        Beatriz
-        Bertha
-        Betsy Betsey Betty
+        Arabella Aria
+        Athena
+        Aurora
+        Ava
+        Ayla
+        Beatriz Bella Bertha Betsy Betsey Betty
+        Bonnie
         Brenda
         Caroline Cäcilie
-        Charlotte
+        Charlotte Chloe
         Clara
         Constance
-        Daisy
-        Deborah
+        Daisy Darcie
+        Deborah Delilah
         Diana
         Dolly Doris Dorothea Dorothy
-        Edith
-        Elaine Elfriede Elisabeth Elise Elizabeth Ella Ellen Elly Elsbeth Elsa Else Elsie
-        Emilie Emily Emma
-        Erika Erna Ernestine
-        Eva
+        Eden Edith
+        Elaine Eleanor Elfriede Elisabeth Elise Eliza Elizabeth Ella Ellen Ellie Elly Elodie Eloise Elsbeth Elsa Else Elsie
+        Emilia Emilie Emily Emma
+        Erika Erin Erna Ernestine
+        Esme
+        Eva Eve Evelyn Evie
         Fanny
+        Fatima
         Flora Florence
-        Franziska Frida Frieda
+        Franziska Freya Frida Frieda
         Georgia Georgina Gerda Gertrud Gertrude
         Gladys
         Grace Greta Grete
-        Hanna Hattie Hazel
+        Hallie
+        Hanna Harper Harriet Hattie Hazel
         Helen Helene Henrietta Henriette Herta Hertha
         Hilde Hildegard
         Ida
-        Ilse Irene Irma
-        Jane Janet Jacqueline
-        Jeanne Jenny Jennifer
+        Imogen
+        Ilse
+        Irene Iris Irma
+        Isabella Isabelle Isla
+        Jacqueline Jane Janet Jasmine
+        Jeanne Jenny Jennifer Jessica
         Johanna Josephine
         Judith Julia Julie
         Kate Käte Käthe Katherine Kathleen
         Klara
-        Laura
+        Lara Laura Layla
         Letitia
-        Lidia Lina Liz
-        Lola Lotte Louise Louisa
-        Lucie Lucy Luise
-        Mabel Mala Margaret Margery Margot Maria Marianne Marie Marjorie Marjory Martha Mary Maryse Mathilde May
+        Lidia Lily Lina Liz
+        Lola Lotte Lottie Louise Louisa
+        Lucie Lucy Luise Luna
+        Lyla Lyra
+        Mabel Maeve Maisie Mala Margaret Margery Margot Maria Marianne Marie Marjorie Marjory Martha Mary Maryam Maryse Mathilde Matilda May Maya
         Mercy Meta
-        Minna Minnie
+        Mia Mila Minna Minnie
         Monica Monika
+        Myla Myra
         Nancy
         Nelly Nellie
-        Olga
+        Nora Nova
+        Olga Olive Olivia
+        Ophelia
+        Orla
+        Ottilie
         Paloma Paula Pauline
-        Peggy
+        Peggy Penelope
         Phoebe
+        Poppy
         Priscilla
-        Rachel
+        Rachel Raya
+        Robyn
         Regina
-        Roberta Rosa Rose Rosemary
-        Ruth
-        Sally Sarah Sara
+        Roberta Rosa Rose Rosemary Rosie
+        Ruby Ruth
+        Sally Sara Sarah
+        Scarlett
         Selma
         Shelley Shirley
-        Sonia Sophie
+        Sienna
+        Sofia Sonia Sophia Sophie
         Susan Susanna
-        Toni Therese
+        Teresa
+        Thea Theresa Therese Toni
         Ursula
         Vera
         Victoria Violet Virginia
-        Wilhelmina Winifred
+        Wilhelmina Willow Winifred
+        Zara Zoe
       ].include?(firstname)
     self.gender = "m" if gender == "u" && !inanimate_object?
     gender == "f"
@@ -810,7 +832,10 @@ class Person < ApplicationRecord
   end
 
   def wikipedia_url
-    Wikidata.new(wikidata_id).en_wikipedia_url
+    return en_wikipedia_url if en_wikipedia_url
+
+    update(en_wikipedia_url: Wikidata.new(wikidata_id).en_wikipedia_url)
+    en_wikipedia_url
   rescue
     # timeout?
     puts "Wikidata timeout?"
