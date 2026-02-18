@@ -378,7 +378,9 @@ class Person < ApplicationRecord
         Jeanne Jenny Jennifer Jessica
         Johanna Josephine
         Judith Julia Julie
+        Karen
         Kate Käte Käthe Katherine Kathleen
+        Keira
         Klara
         Lara Laura Layla
         Letitia
@@ -400,9 +402,9 @@ class Person < ApplicationRecord
         Ottilie
         Paloma Paula Pauline
         Peggy Penelope
-        Phoebe
+        Phoebe Phyllis
         Poppy
-        Priscilla
+        Precious Priscilla
         Rachel Raya
         Robyn
         Regina
