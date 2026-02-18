@@ -199,7 +199,8 @@ class OrganisationsController < ApplicationController
       :notes,
       :slug,
       :streetview_url,
-      :website
+      :website,
+      :wikidata_id
     )
   end
 end

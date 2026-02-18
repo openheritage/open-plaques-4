@@ -37,7 +37,7 @@
       <div class="mb-3">
         <div class="col-sm-2">
           <%= f.label :wikidata_id %>
-          <%= link_to "Wikidata <i class=\"bi bi-box-arrow-up-right\"></i>".html_safe, @role.wikidata_url, target: :_blank unless @role.wikidata_id.blank?%>
+          <%= link_to "Wikidata <i class=\"bi bi-box-arrow-up-right\"></i>".html_safe, @role.wikidata_url, target: :_blank unless @role.wikidata_id.blank? %>
         </div>
         <%= f.text_field :wikidata_id %>
       </div>

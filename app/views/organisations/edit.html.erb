@@ -16,12 +16,11 @@
   </div>
 </div><!-- End Page Title -->
 
-<section class="section">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row">
-      <div class="col-xl-9">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
 
-        <%= form_for @organisation, html: { class: "row g-3 mb-9" } do |f| %>
+        <%= form_for @organisation, html: { class: "row g-3 mb-9 section" } do |f| %>
           <div class="col-sm-6 col-md-8">
             <div class="form-floating">
               <%= f.text_field :name %>
@@ -54,8 +53,20 @@
           </div>
           <div class="col-sm-6 col-md-12">
             <div class="form-floating">
+              <%= f.text_field :wikidata_id %>
+              <%= f.label :wikidata_id %>
+              <%= link_to "Wikidata <i class=\"bi bi-box-arrow-up-right\"></i>".html_safe, @organisation.wikidata_url, target: :_blank unless @organisation.wikidata_id.blank? %>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
               <%= f.text_area :notes, style: "height: 100px" %>
               <%= f.label :notes %>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+              <%= f.submit t("buttons.update") %>
             </div>
           </div>
           <%= render "geolocate", { f: f, object: @organisation, q: "#{@organisation.name}" } %>
@@ -67,7 +78,14 @@
         <% end %>
         <%= button_to "geolocate from plaques", { controller: :organisations, action: :geolocate, id: @organisation }, class: "btn btn-warning my-3" if @organisation.plaques.geolocated.any? %>
 
+    </div>
+    <div class="col-lg-4 sidebar">
+
+      <div class="widgets-container">
+        <%= render "search" %>
+        <%= render partial: "people/diversity" %>
       </div>
+
     </div>
   </div>
 </section>

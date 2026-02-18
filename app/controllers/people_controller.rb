@@ -201,6 +201,7 @@ class PeopleController < ApplicationController
       :citation,
       :dbpedia_uri,
       :died_on,
+      :en_wikipedia_url,
       :ethnicity,
       :find_a_grave_id,
       :gender,
