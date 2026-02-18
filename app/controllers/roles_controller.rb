@@ -91,6 +91,7 @@ class RolesController < ApplicationController
       :abbreviation,
       :commit,
       :description,
+      :en_wikipedia_url,
       :id,
       :name,
       :prefix,

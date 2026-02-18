@@ -38,8 +38,8 @@
         <cite><%= link_to(fa_icon(:link) + 'DbPedia', @role.dbpedia_uri, target: :_blank) unless @role.dbpedia_uri.blank? %></cite>
       </blockquote>
     <% end %>
-    <%= link_to(fa_icon(:link) + 'Wikidata', @role.wikidata_url, target: :_blank) unless @role.wikidata_url.blank? %>
-    <%= link_to(fa_icon(:link) + 'Wikipedia', @role.wikipedia_url, target: :_blank) unless @role.wikipedia_url.blank? %>
+    <%= link_to "Wikidata <i class=\"bi bi-box-arrow-up-right\"></i>".html_safe, @role.wikidata_url, target: :_blank unless @role.wikidata_url.blank? %>
+    <%= link_to "Wikipedia <i class=\"bi bi-box-arrow-up-right\"></i>".html_safe, @role.wikipedia_url, target: :_blank unless @role.wikipedia_url.blank? %>
 
   </div>
 </section>

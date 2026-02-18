@@ -28,23 +28,6 @@ class Organisation < ApplicationRecord
   # for slug helper
   include ApplicationHelper
 
-  def plaques_count
-    sponsorships_count
-  end
-
-  def main_photo
-    random_plaque = plaques.photographed.random
-    random_plaque == [] ? nil : random_plaque&.main_photo
-  end
-
-  def uri
-    "https://openplaques.org#{Rails.application.routes.url_helpers.organisation_path(slug, format: :json)}"
-  end
-
-  def plaques_uri
-    "https://openplaques.org#{Rails.application.routes.url_helpers.organisation_plaques_path(slug, format: :geojson)}"
-  end
-
   def as_json(options = nil)
     if !options || !options[:only]
       options = {
@@ -55,11 +38,32 @@ class Organisation < ApplicationRecord
     super options
   end
 
+  def main_photo
+    random_plaque = plaques.photographed.random
+    random_plaque == [] ? nil : random_plaque&.main_photo
+  end
+
+  def plaques_count
+    sponsorships_count
+  end
+
+  def plaques_uri
+    "https://openplaques.org#{Rails.application.routes.url_helpers.organisation_plaques_path(slug, format: :geojson)}"
+  end
+
   def to_param
     slug
   end
 
   def to_s
     name
+  end
+
+  def uri
+    "https://openplaques.org#{Rails.application.routes.url_helpers.organisation_path(slug, format: :json)}"
+  end
+
+  def wikidata_url
+    "https://www.wikidata.org/wiki/#{wikidata_id}" unless wikidata_id.blank? || wikidata_id == "Q"
   end
 end
