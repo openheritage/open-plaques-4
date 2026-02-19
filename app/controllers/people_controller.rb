@@ -126,9 +126,9 @@ class PeopleController < ApplicationController
   def new
     @plaque = Plaque.find(params[:plaque_id]) if params[:plaque_id]
     @person = Person.new
-    @person.name = params[:name] if params[:name]
-    @person.born_on = params[:started_at] # if params[:born_on]
-    @person.died_on = params[:ended_at] # if params[:died_on]
+    @person.name = params[:name]
+    @person.born_on = params[:started_at]
+    @person.died_on = params[:ended_at]
   end
 
   def edit
@@ -143,8 +143,8 @@ class PeopleController < ApplicationController
     @person = Person.new(permitted_params)
     @person.sex
     if @person.save
-      if params[:role_id] && !params[:role_id].blank?
-        @personal_role = PersonalRole.new(person_id: @person.id, role_id: params[:role_id], primary: true)
+      unless params[:role_id].blank?
+        @personal_role = PersonalRole.new(person: @person, primary: true, role_id: params[:role_id])
         @personal_role.save!
         # reget the person now that they have a role
         @person = Person.find @person.id
@@ -157,7 +157,7 @@ class PeopleController < ApplicationController
       if @plaque
         redirect_to new_plaque_connection_path(@plaque, person_id: @person)
       else
-        redirect_to person_path(@person)
+        redirect_to @person
       end
     else
       render :new
