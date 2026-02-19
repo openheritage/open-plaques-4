@@ -11,29 +11,29 @@ class ApplicationController < ActionController::Base
   end
 
   def bot_blocker
-    http_user_agent = request.env["HTTP_USER_AGENT"]&.downcase
-    is_meta = http_user_agent&.include?("meta-")
-    is_semrush = http_user_agent&.include?("semrush")
-    is_terracotta = http_user_agent&.include?("terracotta")
-    is_the_knowledge_ai = http_user_agent&.include?("the knowledge ai")
-    is_winhttp = http_user_agent&.include?("winhttp")
+    http_user_agent = request.env["HTTP_USER_AGENT"]&.downcase || ""
+    is_meta = http_user_agent.include?("meta-")
+    is_semrush = http_user_agent.include?("semrush")
+    is_terracotta = http_user_agent.include?("terracotta")
+    is_the_knowledge_ai = http_user_agent.include?("the knowledge ai")
+    is_winhttp = http_user_agent.include?("winhttp")
     clicked_the_honey = %r{/i-am-a-bot}.match?(request.path)
     is_a_bot = clicked_the_honey ||
-               http_user_agent&.include?("bot") ||
-               http_user_agent&.include?("crawler")
-               http_user_agent&.include?("bingpreview") ||
-               http_user_agent&.include?("bubing") ||
-               http_user_agent&.include?("mozilla/5.0 applewebkit") ||
-               http_user_agent&.include?("slurp") ||
-               http_user_agent&.include?("spider") ||
-               http_user_agent&.include?("java/") ||
+               http_user_agent.include?("bot") ||
+               http_user_agent.include?("crawler") ||
+               http_user_agent.include?("bingpreview") ||
+               http_user_agent.include?("bubing") ||
+               http_user_agent.include?("mozilla/5.0 applewebkit") ||
+               http_user_agent.include?("slurp") ||
+               http_user_agent.include?("spider") ||
+               http_user_agent.include?("java/") ||
                is_meta ||
                is_semrush ||
                is_terracotta ||
                is_the_knowledge_ai ||
                is_winhttp
     is_a_data_request = [ "application/json", "application/xml", "application/kml" ].include?(request.format)
-    puts "USERAGENT: #{is_a_bot ? "bot" : "not-bot"} '#{http_user_agent}' -> #{request.format} #{request.path}"
+    puts "USERAGENT: #{"not-" unless is_a_bot}bot '#{http_user_agent}' -> #{request.format} #{request.path}"
     is_not_following_robots_txt = clicked_the_honey ||
                                   is_a_data_request ||
                                   request.path.end_with?("/new") ||
