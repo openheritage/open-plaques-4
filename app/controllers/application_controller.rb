@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
                http_user_agent&.include?("crawler")
                http_user_agent&.include?("bingpreview") ||
                http_user_agent&.include?("bubing") ||
+               http_user_agent&.include?("mozilla/5.0 applewebkit") ||
                http_user_agent&.include?("slurp") ||
                http_user_agent&.include?("spider") ||
                http_user_agent&.include?("java/") ||
