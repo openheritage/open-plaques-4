@@ -246,6 +246,7 @@ class PlaquesController < ApplicationController
       :notes,
       :organisation_name,
       :organisation_id,
+      :openstreetmap,
       :other_colour_id,
       :series_id,
       :series_ref

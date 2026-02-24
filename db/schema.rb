@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_18_101911) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_24_113114) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -267,6 +267,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_18_101911) do
     t.float "latitude"
     t.float "longitude"
     t.text "notes"
+    t.string "openstreetmap"
     t.text "parsed_inscription"
     t.integer "personal_connections_count", default: 0
     t.integer "photos_count", default: 0, null: false

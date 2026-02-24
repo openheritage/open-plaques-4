@@ -16,13 +16,11 @@
   </div>
 </div><!-- End Page Title -->
 
-<section class="section">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-    <div class="row">
-      <div class="col-xs-12 col-sm-6" id="organisation-chooser">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <section class="section">
         <p>Open Plaques credit every organisation listed on the plaque including monetary sponsors.</p>
-
         <ul class="list-group">
           <% @plaque.sponsorships.each do |sponsorship| %>
             <% if sponsorship.organisation %>
@@ -35,7 +33,6 @@
             <% end %>
           <% end %>
         </ul>
-
         <%= form_for @sponsorship, url: plaque_sponsorships_path(@plaque) do |f| %>
           <%= f.hidden_field :plaque_id, value: @plaque.id %>
           <div class="row mb-6">
@@ -49,15 +46,15 @@
           <%= f.submit t("buttons.link") %>
         <% end %>
         <% if current_user %>
-          <p><%= link_to('Add new organisation', new_organisation_path) %></p>
+          <%= link_to "Add new organisation", new_organisation_path, target: :_blank, class: "btn btn-warning" %>
         <% end %>
-      </div>
-      <% if @plaque.main_photo %>
-        <div class="col-xs-12 col-sm-6" id="photo-display">
-          <%= render @plaque.main_photo, large: true %>
-        </div>
-      <% end %>
+      </section>
     </div>
-
+    <div class="col-lg-4 sidebar">
+      <div class="widgets-container">
+        <%= render "search" %>
+        <%= render @plaque, show_subjects: false %>
+      </div>
+    </div>
   </div>
-</section>
+</div>

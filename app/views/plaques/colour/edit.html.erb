@@ -17,11 +17,10 @@
   </div>
 </div><!-- End Page Title -->
 
-<section class="section">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-    <div class="row">
-      <div class="col-xs-12 <%= "col-sm-6" if @plaque.main_photo %>">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <section class="section">
         <%= form_for @plaque, html: { class: "row g-3 mb-9" } do |f| %>
           <div class="col-sm-6 col-md-4">
             <div class="form-floating">
@@ -29,15 +28,19 @@
               <%= f.label :colour_id, t(".colour_label") %>
             </div>
           </div>
-          <%= f.submit t("buttons.save") %>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+              <%= f.submit t("buttons.save") %>
+            </div>
+          </div>
         <% end %>
-      </div>
-      <% if @plaque.main_photo %>
-        <div class="col-xs-12 col-sm-6">
-          <%= render @plaque.main_photo, large: true %>
-        </div>
-      <% end %>
+      </section>
     </div>
-
+    <div class="col-lg-4 sidebar">
+      <div class="widgets-container">
+        <%= render "search" %>
+        <%= render @plaque, show_subjects: false %>
+      </div>
+    </div>
   </div>
-</section>
+</div>
