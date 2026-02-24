@@ -29,7 +29,7 @@
       </div>
       <div class="col-sm-6 col-md-4">
         <label class="form-check-label">
-          <%= f.check_box :is_current, class: 'form-check-input' %>
+          <%= f.check_box :is_current %>
           <%= t('.exists') %>
         </label>
       </div>
@@ -45,10 +45,9 @@
         </div>
       </div>
     <% end %>
-
     <br/>
     <div class="row">
-      <%= button_to('Delete plaque', plaque_path(@plaque.id), {method: :delete, class: "btn btn-danger"}) if current_user.try(:is_admin?) %>
+      <%= button_to "Delete plaque", plaque_path(@plaque.id), { method: :delete, class: "btn btn-danger" } if current_user.try(:is_admin?) %>
     </div>
 
   </div>

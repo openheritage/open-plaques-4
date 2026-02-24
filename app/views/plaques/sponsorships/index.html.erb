@@ -49,7 +49,7 @@
           <%= f.submit t("buttons.link") %>
         <% end %>
         <% if current_user %>
-          <p><%= link_to('Add new organisation', new_organisation_path) %></p>
+          <%= link_to "Add new organisation", new_organisation_path, target: :_blank, class: "btn btn-warning" %>
         <% end %>
       </div>
       <% if @plaque.main_photo %>

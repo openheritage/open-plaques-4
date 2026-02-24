@@ -71,7 +71,6 @@ Rails.application.routes.draw do
       get "flickr_search_all"
     end
     resource :inscription, controller: :plaque_inscription, only: :edit
-    resource :language, controller: :plaque_language, only: :edit
     resource :location, controller: :plaque_location, only: :edit
     resource :photos, controller: :plaque_photos, only: :show
     resource :series, controller: :plaque_series, only: :edit

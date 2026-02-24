@@ -40,7 +40,7 @@
               <p>This is a
                 <%= f.collection_select :shot, Photo.shots, :to_s, :to_s, include_blank: true %></p>
               <%= f.submit t("buttons.save"), class: "btn btn-primary pull-left" %>
-              <%= link_to(t("buttons.edit"), edit_photo_path(photo), {class: "btn btn-secondary pull-right", title: "edit photo"}) if current_user && current_user.is_admin? %>
+              <%= link_to t("buttons.edit"), edit_photo_path(photo), { class: "btn btn-secondary pull-right", title: "edit photo" } if current_user&.is_admin? %>
             <% end %>
           </div>
         <% end %>
@@ -57,10 +57,10 @@
         <p>
           <% @photo = Photo.new %>
             <%= form_for @photo do |f| %>
-            <%= f.label(:url, "A photo page url from Flickr, Wikimedia Commons, or Geograph is") %>
+            <%= f.label :url, "A photo page url from Flickr, Wikimedia Commons, or Geograph is" %>
             <%= f.text_field :url %>
             <%= f.hidden_field :plaque_id, value: @plaque.id %>
-            <%= submit_tag("Please link to it", class: "btn btn-primary") %>
+            <%= submit_tag "Please link to it", class: "btn btn-primary" %>
           <% end %>
         </p>
       </div>
@@ -89,7 +89,7 @@
 
       <div class="row">
         <div class="hidden-xs-down col-sm-3 col-md-2">
-          <%= image_tag("https://upload.wikimedia.org/wikipedia/commons/7/79/Wiki-commons.png", {class: "card-img img-rounded w-100"}) %>
+          <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/7/79/Wiki-commons.png", { class: "card-img img-rounded w-100" } %>
         </div>
         <div class="col-xs-12 col-sm-9 col-md-10">
           <h2>
@@ -98,7 +98,7 @@
           <p>It is free, fairly easy to use, and your image will [probably] live forever as part of the awesome Wikipedia platform. When you are done, paste the url of the Wikimedia page in here and Open Plaques will link to the photo.</p>
           <p class="card-text">You can also tag it when asked for other information, or at the bottom of the Summary with
             <i><input type="text" readonly value="<%= @plaque.wikimedia_tag %>"/></i>
-            <%= button_tag fa_icon(:clipboard), id: 'copy-wikimedia-tag', type: 'button', class: :button %>
+            <%= button_tag fa_icon(:clipboard), id: "copy-wikimedia-tag", type: "button", class: :button %>
             which will add a link back to Open Plaques.
           </p>
           <p>Do not upload photos of Pennsylvania historical markers as the copyright states that you may not reproduce an image and it will be removed from Wikimedia Commons</p>
@@ -107,7 +107,7 @@
 
       <div class="row">
         <div class="hidden-xs-down col-sm-3 col-md-2">
-          <%= image_tag("https://upload.wikimedia.org/wikipedia/commons/9/9b/Flickr_logo.png", {class: "card-img img-rounded w-100"}) %>
+          <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/9/9b/Flickr_logo.png", { class: "card-img img-rounded w-100" } %>
         </div>
         <div class="col-xs-12 col-sm-9 col-md-10">
           <h2>
@@ -118,7 +118,7 @@
             <li>give it a Creative Commons licence, i.e. it shouldn't say "All Rights Reserved"</li>
             <li>tag it
               <input type="text" readonly value="<%= @plaque.machine_tag %>"/>
-              <%= button_tag fa_icon(:clipboard), id: 'copy-flickr-tag', type: 'button', class: :button %></p>
+              <%= button_tag fa_icon(:clipboard), id: "copy-flickr-tag", type: "button", class: :button %></p>
           </li>
           <li>wait for 24 hours and our servers should automatically find it and display it on our site</li>
           <li>does it appear in the Flickr search of
@@ -131,9 +131,9 @@
         <p>I did that, but my photo hasn&apos;t appeared!</p>
         <p>Paste the url of the photo here and we will try to sort it out
           <%= form_tag("/photographers", method: "create") do %>
-            <%= label_tag(:flickr_url, "Flickr photo url:") %>
-            <%= text_field_tag(:flickr_url) %>
-            <%= submit_tag("Search", class: "btn btn-primary") %>
+            <%= label_tag :flickr_url, "Flickr photo url:" %>
+            <%= text_field_tag :flickr_url %>
+            <%= submit_tag "Search", class: "btn btn-primary" %>
           <% end %></p>
         <br/>
       </div>
