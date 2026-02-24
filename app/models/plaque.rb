@@ -42,6 +42,7 @@ class Plaque < ApplicationRecord
   before_save :usa_townify
   before_save :unshout
   before_save :translate
+  before_save :geolocate_from_osm
   before_update do
     raise "spammer attempt to spoil coordinates" if latitude_changed? && latitude.zero?
     raise "spammer attempt to spoil coordinates" if longitude_changed? && longitude.zero?
@@ -455,6 +456,19 @@ class Plaque < ApplicationRecord
   end
 
   private
+
+  def geolocate_from_osm
+    return unless openstreetmap_changed? && openstreetmap.present?
+
+    api = "https://www.openstreetmap.org/api/0.6/#{openstreetmap}"
+    response = URI.parse(api).open
+    resp = response.read
+    matches = resp.match /lat="(-*\d*.\d*)" lon="(-*\d*.\d*)/
+    return unless matches
+
+    self.latitude = matches[1]
+    self.longitude = matches[2]
+  end
 
   # this action is not an essential part of the data model
   # could consider wisper gem for simple pub-sub
