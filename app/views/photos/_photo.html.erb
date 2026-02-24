@@ -8,7 +8,7 @@
   <% url = local_assigns[:large] ? photo.file_url : photo.thumbnail_url %>
   <% if url %>
     <% url = url.gsub('http:', 'https:') unless photo.geograph? %>
-    <div class="card photo">
+    <div class="card photo mb-1">
       <%= image_tag url, { class: "card-img img-rounded w-100", rel: "foaf:depiction" } %>
       <div class="card-info">
         <small class="text-muted">

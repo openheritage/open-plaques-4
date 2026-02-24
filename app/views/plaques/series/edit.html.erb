@@ -16,30 +16,37 @@
   </div>
 </div><!-- End Page Title -->
 
-<section class="section">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-    <%= form_for @plaque, html: { class: "row g-3 mb-9" } do |f| %>
-      <div class="col-sm-6">
-        <div class="form-floating">
-          <%= f.collection_select :series_id, @series, :id, :name, { class: "form-select", include_blank: true } %>
-          <%= f.label :series_id, t(".series_label") %>
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <section class="section">
+        <%= form_for @plaque, html: { class: "row g-3 mb-9" } do |f| %>
+          <div class="col-sm-6">
+            <div class="form-floating">
+              <%= f.collection_select :series_id, @series, :id, :name, { class: "form-select", include_blank: true } %>
+              <%= f.label :series_id, t(".series_label") %>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-floating">
+              <%= f.text_field :series_ref, { include_blank: true } %>
+              <%= f.label :series_ref, t(".series_ref_label") %>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+              <%= f.submit t("buttons.save") %>
+            </div>
+          </div>
+        <% end %>
+        <%= link_to t(".add_new_series"), new_series_path, target: :_blank, class: "btn btn-warning" %>
+      </section>
+    </div>
+    <div class="col-lg-4 sidebar">
+      <div class="widgets-container">
+        <%= render "search" %>
+        <%= render @plaque, show_subjects: false %>
       </div>
-      <div class="col-sm-6">
-        <div class="form-floating">
-          <%= f.text_field :series_ref, { include_blank: true } %>
-          <%= f.label :series_ref, t(".series_ref_label") %>
-        </div>
-      </div>
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex">
-          <%= f.submit t("buttons.save") %>
-        </div>
-      </div>
-    <% end %>
-
-    <%= link_to t(".add_new_series"), new_series_path, target: :_blank, class: "btn btn-warning" %>
-
+    </div>
   </div>
-</section>
+</div>

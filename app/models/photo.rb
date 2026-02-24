@@ -102,6 +102,10 @@ class Photo < ApplicationRecord
     url&.include?("geograph.org")
   end
 
+  def legible?
+    shot_order < 4
+  end
+
   def linked?
     !unlinked?
   end
@@ -167,7 +171,7 @@ class Photo < ApplicationRecord
   end
 
   def shot_order
-    return shot[0, 1] if shot && shot != ""
+    return shot[0, 1].to_i if shot && shot != ""
 
     6
   end
