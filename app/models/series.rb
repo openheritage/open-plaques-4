@@ -13,19 +13,6 @@ class Series < ApplicationRecord
   validates_presence_of :name
   scope :by_popularity, -> { order(plaques_count: :desc) }
 
-  def main_photo
-    random_plaque = plaques.photographed.random
-    random_plaque == [] ? nil : random_plaque&.main_photo
-  end
-
-  def zoom
-    10
-  end
-
-  def uri
-    "https://openplaques.org#{Rails.application.routes.url_helpers.series_path(id, format: :json)}" if id
-  end
-
   def as_json(options = {})
     unless options[:only]
       options = {
@@ -34,5 +21,22 @@ class Series < ApplicationRecord
       }
     end
     super(options)
+  end
+
+  def main_photo
+    random_plaque = plaques.photographed.random
+    random_plaque == [] ? nil : random_plaque&.main_photo
+  end
+
+  def to_s
+    "##{id}"
+  end
+
+  def uri
+    "https://openplaques.org#{Rails.application.routes.url_helpers.series_path(id, format: :json)}" if id
+  end
+
+  def zoom
+    10
   end
 end
