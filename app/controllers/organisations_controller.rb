@@ -47,7 +47,7 @@ class OrganisationsController < ApplicationController
 
   def show
     params[:id].gsub!("oxfordshire_blue_plaques_scheme", "oxfordshire_blue_plaques_board")
-        set_meta_tags description: "Blue plaques and historical markers from #{@organisation.name}"
+    set_meta_tags description: "Blue plaques and historical markers from #{@organisation.name}"
     set_meta_tags open_graph: {
       title: "#{@organisation.name} plaques",
       description: @organisation.description
