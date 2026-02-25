@@ -45,7 +45,12 @@
                   <%= f.label :shot, "This is a" %>
                 </div>
               </div>
-              <p>I can<%= "not" unless photo.legible? %> read the words</p>
+              <% if photo.shot_order == 6 %>
+                <div>I cannot see the plaque</div>
+              <% elsif photo.shot_order == 5 %>
+                <div>I can see the plaque</div>
+              <% end %>
+              <div>I can<%= "not" unless photo.legible? %> read the words</div>
               <%= f.submit t("buttons.save"), class: "btn btn-primary pull-left" %>
               <%= link_to t("buttons.edit"), edit_photo_path(photo), { class: "btn btn-secondary pull-right", title: "edit photo" } if current_user&.is_admin? %>
             <% end %>
