@@ -13,8 +13,8 @@
     <h1 class="mb-2 mb-lg-0"><%= @person.full_name %></h1>
     <nav class="breadcrumbs">
       <ol>
-        <li><%= link_to('subjects', people_path)%></li>
-        <li><%= link_to(@person) %></li>
+        <li><%= link_to "subjects", people_path %></li>
+        <li><%= link_to @person %></li>
         <li class="current">Edit</li>
       </ol>
     </nav>
@@ -224,18 +224,20 @@
       <% end %>
     </section>
 
-    <h2 id="roles">Roles</h2>
-    <div class="row">
-      <h4 class="col-xs-12"><%= fa_icon(:user) if @person.person?%>
-        <%= fa_icon(:paw) if @person.animal? %>
-        <%= fa_icon(:users) if @person.group? %>
-        <%= fa_icon(:building) if @person.place? %>
-        <%= fa_icon(:'map-marker') if @person.thing? %>
-        <%= @person.personal_pronoun %>
-        <%= @person.existence_word %>
-        a
-        <%= roles_list(@person) %></h4>
-    </div>
+    <section class="section">
+      <%= render "section_title", title: "Roles" %>
+      <div class="row">
+        <h4 class="col-xs-12"><%= fa_icon(:user) if @person.person?%>
+          <%= fa_icon(:paw) if @person.animal? %>
+          <%= fa_icon(:users) if @person.group? %>
+          <%= fa_icon(:building) if @person.place? %>
+          <%= fa_icon(:'map-marker') if @person.thing? %>
+          <%= @person.personal_pronoun %>
+          <%= @person.existence_word %>
+          a
+          <%= roles_list(@person) %></h4>
+      </div>
+    </section>
 
     <% if @person.plaques.size > 0 %>
       <div class="row">

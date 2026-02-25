@@ -14,12 +14,23 @@
   </div>
 </div><!-- End Page Title -->
 
-<section class="section">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
 
-    <p><%= t(".explanation") %></p>
+      <section class="container" data-aos="fade-up" data-aos-delay="100">
+        <p><%= t(".explanation") %></p>
+        <%= render partial: 'series/row', collection: @series, as: :series %>
+      </section>
 
-    <%= render partial: 'series/row', collection: @series, as: :series %>
+    </div>
+    <div class="col-lg-4 sidebar">
 
+      <div class="widgets-container">
+        <%= render "search" %>
+        <%= render partial: "people/diversity" %>
+      </div>
+
+    </div>
   </div>
-</section>
+</div>

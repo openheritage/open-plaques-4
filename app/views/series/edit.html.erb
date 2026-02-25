@@ -9,18 +9,18 @@
       <ol>
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Series", series_index_path %></li>
-        <li>#<%= @series.id %></li>
+        <li><%= link_to @series %></li>
         <li class="current">Edit</li>
       </ol>
     </nav>
   </div>
 </div><!-- End Page Title -->
 
-<section class="section">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row">
-      <div class="col-xl-9">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
 
+      <section class="section" data-aos="fade-up" data-aos-delay="100">
         <%= form_for @series, html: { class: "row g-3 mb-9" } do |f| %>
           <div class="col-sm-6 col-md-6">
             <div class="form-floating">
@@ -42,8 +42,16 @@
           </div>
         <% end %>
         <%= button_to "geolocate from plaques", { controller: :series, action: :geolocate, id: @series }, class: "btn btn-warning my-3" if @series.plaques.geolocated.any? %>
+      </section>
 
+    </div>
+    <div class="col-lg-4 sidebar">
+
+      <div class="widgets-container">
+        <%= render "search" %>
+        <%= render partial: "people/diversity" %>
       </div>
+
     </div>
   </div>
-</section>
+</div>
