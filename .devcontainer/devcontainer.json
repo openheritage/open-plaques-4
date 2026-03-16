@@ -14,7 +14,8 @@
     // "ghcr.io/rails/devcontainer/features/sqlite3": {}
     "ghcr.io/rails/devcontainer/features/postgres-client": {
       "version": "17"
-    }
+    },
+    "ghcr.io/devcontainers-extra/features/heroku-cli:1": {}
   },
 
   "containerEnv": {
