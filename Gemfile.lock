@@ -285,7 +285,7 @@ GEM
       net-smtp
     marcel (1.1.0)
     matrix (0.4.3)
-    meta-tags (2.22.3)
+    meta-tags (2.23.0)
       actionpack (>= 6.0.0)
     mini_mime (1.1.5)
     minitest (6.0.2)
