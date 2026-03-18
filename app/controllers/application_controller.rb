@@ -62,6 +62,7 @@ class ApplicationController < ActionController::Base
       :area_id,
       :country_id,
       :filter,
+      :format,
       :id,
       :page
     )
