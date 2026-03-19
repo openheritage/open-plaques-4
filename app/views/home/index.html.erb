@@ -178,7 +178,7 @@
             <% culture_pages[3..3]&.each do |page| %>
             <div class="post-list">
               <%= link_to page do %>
-                <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" %>
+                <%= image_tag page.main_photo.file_url, alt: "", class: "img-fluid" %>
               <% end if page.main_photo %>
               <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
               <h2 class="mb-2"><%= link_to page %></h2>
