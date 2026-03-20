@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.3.4"
+ruby "3.3.9"
 gem "rails", ">= 8.0"
 # gem "rails", github: "rails/rails", branch: "main" # edge Rails
 

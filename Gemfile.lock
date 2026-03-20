@@ -288,7 +288,7 @@ GEM
       net-smtp
     marcel (1.1.0)
     matrix (0.4.3)
-    mcp (0.8.0)
+    mcp (0.9.0)
       json-schema (>= 4.1)
     meta-tags (2.23.0)
       actionpack (>= 6.0.0)
@@ -639,7 +639,7 @@ DEPENDENCIES
   will_paginate
 
 RUBY VERSION
-   ruby 3.3.4p94
+   ruby 3.3.9p170
 
 BUNDLED WITH
    2.5.11
