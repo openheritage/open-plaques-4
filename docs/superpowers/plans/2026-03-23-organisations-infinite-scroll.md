@@ -35,6 +35,7 @@
 ## Task 1: Request spec contract first (TDD)
 
 **Files:**
+
 - Create: `spec/requests/organisations_infinite_scroll_spec.rb`
 - Test: `spec/requests/organisations_infinite_scroll_spec.rb`
 
@@ -99,6 +100,7 @@ git commit -m "test: define organisations infinite scroll request contract"
 ## Task 2: Controller/query implementation
 
 **Files:**
+
 - Modify: `app/controllers/organisations_controller.rb`
 - Modify (if needed): `app/models/concerns/nameable.rb`
 - Test: `spec/requests/organisations_infinite_scroll_spec.rb`
@@ -142,6 +144,7 @@ git commit -m "feat: add organisations infinite-scroll controller states"
 ## Task 3: HTML view shell + pager partials
 
 **Files:**
+
 - Modify: `app/views/organisations/index.html.erb`
 - Create: `app/views/organisations/_organisation_tiles.html.erb`
 - Create: `app/views/organisations/_infinite_pager.html.erb`
@@ -188,6 +191,7 @@ git commit -m "feat: add organisations infinite-scroll html shell"
 ## Task 4: Turbo Stream template + stale/no-op behavior
 
 **Files:**
+
 - Create: `app/views/organisations/index.turbo_stream.erb`
 - Create: `app/views/organisations/index.turbo_frame.erb` (or equivalent)
 - Modify: `app/views/organisations/_infinite_pager.html.erb`
@@ -230,12 +234,14 @@ git commit -m "feat: stream organisations infinite-scroll batches"
 ## Task 5: System specs for real user behavior
 
 **Files:**
+
 - Create: `spec/system/organisations_infinite_scroll_spec.rb`
 - Test: `spec/system/organisations_infinite_scroll_spec.rb`
 
 - [ ] **Step 1: Write failing system spec for auto phase**
 
 Validate:
+
 - starts with `org-page-1`
 - auto-load reaches pages 2, 3, 4 without button click
 - `Load more` is absent before manual threshold
@@ -243,6 +249,7 @@ Validate:
 - [ ] **Step 2: Write failing system spec for manual phase + URL stability**
 
 Validate:
+
 - `Load more` appears for page 5+
 - click appends next page
 - `current_url` unchanged during auto/manual loads
@@ -250,6 +257,7 @@ Validate:
 - [ ] **Step 3: Write failing system spec for retry UI**
 
 Validate:
+
 - failed incremental load shows `Try again`
 - clicking `Try again` successfully loads next page once backend recovers
 
@@ -268,6 +276,7 @@ git commit -m "test: cover organisations infinite-scroll browser behavior"
 ## Task 6: Final verification
 
 **Files:**
+
 - Modify: any touched files from previous tasks
 - Test: request + system specs
 
