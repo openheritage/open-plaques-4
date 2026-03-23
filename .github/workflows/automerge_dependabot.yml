@@ -22,11 +22,11 @@ jobs:
           fi
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUBS_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Merge a PR if approved
         run: |
           if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" == "APPROVED" ];
-          then gh pr merge --squash --auto "$PR_URL"
+          then gh pr merge --squash "$PR_URL"
           else echo "PR not approved yet.";
           fi
         env:
