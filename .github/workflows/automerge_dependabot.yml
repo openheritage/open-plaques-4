@@ -22,7 +22,7 @@ jobs:
           fi
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GH_TOKEN: ${{secrets.RELEASE_TOKEN}}
       - name: Merge a PR if approved
         run: |
           if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" == "APPROVED" ];
@@ -31,4 +31,4 @@ jobs:
           fi
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.RELEASE_TOKEN}}
+          GH_TOKEN: ${{secrets.RELEASE_TOKEN}}
