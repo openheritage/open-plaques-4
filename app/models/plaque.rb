@@ -475,7 +475,7 @@ class Plaque < ApplicationRecord
   # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
   def notify_slack
     hook = ENV.fetch("SLACKHOOK", "")
-    return if hook.empty?
+    return if hook.empty? || Rails.env.production?
 
     notifier = Slack::Notifier.new(hook)
     phrase = [ "a new plaque was created", "someone just added", "new plaque alert!" ].sample
