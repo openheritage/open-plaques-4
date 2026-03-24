@@ -20,7 +20,7 @@ describe Plaque, type: :model do
     end
     context 'in Russian' do
       let(:russian) { build :language, alpha2: 'ru' }
-      let(:plaque) { build :plaque, language: russian}
+      let(:plaque) { build :plaque, language: russian }
       it 'is foreign' do
         expect(plaque.foreign?).to be_truthy
       end

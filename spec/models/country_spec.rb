@@ -20,7 +20,7 @@ describe Country, type: :model do
       let(:area) { create :area, country: country }
       let(:plaque_1) { create :plaque, area: area }
       it 'is 1' do
-#        expect(country.plaques_count).to eq(1)
+        # expect(country.plaques_count).to eq(1)
       end
     end
   end

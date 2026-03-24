@@ -15,7 +15,7 @@ if ENV['SELENIUM_REMOTE_URL']
       Capybara::Selenium::Driver.new(
         app,
         browser: :remote,
-        capabilities: [capabilities],
+        capabilities: [ capabilities ],
         url: ENV['SELENIUM_REMOTE_URL']
       )
     end
@@ -86,7 +86,7 @@ RSpec.configure do |config|
       Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
       Capybara.server_port = 3000
     else
-      driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
+      driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ]
     end
   end
 end
