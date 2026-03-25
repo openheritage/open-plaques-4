@@ -34,7 +34,7 @@ class PersonalConnection < ApplicationRecord
 
   def notify_slack
     hook = ENV.fetch("SLACKHOOK", "")
-    return if hook.empty?
+    return if hook.empty? || Rails.env.production?
 
     notifier = Slack::Notifier.new(hook)
     phrase = [ "someone just connected", "there is a new connection from", "new connection alert!" ].sample

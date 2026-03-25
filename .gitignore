@@ -40,3 +40,4 @@ latest.dump
 db/open-plaques-*.csv
 db/open-plaques-*.geojson
 db/open-plaques-*.json
+.worktrees/
