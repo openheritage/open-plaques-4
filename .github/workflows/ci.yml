@@ -90,10 +90,9 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
           # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare
-
-      - name: Run rspec
-        run: bundle exec rspec
+        run: |
+          bin/rails db:test:prepare
+          bundle exec rspec
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v7
