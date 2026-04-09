@@ -214,6 +214,7 @@ Controller branching must be explicit:
 - [ ] **Step 3: Implement error/retry state path**
 
 When incremental load fails, replace pager with:
+
 - message: `Couldn’t load more organisations`
 - retry control: `Try again` for same `page/cursor`
 
@@ -283,6 +284,7 @@ git commit -m "test: cover organisations infinite-scroll browser behavior"
 - [ ] **Step 1: Run full targeted suite**
 
 Run:
+
 - `bundle exec rspec spec/requests/organisations_infinite_scroll_spec.rb`
 - `bundle exec rspec spec/system/organisations_infinite_scroll_spec.rb`
 
@@ -291,6 +293,7 @@ Expected: PASS.
 - [ ] **Step 2: Run lint on touched Ruby files**
 
 Run:
+
 - `bundle exec rubocop app/controllers/organisations_controller.rb app/models/concerns/nameable.rb spec/requests/organisations_infinite_scroll_spec.rb spec/system/organisations_infinite_scroll_spec.rb`
 
 Expected: no new offenses in touched files.
@@ -298,6 +301,7 @@ Expected: no new offenses in touched files.
 - [ ] **Step 3: Manual smoke check**
 
 Verify in browser:
+
 - no numbered pagination on `/organisations`
 - pages 2-4 load automatically
 - page 5+ requires `Load more`
