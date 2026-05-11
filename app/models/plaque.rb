@@ -222,6 +222,12 @@ class Plaque < ApplicationRecord
     others.uniq
   end
 
+  def openstreetmap_url
+    return "https://osm.org/#{openstreetmap}" if openstreetmap
+
+    "https://osm.org/#map=19/#{latitude}/#{longitude}" if geolocated?
+  end
+
   def people
     if id
       sql = "select distinct people.*

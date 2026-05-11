@@ -193,7 +193,8 @@
               <% if @plaque.geolocated? %>
                 &nbsp;
                 <%= external_link "Google Streetview", "https://maps.google.com/maps?q=&layer=c&cbll=#{@plaque.latitude},#{@plaque.longitude}&cbp=11,0,0,0,0" %>
-                &nbsp;<%= external_link "OpenStreetMap", "https://www.openstreetmap.org/#map=19/#{@plaque.latitude}/#{@plaque.longitude}" %>
+                &nbsp;
+                <%= external_link "OpenStreetMap", @plaque.openstreetmap_url %>
               <% end %>
             </div>
         </div>
