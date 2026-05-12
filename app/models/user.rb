@@ -28,6 +28,6 @@ class User < ApplicationRecord
   validates_uniqueness_of :username
 
   def main_photo
-    nil
+    photo_uri || "team/team-4.jpg"
   end
 end
