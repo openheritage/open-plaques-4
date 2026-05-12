@@ -48,9 +48,10 @@ class PagesController < ApplicationController
 
   def permitted_params
     params.require(:page).permit(
+      :abstract,
       :author_id,
-      :category_list,
       :body,
+      :category_list,
       :latitude,
       :longitude,
       :max_latitude,
