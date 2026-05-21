@@ -10,3 +10,4 @@ document.addEventListener('turbo:load', () => {
     mirror: false
   })
 })
+import "railspress"
