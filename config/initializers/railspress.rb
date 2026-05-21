@@ -18,7 +18,7 @@ Railspress.configure do |config|
   # enable_focal_points is also active.
   # See docs/CONFIGURING.md for details.
   # Uncomment to enable:
-  # config.enable_cms
+  config.enable_cms
 
   # === Inline CMS Editing (requires enable_cms) ===
   # Right-click editing of CMS content on public pages.
