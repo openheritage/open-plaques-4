@@ -33,7 +33,7 @@
           <% if current_user %>
             <div class="col-12">
               <div class="form-floating">
-                <%= f.collection_select(:area_id, @areas, :id, :full_name, include_blank: true) %>
+                <%= f.collection_select :area_id, @areas, :id, :full_name, include_blank: true %>
                 <%= f.label :area_id %>
               </div>
             </div>
