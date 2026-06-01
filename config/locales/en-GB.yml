@@ -419,7 +419,7 @@ en-GB:
         page_title: Geocoding %{plaque}
         title: Where is this plaque?
         page_heading: yy
-        page_subhead: Our goal is to accurately locate all plaques through real-life evidence. We do not use geocoding software as the results are inaccurate and it taint the openness of our data. It is okay to plot an approximate position, but please be sure to flag it as uncertain.
+        page_subhead: Our goal is to accurately locate all plaques through real-life evidence. We do not use geocoding software as the results are inaccurate and could taint the openness of our data. It is okay to plot an approximate position, but please be sure to flag it as such. Geolocations from Flickr or Geograph will be the photographer's location and not the subject's. An OpenStreetMap node is treated as gold standard geolocation and overrides enything else.
     inscription:
       edit:
         page_title: Edit inscription for plaque
