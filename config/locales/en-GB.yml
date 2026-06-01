@@ -62,6 +62,8 @@ en-GB:
         subject: This may be about
         description: More details are
         shot: This is a
+      plaque:
+        openstreetmap: OpenStreetMap node
       role:
         name: Name
         abbreviation: Abbreviation
