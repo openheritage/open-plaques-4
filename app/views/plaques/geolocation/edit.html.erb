@@ -63,7 +63,7 @@
           <div class="col-12">
             <div class="form-floating">
               <%= f.text_field :openstreetmap, readonly: !current_user %>
-              <%= f.label "OpenStreetMap Node", :openstreetmap %>
+              <%= f.label :openstreetmap %>
             </div>
           </div>
           <%= external_link "OpenStreetMap", @plaque.openstreetmap_url %>
