@@ -26,6 +26,7 @@ class User < ApplicationRecord
   validates_presence_of :username
   validates_length_of :username, within: 3..40
   validates_uniqueness_of :username
+  scope :admins, -> {  where(is_admin: true).order(name: :asc) }
 
   def main_photo
     photo_uri || "team/team-4.jpg"

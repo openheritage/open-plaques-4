@@ -10,6 +10,19 @@ class ApplicationController < ActionController::Base
     raise UnAuthorised, "NotAuthorised" unless current_user.try(:is_admin?)
   end
 
+  def permitted_show_params
+    params.permit(
+      :area_id,
+      :country_id,
+      :filter,
+      :format,
+      :id,
+      :page
+    )
+  end
+
+  private
+
   def bot_blocker
     http_user_agent = request.env["HTTP_USER_AGENT"]&.downcase || ""
     is_meta = http_user_agent.include?("meta-")
@@ -57,21 +70,6 @@ class ApplicationController < ActionController::Base
     yield
   end
 
-  def permitted_show_params
-    params.permit(
-      :area_id,
-      :country_id,
-      :filter,
-      :format,
-      :id,
-      :page
-    )
-  end
-
-  def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
-  end
-
   def set_global_meta_tags
     set_meta_tags author: "Open Plaques"
     set_meta_tags description: "Commemorative plaques of the world"
@@ -93,5 +91,9 @@ class ApplicationController < ActionController::Base
       }
     }
   rescue
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
   end
 end

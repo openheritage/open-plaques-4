@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 ruby "3.3.9"
-gem "rails", ">= 8.0"
+gem "rails", ">= 8.1"
 # gem "rails", github: "rails/rails", branch: "main" # edge Rails
 
 gem "aasm" # manage object state
@@ -47,6 +47,7 @@ gem "propshaft" # The modern asset pipeline for Rails [https://github.com/rails/
 gem "puma", ">= 5.0" # a web server
 # gem "que" # for running background jobs
 # gem "que-view" # for seeing what is happening with background jobs
+gem "railspress-engine" # simple Content Management System
 gem "redcarpet" # use Markdown in fields
 gem "rexml" # process XML
 # gem "rgeo-geojson" # geo ActiveModel
