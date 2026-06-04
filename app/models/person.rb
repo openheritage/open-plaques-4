@@ -712,7 +712,8 @@ class Person < ApplicationRecord
     unaccented_phrase = name.tr(
       "’ßÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
       "'sAAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz"
-    ).gsub!(/[Ææ]/, "Æ": "AE", "æ": "ae")
+    )
+    unaccented_phrase.gsub!(/[Ææ]/, "Æ": "AE", "æ": "ae")
     phrase_like = "%#{name.tr(' ', '%').tr('.', '%')}%"
     unaccented_phrase_like = "%#{unaccented_phrase.tr(' ', '%').tr('.', '%')}%"
     @people += Person.name_starts_with(name).limit(cap)
