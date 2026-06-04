@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
-  mount Railspress::Engine => "/railspress"
+  mount Railspress::Engine, at: "/railspress"
 
   get "about", controller: :static_pages
   resources :colours, only: [ :new, :create ]
