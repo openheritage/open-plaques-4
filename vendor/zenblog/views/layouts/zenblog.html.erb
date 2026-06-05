@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title><%= content_for(:page_title) || t('appname') %></title>
+  <title><%= "#{content_for(:page_title)} - #{t('appname')}" || t('appname') %></title>
   <%= display_meta_tags %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
