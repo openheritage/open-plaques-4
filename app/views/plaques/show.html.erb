@@ -68,7 +68,7 @@
             </div><!-- End meta top -->
 
             <div class="content">
-              <%= markdown(@plaque.description) %>
+              <%= markdown @plaque.description %>
               <div id="details">
                 <p>
                   <% if @plaque.series %>
@@ -112,7 +112,7 @@
                     </div>
                   </div>
 
-                  <% @plaque.other_photos[1..2]&.each do |photo| %>
+                  <% @plaque.other_photos[0..1]&.each do |photo| %>
                     <div class="col-xs-6 col-sm-4">
                       <%= render photo %>
                     </div>
