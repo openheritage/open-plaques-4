@@ -123,19 +123,20 @@ class Person < ApplicationRecord
           }
         },
         methods: %i[
-          uri
-          name_and_dates
-          full_name
-          surname
           born_in
+          dbpedia_uri
           died_in
-          type
-          sex
+          find_a_grave_url
+          full_name
+          name_and_dates
+          names
           primary_role
+          sex
+          surname
+          type
+          uri
           wikidata_id
           wikipedia_url
-          dbpedia_uri
-          find_a_grave_url
         ]
       }
     end
@@ -442,7 +443,7 @@ class Person < ApplicationRecord
   end
 
   def firstname
-    name.split(" ").first
+    name.split.first
   end
 
   def full_name
@@ -575,7 +576,7 @@ class Person < ApplicationRecord
 
   # a set of versions of a person's name, in precision order
   def names
-    nameparts = name.split(" ")
+    nameparts = name.split
     firstinitial = nameparts.second ? "#{firstname[0, 1]}." : ""
     secondname = nameparts.third ? nameparts.second : ""
     secondinitial = nameparts.third ? "#{secondname[0, 1]}." : ""
@@ -586,32 +587,34 @@ class Person < ApplicationRecord
       middleinitials << "#{name.to_s[0, 1]}."
     end
     lastname = nameparts.last
+    lastname_is_roman_numeral = lastname.match? /^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/
     names = []
-    names << full_name # Joseph Aloysius Hansom
-    names << "#{title} #{name}" if titled? # Sir Joseph Aloysius Hansom
-    names += aka # Boz, Charlie Cheese, and Crackers
-    names << "#{title} #{firstinitial} #{middleinitials} #{lastname}" if titled? && nameparts.length > 2
-    names << "#{title} #{firstinitial} #{lastname}" if titled? && nameparts.length > 1
+    names << full_name # Sir Joseph Aloysius Hansom CBE KBE / King Charles I of England
+    names << "#{title} #{name}" if titled? # Sir Joseph Aloysius Hansom / King Charles I
+    names << full_name.gsub(title, "").strip if full_name.include?(" of ") && titled? # Charles I of England
+    names += aka.compact # Boz, Charlie Cheese, and Crackers
+    names << "#{title} #{firstinitial} #{middleinitials} #{lastname}" if titled? && secondname.present? # Sir J. A. Hansom
+    names << "#{title} #{firstinitial} #{lastname}" if titled? && lastname.present? && !lastname_is_roman_numeral # Sir J. Hansom
     names << name if name != full_name # Joseph Aloysius Hansom
     if name.include? "," # George Inn, Barcombe
       names << name.split(/,/).first
-      return names
+    else
+      names << "#{title} #{name.split(/ of /).first}" if name.include?(" of ") && titled? # King Charles II [of England]
+      names << name.split(/ of /).first if name.include?(" of ") # [King] Charles II [of England]
+      names << "#{firstname} #{middleinitials} #{lastname}" if secondname.present? # Joseph A[loysius]. R[obert]. Hansom
+      names << "#{firstinitial} #{middleinitials} #{lastname}" if secondname.present? # J. A. R. Hansom
+      names << "#{firstname} #{nameparts.second} #{lastname}" if secondname.present? # Joseph Aaron Hansom
+      names << "#{firstname} #{secondinitial} #{lastname}" if secondname.present? # Joseph A. Hansom
+      names << "#{firstinitial} #{secondname} #{lastname}" if secondname.present? # J. Aaron Hansom
+      names << "#{title} #{firstname} #{lastname}" if secondname.present? && titled? # Sir Joseph Hansom
+      names << "#{firstname} #{lastname}" if secondname.present? # Joseph Hansom
+      names << "#{firstinitial} #{lastname}" if lastname.present? && !lastname_is_roman_numeral # J. Hansom
+      names << "#{title} #{lastname}" if titled? && !lastname_is_roman_numeral # Lord Carlisle
+      names << "#{title} #{firstname}" if titled? # Sir William
+      names << lastname if lastname.present? && !lastname_is_roman_numeral # Kitchener
+      names << firstname if lastname.present? # Charles
     end
-    names << "#{title} #{name.split(/ of /).first}" if name.include?(" of ") && titled? # King Charles II [of England]
-    names << name.split(/ of /).first if name.include?(" of ") # [King] Charles II [of England]
-    names << "#{firstname} #{middleinitials} #{lastname}" if nameparts.length > 2 # Joseph A[loysius]. R[obert]. Hansom
-    names << "#{firstinitial} #{middleinitials} #{lastname}" if nameparts.length > 2 # J. A. R. Hansom
-    names << "#{firstname} #{nameparts.second} #{lastname}" if nameparts.length > 2 # Joseph Aaron Hansom
-    names << "#{firstname} #{secondinitial} #{lastname}" if nameparts.length > 2 # Joseph A. Hansom
-    names << "#{firstinitial} #{secondname} #{lastname}" if nameparts.length > 2 # J. Aaron Hansom
-    names << "#{title} #{firstname} #{lastname}" if nameparts.length > 2 && titled? # Sir Joseph Hansom
-    names << "#{firstname} #{lastname}" if nameparts.length > 2 # Joseph Hansom
-    names << "#{firstinitial} #{lastname}" if nameparts.length > 1 # J. Hansom
-    names << "#{title} #{lastname}" if titled? # Lord Carlisle
-    names << "#{title} #{firstname}" if titled? # Sir William
-    names << firstname if nameparts.length > 1 # Charles
-    names << lastname if nameparts.length > 1 # Kitchener
-    names.uniq
+    names.uniq.compact
   end
 
   def non_family_relationships
