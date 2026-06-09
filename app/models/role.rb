@@ -24,6 +24,7 @@ class Role < ApplicationRecord
   validates_presence_of :name, :slug
   validates_uniqueness_of :name, :slug
   scope :by_popularity, -> { order("personal_roles_count DESC nulls last") }
+  scope :name_is, ->(term) { where([ "lower(name) = ? OR lower(abbreviation) = ?", term.to_s.downcase, term.to_s.downcase ]) }
 
   def abbreviated?
     abbreviation.present?
