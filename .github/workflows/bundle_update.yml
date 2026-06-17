@@ -28,6 +28,6 @@ jobs:
       - name: Run Updatecli in apply mode
         run: |
           shopt -s globstar
-          updatecli apply --config updatecli/updatecli.d
+          updatecli pipeline apply
         env:
           UPDATECLI_GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
