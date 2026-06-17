@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_24_113114) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_17_131238) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -352,11 +352,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_24_113114) do
   create_table "todo_items", id: :serial, force: :cascade do |t|
     t.string "action", limit: 255
     t.datetime "created_at", precision: nil
-    t.string "description", limit: 255
+    t.text "description"
     t.string "image_url", limit: 255
+    t.string "name"
     t.integer "plaque_id"
     t.datetime "updated_at", precision: nil
-    t.string "url", limit: 255
+    t.text "url"
     t.integer "user_id"
   end
 

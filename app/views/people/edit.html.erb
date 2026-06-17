@@ -272,8 +272,8 @@
               <% end %>
               <%= "best known as " if personal_role.primary %><%= a_or_an(personal_role.name, false) %>
               <%= dated_role(personal_role).html_safe %>
-              <%= t('.conferring_the_letters') + ' ' + personal_role.role.suffix if personal_role.role.used_as_a_suffix? %><%= t('.conferring_the_title') + ' ' + personal_role.role.prefix if personal_role.role.used_as_a_prefix? %>
-              <%= button_delete(personal_role_path(personal_role)) %>
+              <%= t(".conferring_the_letters") + " " + personal_role.role.suffix if personal_role.role.used_as_a_suffix? %><%= t(".conferring_the_title") + " " + personal_role.role.prefix if personal_role.role.used_as_a_prefix? %>
+              <%= button_delete personal_role_path(personal_role) %>
             </span>
           </div>
         </li>
@@ -290,7 +290,7 @@
           <% else %>
             <%= @person.name %> was a
           <% end %>
-          <%= f.collection_select :role, @roles, :id, :full_name, {}, {class: 'form-select', style: 'width:400px'} %>
+          <%= f.collection_select :role, @roles, :id, :full_name, {}, {class: "form-select", style: "width:400px"} %>
           from <%= f.text_field :started_at %>
           to <%= f.text_field :ended_at %>
           <%= f.hidden_field :person_id, value: @person.id %>

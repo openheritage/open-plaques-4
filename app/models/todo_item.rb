@@ -12,8 +12,9 @@
 # * +user_id+ - [not used]
 class TodoItem < ApplicationRecord
   validates_presence_of :action, :description
+  scope :google_alerts, -> { where(action: "google_alert") }
   scope :to_add, -> { where(action: "add").where.not(url: nil) }
-  scope :to_datacapture, -> { where(action: "datacapture").where.not(url: nil) }
+  scope :to_datacapture, -> { where(action: "datacapture") }
 
   def to_datacapture?
     action == "datacapture"

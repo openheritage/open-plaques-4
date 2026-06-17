@@ -531,6 +531,10 @@ en-GB:
       page_title: "To do: colours from photos"
       page_heading: Colours from photos
       success: Every plaque with a photo has a colour attribute assigned. Bravo!
+    google_alerts:
+      page_title: "To do: Google Alerts to be datacaptured"
+      page_heading: Google Alerts to datacapture
+      success: All Google Alerts have been cleared     
     lists_to_datacapture:
       page_title: "To do: lists to be datacaptured"
       page_heading: Lists to datacapture
