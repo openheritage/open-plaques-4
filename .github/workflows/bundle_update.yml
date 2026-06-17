@@ -15,12 +15,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+
       - name: Install Updatecli in the runner
-        uses: updatecli/updatecli-action@v2
+        uses: updatecli/updatecli-action@main
+
+      - name: Run Updatecli in Dry Run mode
+        run: updatecli diff
+        env:
+          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run Updatecli in apply mode
         run: |
           shopt -s globstar
-          updatecli apply --config updatecli/updatecli.d --values updatecli/values.yaml
+          updatecli apply --config updatecli/updatecli.d
         env:
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          UPDATECLI_GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

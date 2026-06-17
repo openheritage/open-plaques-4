@@ -16,7 +16,10 @@ jobs:
       - name: Dependabot metadata
         id: dependabot-metadata
         uses: dependabot/fetch-metadata@v3
-      - uses: actions/checkout@v6
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
       - name: Merge a PR if approved
         run: |
           if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" == "APPROVED" ];
