@@ -17,17 +17,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install Updatecli in the runner
-        uses: updatecli/updatecli-action@main
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
 
-      - name: Run Updatecli in Dry Run mode
-        run: updatecli diff
-        env:
-          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run Updatecli in apply mode
+      - name: Update Gemfile.lock
         run: |
-          shopt -s globstar
-          updatecli pipeline apply
-        env:
-          UPDATECLI_GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          bundle config --local deployment false
+          bundle update
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "jnicho02"
+          git config --global user.email "jez.nicholson@gmail.com"
+          git add Gemfile.lock
+          git commit -m "Update Gemfile.lock with new gem versions" || echo "No changes to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+          force: true
