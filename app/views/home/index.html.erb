@@ -1,10 +1,9 @@
 <% content_for(:page_title) { t(".page_title") } %>
 <% content_for(:admin_menu) { navbar_link_to(t(".pages"), pages_path, { class: :edit, title: t(".pages") }) } %>
-
+<% content_for(:admin_menu) { navbar_link_to(t(".todo"), todo_index_path, { class: :edit, title: t(".todo") }) } %>
 
 <!-- Slider Section -->
 <section id="slider" class="section dark-background">
-
   <div class="container slider" data-aos="fade-up" data-aos-delay="100">
     <div data-swiper-target="container" data-controller="swiper">
       <div class="swiper-wrapper">
@@ -15,19 +14,16 @@
       <div data-swiper-target="prev"></div>
     </div>
   </div>
-
 </section><!-- /Slider Section -->
 
 <!-- Searchbox Section -->
 <section id="searchbox" class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
-
     <div class="row">
       <div class="col-md-9">
         <%= render "search" %>
       </div>
-    </div> <!-- End .row -->
-
+    </div>
   </div>
 </section><!-- /Searchbox Section -->
 

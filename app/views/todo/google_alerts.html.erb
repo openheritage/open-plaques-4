@@ -27,9 +27,8 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title"><%= item.name.html_safe %></h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <h6 class="card-subtitle mb-2 text-muted"><%= link_to "external article", item.url, target: :_blank %></h6>
             <p class="card-text"><%= item.description.html_safe %></p>
-            <%= link_to "external article", item.url, target: :_blank %>
             <%= button_to "Delete", todo_path(item), { method: :delete, class: "btn btn-danger my-1" } %>
           </div>
         </div>
