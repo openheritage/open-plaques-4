@@ -1,0 +1,26 @@
+name: Updatecli
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run At 01:00 on first day-of-month.
+    - cron: '0 1 1 * *'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  updatecli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Updatecli in the runner
+        uses: updatecli/updatecli-action@v2
+      - name: Run Updatecli in apply mode
+        run: |
+          shopt -s globstar
+          updatecli apply --config updatecli/updatecli.d --values updatecli/values.yaml
+        env:
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
