@@ -1,0 +1,26 @@
+name: Dependabot merge
+
+on:
+  pull_request_review:
+    types: [submitted]
+permissions:
+  pull-requests: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'openheritage/open-plaques-4'
+    steps:
+      - name: Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v3
+      - uses: actions/checkout@v6
+      - name: Merge a PR if approved
+        run: |
+          if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" == "APPROVED" ];
+          then gh pr merge --squash "$PR_URL"
+          else echo "PR not approved yet.";
+          fi
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.RELEASE_TOKEN}}
