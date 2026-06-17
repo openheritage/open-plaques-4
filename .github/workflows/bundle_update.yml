@@ -1,4 +1,4 @@
-name: Updatecli
+name: Bundle Update
 
 on:
   workflow_dispatch:
