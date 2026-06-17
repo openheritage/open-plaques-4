@@ -38,7 +38,7 @@
           </div>
           <div class="mb-3">
             <%= f.label :role_type %>
-            <%= f.collection_select(:role_type, Role.types, :to_s, :to_s, { include_blank: true }, { class: 'form-select' }) %>
+            <%= f.collection_select(:role_type, Role.types, :to_s, :to_s, { include_blank: true }, { class: "form-select" }) %>
           </div>
           <%= f.submit t("buttons.save") %>
         <% end %>

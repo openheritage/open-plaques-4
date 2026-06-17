@@ -19,21 +19,16 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <p>These lists of plaques have been found on the internet, <%= link_to "and need adding to the site", new_plaque_path %></p>
+    <p>These articles have been found on the internet, <%= link_to "and may be about a plaque that needs adding to the site", new_plaque_path %></p>
     <ul class="todo_add">
-      <% @lists_to_datacapture.each do |item| %>
+      <% @google_alerts.each do |item| %>
         <li>
-          <% if item.image_url == nil %>
-            <%= link_to item.description, item.url %>
-            <% else %>
-            <%= link_to image_tag(item.image_url, { alt: item.description }), item.url %>
-          <% end  %>
+          <%= link_to item.name.html_safe, item.url, target: :_blank %>
+          <br/><%= item.description.html_safe %>
           <%= button_to "Delete", todo_path(item), { method: :delete, class: "btn btn-danger my-1" } %>
         </li>
       <% end %>
     </ul>
-    <br/>
-    <p><%= link_to "Add a new list", new_todo_path %></p>
 
   </div>
 </section>
