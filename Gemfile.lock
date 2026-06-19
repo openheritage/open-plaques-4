@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/jnicho02/wikimedia-commoner.git
-  revision: 239e8184c1f272b5bd058b371e64afe1928f5909
+  revision: a7db9c07f085c9d0bccc1f4db1844058be16c749
   specs:
-    wikimedia-commoner (1.0.5)
+    wikimedia-commoner (1.0.6)
       httparty (~> 0.10)
       json
       sanitize
