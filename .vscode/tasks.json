@@ -4,29 +4,19 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "op4: Dev console",
+      "type": "shell",
+      "command": "rails c",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
       "label": "op4: Backup Production db",
       "type": "shell",
       "command": "./prod_backup.sh",
-      "group": "test",
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      }
-    },
-    {
-      "label": "op4: Restore Dev db",
-      "type": "shell",
-      "command": "./local_restore.sh",
-      "group": "test",
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      }
-    },
-    {
-      "label": "op4: server",
-      "type": "shell",
-      "command": "rails s",
       "group": "test",
       "presentation": {
         "reveal": "always",
@@ -57,6 +47,26 @@
       "label": "op4: Production migration",
       "type": "shell",
       "command": "heroku run rails db:migrate --app open-plaques-beta",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "op4: Restore Dev db",
+      "type": "shell",
+      "command": "./local_restore.sh",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "op4: server",
+      "type": "shell",
+      "command": "rails s",
       "group": "test",
       "presentation": {
         "reveal": "always",
