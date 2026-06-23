@@ -69,7 +69,7 @@ class Photo < ApplicationRecord
             licence: { only: [ :name ], methods: [ :url ] },
             plaque: { only: [], methods: [ :uri ] }
           },
-          methods: %i[title uri thumbnail_url shot_name source]
+          methods: %i[shot_name source thumbnail_url title uri]
         }
     end
     super options
@@ -155,9 +155,21 @@ class Photo < ApplicationRecord
   end
 
   def populate
-    wikimedia_data
-    geograph_data
-    flickr_data
+    begin
+      wikimedia_data
+    rescue RuntimeError => e
+      errors.add :file_url, "Commoner errored #{e.full_messages}"
+    end
+    begin
+      geograph_data
+    rescue RuntimeError => e
+      errors.add :file_url, "Geograph errored #{e.full_messages}"
+    end
+    begin
+      flickr_data
+    rescue RuntimeError => e
+      errors.add :file_url, "Flickr errored #{e.full_messages}"
+    end
   end
 
   def preferred_clone?
@@ -295,15 +307,15 @@ class Photo < ApplicationRecord
     response = URI.parse(api).open
     resp = response.read
     parsed_json = JSON.parse(resp)
+    self.description = parsed_json["description"] if parsed_json["description"]
+    self.file_url = parsed_json["url"].gsub("http:", "https:")
+    self.latitude = parsed_json["geo"]["lat"] if parsed_json["geo"]
+    self.licence = Licence.find_by(url: parsed_json["license_url"])
+    self.longitude = parsed_json["geo"]["long"] if parsed_json["geo"]
     self.photographer = parsed_json["author_name"]
     self.photographer_url = parsed_json["author_url"].gsub("http:", "https:")
-    self.thumbnail = parsed_json["thumbnail_url"].gsub("http:", "https:")
-    self.file_url = parsed_json["url"].gsub("http:", "https:")
-    self.licence = Licence.find_by(url: parsed_json["license_url"])
     self.subject = parsed_json["title"][0, 255] if parsed_json["title"]
-    self.description = parsed_json["description"] if parsed_json["description"]
-    self.latitude = parsed_json["geo"]["lat"] if parsed_json["geo"]
-    self.longitude = parsed_json["geo"]["long"] if parsed_json["geo"]
+    self.thumbnail = parsed_json["thumbnail_url"].gsub("http:", "https:")
   end
 
   def geolocate_plaque
