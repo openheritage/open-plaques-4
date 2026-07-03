@@ -1,159 +1,111 @@
 require "open-uri"
-require "ostruct"
-
-# Wikidata has structure "entities": {"Q123": { ... }}
-# The Q code is unknown to us in advance
-class OpenStruct
-  def root_key
-    @table.keys.first
-  end
-
-  def qcode
-    entities&.root_key&.to_s
-  end
-
-  def q
-    entities&.send(qcode.to_s)
-  end
-
-  def not_found?
-    qcode == "-1"
-  end
-
-  def disambiguation?
-    q&.descriptions&.en&.value&.to_s&.include?("disambiguation page")
-  end
-end
 
 # A Wikidata object has much information in the open graph
 class Wikidata
-  def initialize(wikidata_id)
-    return unless wikidata_id&.match(/Q\d*$/)
+  DATE_OF_BIRTH = :P569
+  DATE_OF_DEATH = :P570
+  INSTANCE_OF = :P31
+  OCCUPATION = :P106
+  SUBCLASS_OF = :P279
+  COUNTRY = :P17
+  HUMAN = "Q5"
+  CAT = "Q146"
 
-    @id = wikidata_id
-    root = "https://www.wikidata.org/w/api.php"
-    api = "#{root}?action=wbgetentities&ids=#{@id}&format=json"
-    response = URI.parse(api).open
-    resp = response.read
-    @wikidata = JSON.parse(resp, object_class: OpenStruct)
-  end
+  def initialize(qid)
+    return unless qid
 
-  def qcode
-    return if !@wikidata || @wikidata.not_found?
+    raise "expecting a 'Q' code, e.g 'Q81520'" unless qid[/Q\d*$/]
 
-    @wikidata.qcode
-  end
-
-  def disambiguation?
-    return if !@wikidata || @wikidata.not_found?
-
-    @wikidata.disambiguation?
-  end
-
-  def not_found?
-    @wikidata&.not_found?
+    @qid = qid
+    populate
   end
 
   def born_in
-    return if !@wikidata || @wikidata.not_found?
-
-    t = @wikidata.q&.claims&.P569&.first&.mainsnak&.datavalue&.value&.time
-    # can by +1600-00-00 for 'unknown month and day' which breaks datetime
-
-    return unless t&.match(/\+(\d\d\d\d)/)
-
-    t.match(/\+(\d\d\d\d)/)[1]
+    date_of_birth[/\d\d\d\d/] if date_of_birth
   end
 
-  def died_in
-    return if !@wikidata || @wikidata.not_found?
+  def date_of_birth
+    datetime = @wikidata&.dig(:claims, DATE_OF_BIRTH, 0, :mainsnak, :datavalue, :value, :time)
+    # careful of +1600-00-00 for 'unknown month and day' which breaks datetime
+    datetime[/\+(\d\d\d\d)-00-00/, 1] || datetime[/\+(\d\d\d\d-\d\d-\d\d)/, 1] if datetime
+  end
 
-    t = @wikidata.q&.claims&.P570&.first&.mainsnak&.datavalue&.value&.time
-    t.match(/\+(\d\d\d\d)/)[1] if t&.match(/\+(\d\d\d\d)/)
+  def date_of_death
+    datetime = @wikidata&.dig(:claims, DATE_OF_DEATH, 0, :mainsnak, :datavalue, :value, :time)
+    # careful of +1600-00-00 for 'unknown month and day' which breaks datetime
+    datetime[/\+(\d\d\d\d)-00-00/, 1] || datetime[/\+(\d\d\d\d-\d\d-\d\d)/, 1] if datetime
   end
 
   def dates?(born, died)
-    return false if disambiguation?
-    return false unless (born.present? && born_in.present?) || (died.present? && died_in.present?)
+    return false if disambiguation_page?
 
-    Rails.logger.debug("#{qcode} (#{born}-#{died}) == (#{born_in}-#{died_in})")
-    b_match = born.present? && born_in.present? ? born == born_in: true
-    d_match = died.present? && died_in.present? ? died == died_in : true
+    return false unless (born && born_in) || (died && died_in)
+
+    Rails.logger.debug("for #{title} does (#{born}-#{died}) == (#{born_in}-#{died_in}) ?")
+    b_match = born && born_in ? born.to_s == born_in : true
+    d_match = died && died_in ? died.to_s == died_in : true
     b_match && d_match
   end
 
-  def self.qcode(term)
-    term = term.tr(
-      "’ß#ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
-      "'s AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz"
-    )
-    term.gsub!(/[Ææ]/, "Æ": "AE", "æ": "ae")
-    api_root = "https://www.wikidata.org/w/api.php?action="
-    name_and_dates = term.match(/(.*) \((\d\d\d\d)\s*-*\s*(\d\d\d\d)\)/)
-    if name_and_dates
-      name = name_and_dates[1]
-      born = name_and_dates[2]
-      died = name_and_dates[3]
-    else
-      name_and_dates = term.match(/(.*) \(d.\s*-*\s*(\d\d\d\d)\)/)
-      if name_and_dates
-        name = name_and_dates[1]
-        died = name_and_dates[2]
-      else
-        name_and_dates = term.match(/(.*) \(b.\s*-*\s*(\d\d\d\d)\)/)
-        if name_and_dates
-          name = name_and_dates[1]
-          born = name_and_dates[2]
-        else
-          name = term
-        end
-      end
-    end
-    begin
-      api = "#{api_root}wbgetentities&sites=enwiki&titles=#{name}&format=json"
-      Rails.logger.debug(api)
-      response = URI.parse(api).open
-      resp = response.read
-      wikidata = JSON.parse(resp, object_class: OpenStruct)
-      if wikidata.not_found?
-        #  try again with first letter in uppercase
-        name = name[0].upcase + name[1..]
-        api = "#{api_root}wbgetentities&sites=enwiki&titles=#{name}&format=json"
-        Rails.logger.debug(api)
-        response = URI.parse(api).open
-        resp = response.read
-        wikidata = JSON.parse(resp, object_class: OpenStruct)
-      end
-      if (wikidata.not_found? || wikidata.disambiguation?) && (born || died)
-        api = "#{api_root}query&list=search&srsearch=#{name}&format=json"
-        Rails.logger.debug(api)
-        response = URI.parse(api).open
-        resp = response.read
-        search_wikidata = JSON.parse(resp, object_class: OpenStruct)
-        search_wikidata.query.search.each do |search_result|
-          w = Wikidata.new(search_result.title)
-          return w.qcode if w.dates?(born, died) && !w.disambiguation?
-        end
-      end
-      if wikidata.not_found? || wikidata.disambiguation?
-        nil
-      elsif born || died
-        w = Wikidata.new(wikidata.qcode)
-        w.qcode if w.dates?(born, died)
-      else
-        wikidata.qcode
-      end
-    rescue URI::InvalidURIError
-      Rails.logger.error "nasty char in there"
-    rescue OpenURI::HTTPError => e
-      Rails.logger.error e.message
-    end
+  def description
+    @wikidata&.dig(:descriptions, :"en-gb", :value) || @wikidata&.dig(:descriptions, :en, :value)
+  end
+
+  def died_in
+    date_of_death[/\d\d\d\d/] if date_of_death
+  end
+
+  def disambiguation_page?
+    @wikidata&.dig(:descriptions, :en, :value)&.include?("disambiguation page")
   end
 
   def en_wikipedia_url
-    return if !@wikidata || @wikidata.not_found?
+    link = @wikidata&.dig(:sitelinks, :enwiki, :title)&.gsub(' ', '_')
+    "https://en.wikipedia.org/wiki/#{link}"
+  end
 
-    t = @wikidata&.q&.sitelinks&.enwiki&.title
-    "https://en.wikipedia.org/wiki/#{t.gsub(' ', '_')}" if t
+  def gender
+
+  end
+
+  def human?
+    instance_of_qid = @wikidata&.dig(:claims, INSTANCE_OF, 0, :mainsnak, :datavalue, :value, :id)
+    instance_of_qid == HUMAN
+  end
+
+  def main_image
+
+  end
+
+  def occupation
+    @occupation ||= begin
+        main_occupation_qid = @wikidata&.dig(:claims, OCCUPATION, 0, :mainsnak, :datavalue, :value, :id)
+        occupation_wikidata = Wikidata.new(main_occupation_qid)
+        occupation_wikidata.title
+      end
+  end
+
+  def qcode
+    @qid
+  end
+
+  def spouse
+
+  end
+
+  def title
+    @wikidata&.dig(:labels, :"en-gb", :value) || @wikidata&.dig(:labels, :en, :value)
+  end
+
+  private
+
+  def populate
+    Rails.logger.debug("** call Wikidata #{@qid} **")
+    root = "https://www.wikidata.org/w/api.php"
+    api = "#{root}?action=wbgetentities&ids=#{@qid}&format=json"
+    response = URI.parse(api).open
+    resp = response.read
+    resp_json = JSON.parse(resp).deep_symbolize_keys
+    @wikidata = resp_json[:entities][@qid.to_sym]
   end
 end

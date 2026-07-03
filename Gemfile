@@ -63,7 +63,7 @@ gem "thruster", require: false # Add HTTP asset caching/compression and X-Sendfi
 gem "turbo-rails" # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 # gem "tzinfo-data", platforms: %i[ windows jruby ] # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem "wicked" # wizard controllers
-gem "wikimedia-commoner", github: "jnicho02/wikimedia-commoner", branch: :main # best guess famous/historical people on Wikidata
+gem "wikimedia-commoner", github: "jnicho02/wikimedia-commoner", branch: :main # the 'missing' API for Wikimedia Commons images
 gem "will_paginate" # paginate long lists of data
 
 group :development, :test do

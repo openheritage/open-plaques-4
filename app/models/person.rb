@@ -570,8 +570,12 @@ class Person < ApplicationRecord
     nil
   end
 
+  def full_name_and_dates
+    "#{full_name} #{dates}".squish
+  end
+
   def name_and_dates
-    "#{full_name} #{dates}"
+    "#{name} #{dates}".squish
   end
 
   # a set of versions of a person's name, in precision order

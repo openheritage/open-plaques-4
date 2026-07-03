@@ -17,8 +17,8 @@ require "wikimedia/commoner"
 class Photo < ApplicationRecord
   include Geolocatable
 
-  belongs_to :plaque, counter_cache: true, optional: true
   belongs_to :person, optional: true
+  belongs_to :plaque, counter_cache: true, optional: true
   belongs_to :licence, counter_cache: true, optional: true
   validates_presence_of :file_url
   validate :unique_file_url, on: :create
@@ -30,15 +30,15 @@ class Photo < ApplicationRecord
   before_save :set_of_a_plaque
   after_save :geolocate_plaque
   after_save :opposite_clone
-  scope :reverse_detail_order, -> { order("shot DESC") }
   scope :detail_order, -> { order("shot ASC") }
-  scope :unassigned, -> { where(plaque_id: nil, of_a_plaque: true) }
-  scope :undecided, -> { where(plaque_id: nil, of_a_plaque: nil) }
-  scope :wikimedia, -> { where("file_url like '%commons%'") }
   scope :flickr, -> { where("url like '%flickr.com%'") }
   scope :geograph, -> { where("photographer_url like 'https://www.geograph.org.uk/profile/%'") }
   scope :geolocated, -> { where([ "latitude IS NOT NULL" ]) }
+  scope :reverse_detail_order, -> { order("shot DESC") }
+  scope :unassigned, -> { where(plaque_id: nil, of_a_plaque: true) }
+  scope :undecided, -> { where(plaque_id: nil, of_a_plaque: nil) }
   scope :ungeolocated, -> { where([ "latitude IS NULL" ]) }
+  scope :wikimedia, -> { where("file_url like '%commons%'") }
   attr_accessor :photo_url, :accept_cc_by_licence
 
   def as_geojson(options = {})
@@ -86,12 +86,6 @@ class Photo < ApplicationRecord
 
   def cloned?
     clone_id&.positive?
-  end
-
-  # retrieve Flickr photo id from url e.g. http://www.flickr.com/photos/84195101@N00/3412825200/
-  def self.flickr_photo_id(url)
-    mtch = url.match(%r{flickr.com/photos/[^/]*/([^/]*)})
-    mtch ? mtch[1].to_s : nil
   end
 
   def flickr?
@@ -188,17 +182,6 @@ class Photo < ApplicationRecord
     6
   end
 
-  def self.shots
-    [
-      "1 - extreme close up",
-      "2 - close up",
-      "3 - medium close up",
-      "4 - medium shot",
-      "5 - long shot",
-      "6 - establishing shot"
-    ]
-  end
-
   def source
     return "Flickr" if flickr?
 
@@ -225,8 +208,16 @@ class Photo < ApplicationRecord
     title
   end
 
+  def to_s
+    title
+  end
+
   def unlinked?
     plaque.nil? || person.nil?
+  end
+
+  def uri
+    "https://openplaques.org#{Rails.application.routes.url_helpers.photo_path(self, format: :json)}"
   end
 
   def wikimedia?
@@ -247,12 +238,21 @@ class Photo < ApplicationRecord
     "https://commons.wikimedia.org/wiki/Special:FilePath/#{wikimedia_filename}?width=640"
   end
 
-  def to_s
-    title
+  # retrieve Flickr photo id from url e.g. http://www.flickr.com/photos/84195101@N00/3412825200/
+  def self.flickr_photo_id(url)
+    mtch = url.match(%r{flickr.com/photos/[^/]*/([^/]*)})
+    mtch ? mtch[1].to_s : nil
   end
 
-  def uri
-    "https://openplaques.org#{Rails.application.routes.url_helpers.photo_path(self, format: :json)}"
+  def self.shots
+    [
+      "1 - extreme close up",
+      "2 - close up",
+      "3 - medium close up",
+      "4 - medium shot",
+      "5 - long shot",
+      "6 - establishing shot"
+    ]
   end
 
   private
@@ -378,20 +378,19 @@ class Photo < ApplicationRecord
       if wikimedia[:description] == "missing"
         errors.add :file_url, "cannot find File:#{wikimedia_filename} on Wikimedia Commons"
       else
-        self.url = wikimedia[:page_url]
-        self.subject = wikimedia[:description].gsub("English: ", "")
-        self.photographer = wikimedia[:author]
-        self.photographer_url = wikimedia[:author_url]
         self.file_url = wikimedia_special
-
+        self.latitude = wikimedia[:latitude] if wikimedia[:latitude]
         if wikimedia[:licence_url]
           wikimedia[:licence_url] += "/" unless wikimedia[:licence_url].ends_with?("/") || wikimedia[:licence_url].ends_with?("html")
           licence = Licence.find_by(url: wikimedia[:licence_url])
           licence ||= Licence.create(name: wikimedia[:licence], url: wikimedia[:licence_url])
           self.licence = licence unless licence.nil?
         end
-        self.latitude = wikimedia[:latitude] if wikimedia[:latitude]
         self.longitude = wikimedia[:longitude] if wikimedia[:longitude]
+        self.photographer = wikimedia[:author]
+        self.photographer_url = wikimedia[:author_url]
+        self.subject = wikimedia[:description].gsub("English: ", "")
+        self.url = wikimedia[:page_url]
       end
     rescue RuntimeError => e
       errors.add :file_url, "Commoner errored #{e.full_messages}"

@@ -68,7 +68,7 @@ class PeopleController < ApplicationController
         <div class="avatar avatar-s border border-white rounded-pill">
         #{ ActionController::Base.helpers.image_tag(person.main_photo.thumbnail_url, class: 'rounded-circle', style: "height: 100px;") if person.main_photo&.thumbnail_url }
         </div>
-        #{ person.name_and_dates }
+        #{ person.full_name_and_dates }
         #{ person.primary_role&.role&.name }
       </li>
     HTML
@@ -86,18 +86,18 @@ class PeopleController < ApplicationController
 
     @person = Person.with_counts.find(params[:id])
     begin
-      set_meta_tags description: "#{@person.name_and_dates} historical plaques and markers"
+      set_meta_tags description: "#{@person.full_name_and_dates} historical plaques and markers"
       set_meta_tags open_graph: {
         type: :website,
         url: url_for(only_path: false),
         image: @person.main_photo ? @person.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
-        title: "#{@person.name_and_dates} historical plaques and markers",
-        description: @person.name_and_dates
+        title: "#{@person.full_name_and_dates} historical plaques and markers",
+        description: @person.full_name_and_dates
       }
       set_meta_tags twitter: {
         card: "summary_large_image",
         site: "@openplaques",
-        title: "#{@person.name_and_dates} historical plaques and markers",
+        title: "#{@person.full_name_and_dates} historical plaques and markers",
         image: {
           _: @person.main_photo ? @person.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
           width: 100,

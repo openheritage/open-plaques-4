@@ -57,7 +57,7 @@
               success: function(data) {
                 response($.map(data, function(item) {
                   return {
-                    label: item.name_and_dates,
+                    label: item.full_name_and_dates,
                     id: item.id
                   }
                 }));

@@ -38,7 +38,7 @@ class PersonalConnection < ApplicationRecord
 
     notifier = Slack::Notifier.new(hook)
     phrase = [ "someone just connected", "there is a new connection from", "new connection alert!" ].sample
-    notifier.ping "#{phrase} <a href='#{person.uri}'>#{person.name_and_dates}</a> to <a href='#{plaque.uri}'>#{plaque.inscription_preferably_in_english}</a>"
+    notifier.ping "#{phrase} <a href='#{person.uri}'>#{person.full_name_and_dates}</a> to <a href='#{plaque.uri}'>#{plaque.inscription_preferably_in_english}</a>"
   end
 
   def single_year?
