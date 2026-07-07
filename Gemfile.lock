@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/mbleigh/acts-as-taggable-on.git
-  revision: 1df5ac334c7f6321ac6b967fb014f834b3aa1e09
+  revision: 961250b667fa27072b0ca7062ff22af55680ee41
   branch: master
   specs:
     acts-as-taggable-on (13.0.0)
