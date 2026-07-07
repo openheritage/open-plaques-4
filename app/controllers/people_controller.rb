@@ -66,7 +66,7 @@ class PeopleController < ApplicationController
     <<~HTML
       <li class="list-group-item d-flex justify-content-left align-items-start" role="option" data-autocomplete-value="#{person.id}">
         <div class="avatar avatar-s border border-white rounded-pill">
-        #{ ActionController::Base.helpers.image_tag(person.main_photo.thumbnail_url, class: 'rounded-circle', style: "height: 100px;") if person.main_photo&.thumbnail_url }
+        #{ ActionController::Base.helpers.image_tag(person.main_photo.thumbnail_url, class: "rounded-circle", style: "height: 100px;") if person.main_photo&.thumbnail_url }
         </div>
         #{ person.name_and_dates }
         #{ person.primary_role&.role&.name }
