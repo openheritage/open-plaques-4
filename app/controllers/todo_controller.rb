@@ -4,27 +4,29 @@ class TodoController < ApplicationController
   before_action :authenticate_user!, except: :index
 
   def index
-    @unassigned_photo_count = Photo.unassigned.geolocated.count
-    @unassigned_ungeolocated_photo_count = Photo.unassigned.ungeolocated.count
-    @photographed_not_coloured_plaques_count = Plaque.photographed_not_coloured.count
-    @geo_no_location_plaques_count = Plaque.geo_no_location.count
-    @plaques_to_add_count = TodoItem.to_add.count
-    @lists_to_datacapture = TodoItem.to_datacapture.count
     uk = Country.uk
     @uk_plaques_count = uk.plaques.count
+    @geo_no_location_plaques_count = Plaque.geo_no_location.count
+    @google_alert_count = TodoItem.google_alerts.count
+    @lists_to_datacapture = TodoItem.to_datacapture.count
+    @needs_geolocating_count = Plaque.ungeolocated.count
     @no_connection_count = uk.plaques.unconnected.count
     @no_connection_percentage = (@no_connection_count.to_f / @uk_plaques_count * 100).to_i
+    @no_roles_count = Person.unroled.count
+    @no_description_count = Plaque.no_description.count
     @partial_inscription_count = Plaque.partial_inscription.count
     @partial_inscription_photo_count = Plaque.partial_inscription_photo.count
-    @no_roles_count = Person.unroled.count
-    @needs_geolocating_count = Plaque.ungeolocated.count
-    @no_description_count = Plaque.no_description.count
+    @photographed_not_coloured_plaques_count = Plaque.photographed_not_coloured.count
+    @plaques_to_add_count = TodoItem.to_add.count
+    @unassigned_photo_count = Photo.unassigned.geolocated.count
+    @unassigned_ungeolocated_photo_count = Photo.unassigned.ungeolocated.count
   end
 
   def destroy
     @todoitem = TodoItem.find(params[:id])
     @direct_to = "plaques_to_add"
     @direct_to = "lists_to_datacapture" if @todoitem.to_datacapture?
+    @direct_to = "google_alerts" if @todoitem.action == "google_alert"
     @todoitem.destroy
     redirect_to todo_path(@direct_to)
   end
@@ -34,6 +36,9 @@ class TodoController < ApplicationController
     when "colours_from_photos"
       @plaques = Plaque.photographed_not_coloured.paginate(page: permitted_show_params[:page], per_page: 100)
       render :colours_from_photos
+    when "google_alerts"
+      @google_alerts = TodoItem.google_alerts
+      render :google_alerts
     when "locations_from_geolocations"
       @plaques = Plaque.geo_no_location.paginate(page: permitted_show_params[:page], per_page: 100)
       render :locations_from_geolocations

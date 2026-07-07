@@ -1,6 +1,6 @@
 module ApplicationHelper
   def button_delete(path)
-    button_to(t("buttons.delete"), path, { method: :delete, class: "btn btn-danger" })
+    button_to t("buttons.delete"), path, { method: :delete, class: "btn btn-danger" }
   end
 
   def alternate_link_to(text, path, format)

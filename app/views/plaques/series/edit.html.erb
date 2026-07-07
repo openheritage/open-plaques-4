@@ -1,16 +1,16 @@
-<% content_for :page_title, "Edit series information for plaque \#" + @plaque.id.to_s %>
+<% content_for :page_title, t(".page_title", plaque: @plaque.to_s) %>
 <%= render "plaques/edit_bar", plaque: @plaque %>
 
 <!-- Page Title -->
 <div class="page-title">
   <div class="container d-lg-flex justify-content-between align-items-center">
-    <h1 class="mb-2 mb-lg-0"><%= t(".title") %></h1>
+    <h1 class="mb-2 mb-lg-0"><%= t(".page_heading", plaque: @plaque.to_s) %></h1>
     <nav class="breadcrumbs">
       <ol>
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Plaques", plaques_path %></li>
         <li><%= link_to @plaque %></li>
-        <li class="current">Core</li>
+        <li class="current">Series</li>
       </ol>
     </nav>
   </div>

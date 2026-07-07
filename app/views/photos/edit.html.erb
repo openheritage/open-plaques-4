@@ -63,7 +63,7 @@
           </div>
           <div class="mb-3">
             <%= f.label :shot %>
-            <%= f.collection_select :shot, Photo.shots, :to_s, :to_s, {include_blank: true, class: 'form-select'} %> shot
+            <%= f.collection_select :shot, Photo.shots, :to_s, :to_s, {include_blank: true, class: "form-select"} %> shot
           </div>
         </div>
         <div class="col-xs-12 col-sm-6">
@@ -146,7 +146,7 @@
 
     <br/>
     <div class="row">
-      <%= button_to(t("buttons.delete"), photo_path(@photo), { method: :delete, class: "btn btn-danger" }) if current_user.try(:is_admin?) %>
+      <%= button_to t("buttons.delete"), photo_path(@photo), { method: :delete, class: "btn btn-danger" } if current_user.try(:is_admin?) %>
     </div>
 
   </div>

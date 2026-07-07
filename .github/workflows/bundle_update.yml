@@ -1,0 +1,42 @@
+name: Bundle Update
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run At 01:00 on first day-of-month.
+    - cron: '0 1 1 * *'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  updatecli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
+
+      - name: Update Gemfile.lock
+        run: |
+          bundle config --local deployment false
+          bundle update
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "jnicho02"
+          git config --global user.email "jez.nicholson@gmail.com"
+          git add Gemfile.lock
+          git commit -m "Update Gemfile.lock with new gem versions" || echo "No changes to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+          force: true

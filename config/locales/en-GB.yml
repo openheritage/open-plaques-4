@@ -62,6 +62,8 @@ en-GB:
         subject: This may be about
         description: More details are
         shot: This is a
+      plaque:
+        openstreetmap: OpenStreetMap node
       role:
         name: Name
         abbreviation: Abbreviation
@@ -148,6 +150,7 @@ en-GB:
       strapline_html: Documenting the historical links between <strong>people</strong> and <strong>places</strong> as recorded by commemorative <strong>plaques</strong>
       like_us_on_Facebook: us on Facebook for features and trivia.
       recently_photographed: recently photographed plaques
+      todo: to dos
 
   areas:
     edit:
@@ -188,7 +191,7 @@ en-GB:
       page_subhead: Talk to us...we are quite nice
       featurette_1_heading: Comments and suggestions?
       featurette_1_subheading: Found something wrong?
-      featurette_1_body: If you have any comments, questions, or suggestions for the service get in touch by e-mailing feedback@openplaques.org or tweeting to @openplaques
+      featurette_1_body: If you have any comments, questions, or suggestions for the service get in touch by e-mailing jez.nicholson+openplaques@gmail.com or tooting to @openplaques@mapstodon.space
       featurette_2_heading: Organisations.
       featurette_2_subheading: Come and co-curate your content
       featurette_2_body: Are you from a local council, historical or civic society, or other group that puts up plaques? Help us get your plaques included in the listings. When at least one of your plaques is added, your organisation gets a page on our website.
@@ -391,54 +394,47 @@ en-GB:
       optional: Optional
     show:
       page_title: '%{photo}'
-      page_heading: Photo %{name}
+      page_heading: Photo %{photo}
 
   plaques:
     colour:
       edit:
         page_title: Edit colour of
-        title: What colour is this plaque?
-        page_heading: yy
+        page_heading: What colour is this plaque?
         not_sure: Not sure. Give me another one
         colour_label: It is
     description:
       edit:
-        page_title: xx
-        page_heading: yy
+        page_title: Edit description
+        page_heading: Edit description
     edit:
+      page_title: Core information on %{plaque}
+      page_heading: Core information on %{plaque}
       exists: We believe this plaque currently exists
       erected_in: Erected in
-    erected:
-      edit:
-        page_title: xx 
-        page_heading: yy
     geolocation:
       edit:
         page_title: Geocoding %{plaque}
-        title: Where is this plaque?
-        page_heading: yy
-        page_subhead: Our goal is to accurately locate all plaques through real-life evidence. We do not use geocoding software as the results are inaccurate and it taint the openness of our data. It is okay to plot an approximate position, but please be sure to flag it as uncertain.
+        page_heading: Where is this plaque?
+        page_subhead: Our goal is to accurately locate all plaques through real-life evidence. We do not use geocoding software as the results are inaccurate and could taint the openness of our data. It is okay to plot an approximate position, but please be sure to flag it as such. Geolocations from Flickr or Geograph will be the photographer's location and not the subject's. An OpenStreetMap node is treated as gold standard geolocation and overrides enything else.
     inscription:
       edit:
-        page_title: Edit inscription for plaque
-        title: What does this plaque say?
+        page_title: Edit inscription for %{plaque}
+        page_heading: What does this plaque say?
         page_subhead: Type in all the words written on the plaque excluding the organisation. Please write in sentence case, as there is NO NEED TO SHOUT
         the_words: The words written on the plaque excluding the organisation in sentence case are
         placeholder: Joe Bloggs lived here
         exact_wording: We don't have the full, exact wording yet
         language: It's written in
         inscription_in_english: If the inscription is not in English, optionally include a translation here
-    language:
-      edit:
-        page_title: xx
-        page_heading: yy
-        language_label: It's written in
     photos:
       show:
-        page_title: Photos of the %{plaque}
-        page_heading: Photo
+        page_title: Photos of %{plaque}
+        page_heading: Photos of %{plaque}
     series:
       edit:
+        page_title: Edit series information for %{plaque}
+        page_heading: Edit series information for %{plaque}
         series_label: Part of the series
         series_ref_label: Series reference
         add_new_series: Add new series
@@ -447,18 +443,14 @@ en-GB:
         page_title: Edit sponsor information for plaque
         page_heading: Which organisations were involved in erecting this plaque?
     show:
+      page_title: "%{plaque}"
+      page_heading: "%{plaque}"
       english_translation: English translation
       colour_label: This plaque is coloured
       does_not_exist: Plaque is now missing
       not_erected: Has not been erected yet
       approximate_position: This is an approximate position
       how_to_add_yours: How to add yours
-    create:
-      page_title: xx
-      page_heading: yy
-    edit:
-      page_title: xx
-      page_heading: yy
     index:
       page_title: Latest %{limit} plaques
       page_heading: Latest %{limit} plaques
@@ -540,6 +532,10 @@ en-GB:
       page_title: "To do: colours from photos"
       page_heading: Colours from photos
       success: Every plaque with a photo has a colour attribute assigned. Bravo!
+    google_alerts:
+      page_title: "To do: Google Alerts to be datacaptured"
+      page_heading: Google Alerts to datacapture
+      success: All Google Alerts have been cleared     
     lists_to_datacapture:
       page_title: "To do: lists to be datacaptured"
       page_heading: Lists to datacapture
