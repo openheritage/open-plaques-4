@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   around_action :bot_blocker
   before_action :set_locale, :set_global_meta_tags
+  before_action :authenticate_user!, if: :railspress_admin?
 
   layout "zenblog"
 
@@ -68,6 +69,10 @@ class ApplicationController < ActionController::Base
       render json: { error: "no-bots" }.to_json, status: 406 and return
     end
     yield
+  end
+
+  def railspress_admin?
+    request.path.start_with?("/railspress/admin")
   end
 
   def set_global_meta_tags

@@ -6,10 +6,14 @@ Railspress.configure do |config|
   # Author tracking for posts and content elements.
   # Uncomment to enable:
   config.enable_authors
-  config.author_scope = :admins
   # config.author_class_name = "User"
+  config.author_scope = :admins
   # config.current_author_method = :current_user
   # config.current_author_proc = -> { Current.user }
+
+  # Header images for Posts
+  config.enable_post_images    # Enables header_image on Post model
+  # config.enable_focal_points   # Enables focal point editing UI
 
   # === CMS Content Elements (opt-in) ===
   # Adds content groups, content elements, and the cms_element/cms_value
@@ -18,7 +22,7 @@ Railspress.configure do |config|
   # enable_focal_points is also active.
   # See docs/CONFIGURING.md for details.
   # Uncomment to enable:
-  config.enable_cms
+  # config.enable_cms
 
   # === Inline CMS Editing (requires enable_cms) ===
   # Right-click editing of CMS content on public pages.

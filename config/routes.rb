@@ -13,6 +13,12 @@ Rails.application.routes.draw do
   root "home#index"
 
   mount Railspress::Engine, at: "/railspress"
+  # Blog frontend routes
+  get "blog", to: "blog#index", as: :blog
+  get "blog/search", to: "blog#search", as: :blog_search
+  get "blog/category/:slug", to: "blog#category", as: :blog_category
+  get "blog/tag/:slug", to: "blog#tag", as: :blog_tag
+  get "blog/:slug", to: "blog#show", as: :blog_post
 
   get "about", controller: :static_pages
   resources :colours, only: [ :new, :create ]
@@ -126,5 +132,5 @@ Rails.application.routes.draw do
   scope "/women" do
     resources "a-z", controller: :women_by_index, as: "women_by_index", only: :show
   end
-  get "*", to: "pages#show"
+  # get "*", to: "pages#show"
 end

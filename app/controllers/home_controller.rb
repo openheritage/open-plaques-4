@@ -13,6 +13,8 @@ class HomeController < ApplicationController
     end
     @todays_place = Area.where(name: "Norwich").first
     @todays_place_description = "Norwich has a long history. It has been a city since 1094. From the Middle Ages until the Industrial Revolution, Norwich was the largest city in England after London and one of the most important. This is refelected in its plaques."
+    @slider_posts = Page.tagged_with("swiper")
+    @project_pages = Page.tagged_with("project").recency_ordered
     begin
       set_meta_tags open_graph: {
         type: :website,

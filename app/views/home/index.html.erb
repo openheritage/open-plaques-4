@@ -7,7 +7,7 @@
   <div class="container slider" data-aos="fade-up" data-aos-delay="100">
     <div data-swiper-target="container" data-controller="swiper">
       <div class="swiper-wrapper">
-        <%= render partial: "swiper_slide", collection: Page.tagged_with("swiper"), as: :page %>
+        <%= render partial: "swiper_slide", collection: @slider_posts, as: :page %>
       </div>
       <div data-swiper-target="pagination"></div>
       <div data-swiper-target="next"></div>
@@ -29,14 +29,12 @@
 
 <!-- Project Category Section -->
 <section id="project-category" class="trending-category section">
-  <% project_pages = Page.tagged_with("project").recency_ordered %>
-
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <div class="row g-5">
       <div class="col-lg-4">
 
-        <% project_pages[0..0]&.each do |page| %>
+        <% @project_pages[0..0]&.each do |page| %>
           <div class="post-entry lg">
             <%= link_to page do %>
               <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" %>
@@ -60,7 +58,7 @@
       <div class="col-lg-8">
         <div class="row g-5">
           <div class="col-lg-4 border-start custom-border">
-            <% project_pages[1..3]&.each do |page, i| %>
+            <% @project_pages[1..3]&.each do |page, i| %>
               <div class="post-entry">
                 <%= link_to page do %>
                   <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" if page.main_photo %>
@@ -71,7 +69,7 @@
             <% end %>
           </div>
           <div class="col-lg-4 border-start custom-border">
-            <% project_pages[4..6]&.each do |page, i| %>
+            <% @project_pages[4..6]&.each do |page, i| %>
               <div class="post-entry">
                 <%= link_to page do %>
                   <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" if page.main_photo %>

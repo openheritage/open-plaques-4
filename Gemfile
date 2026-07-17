@@ -28,7 +28,8 @@ gem "ffaker" # realistic looking test data
 gem "font_awesome5_rails" # cute icon images
 # gem "get_process_mem" # for knowing how much memory is being used
 # gem "graphql-client" # talk to Monday.com
-# gem "image_processing", "~> 1.2" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+gem "image_processing", "~> 2.0" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+gem "ruby-vips", "~> 2.0"
 gem "importmap-rails" # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "interactor" # To define business logic
 # gem "jbuilder" # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -64,7 +65,7 @@ gem "thruster", require: false # Add HTTP asset caching/compression and X-Sendfi
 gem "turbo-rails" # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 # gem "tzinfo-data", platforms: %i[ windows jruby ] # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem "wicked" # wizard controllers
-gem "wikimedia-commoner", github: "jnicho02/wikimedia-commoner" # best guess famous/historical people on Wikidata
+gem "wikimedia-commoner", github: "jnicho02/wikimedia-commoner", branch: "main" # best guess famous/historical people on Wikidata
 gem "will_paginate" # paginate long lists of data
 
 group :development, :test do
