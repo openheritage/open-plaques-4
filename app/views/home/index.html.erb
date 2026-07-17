@@ -7,7 +7,7 @@
   <div class="container slider" data-aos="fade-up" data-aos-delay="100">
     <div data-swiper-target="container" data-controller="swiper">
       <div class="swiper-wrapper">
-        <%= render partial: "swiper_slide", collection: @slider_posts, as: :page %>
+        <%= render partial: "swiper_slide", collection: @slidees, as: :page %>
       </div>
       <div data-swiper-target="pagination"></div>
       <div data-swiper-target="next"></div>
@@ -39,7 +39,7 @@
             <%= link_to page do %>
               <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" %>
             <% end if page.main_photo %>
-            <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+            <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
             <h2><%= link_to page %></h2>
             <p class="mb-4 d-block"><%= page.strapline %></p>
             <div class="d-flex align-items-center author">
@@ -63,7 +63,7 @@
                 <%= link_to page do %>
                   <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" if page.main_photo %>
                 <% end %>
-                <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime("%Y-%m-%d") %>"><%= page.created_at.strftime("%-d %b %Y") %></time></span></div>
+                <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime("%Y-%m-%d") %>"><%= page.published_at.strftime("%-d %b %Y") %></time></span></div>
                 <h2><%= link_to page %></h2>
               </div>
             <% end %>
@@ -74,7 +74,7 @@
                 <%= link_to page do %>
                   <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" if page.main_photo %>
                 <% end %>
-                <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime("%Y-%m-%d") %>"><%= page.created_at.strftime("%-d %b %Y") %></time></span></div>
+                <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime("%Y-%m-%d") %>"><%= page.published_at.strftime("%-d %b %Y") %></time></span></div>
                 <h2><%= link_to page %></h2>
               </div>
             <% end %>
@@ -86,7 +86,7 @@
             <div class="trending">
               <h3>Trending</h3>
               <ul class="trending-post">
-                <% Page.random(5).each_with_index do |page, i| %>
+                <% @trending.each_with_index do |page, i| %>
                   <li>
                     <%= link_to page do %>
                       <span class="number"><%= i + 1 %></span>
@@ -132,7 +132,7 @@
             <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" %>
           <% end if page.main_photo %>
           <div>
-            <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+            <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
             <h3><%= link_to page %></h3>
             <p><%= page.strapline %></p>
             <div class="d-flex align-items-center author">
@@ -154,7 +154,7 @@
               <%= link_to page do %>
               <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" %>
               <% end if page.main_photo %>
-              <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+              <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
               <h2 class="mb-2"><%= link_to page %></h2>
               <span class="author mb-3 d-block"><%= page.author&.name %></span>
               <p class="mb-4 d-block"><%= page.strapline %></p>
@@ -162,7 +162,7 @@
           <% end %>
           <% culture_pages[2..2]&.each do |page| %>
             <div class="post-list">
-              <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+              <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
               <h2 class="mb-2"><%= link_to page %></h2>
               <span class="author mb-3 d-block"><%= page.author&.name %></span>
             </div>
@@ -174,7 +174,7 @@
               <%= link_to page do %>
                 <%= image_tag page.main_photo.file_url, alt: "", class: "img-fluid" %>
               <% end if page.main_photo %>
-              <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+              <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
               <h2 class="mb-2"><%= link_to page %></h2>
               <span class="author mb-3 d-block"><%= page.author&.name %></span>
               <p class="mb-4 d-block"><%= page.strapline %></p>
@@ -187,7 +187,7 @@
       <div class="col-md-3">
       <% culture_pages.random(6)&.each do |page| %>
         <div class="post-list border-bottom">
-          <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+          <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
           <h2 class="mb-2"><%= link_to page %></h2>
           <span class="author mb-3 d-block"><%= page.author&.name %></span>
         </div>
@@ -221,7 +221,7 @@
             <%= link_to page do %>
               <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" %>
             <% end if page.main_photo %>
-            <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+            <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
             <h2><%= link_to page %></h2>
             <p><%= page.body %></p>
             <div class="d-flex align-items-center author">
@@ -237,7 +237,7 @@
 
       <% Page.tagged_with("top10")[1..2]&.each_with_index do |page, i| %>
         <div class="post-list <%= 'border-bottom' if i > 1 %>">
-          <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+          <div class="post-meta"><span class="date"><%= page.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
           <h2 class="mb-2"><%= link_to page %></h2>
           <span class="author mb-3 d-block"><%= page.author&.name %></span>
         </div>
@@ -251,7 +251,7 @@
           <% Page.tagged_with("top10")[3..5]&.each do |page| %>
             <div class="post-list">
               <%= link_to page do %><%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" %><% end if page.main_photo %>
-              <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+              <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
               <h2><%= link_to page %></h2>
             </div>
           <% end %>
@@ -260,7 +260,7 @@
           <% Page.tagged_with("top10")[6..9]&.each do |page| %>
             <div class="post-list">
               <%= link_to page do %><%= image_tag page.main_photo.thumbnail_url, alt: "", class: "img-fluid" %><% end if page.main_photo %>
-              <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+              <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
               <h2><%= link_to page %></h2>
             </div>
           <% end %>
@@ -268,7 +268,7 @@
           <div class="col-lg-4">
           <% Page.tagged_with("top10").random(6)&.each do |page| %>
             <div class="post-list border-bottom">
-              <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time></span></div>
+              <div class="post-meta"><span class="date">Top Viewed</span> <span class="mx-1">•</span> <span><time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time></span></div>
               <h2 class="mb-2"><%= link_to page %></h2>
               <span class="author mb-3 d-block"><%= page.author&.name %></span>
             </div>
