@@ -27,6 +27,14 @@ class Page < ApplicationRecord
     matches ? Plaque.find(matches[1]).main_photo : nil
   end
 
+  def published_at
+    created_at
+  end
+
+  def title
+    name
+  end
+
   def to_s
     name
   end

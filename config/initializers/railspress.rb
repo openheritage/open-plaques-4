@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+Railspress.configure do |config|
+  # === Blog Features (always available) ===
+
+  # Author tracking for posts and content elements.
+  # Uncomment to enable:
+  config.enable_authors
+  # config.author_class_name = "User"
+  config.author_scope = :admins
+  # config.current_author_method = :current_user
+  # config.current_author_proc = -> { Current.user }
+
+  # Header images for Posts
+  config.enable_post_images    # Enables header_image on Post model
+  # config.enable_focal_points   # Enables focal point editing UI
+
+  # === CMS Content Elements (opt-in) ===
+  # Adds content groups, content elements, and the cms_element/cms_value
+  # view helpers for managing structured content on your site.
+  # Image elements support dropzone upload and focal points when
+  # enable_focal_points is also active.
+  # See docs/CONFIGURING.md for details.
+  # Uncomment to enable:
+  # config.enable_cms
+
+  # === Inline CMS Editing (requires enable_cms) ===
+  # Right-click editing of CMS content on public pages.
+  # Also requires: import "railspress" in your application.js
+  # and yield :head in your layout. See docs/INLINE_EDITING.md.
+  # Uncomment to enable:
+  # config.inline_editing_check = ->(context) {
+  #   context.controller.current_user&.admin?
+  # }
+
+  # === API (opt-in) ===
+  # Enables API endpoints under /railspress/api/v1 and admin API key management.
+  # Requires Active Record Encryption keys in your host app config.
+  # Uncomment to enable:
+  # config.enable_api
+  # Optional: include a host auth concern into Railspress::Admin::BaseController.
+  # Define your concern in app/controllers/concerns/railspress_admin_auth.rb
+  # and set this to its constant name (String or Symbol).
+  # config.admin_auth_concern = "RailspressAdminAuth"
+  # config.current_api_actor_method = :current_user
+  # config.current_api_actor_proc = -> { Current.user if Current.user&.admin? }
+  # Optional: force a canonical public base URL in generated API instructions.
+  # Falls back to Rails.application.routes.default_url_options, then request host.
+  # config.public_base_url = "https://blog.example.com"
+end
+
+Rails.application.config.to_prepare do
+  Railspress::Admin::BaseController.class_eval do
+    before_action :authenticate_admin!
+
+    private
+
+    def authenticate_admin!
+      raise ActionController::BadRequest, "NotAuthorised" unless current_user.try(:is_admin?)
+    end
+  end
+end
