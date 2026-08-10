@@ -13,7 +13,7 @@ Railspress.configure do |config|
 
   # Header images for Posts
   config.enable_post_images    # Enables header_image on Post model
-  # config.enable_focal_points   # Enables focal point editing UI
+  config.enable_focal_points   # Enables focal point editing UI
 
   # === CMS Content Elements (opt-in) ===
   # Adds content groups, content elements, and the cms_element/cms_value

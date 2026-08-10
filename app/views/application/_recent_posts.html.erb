@@ -3,10 +3,10 @@
   <h3 class="widget-title">Recent Posts</h3>
   <% Page.random(5).each do |page| %>
     <div class="post-item">
-      <%= image_tag page.main_photo.thumbnail_url, alt: "", class: "flex-shrink-0" if page.main_photo %>
+      <%= image_tag page.header_image.thumbnail_url, alt: "", class: "flex-shrink-0" if page.header_image %>
       <div>
-        <h4><%= link_to page.name, page %></h4>
-        <time datetime="<%= page.created_at.strftime('%Y-%m-%d') %>"><%= page.created_at.strftime('%-d %b %Y') %></time>
+        <h4><%= link_to page.title, page %></h4>
+        <time datetime="<%= page.published_at.strftime('%Y-%m-%d') %>"><%= page.published_at.strftime('%-d %b %Y') %></time>
       </div>
     </div><!-- End recent post item-->
   <% end %>

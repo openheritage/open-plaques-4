@@ -22,7 +22,7 @@ class Page < ApplicationRecord
     (categories.first&.name || tags.first&.name).capitalize
   end
 
-  def main_photo
+  def header_image
     matches = /plaque #(\d*)/.match(body)
     matches ? Plaque.find(matches[1]).main_photo : nil
   end

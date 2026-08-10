@@ -1,4 +1,4 @@
-class BlogController < ApplicationController
+class PostsController < ApplicationController
   def index
     @posts = Railspress::Post.published
                              .includes(:category, :tags)

@@ -1,6 +1,6 @@
-<% content_for(:page_title) { t(".page_title", page: @post.title ) } %>
-<% content_for(:admin_menu) { navbar_link_to(t("buttons.add"), new_page_path) } %>
-<% content_for(:admin_menu) { navbar_link_to(t("buttons.edit"), edit_page_path(@post.slug)) } %>
+<% content_for(:page_title) { @post.title } %>
+<% content_for(:admin_menu) { navbar_link_to(t("buttons.add"), railspress.new_admin_post_path) } %>
+<% content_for(:admin_menu) { navbar_link_to(t("buttons.edit"), railspress.edit_admin_post_path(@post)) } %>
 
 <!-- Page Title -->
 <div class="page-title">
@@ -8,9 +8,8 @@
     <h1 class="mb-2 mb-lg-0"><%= @post.title %></h1>
     <nav class="breadcrumbs">
       <ol>
-        <li><a href="index.html">Home</a></li>
-        <li><%= link_to "Blog", blog_path %></li>
-        <li class="current">Page #<%= @post.id %></li>
+        <li><a href="/">Home</a></li>
+        <li class="current"><%= @post.slug %></li>
       </ol>
     </nav>
   </div>
@@ -27,13 +26,15 @@
 
           <article class="post">
 
-            <div class="post-img">
-              <%= image_tag "blog/blog-#{rand(6) + 1}.jpg", alt: "", class: "img-fluid" %>
-            </div>
+            <% if @post.header_image.attached? %>
+              <div class="post-img">
+                <%= image_tag @post.header_image, alt: @post.header_image.custom_metadata["alt"], class: "img-fluid" %>
+              </div>
+            <% end %>
 
             <% if @post.category %>
               <span class="category">
-                in <%= link_to @post.category.name, blog_category_path(slug: @post.category.slug) %>
+                in <%= link_to @post.category.name, post_category_path(slug: @post.category.slug) %>
               </span>
             <% end %>
 
@@ -54,7 +55,7 @@
                 <i class="bi bi-tags"></i>
                 <ul class="tags">
                   <% @post.tags.each do |tag| %>
-                    <li><%= link_to tag.name, blog_tag_path(slug: tag.slug), class: "tag" %></li>
+                    <li><%= link_to tag.name, post_tag_path(slug: tag.slug), class: "tag" %></li>
                   <% end %>
                 </ul>
             <% end %>
@@ -75,7 +76,7 @@
 
         <%= render "search" %>
 
-        <%= render "recent_posts" %>
+        <!-- %= render "recent_posts" % -->
 
         <%= render "tags" %>
 
@@ -85,7 +86,7 @@
             <ul>
               <% @related_posts.each do |post| %>
                 <li>
-                  <%= link_to post.title, blog_post_path(slug: post.slug) %>
+                  <%= link_to post.title, posts_path(slug: post.slug) %>
                   <time datetime="<%= post.published_at.iso8601 %>"><%= post.published_at.strftime("%b %d") %></time>
                 </li>
               <% end %>
