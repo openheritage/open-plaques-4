@@ -9,11 +9,11 @@ GIT
 
 GIT
   remote: https://github.com/mbleigh/acts-as-taggable-on.git
-  revision: 961250b667fa27072b0ca7062ff22af55680ee41
+  revision: 4d58c53e7d455bd07196d024c25b0ca6ff76c179
   branch: master
   specs:
     acts-as-taggable-on (13.0.0)
-      activerecord (>= 7.1, < 8.2)
+      activerecord (>= 8.0, < 9.0)
       zeitwerk (>= 2.4, < 3.0)
 
 GEM
@@ -559,7 +559,7 @@ GEM
     will_paginate (4.0.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.8.2)
+    zeitwerk (2.8.3)
 
 PLATFORMS
   aarch64-linux
