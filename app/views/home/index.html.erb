@@ -39,9 +39,9 @@
             <%= link_to posts_path(slug: post.slug) do %>
               <%= image_tag post.header_image, alt: post.header_image.custom_metadata["alt"], class: "img-fluid" %>
             <% end if post.header_image&.attached? %>
-            <div class="post-meta"><span class="date"><%= post.category.name %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime('%Y-%m-%d') %>"><%= post.published_at.strftime('%-d %b %Y') %></time></span></div>
+            <div class="post-meta"><span class="date"><%= post.category&.name %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime('%Y-%m-%d') %>"><%= post.published_at.strftime('%-d %b %Y') %></time></span></div>
             <h2><%= link_to post.title, posts_path(slug: post.slug) %></h2>
-            <p class="mb-4 d-block"><%= truncate(strip_tags(post.content.to_plain_text), length: 80) %></p>
+            <p class="mb-4 d-block"><%= truncate_post post %></p>
             <div class="d-flex align-items-center author">
               <div class="photo">
                 <%= image_tag post.author&.main_photo, alt: post.author&.name, class: "img-fluid" if post.author&.main_photo %>
@@ -63,7 +63,7 @@
                 <%= link_to posts_path(slug: post.slug) do %>
                   <%= image_tag post.header_image, alt: "", class: "img-fluid" if post.header_image&.attached? %>
                 <% end %>
-                <div class="post-meta"><span class="date"><%= post.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime("%Y-%m-%d") %>"><%= post.published_at.strftime("%-d %b %Y") %></time></span></div>
+                <div class="post-meta"><span class="date"><%= post.category&.name %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime("%Y-%m-%d") %>"><%= post.published_at.strftime("%-d %b %Y") %></time></span></div>
                 <h2><%= link_to post.title, posts_path(slug: post.slug) %></h2>
               </div>
             <% end %>
@@ -74,7 +74,7 @@
                 <%= link_to posts_path(slug: post.slug) do %>
                   <%= image_tag post.header_image, alt: "", class: "img-fluid" if post.header_image&.attached? %>
                 <% end %>
-                <div class="post-meta"><span class="date"><%= post.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime("%Y-%m-%d") %>"><%= post.published_at.strftime("%-d %b %Y") %></time></span></div>
+                <div class="post-meta"><span class="date"><%= post.category&.name %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime("%Y-%m-%d") %>"><%= post.published_at.strftime("%-d %b %Y") %></time></span></div>
                 <h2><%= link_to post.title, posts_path(slug: post.slug) %></h2>
               </div>
             <% end %>
@@ -130,9 +130,9 @@
             <%= image_tag post.header_image, alt: "", class: "img-fluid" %>
           <% end if post.header_image&.attached? %>
           <div>
-            <div class="post-meta"><span class="date"><%= post.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime('%Y-%m-%d') %>"><%= post.published_at.strftime('%-d %b %Y') %></time></span></div>
+            <div class="post-meta"><span class="date"><%= post.category&.name %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime('%Y-%m-%d') %>"><%= post.published_at.strftime('%-d %b %Y') %></time></span></div>
             <h3><%= link_to post.title, posts_path(slug: post.slug) %></h3>
-            <p><%= truncate(strip_tags(post.content.to_plain_text), length: 80) %></p>
+            <p><%= truncate_post post %></p>
             <div class="d-flex align-items-center author">
               <div class="photo">
                 <%= image_tag post.author&.main_photo, alt: "", class: "img-fluid" if post.author&.main_photo %>
@@ -155,7 +155,7 @@
               <div class="post-meta"><span class="date"><%= post.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime('%Y-%m-%d') %>"><%= post.published_at.strftime('%-d %b %Y') %></time></span></div>
               <h2 class="mb-2"><%= link_to post.title, posts_path(slug: post.slug) %></h2>
               <span class="author mb-3 d-block"><%= post.author&.name %></span>
-              <p class="mb-4 d-block"><%= truncate(strip_tags(post.content.to_plain_text), length: 80) %></p>
+              <p class="mb-4 d-block"><%= truncate_post post %></p>
             </div>
           <% end %>
           <% @culture_posts[2..2]&.each do |post| %>
@@ -175,7 +175,7 @@
               <div class="post-meta"><span class="date"><%= post.category %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime('%Y-%m-%d') %>"><%= post.published_at.strftime('%-d %b %Y') %></time></span></div>
               <h2 class="mb-2"><%= link_to post.title, posts_path(slug: post.slug) %></h2>
               <span class="author mb-3 d-block"><%= post.author&.name %></span>
-              <p class="mb-4 d-block"><%= truncate(strip_tags(post.content.to_plain_text), length: 80) %></p>
+              <p class="mb-4 d-block"><%= truncate_post post %></p>
             </div>
             <% end %>
           </div>

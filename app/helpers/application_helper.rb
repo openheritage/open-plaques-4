@@ -120,4 +120,11 @@ module ApplicationHelper
 
     self.slug = name.to_s.strip.downcase.tr(" ", "_").tr("-", "_").tr(",", "_").tr(".", "_").tr("'", "").gsub("__", "_")
   end
+
+  def truncate_post(post, length: 200)
+    content = post.content
+    # replace end heading tags with punctuation and all other tags with a space
+    stripped = content.to_s.gsub(/(<\/h[^>]+>)/, '. ').gsub(/(<[^>]+>)/, ' ').squish
+    truncate(stripped, length:)
+  end
 end
