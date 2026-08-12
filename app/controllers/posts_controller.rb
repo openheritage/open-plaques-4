@@ -33,7 +33,7 @@ class PostsController < ApplicationController
                  .includes(:category)
                  .ordered
                  .page(params[:page])
-                 .per(10)
+                 #.per(10)
   end
 
   def search

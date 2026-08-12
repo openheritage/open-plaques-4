@@ -15,14 +15,14 @@ class HomeController < ApplicationController
     @todays_place_description = "Norwich has a long history. It has been a city since 1094. From the Middle Ages until the Industrial Revolution, Norwich was the largest city in England after London and one of the most important. This is refelected in its plaques."
     
     slider = Railspress::Tag.find_by!(slug: "slider")
-    @slidees = slider.posts.includes(:category, :tags)
+    @slidees = slider.posts.published.includes(:category, :tags)
     project = Railspress::Category.find_by!(slug: "project")
-    @project_pages = project.posts.sorted_by(:published_at, :asc) # .recency_ordered
+    @project_pages = project.posts.published.sorted_by(:published_at, :asc) # .recency_ordered
     culture = Railspress::Category.find_by!(slug: "culture")
-    @culture_posts = culture.posts # .recency_ordered
+    @culture_posts = culture.posts.published # .recency_ordered
     top = Railspress::Category.find_by!(slug: "top-viewed")
-    @top10_posts = top.posts
-    @trending = Railspress::Post.all
+    @top10_posts = top.posts.published[..9]
+    @trending = Railspress::Post.published.all[..4]
     begin
       set_meta_tags open_graph: {
         type: :website,
