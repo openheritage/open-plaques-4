@@ -15,7 +15,7 @@
     "ghcr.io/rails/devcontainer/features/postgres-client": {
       "version": "17"
     },
-    "ghcr.io/devcontainers-extra/features/heroku-cli:1": {}
+    "ghcr.io/devcontainers-extra/features/heroku-cli": {}
   },
 
   "containerEnv": {
