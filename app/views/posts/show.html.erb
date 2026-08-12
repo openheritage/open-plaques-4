@@ -26,15 +26,13 @@
 
           <article class="post">
 
-            <% if @post.header_image.attached? %>
-              <div class="post-img">
-                <%= image_tag @post.header_image, alt: @post.header_image.custom_metadata["alt"], class: "img-fluid" %>
-              </div>
-            <% end %>
+            <div class="post-img">
+              <%= image_tag @post %>
+            </div>
 
             <% if @post.category %>
               <span class="category">
-                in <%= link_to @post.category.name, post_category_path(slug: @post.category.slug) %>
+                <%= @post.category.name %>
               </span>
             <% end %>
 
