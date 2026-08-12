@@ -89,6 +89,29 @@ module ApplicationHelper
     end
   end
 
+  def image_tag(source, options = {})
+    Rails.logger.debug(options)
+    if source.respond_to?(:header_image)
+      post = source
+      if post.header_image&.attached?
+        # the post has a header image uploaded
+        source = post.header_image
+        options[:alt] = source.custom_metadata["alt"] unless options[:alt]
+        options[:class] = "img-fluid" unless options[:class]
+      else
+        # the post mentions a plaque
+        matches = /plaque #(\d*)/.match(post.content.to_s)
+        return unless matches
+
+        main_photo = Plaque.find(matches[1]).main_photo
+        source = main_photo.file_url
+        options[:alt] = main_photo.title unless options[:alt]
+        options[:class] = "img-fluid" unless options[:class]
+      end
+    end
+    super(source, options)
+  end
+
   # A persistant navigation link, as used in "top navs" or "left navs".
   # The main difference is that the link is replaced by a <span> tag when
   # the link would otherwise lead to the page you're already on. This can be used
@@ -119,5 +142,12 @@ module ApplicationHelper
     return unless slug.blank?
 
     self.slug = name.to_s.strip.downcase.tr(" ", "_").tr("-", "_").tr(",", "_").tr(".", "_").tr("'", "").gsub("__", "_")
+  end
+
+  def truncate_post(post, length: 200)
+    content = post.content
+    # replace end heading tags with punctuation and all other tags with a space
+    stripped = content.to_s.gsub(/(<\/h[^>]+>)/, '. ').gsub(/(<[^>]+>)/, ' ').squish
+    truncate(stripped, length:)
   end
 end

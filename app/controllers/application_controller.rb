@@ -3,12 +3,26 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   around_action :bot_blocker
   before_action :set_locale, :set_global_meta_tags
+  before_action :authenticate_user!, if: :railspress_admin?
 
   layout "zenblog"
 
   def authenticate_admin!
     raise UnAuthorised, "NotAuthorised" unless current_user.try(:is_admin?)
   end
+
+  def permitted_show_params
+    params.permit(
+      :area_id,
+      :country_id,
+      :filter,
+      :format,
+      :id,
+      :page
+    )
+  end
+
+  private
 
   def bot_blocker
     http_user_agent = request.env["HTTP_USER_AGENT"]&.downcase || ""
@@ -57,19 +71,8 @@ class ApplicationController < ActionController::Base
     yield
   end
 
-  def permitted_show_params
-    params.permit(
-      :area_id,
-      :country_id,
-      :filter,
-      :format,
-      :id,
-      :page
-    )
-  end
-
-  def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
+  def railspress_admin?
+    request.path.start_with?("/railspress/admin")
   end
 
   def set_global_meta_tags
@@ -93,5 +96,9 @@ class ApplicationController < ActionController::Base
       }
     }
   rescue
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
   end
 end

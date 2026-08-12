@@ -12,6 +12,14 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
+  mount Railspress::Engine, at: "/railspress"
+  # Blog frontend routes
+  # get "post", to: "post#index", as: :post
+  get "posts/search", to: "posts#search", as: :post_search
+  get "posts/category/:slug", to: "posts#category", as: :post_category
+  get "posts/tag/:slug", to: "posts#tag", as: :post_tag
+  get "posts/:slug", to: "posts#show", as: :posts
+
   get "about", controller: :static_pages
   resources :colours, only: [ :new, :create ]
   get "contact", controller: :static_pages
@@ -27,7 +35,7 @@ Rails.application.routes.draw do
     resource :plaques, controller: :organisation_plaques, only: :show
     match "plaques/:filter" => "organisation_plaques#show", via: [ :get ]
   end
-  resources :pages
+  # resources :pages
   scope "/people" do
     resources "a-z", controller: :people_by_index, as: "people_by_index", only: :show
   end
@@ -124,5 +132,4 @@ Rails.application.routes.draw do
   scope "/women" do
     resources "a-z", controller: :women_by_index, as: "women_by_index", only: :show
   end
-  get "*", to: "pages#show"
 end

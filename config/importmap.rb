@@ -28,3 +28,6 @@ pin "maplibre-gl" # @5.24.0
 pin "chart.js" # @4.5.1
 pin "@kurkle/color", to: "@kurkle--color.js" # @0.4.0
 pin "@chartjs/helpers-dataset", to: "chunks/helpers.dataset.js"
+
+# ActiveStorage for file uploads
+pin "@rails/activestorage", to: "activestorage.esm.js"

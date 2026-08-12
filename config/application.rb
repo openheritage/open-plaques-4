@@ -26,5 +26,7 @@ module Openplaques
     # config.eager_load_paths << Rails.root.join("extras")
     #
     config.paths["app/views"].unshift("#{Rails.root}/vendor/zenblog/views")
+
+    config.active_storage.variant_processor = :vips # :vips or :mini_magick
   end
 end
