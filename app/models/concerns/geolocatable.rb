@@ -19,8 +19,13 @@ module Geolocatable
   # given a set of plaques, or is a thing that has plaques (like an organisation) tell me what the mean point is
   def geolocate!(things = nil)
     things ||= self.plaques.geolocated
+    tolerance = 0.01
     update!(latitude: things.average(:latitude), longitude: things.average(:longitude))
-    update!(min_latitude: things.minimum(:latitude), min_longitude: things.minimum(:longitude), max_latitude: things.maximum(:latitude), max_longitude: things.maximum(:longitude)) if respond_to?(:min_latitude)
+    if things.maximum(:latitude) - things.minimum(:latitude) > tolerance
+      update!(min_latitude: things.minimum(:latitude), min_longitude: things.minimum(:longitude), max_latitude: things.maximum(:latitude), max_longitude: things.maximum(:longitude)) if respond_to?(:min_latitude)
+    else
+      update!(min_latitude: things.average(:latitude) - (tolerance / 2), min_longitude: things.average(:longitude) - (tolerance / 2), max_latitude: things.average(:latitude) + (tolerance / 2), max_longitude: things.average(:longitude) + (tolerance / 2)) if respond_to?(:min_latitude)
+    end
   end
 
   def geolocated?
