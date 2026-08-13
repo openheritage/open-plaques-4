@@ -1,4 +1,4 @@
-# A commemoration of a subject on a plaque. This acts as a 'join' between the two.
+# A commemoration of a subject on a plaque. This acts as a join between the two.
 # === Attributes
 # * +ended_at+ - when the subject stopped doing what they did at the place
 # * +started_at+ - when the subject started doing what they did at the place

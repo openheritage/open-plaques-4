@@ -6,5 +6,5 @@
 <p><% @roles.each do |role| %><%= role.suffix %> <%= role.priority %><%= ", " if role != @roles.last %><% end %></p>
 
 <div class="row" data-masonry='{"percentPosition": true }'>
-  <%= render partial: 'roles/by_precedence/role', collection: @roles, as: :role %>
+  <%= render partial: "roles/by_precedence/role", collection: @roles, as: :role %>
 </div>

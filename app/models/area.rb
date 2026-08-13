@@ -2,8 +2,8 @@
 
 # The largest commonly identified region of residence below a country level.
 # By this, we mean the place that people would normally name in answer to the
-# question of 'where do you live?'.
-# In most cases, this will be either a city (eg 'London'), town (eg 'Margate'),
+# question of "where do you live?"".
+# In most cases, this will be either a city (eg "London"), town (eg "Margate"),
 # or village.
 # It should not normally be either a state, county, district or other
 # administrative region.
@@ -11,7 +11,7 @@
 # * +dbpedia_uri+ - uri to link to DBPedia record
 # * +latitude+ - location
 # * +longitude+ - location
-# * +name+ - the area's common name (not neccessarily 'official')
+# * +name+ - the area's common name (not neccessarily "official")
 # * +plaques_count+ - cached count of plaques
 # * +slug+ - a textual identifier, usually equivalent to its name in lower case,
 #            with spaces replaced by underscores. Used in URLs.
@@ -52,7 +52,7 @@ class Area < ApplicationRecord
             methods: :uri
           }
         },
-        methods: %i[uri plaques_uri]
+        methods: %i[plaques_uri uri]
       }
     end
     super options

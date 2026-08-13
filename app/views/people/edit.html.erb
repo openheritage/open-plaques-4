@@ -40,7 +40,7 @@
           <p>
             Find a depiction image on
             <%= link_to "Wikidata <i class=\"bi bi-box-arrow-up-right\"></i>".html_safe, @person.wikipedia_url, target: :_blank unless @person.wikipedia_url.blank? %>
-            <%= 'or' unless @person.wikipedia_url.blank? %>
+            <%= "or" unless @person.wikipedia_url.blank? %>
             <%= link_to "Wikimedia Commons <i class=\"bi bi-box-arrow-up-right\"></i>".html_safe, "https://commons.wikimedia.org/w/index.php?title=Special:Search&limit=20&offset=40&profile=default&search=#{@person.name}", target: :_blank %>
           </p>
           <p>
@@ -113,14 +113,14 @@
         <div class="mb-3">
           <%= f.label :gender, class: "col-form-label" %>
           <div class="col-sm-10">
-            <%= f.radio_button :gender, 'm' %>
-            <%= f.label :gender, 'Male', value: 'm' %>
-            <%= f.radio_button :gender, 'f' %>
-            <%= f.label :gender, 'Female', value: 'f' %>
-            <%= f.radio_button :gender, 'u' %>
-            <%= f.label :gender, 'Unknown', value: 'u' %>
-            <%= f.radio_button :gender, 'n' %>
-            <%= f.label :gender, 'None', value: 'n' %>
+            <%= f.radio_button :gender, "m" %>
+            <%= f.label :gender, "Male", value: "m" %>
+            <%= f.radio_button :gender, "f" %>
+            <%= f.label :gender, "Female", value: "f" %>
+            <%= f.radio_button :gender, "u" %>
+            <%= f.label :gender, "Unknown", value: "u" %>
+            <%= f.radio_button :gender, "n" %>
+            <%= f.label :gender, "None", value: "n" %>
           </div>
         </div>
         <div class="col-sm-6 col-md-4">
@@ -139,7 +139,7 @@
         <div class="col-sm-6 col-md-4">
           <div class="form-floating">
             <%= f.text_field :died_on,maxlength: 10 %>
-            <%= f.label :died_on, 'and ' + @person.destruction_word %>
+            <%= f.label :died_on, "and " + @person.destruction_word %>
           </div>
         </div>
         </div>
@@ -231,7 +231,7 @@
           <%= fa_icon(:paw) if @person.animal? %>
           <%= fa_icon(:users) if @person.group? %>
           <%= fa_icon(:building) if @person.place? %>
-          <%= fa_icon(:'map-marker') if @person.thing? %>
+          <%= fa_icon(:"map-marker") if @person.thing? %>
           <%= @person.personal_pronoun %>
           <%= @person.existence_word %>
           a
@@ -243,13 +243,13 @@
       <div class="row">
         <p><%= t(".features_on") %></p>
       </div>
-      <%= render partial: 'plaques/row', collection: @person.plaques.uniq, as: :plaque %>
+      <%= render partial: "plaques/row", collection: @person.plaques.uniq, as: :plaque %>
       <div class="row">
         <p><%= t(".from_which_we_can_establish") %></p>
       </div>
     <% end %>
 
-    <%= render partial: 'family_tree' %>
+    <%= render partial: "family_tree" %>
     <% if @person.person? %>
       <p>Family: people are related to each other via their mother and father where possible. Use brother/sister
         <strong>very</strong>

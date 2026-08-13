@@ -19,12 +19,12 @@
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
     <ul class="nav">
-      <% for letter in 'A'..'Z' %>
+      <% for letter in "A".."Z" %>
         <li class="nav-link"><%= navigation_link_to(letter, roles_by_index_path(letter.downcase)) %></li>
       <% end %>
     </ul>
 
-    <%= render partial: 'roles/tiles' %>
+    <%= render partial: "roles/tiles" %>
 
   </div>
 </section>

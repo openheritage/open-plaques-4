@@ -30,16 +30,16 @@ class Photo < ApplicationRecord
   before_save :set_of_a_plaque
   after_save :geolocate_plaque
   after_save :opposite_clone
-  scope :reverse_detail_order, -> { order("shot DESC") }
-  scope :detail_order, -> { order("shot ASC") }
+  scope :detail_order, -> { order(shot: :asc) }
+  scope :flickr, -> { where("url like ?", "%flickr.com%") }
+  scope :geograph, -> { where("photographer_url like ?", "https://www.geograph.org.uk/profile/%") }
+  scope :geolocated, -> { where.not(latitude: nil) }
+  scope :reverse_detail_order, -> { order(shot: :desc) }
   scope :unassigned, -> { where(plaque_id: nil, of_a_plaque: true) }
   scope :undecided, -> { where(plaque_id: nil, of_a_plaque: nil) }
-  scope :wikimedia, -> { where("file_url like '%commons%'") }
-  scope :flickr, -> { where("url like '%flickr.com%'") }
-  scope :geograph, -> { where("photographer_url like 'https://www.geograph.org.uk/profile/%'") }
-  scope :geolocated, -> { where([ "latitude IS NOT NULL" ]) }
-  scope :ungeolocated, -> { where([ "latitude IS NULL" ]) }
-  attr_accessor :photo_url, :accept_cc_by_licence
+  scope :ungeolocated, -> { where(latitude: nil) }
+  scope :wikimedia, -> { where("file_url like ?", "%commons%") }
+  attr_accessor  :accept_cc_by_licence, :photo_url
 
   def as_geojson(options = {})
     if !options || !options[:only]

@@ -68,7 +68,7 @@ module PlaquesHelper
         photo_url = "https://www.flickr.com/photos/#{photo.attributes['owner']}/#{photo.attributes['id']}/"
         @photo = Photo.find_by(url: photo_url) || Photo.find_by(url: photo_url.sub("https:", "http:"))
         if @photo
-          # we've already got that one
+          # we have already got that one
         else
           plaque_id = photo.attributes["machine_tags"][/openplaques\:id\=(\d+)/, 1]
           @plaque = Plaque.find_by(id: plaque_id)

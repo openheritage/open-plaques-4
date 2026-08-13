@@ -35,7 +35,7 @@
     <% unless !@role.description || @role.description.blank? %>
       <blockquote class="quote-card white-card">
         <p><%= @role.description %></p>
-        <cite><%= link_to(fa_icon(:link) + 'DbPedia', @role.dbpedia_uri, target: :_blank) unless @role.dbpedia_uri.blank? %></cite>
+        <cite><%= link_to(fa_icon(:link) + "DbPedia", @role.dbpedia_uri, target: :_blank) unless @role.dbpedia_uri.blank? %></cite>
       </blockquote>
     <% end %>
     <%= link_to "Wikidata <i class=\"bi bi-box-arrow-up-right\"></i>".html_safe, @role.wikidata_url, target: :_blank unless @role.wikidata_url.blank? %>
