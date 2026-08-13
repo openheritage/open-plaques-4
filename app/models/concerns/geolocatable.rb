@@ -19,7 +19,7 @@ module Geolocatable
   # given a set of plaques, or is a thing that has plaques (like an organisation) tell me what the mean point is
   def geolocate!(things = nil)
     things ||= self.plaques.geolocated
-    return unless things
+    return unless things.any?
 
     tolerance = 0.01
     update!(latitude: things.average(:latitude), longitude: things.average(:longitude))
