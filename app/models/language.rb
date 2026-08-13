@@ -8,7 +8,6 @@ class Language < ApplicationRecord
   has_many :organisations
   validates_presence_of :name, :alpha2
   validates_uniqueness_of :name, :alpha2
-  scope :by_popularity, -> { order("plaques_count DESC nulls last") }
 
   def flag_icon
     alpha = alpha2[0, 2]

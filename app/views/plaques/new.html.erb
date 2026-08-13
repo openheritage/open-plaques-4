@@ -21,37 +21,37 @@
 
         <script>
           $(function() {
-            $('#plaque_other_colour_id').prop('disabled', 'disabled');
-            $('input[name="plaque[colour_id]"]').change(function() {
-                var val = $('input[name="plaque[colour_id]"]:radio:checked').val();
+            $("#plaque_other_colour_id").prop("disabled", "disabled");
+            $("input[name="plaque[colour_id]"]").change(function() {
+                var val = $("input[name="plaque[colour_id]"]:radio:checked").val();
                 if (val == "other") {
-                  $('#plaque_other_colour_id').prop('disabled', false);
+                  $("#plaque_other_colour_id").prop("disabled", false);
                 } else {
-                  $('#plaque_other_colour_id').prop('disabled', 'disabled');
+                  $("#plaque_other_colour_id").prop("disabled", "disabled");
                 }
             });
           });
 
           $(function() {
-            $('#plaque_country').on("change",function() {
+            $("#plaque_country").on("change",function() {
               var country = this.value;
               if (country == "1" || country == "13") {
-                $('#plaque_language_id').val("1");
+                $("#plaque_language_id").val("1");
               }
               if (country == "5") {
-                $('#plaque_language_id').val("5");
+                $("#plaque_language_id").val("5");
               }
               if (country == "28") {
-                $('#plaque_language_id').val("16");
+                $("#plaque_language_id").val("16");
               }
               if (country == "26") {
-                $('#plaque_language_id').val("9");
+                $("#plaque_language_id").val("9");
               }
               if (country == "72") {
-                $('#plaque_language_id').val("35");
+                $("#plaque_language_id").val("35");
               }
               if (country == "85") {
-                $('#plaque_language_id').val("55");
+                $("#plaque_language_id").val("55");
               }
             });
           });
@@ -140,13 +140,13 @@
                 </div>
               <% end %>
               <div class="form-check other">
-                <%= f.radio_button(:colour_id, 'other') %>
-                <%= f.label(:colour_id_other, t('.other_colour')) %>
+                <%= f.radio_button(:colour_id, "other") %>
+                <%= f.label(:colour_id_other, t(".other_colour")) %>
                 <%= f.collection_select(:other_colour_id, @other_colours, :id, :name, include_blank: true) %>
               </div>
               <div class="form-check unknown">
-                <%= f.radio_button(:colour_id, 'nil', checked: true) %>
-                <%= f.label(:colour_id_nil, 'unknown') %>
+                <%= f.radio_button(:colour_id, "nil", checked: true) %>
+                <%= f.label(:colour_id_nil, "unknown") %>
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-center">
@@ -157,10 +157,10 @@
           <% end %>
         <% else %>
           <div class="row">
-            <p><%= t('.lets_check') %></p>
+            <p><%= t(".lets_check") %></p>
           </div>
           <div class="row">
-            <%= render partial: 'search/search_form', locals: { phrase: @phrase } %>
+            <%= render partial: "search/search_form", locals: { phrase: @phrase } %>
           </div>
         <% end %>
 

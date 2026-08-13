@@ -1,5 +1,6 @@
 <% content_for(:page_title) { t(".page_title", verb: @verb.name) } %>
 <% content_for(:admin_menu) { navbar_link_to t("buttons.add"), new_verb_path } %>
+<% @subject_count = @verb.personal_connections_count %>
 
 <!-- Page Title -->
 <div class="page-title">
@@ -18,12 +19,7 @@
 <section class="section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <p>
-      Each subject is connected to a plaque by what they did there
-      <% @subject_count = @verb.personal_connections_count %>
-      <%= render partial: 'people/badge' %>
-    </p>
-
+    <p>Each subject is connected to a plaque by what they did there <%= render partial: "people/badge" %></p>
     <%= will_paginate @personal_connections if @personal_connections.respond_to?(:total_pages) %>
     <div class="row" data-masonry='{"percentPosition": true }'>
       <%= render @personal_connections %>

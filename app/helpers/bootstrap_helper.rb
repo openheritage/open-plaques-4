@@ -21,13 +21,13 @@ module BootstrapHelper
   class CustomRender < Redcarpet::Render::HTML
     def paragraph(text)
       text.gsub!(/plaque ([0-9]+)/) do |match|
-        %(<div class="col-xs-6 col-sm-4 col-md-3"><%= render partial: 'plaques/tile', object: Plaque.find(#{match[7..-1]}), as: :plaque  %></div>)
+        %(<div class="col-xs-6 col-sm-4 col-md-3"><%= render partial: "plaques/tile", object: Plaque.find(#{match[7..-1]}), as: :plaque  %></div>)
       end
       %(<p>#{text}</p>)
     end
 
     def table(header, body)
-      %(<div class='table-responsive'><table class='mx-auto w-auto table table-striped text-center mx-auto'>#{header}#{body}</table></div>)
+      %(<div class="table-responsive"><table class="mx-auto w-auto table table-striped text-center mx-auto">#{header}#{body}</table></div>)
     end
   end
 

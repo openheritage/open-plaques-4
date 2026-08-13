@@ -20,7 +20,7 @@ class Organisation < ApplicationRecord
   validates_presence_of :name, :slug
   validates_uniqueness_of :slug
   validates :name, exclusion: {
-    in: %w[unknown unkown Unknown Unknown],
+    in: %w[unknown unkown Unknown],
     message: "just leave it blank"
   }
   scope :by_popularity, -> { order(sponsorships_count: :desc) }

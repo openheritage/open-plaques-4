@@ -36,7 +36,7 @@
             <%= f.label :plaque_id %>
             <%= f.number_field :plaque_id, maxlength: "5" %>
             <% if @photo.plaque %>
-              <%= render partial: 'plaques/tile', object: @photo.plaque, as: :plaque %>
+              <%= render partial: "plaques/tile", object: @photo.plaque, as: :plaque %>
             <% end %>
           </div>
           <div class="mb-3">
@@ -44,7 +44,7 @@
             <%= f.number_field :clone_id, maxlength: "5" %>
           </div>
           <div class="mb-3">
-            <%= label_tag(nil, t('.geolocation')) %>
+            <%= label_tag(nil, t(".geolocation")) %>
             <%= link_to(fa_icon(:link), "https://www.google.co.uk/maps/?q=#{@photo.latitude},#{@photo.longitude}", target: :_blank) %>
             POINT(<%= @photo.longitude %>, <%= @photo.latitude %>)
           </div>
@@ -53,8 +53,8 @@
             <%= f.text_field :subject %>
           </div>
           <% if /\[\[/ =~ @photo.description %>
-            <div class='row'>
-              <%= link_to(fa_icon(:link) + 'Geograph image mentioned', "http://www.geograph.org.uk/photo/#{@photo.description.match(/\[\[(\d*)\]\]/i).try(:captures)[0]}", target: :_blank) %>
+            <div class="row">
+              <%= link_to(fa_icon(:link) + "Geograph image mentioned", "http://www.geograph.org.uk/photo/#{@photo.description.match(/\[\[(\d*)\]\]/i).try(:captures)[0]}", target: :_blank) %>
             </div>
           <% end %>
           <div class="mb-3">
@@ -85,7 +85,7 @@
         </div>
         <% @plaques.each do |plaque| %>
           <div class="row">
-            <%= render partial: 'plaques/tile', object: plaque, as: :plaque %>
+            <%= render partial: "plaques/tile", object: plaque, as: :plaque %>
             <div class="col-xs-6 col-sm-10">
               <%= f.radio_button :plaque_id, plaque.id %>
               plaque #<%= plaque.id %> at <%= plaque.distance_to(@photo) %> metres
@@ -97,13 +97,13 @@
       <% end %>
 
       <div class="mb-3">
-        <%= label_tag(:streetview_url, t('.google_streetview_url')) %>
+        <%= label_tag(:streetview_url, t(".google_streetview_url")) %>
         <%= text_field_tag(:streetview_url, nil) %>
       </div>
 
       <div class="mb-3">
         <%= f.label :person_id %>
-        <%= f.text_field :person_id, maxlength: "5" %>
+        <%= f.text_field :person_id, maxlength: 5 %>
         <%= link_to(@photo.person, @photo.person) if @photo.person %>
       </div>
       <%= f.submit t("buttons.save")%>
@@ -111,17 +111,17 @@
       <div class="mb-3">
         <%= f.label :url %>
         <%= link_to(fa_icon(:link), @photo.url, target: :_blank) %>
-        <%= f.text_field :url, maxlength: "100" %>
+        <%= f.text_field :url, maxlength: 100 %>
       </div>
       <div class="mb-3">
         <%= f.label :file_url %>
         <%= link_to(fa_icon(:link), @photo.file_url, target: :_blank) %>
-        <%= f.text_field :file_url, maxlength: "100" %>
+        <%= f.text_field :file_url, maxlength: 100 %>
       </div>
       <div class="mb-3">
         <%= f.label :thumbnail %>
         <%= link_to(fa_icon(:link), @photo.thumbnail, target: :_blank) %>
-        <%= f.text_field :thumbnail, maxlength: "100" %>
+        <%= f.text_field :thumbnail, maxlength: 100 %>
       </div>
       <div class="mb-3">
         <%= f.label :thumbnail_url %>

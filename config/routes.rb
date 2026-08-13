@@ -50,6 +50,8 @@ Rails.application.routes.draw do
     resource :roles, controller: :person_roles, only: :show
   end
   resources :personal_roles
+  resources :photos, only: [ :create, :destroy, :edit, :new, :show, :update ]
+  resources :photographers, as: :photographers, only: [ :create, :index, :new ]
   resources :places, controller: :countries, as: :countries do
     collection do
       get "autocomplete", controller: :areas
@@ -88,8 +90,6 @@ Rails.application.routes.draw do
   # map tiles are numbered using the convention at http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
   match "plaques/tiles/:zoom/:x/:y" => "plaques#index", constraints: { zoom: /\d{2}/, x: /\d+/, y: /\d+/ }, via: [ :get ]
   match "plaques/:filter/tiles/:zoom/:x/:y" => "plaques#index", id: :filter, constraints: { zoom: /\d{2}/, x: /\d+/, y: /\d+/ }, via: [ :get ]
-  resources :photos, only: [ :create, :destroy, :edit, :new, :show, :update ]
-  resources :photographers, as: :photographers, only: [ :create, :index, :new ]
   scope "/roles" do
     resources "a-z", controller: :roles_by_index, as: "roles_by_index", only: [ :show, :index ]
     resources "precedence", controller: :roles_by_precedence, as: "roles_by_precedence", only: [ :index ]

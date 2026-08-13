@@ -14,15 +14,6 @@ class Colour < ApplicationRecord
   validates_uniqueness_of :name, :slug
   scope :common, -> { where(common: true) }
   scope :uncommon, -> { where(common: false) }
-  scope :by_popularity, -> { order("plaques_count desc nulls last") }
-
-  def to_param
-    slug
-  end
-
-  def to_s
-    name
-  end
 
   def as_json(options = {})
     unless options[:prefixes].blank?
@@ -33,5 +24,13 @@ class Colour < ApplicationRecord
       }
     end
     super options
+  end
+
+  def to_param
+    slug
+  end
+
+  def to_s
+    name
   end
 end

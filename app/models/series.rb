@@ -11,7 +11,6 @@ class Series < ApplicationRecord
 
   has_many :plaques
   validates_presence_of :name
-  scope :by_popularity, -> { order(plaques_count: :desc) }
 
   def as_json(options = {})
     unless options[:only]

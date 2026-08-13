@@ -6,10 +6,10 @@
         <%= fa_icon(:paw) if role.animal? %>
         <%= fa_icon(:users) if role.group? %>
         <%= fa_icon(:building) if role.place? %>
-        <%= fa_icon(:'map-marker') if role.thing? %>
+        <%= fa_icon(:"map-marker") if role.thing? %>
         <%= link_to role %>
         <% @subject_count = role.personal_roles_count %>
-        <%= render partial: 'people/badge' %>
+        <%= render partial: "people/badge" %>
       </h6>
     </div>
   </div>
