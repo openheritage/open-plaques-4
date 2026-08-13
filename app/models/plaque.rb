@@ -222,8 +222,12 @@ class Plaque < ApplicationRecord
     others.uniq
   end
 
+  def openstreetmap=(value)
+    super(value.match(/\D*(\d*)/)[1])
+  end
+
   def openstreetmap_url
-    return "https://osm.org/#{openstreetmap}" if openstreetmap.present?
+    return "https://osm.org/node/#{openstreetmap}" if openstreetmap.present?
 
     "https://osm.org/#map=19/#{latitude}/#{longitude}" if geolocated?
   end
@@ -466,7 +470,7 @@ class Plaque < ApplicationRecord
   def geolocate_from_osm
     return unless openstreetmap_changed? && openstreetmap.present?
 
-    api = "https://www.openstreetmap.org/api/0.6/#{openstreetmap}"
+    api = "https://www.openstreetmap.org/api/0.6/node/#{openstreetmap}"
     response = URI.parse(api).open
     resp = response.read
     matches = resp.match /lat="(-*\d*.\d*)" lon="(-*\d*.\d*)/
