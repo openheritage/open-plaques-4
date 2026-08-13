@@ -39,7 +39,7 @@ class Photo < ApplicationRecord
   scope :undecided, -> { where(plaque_id: nil, of_a_plaque: nil) }
   scope :ungeolocated, -> { where(latitude: nil) }
   scope :wikimedia, -> { where("file_url like ?", "%commons%") }
-  attr_accessor  :accept_cc_by_licence, :photo_url
+  attr_accessor :accept_cc_by_licence, :photo_url
 
   def as_geojson(options = {})
     if !options || !options[:only]

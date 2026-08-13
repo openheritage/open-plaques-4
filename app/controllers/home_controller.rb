@@ -13,7 +13,6 @@ class HomeController < ApplicationController
     end
     @todays_place = Area.where(name: "Norwich").first
     @todays_place_description = "Norwich has a long history. It has been a city since 1094. From the Middle Ages until the Industrial Revolution, Norwich was the largest city in England after London and one of the most important. This is refelected in its plaques."
-    
     slider = Railspress::Tag.find_by!(slug: "slider")
     @slidees = slider.posts.published.includes(:category, :tags)
     project = Railspress::Category.find_by!(slug: "project")
