@@ -21,7 +21,7 @@ module Geolocatable
     things ||= self.plaques.geolocated
     return unless things.any?
 
-    tolerance = 0.01
+    tolerance = 0.005
     update!(latitude: things.average(:latitude), longitude: things.average(:longitude))
     if things.maximum(:latitude) - things.minimum(:latitude) > tolerance
       update!(min_latitude: things.minimum(:latitude), min_longitude: things.minimum(:longitude), max_latitude: things.maximum(:latitude), max_longitude: things.maximum(:longitude)) if respond_to?(:min_latitude)
