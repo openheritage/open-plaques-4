@@ -4,7 +4,7 @@ class PostsController < ApplicationController
                              .includes(:category, :tags)
                              .ordered
                              .page(params[:page])
-                             # .per(10)
+    #                         .per(10)
   end
 
   def show
@@ -23,7 +23,7 @@ class PostsController < ApplicationController
                       .includes(:tags)
                       .ordered
                       .page(params[:page])
-                      .per(10)
+    #                  .per(10)
   end
 
   def tag
@@ -33,7 +33,7 @@ class PostsController < ApplicationController
                  .includes(:category)
                  .ordered
                  .page(params[:page])
-                 #.per(10)
+    #             .per(10)
   end
 
   def search
@@ -44,9 +44,9 @@ class PostsController < ApplicationController
                                .includes(:category, :tags)
                                .ordered
                                .page(params[:page])
-                               .per(10)
-             else
-               Railspress::Post.none
-             end
+    #                           .per(10)
+    else
+      Railspress::Post.none
+    end
   end
 end
