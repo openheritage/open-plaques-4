@@ -240,7 +240,7 @@ class Photo < ApplicationRecord
   end
 
   def uri
-    "https://openplaques.org#{Rails.application.routes.url_helpers.photo_path(self, format: :json)}"
+    "https://openplaques.org#{Rails.application.routes.url_helpers.photos_path(self, format: :json)}"
   end
 
   private

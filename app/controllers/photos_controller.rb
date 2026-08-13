@@ -41,8 +41,7 @@ class PhotosController < ApplicationController
     @photo = Photo.new(permitted_params)
     @photo.populate
     if @photo.errors.empty?
-      @already_existing_photo = Photo.find_by(file_url: @photo.file_url)
-      @already_existing_photo ||= Photo.find_by(file_url: @photo.file_url.gsub("https", "http"))
+      @already_existing_photo = Photo.find_by(file_url: @photo.file_url) || Photo.find_by(file_url: @photo.file_url.gsub("https", "http"))
       if @already_existing_photo
         @photo = @already_existing_photo
         @photo.update(permitted_params)
@@ -55,7 +54,8 @@ class PhotosController < ApplicationController
     else
       flash[:notice] = @photo.errors.full_messages.to_sentence
     end
-    redirect_to photo_path(@photo)
+    Rails.logger.debug(flash[:notice])
+    redirect_to photos_path(@photo)
   end
 
   def edit
