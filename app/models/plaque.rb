@@ -227,7 +227,7 @@ class Plaque < ApplicationRecord
   end
 
   def openstreetmap_url
-    return "https://osm.org/node/#{openstreetmap}" if openstreetmap.present?
+    return "https://osm.org/node/#{openstreetmap.match(/\D*(\d*)/)[1]}" if openstreetmap.present?
 
     "https://osm.org/#map=19/#{latitude}/#{longitude}" if geolocated?
   end
