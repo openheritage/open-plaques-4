@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   resources :personal_roles
   resources :photos, only: [ :create, :destroy, :edit, :new, :show, :update ]
   resources :photographers, as: :photographers, only: [ :create, :index, :new ]
+  resources :counties, only: :show
   resources :places, controller: :countries, as: :countries do
     collection do
       get "autocomplete", controller: :areas
