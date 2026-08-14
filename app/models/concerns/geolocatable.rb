@@ -21,12 +21,27 @@ module Geolocatable
     things ||= self.plaques.geolocated
     return unless things.any?
 
+    update!(
+      latitude: things.average(:latitude).round(5),
+      longitude: things.average(:longitude).round(5)
+    )
+    return unless respond_to?(:min_latitude)
+
     tolerance = 0.003
-    update!(latitude: things.average(:latitude), longitude: things.average(:longitude))
     if things.maximum(:latitude) - things.minimum(:latitude) > tolerance
-      update!(min_latitude: things.minimum(:latitude), min_longitude: things.minimum(:longitude), max_latitude: things.maximum(:latitude), max_longitude: things.maximum(:longitude)) if respond_to?(:min_latitude)
+      update!(
+        min_latitude: things.minimum(:latitude).round(5),
+        min_longitude: things.minimum(:longitude).round(5),
+        max_latitude: things.maximum(:latitude).round(5),
+        max_longitude: things.maximum(:longitude).round(5)
+      )
     else
-      update!(min_latitude: things.average(:latitude) - (tolerance / 2), min_longitude: things.average(:longitude) - (tolerance / 2), max_latitude: things.average(:latitude) + (tolerance / 2), max_longitude: things.average(:longitude) + (tolerance / 2)) if respond_to?(:min_latitude)
+      update!(
+        min_latitude: (things.average(:latitude) - (tolerance / 2)).round(5),
+        min_longitude: (things.average(:longitude) - (tolerance / 2)).round(5),
+        max_latitude: (things.average(:latitude) + (tolerance / 2)).round(5),
+        max_longitude: (things.average(:longitude) + (tolerance / 2)).round(5)
+      )
     end
   end
 
