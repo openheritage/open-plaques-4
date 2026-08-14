@@ -26,6 +26,7 @@ class Area < ApplicationRecord
   before_validation :make_slug_not_war
   validates_presence_of :name, :slug, :country_id
   validates_uniqueness_of :slug, scope: :country_id
+  scope :county, ->(name) { where("name ILIKE ?", "%, #{name}, %") }
 
   def alpha2
     case state
@@ -93,17 +94,21 @@ class Area < ApplicationRecord
   end
 
   def state
-    matches = /(.*), ([A-Z][A-Z]|Channel Islands|England|Northern Ireland|Scotland|Wales\z)/.match(name)
-    matches[2] if matches
+    return unless name.include?(", ")
+
+    name.split(", ").last
+  end
+
+  def county
+    return unless name.include?(", ") && name.split(", ").size == 3
+
+    name.split(", ")[1]
   end
 
   def town
-    matches = /(.*), ([A-Z][A-Z]|Channel Islands|England|Northern Ireland|Scotland|Wales\z)/.match(name)
-    if matches
-      matches[1]
-    else
-      name
-    end
+    return name unless name.include?(", ")
+    
+    name.split(", ").first
   end
 
   def to_param
