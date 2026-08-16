@@ -59,6 +59,12 @@ class Area < ApplicationRecord
     super options
   end
 
+  def county
+    return unless name.include?(", ") && name.split(", ").size == 3
+
+    name.split(", ")[1]
+  end
+
   def full_name
     "#{name}, #{country.name}"
   end
@@ -93,16 +99,22 @@ class Area < ApplicationRecord
     "https://openplaques.org#{path}"
   end
 
+  # Country.uk.areas.select { |a| a.county.nil? }.each { |a| a.update(name: a.query_county) }
+  def query_county
+    api = "https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/Counties_and_Unitary_Authorities_December_2025_Boundaries_UK_BFE/FeatureServer/0/query?geometry=#{esri_geometry}&geometryType=#{esri_geometry_type}&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=false&returnIdsOnly=false&f=pgeojson"
+    response = URI.parse(api).open
+    resp = response.read
+    json = JSON.parse(resp)
+    return if json["features"].nil? || json["features"].count.zero?
+
+    county_name = json["features"][0]["properties"]["CTYUA25NM"]
+    "#{town}, #{county_name}, #{state}"
+  end
+
   def state
     return unless name.include?(", ")
 
     name.split(", ").last
-  end
-
-  def county
-    return unless name.include?(", ") && name.split(", ").size == 3
-
-    name.split(", ")[1]
   end
 
   def town

@@ -15,6 +15,18 @@ module Geolocatable
   def center_point_array
     [ longitude, latitude ]
   end
+  
+  def esri_geometry
+    "#{longitude},#{latitude}"
+  end
+
+  def esri_geometry_type
+    point? ? 'esriGeometryPoint' : 'esriGeometryPolygon'
+  end
+
+  def point?
+    true
+  end
 
   # given a set of plaques, or is a thing that has plaques (like an organisation) tell me what the mean point is
   def geolocate!(things = nil)
