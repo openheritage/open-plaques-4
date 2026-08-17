@@ -119,7 +119,7 @@ class Area < ApplicationRecord
 
   def town
     return name unless name.include?(", ")
-    
+
     name.split(", ").first
   end
 

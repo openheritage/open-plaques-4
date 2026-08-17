@@ -146,7 +146,7 @@ en-GB:
   home:
     index:
       page_title: Open Plaques - linking historical people and places
-      pages: pages
+      posts: posts
       strapline_html: Documenting the historical links between <strong>people</strong> and <strong>places</strong> as recorded by commemorative <strong>plaques</strong>
       like_us_on_Facebook: us on Facebook for features and trivia.
       recently_photographed: recently photographed plaques
@@ -292,22 +292,6 @@ en-GB:
         page_title: Plaque subjects from %{organisation}
         page_heading: subjects
 
-  pages:
-    edit:
-      page_title: Edit %{page}
-      page_heading: Edit %{page}
-    index:
-      page_title: Pages
-      page_heading: Pages
-    new:
-      page_title: New page
-      page_heading: New page
-      name: Name
-      slug: Slug
-    show:
-      page_title: Open Plaques - %{page}
-      page_heading: '%{page}'
-
   people:
     edit:
       page_title: Edit %{person}
@@ -368,9 +352,9 @@ en-GB:
     index:
       page_title: Top 50 plaque hunters
       page_heading: Top 50 plaque hunters
-      how_many: Open Plaques links to photographs on the internet taken by %{count} plaque hunters.
-      where: These images are held on Flickr, Wikimedia Commons, and Geograph.
-      how_they_are_licenced_html: They are all licenced with permissive <a href="http://creativecommons.org/">Creative Commons</a> licences meaning that the owner has declared via a copyright notice that other people may reuse their photograph.
+      how_many: Whilst quantity is not the ultimate goal of Open Plaques' %{count} plaque hunters, it is for some. These are the top 50 by number of plaques photographed.
+      where: The images are held on Flickr, Wikimedia Commons, and Geograph.
+      how_they_are_licenced_html: They are mostly all licenced with permissive <a href="http://creativecommons.org/">Creative Commons</a> licences meaning that the owner has declared via a copyright notice that other people may reuse their photograph.
     new:
       page_title: Find Flickr photos for a photographer
       page_heading: Find Flickr photos for a photographer

@@ -13,6 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      - name: Install libvips
+        run: |
+          sudo apt-get update
+          # we only need the library
+          sudo apt-get install --no-install-recommends libvips
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
