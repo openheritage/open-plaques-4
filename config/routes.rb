@@ -35,7 +35,6 @@ Rails.application.routes.draw do
     resource :plaques, controller: :organisation_plaques, only: :show
     match "plaques/:filter" => "organisation_plaques#show", via: [ :get ]
   end
-  # resources :pages
   scope "/people" do
     resources "a-z", controller: :people_by_index, as: "people_by_index", only: :show
   end

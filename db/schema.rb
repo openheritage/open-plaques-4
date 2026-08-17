@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_08_095049) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_17_121032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -160,24 +160,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_095049) do
     t.string "wikidata_id"
     t.index ["name"], name: "index_organisations_on_name"
     t.index ["slug"], name: "index_organisations_on_slug"
-  end
-
-  create_table "pages", id: :serial, force: :cascade do |t|
-    t.text "abstract"
-    t.bigint "author_id"
-    t.text "body"
-    t.datetime "created_at", precision: nil
-    t.float "latitude"
-    t.float "longitude"
-    t.float "max_latitude"
-    t.float "max_longitude"
-    t.float "min_latitude"
-    t.float "min_longitude"
-    t.string "name", limit: 255
-    t.string "slug", limit: 255
-    t.string "strapline", limit: 255
-    t.datetime "updated_at", precision: nil
-    t.index ["author_id"], name: "index_pages_on_author_id"
   end
 
   create_table "people", id: :serial, force: :cascade do |t|
@@ -627,7 +609,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_095049) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "pages", "users", column: "author_id"
   add_foreign_key "railspress_content_element_versions", "railspress_content_elements", column: "content_element_id"
   add_foreign_key "railspress_content_elements", "railspress_content_groups", column: "content_group_id"
   add_foreign_key "railspress_posts", "railspress_categories", column: "category_id"

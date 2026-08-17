@@ -109,7 +109,7 @@ ru:
   home:
     index:
       page_title: Open Plaques - исторические персоны и места (Русский)
-      pages: страницы
+      posts: страницы
       page_heading: yy
       strapline_html: Документируем исторические связи <strong>людей</strong> и <strong>мест</strong>, сохраненные памятными <strong>табличками</strong>.
       contribute1: Нашли табличку? Любой человек может помочь нам и
@@ -223,22 +223,6 @@ ru:
     show:
       page_title: Организация %{organisation}
       page_heading: Организация - %{organisation}
-
-  pages:
-    edit:
-      page_title: Изменить %{page}
-      page_heading: Изменить %{page}
-    index:
-      page_title: Страницы
-      page_heading: Страницы
-    new:
-      page_title: Новая страница
-      page_heading: Новая страница
-      name: Название
-      slug: Slug
-    show:
-      page_title: Open Plaques - %{page}
-      page_heading: '%{page}'
 
   people:
     edit:

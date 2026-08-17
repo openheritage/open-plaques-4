@@ -17,9 +17,17 @@ class CountiesController < ApplicationController
                             0
     end
     respond_to do |format|
+      format.csv do
+        send_data(
+          "\uFEFF#{PlaqueCsv.new(@plaques).build}",
+          type: "text/csv",
+          filename: "open-plaques-#{@county.gsub(" ", "-")}-#{Date.today}.csv",
+          disposition: "attachment"
+        )
+      end
+      format.geojson { render geojson: @plaques }
       format.html
       format.json { render json: @areas }
-      format.geojson { render geojson: @plaques }
     end
   end
 end
