@@ -86,7 +86,6 @@ Rails.application.routes.draw do
     resource :photos, controller: :plaque_photos, only: :show
     resource :series, controller: :plaque_series, only: :edit
     resources :sponsorships
-    resource :talk, controller: :plaque_talk, only: :create
   end
   # map tiles are numbered using the convention at http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
   match "plaques/tiles/:zoom/:x/:y" => "plaques#index", constraints: { zoom: /\d{2}/, x: /\d+/, y: /\d+/ }, via: [ :get ]
