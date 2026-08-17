@@ -15,13 +15,13 @@ module Geolocatable
   def center_point_array
     [ longitude, latitude ]
   end
-  
+
   def esri_geometry
     "#{longitude},#{latitude}"
   end
 
   def esri_geometry_type
-    point? ? 'esriGeometryPoint' : 'esriGeometryPolygon'
+    point? ? "esriGeometryPoint" : "esriGeometryPolygon"
   end
 
   def point?
