@@ -7,7 +7,7 @@ class MatchOsmTexas
     bottom_left = "-114.47839,21.33031"
     top_right = "-82.59607,38.49659"
     bbox = "ST_SetSRID(ST_MakeBox2D(ST_Point(#{bottom_left}), ST_Point(#{top_right})), 4326)"
-    q = "SELECT osm_id, tags, geom FROM postpass_pointlinepolygon WHERE tags ? 'ref:US-TX:thc' AND geom && #{bbox}"
+    q = "SELECT osm_id, tags, geom FROM postpass_point WHERE tags ? 'ref:US-TX:thc' AND geom && #{bbox}"
     api = "https://postpass.geofabrik.de/api/interpreter?data=#{q.gsub("&", "%26").gsub("?", "%3F").gsub(":", "%3A")}"
     response = URI.parse(api).open
     resp = response.read
