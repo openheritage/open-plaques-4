@@ -223,7 +223,7 @@ class Plaque < ApplicationRecord
   end
 
   def openstreetmap=(value)
-    super(value.match(/\D*(\d*)/)[1])
+    super(value.to_s.match(/\D*(\d*)/)[1])
   end
 
   def openstreetmap_url
@@ -478,6 +478,7 @@ class Plaque < ApplicationRecord
 
     self.latitude = matches[1]
     self.longitude = matches[2]
+    self.is_accurate_geolocation = true
   end
 
   # this action is not an essential part of the data model
