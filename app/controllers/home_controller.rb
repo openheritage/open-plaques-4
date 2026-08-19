@@ -13,15 +13,15 @@ class HomeController < ApplicationController
     end
     @todays_place = Area.where(name: "Norwich").first
     @todays_place_description = "Norwich has a long history. It has been a city since 1094. From the Middle Ages until the Industrial Revolution, Norwich was the largest city in England after London and one of the most important. This is refelected in its plaques."
-    slider = Railspress::Tag.find_by!(slug: "slider")
+    slider = Railspress::Tag.find_by!(slug: :slider)
     @slidees = slider.posts.published.includes(:category, :tags)
-    project = Railspress::Category.find_by!(slug: "project")
-    @project_posts = project.posts.published.sorted_by(:published_at, :asc) # .recency_ordered
-    culture = Railspress::Category.find_by!(slug: "culture")
-    @culture_posts = culture.posts.published # .recency_ordered
+    project = Railspress::Category.find_by!(slug: :project)
+    @project_posts = project.posts.published.sorted_by(:published_at, :asc).includes(:category, :tags) # .recency_ordered
+    culture = Railspress::Category.find_by!(slug: :culture)
+    @culture_posts = culture.posts.published.random(10).includes(:category, :tags) # .recency_ordered
     top = Railspress::Category.find_by!(slug: "top-viewed")
-    @top10_posts = top.posts.published[..9]
-    @trending = Railspress::Post.published.all[..4]
+    @top10_posts = top.posts.published.includes(:category, :tags)[..9]
+    @trending = Railspress::Post.published.sorted_by(:published_at, :desc).includes(:category, :tags)[..3]
     begin
       set_meta_tags open_graph: {
         type: :website,

@@ -104,6 +104,8 @@ module ApplicationHelper
         return unless matches
 
         main_photo = Plaque.find(matches[1]).main_photo
+        return unless main_photo
+
         source = main_photo.file_url
         options[:alt] = main_photo.title unless options[:alt]
         options[:class] = "img-fluid" unless options[:class]
