@@ -83,7 +83,7 @@
           { centroid: @organisation.center_point_array }
         ] %>" style="height: 400px; width: 100%; margin-top: 15px;">
           <template data-controller="geojson" data-url="<%= organisation_plaques_path @organisation, format: :geojson %>" data-map-id="plaque-map">
-            when this is displayed it sends a message to the map to display popups then autodestructs
+            when this is displayed it sends a message to the map to display geojson then autodestructs
           </template>
         </section>
       <% end %>
@@ -95,7 +95,7 @@
 
       <section class="section">
         <%= render "section_title", title: "Subjects" %>
-        <%= render partial: "people/tiles" %>
+        <%= render partial: "people/tabbed" %>
       </section>
     </div>
 
