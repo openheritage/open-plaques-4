@@ -84,7 +84,7 @@
           <div class="col-lg-4">
 
             <div class="trending">
-              <h3>Trending</h3>
+              <h3>The latest</h3>
               <ul class="trending-post">
                 <% @trending.each_with_index do |post, i| %>
                   <li>
@@ -183,7 +183,7 @@
       </div>
 
       <div class="col-md-3">
-        <% @culture_posts[..10]&.each do |post| %>
+        <% @culture_posts[4..]&.each do |post| %>
           <div class="post-list border-bottom">
             <div class="post-meta"><span class="date"><%= post.category&.name %></span> <span class="mx-1">•</span> <span><time datetime="<%= post.published_at.strftime('%Y-%m-%d') %>"><%= post.published_at.strftime('%-d %b %Y') %></time></span></div>
             <h2 class="mb-2"><%= link_to post.title, posts_path(slug: post.slug) %></h2>

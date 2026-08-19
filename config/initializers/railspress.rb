@@ -59,4 +59,8 @@ Rails.application.config.to_prepare do
       raise ActionController::BadRequest, "NotAuthorised" unless current_user.try(:is_admin?)
     end
   end
+
+  Railspress::Post.class_eval do
+    scope :random, ->(l = 1) { l > 1 ? order(Arel.sql("random()")).limit(l) : order(Arel.sql("random()")).limit(l).first }
+  end
 end
