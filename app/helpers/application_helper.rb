@@ -100,7 +100,7 @@ module ApplicationHelper
         options[:class] = "img-fluid" unless options[:class]
       else
         # the post mentions a plaque
-        matches = /plaque #(\d*)/.match(post.content.to_s)
+        matches = /plaque #(\d*)/i.match(post.content.to_s)
         return unless matches
 
         main_photo = Plaque.find(matches[1]).main_photo
