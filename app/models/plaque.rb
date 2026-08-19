@@ -49,7 +49,7 @@ class Plaque < ApplicationRecord
   end
   after_commit :notify_slack, on: :create
   accepts_nested_attributes_for :photos, reject_if: proc { |attributes| attributes["photo_url"].blank? }
-  validates_uniqueness_of :series_ref, scope: [:series_id], if: :series_id
+  validates_uniqueness_of :series_ref, scope: [:series_id], if: -> { series_id && series_ref.present? }
   scope :by_series_ref, -> { order(:series_ref) }
   scope :coloured, -> { where("colour_id IS NOT NULL") }
   scope :connected, -> { where("personal_connections_count > 0").order(id: :desc) }
