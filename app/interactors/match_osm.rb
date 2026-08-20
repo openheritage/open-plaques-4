@@ -1,11 +1,8 @@
-class MatchOsmTexas
+class MatchOsm
   include Interactor
 
   def call
-    bottom_left = "-114.47839,21.33031"
-    top_right = "-82.59607,38.49659"
-    bbox = "ST_SetSRID(ST_MakeBox2D(ST_Point(#{bottom_left}), ST_Point(#{top_right})), 4326)"
-    q = "SELECT osm_id, tags, geom FROM postpass_point WHERE tags ? 'ref:US-TX:thc' AND geom && #{bbox}"
+    q = "SELECT osm_id, tags, geom FROM postpass_point WHERE tags ? 'openplaques:id'"
     api = "https://postpass.geofabrik.de/api/interpreter?data=#{q.gsub("&", "%26").gsub("?", "%3F").gsub(":", "%3A")}"
     response = URI.parse(api).open
     resp = response.read
@@ -13,7 +10,7 @@ class MatchOsmTexas
     geojson["features"].each do |feature|
       tags = feature["properties"]["tags"]
       Rails.logger.debug(tags)
-      plaque = Plaque.find_by(series_id: 42, series_ref: tags["ref:US-TX:thc"].rjust(5, "0"))
+      plaque = Plaque.find(tags["openplaques:id"])
       next unless plaque && plaque.openstreetmap.blank?
 
       if tags.has_key?("start_date") && plaque.erected_at.blank?
