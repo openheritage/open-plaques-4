@@ -10,7 +10,7 @@ class MatchOsm
     geojson["features"].each do |feature|
       tags = feature["properties"]["tags"]
       Rails.logger.debug(tags)
-      plaque = Plaque.find(tags["openplaques:id"])
+      plaque = Plaque.where(id: tags["openplaques:id"]).first
       next unless plaque && plaque.openstreetmap.blank?
 
       if tags.has_key?("start_date") && plaque.erected_at.blank?
