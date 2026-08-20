@@ -164,13 +164,15 @@ class Plaque < ApplicationRecord
   end
 
   def erected_at_string=(date)
-    self.erected_at = if date&.length == 4
+    self.erected_at = if date&.match(/\d\d\d\d/)
       Date.parse("#{date}-01-01")
-    elsif !date.blank?
+    elsif date.present?
       Date.parse(date)
     else
       date
     end
+  rescue
+    Rails.logger.error("could not parse Date #{date}")
   end
 
   def foreign?
