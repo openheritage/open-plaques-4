@@ -2,6 +2,7 @@
 
 Railspress.configure do |config|
   # === Blog Features (always available) ===
+  config.blog_path = "/posts"
 
   # Author tracking for posts and content elements.
   # Uncomment to enable:
