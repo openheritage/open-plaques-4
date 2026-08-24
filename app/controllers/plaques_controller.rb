@@ -4,7 +4,7 @@ require "julia"
 class PlaquesController < ApplicationController
   before_action :authenticate_user!, only: :edit
   before_action :authenticate_admin!, only: :destroy
-  before_action :find, only: %i[show flickr_search flickr_search_all update destroy edit]
+  before_action :find, only: %i[show update destroy edit]
   # before_action :set_cache_header, only: :index
   # after_filter :set_access_control_headers, only: :index
 
@@ -116,17 +116,6 @@ class PlaquesController < ApplicationController
     @languages = Language.order("plaques_count DESC nulls last")
     @common_colours = Colour.common.order(plaques_count: :desc)
     @other_colours = Colour.uncommon.alphabetically
-  end
-
-  def flickr_search
-    help.find_photo_by_machinetag(@plaque, nil)
-    help.find_flickr_photos_non_api(@plaque)
-    redirect_to @plaque
-  end
-
-  def flickr_search_all
-    help.find_photo_by_machinetag(nil, nil)
-    redirect_to @plaque
   end
 
   def create

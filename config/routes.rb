@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   end
   resources :personal_roles
   resources :photos, only: [ :create, :destroy, :edit, :new, :show, :update ]
-  resources :photographers, as: :photographers, only: [ :create, :index, :new ]
+  resources :photographers, as: :photographers, only: :index
   resources :counties, only: :show
   resources :places, controller: :countries, as: :countries do
     collection do
@@ -76,10 +76,6 @@ Rails.application.routes.draw do
     resources :connections, controller: :personal_connections, as: :connections
     resource :description, controller: :plaque_description, only: [ :edit, :show ]
     resource :geolocation, controller: :plaque_geolocation, only: :edit
-    member do
-      post "flickr_search"
-      get "flickr_search_all"
-    end
     resource :inscription, controller: :plaque_inscription, only: :edit
     resource :location, controller: :plaque_location, only: :edit
     resource :photos, controller: :plaque_photos, only: :show

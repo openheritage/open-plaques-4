@@ -33,57 +33,6 @@ module PlaquesHelper
     snippet
   end
 
-  def find_flickr_photos_non_api(plaque)
-    url = "https://www.flickr.com/search/?tags=#{plaque.machine_tag}%20"
-    response = ""
-    URI.parse(url).open { |f| response = f.read }
-    pics = response.match(/\[{"_flickrModelRegistry":"photo-lite-models".*?\]/)
-    pics = "[]" if pics.nil?
-    json_parsed = JSON.parse("{\"data\":#{pics}}")
-    json_parsed["data"].each do |pic|
-      photo_url = "https://www.flickr.com/photos/#{pic['ownerNsid']}/#{pic['id']}/"
-      @photo = Photo.find_by(url: photo_url) || Photo.find_by(url: photo_url.sub("https:", "http:"))
-      next if @photo
-
-      @photo = Photo.new(url: photo_url, plaque: plaque)
-      @photo.populate
-      @photo.save
-    end
-  end
-
-  # pass null plaque and flickr_user_id to search all machinetagged photos on Flickr
-  def find_photo_by_machinetag(plaque, flickr_user_id)
-    key = "86c115028094a06ed5cd19cfe72e8f8b"
-    repeat = plaque ? 1 : 20 # 100 per page, we will check the 2000 most recently created Flickr images
-    repeat.times do |page|
-      machine_tag = plaque ? plaque.machine_tag : "openplaques:id="
-      api = "https://api.flickr.com/services/rest/?api_key=#{key}&method=flickr.photos.search&page=#{page}&content_type=1&machine_tags=#{machine_tag}&extras=date_taken,owner_name,license,geo,machine_tags"
-      api += "&user_id=#{flickr_user_id}" if flickr_user_id
-      puts "Flickr: #{api}"
-      response = URI.parse(api).open
-      doc = REXML::Document.new(response.read)
-      doc.elements.each("//rsp/photos/photo") do |photo|
-        $stdout.flush
-        @photo = nil
-        photo_url = "https://www.flickr.com/photos/#{photo.attributes['owner']}/#{photo.attributes['id']}/"
-        @photo = Photo.find_by(url: photo_url) || Photo.find_by(url: photo_url.sub("https:", "http:"))
-        if @photo
-          # we have already got that one
-        else
-          plaque_id = photo.attributes["machine_tags"][/openplaques\:id\=(\d+)/, 1]
-          @plaque = Plaque.find_by(id: plaque_id)
-          if @plaque
-            @photo = Photo.new(url: photo_url, plaque: @plaque)
-            @photo.populate
-            @photo.save
-          else
-            puts "Machine tag does not match a plaque."
-          end
-        end
-      end
-    end
-  end
-
   def crawl_kentucky
     agent = Mechanize.new
     page = agent.get("http://migration.kentucky.gov/kyhs/hmdb/MarkerSearch.aspx")

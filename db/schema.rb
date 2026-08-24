@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_17_121032) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_24_150334) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -134,6 +134,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_121032) do
     t.string "abbreviation", limit: 255
     t.boolean "allows_commercial_use"
     t.datetime "created_at", precision: nil
+    t.integer "flickr_licence_id"
     t.string "name", limit: 255
     t.integer "photos_count"
     t.datetime "updated_at", precision: nil
