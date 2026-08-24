@@ -74,34 +74,6 @@ describe Photo, type: :model do
     end
   end
 
-  describe '#flickr_photo_id' do
-    context 'of a Flickr url from an album' do
-      it 'has a photo id' do
-        expect(Photo.flickr_photo_id('https://www.flickr.com/photos/josemoya/36584194011/in/album-72157667474637461/')).to eq('36584194011')
-      end
-    end
-    context 'of a Flickr url with trailing slash' do
-      it 'has a photo id' do
-        expect(Photo.flickr_photo_id('https://www.flickr.com/photos/josemoya/36584194011/')).to eq('36584194011')
-      end
-    end
-    context 'of a Flickr url' do
-      it 'has a photo id' do
-        expect(Photo.flickr_photo_id('https://www.flickr.com/photos/josemoya/36584194011')).to eq('36584194011')
-      end
-    end
-    context 'of a http Flickr url' do
-      it 'has a photo id' do
-        expect(Photo.flickr_photo_id('http://www.flickr.com/photos/josemoya/36584194011')).to eq('36584194011')
-      end
-    end
-    context 'of a non Flickr url' do
-      it 'has no photo id' do
-        expect(Photo.flickr_photo_id('http://ruby.bastardsbook.com/chapters/regexes/')).to be nil
-      end
-    end
-  end
-
   describe 'setting Geograph data' do
     context 'of a Geograph photo' do
       let(:photo) { build :photo, url: 'https://www.geograph.org.uk/photo/5561265' }

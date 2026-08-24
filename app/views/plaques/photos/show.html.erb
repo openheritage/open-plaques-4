@@ -129,8 +129,6 @@
             <li>does it appear in the Flickr search of
               <a href="https://www.flickr.com/search/?q=<%= @plaque.machine_tag %>&m=machinetags&l=cc&content_type=1" target="new">photos tagged '<%= @plaque.machine_tag %>'</a>?</li>
             <li>brand new Flickr accounts are not included in the search immediately. It may wait until you have posted 5+ images.</li>
-            <li>if you are impatient, you can try
-              <%= button_to "giving the automatic search a kick", controller: :plaques, action: :flickr_search, id: @plaque, class: "btn btn-primary" %></li>
           </ol>
           <br/>
           <p>I did that, but my photo hasn&apos;t appeared!</p>

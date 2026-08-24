@@ -251,8 +251,8 @@ class Photo < ApplicationRecord
     flickr_photo_id = Photo.flickr_photo_id(url)
     return unless flickr_photo_id
 
-    key = "86c115028094a06ed5cd19cfe72e8f8b"
-    api = "https://api.flickr.com/services/rest/?api_key=#{key}&format=json&nojsoncallback=1&method=flickr.photos.getInfo&photo_id=#{flickr_photo_id}"
+    api_key = ENV.fetch("FLICKR_KEY")
+    api = "https://api.flickr.com/services/rest/?api_key=#{api_key}&format=json&nojsoncallback=1&method=flickr.photos.getInfo&photo_id=#{flickr_photo_id}"
     puts "Flickr: #{api}"
     begin
       response = URI.parse(api).open
@@ -274,7 +274,7 @@ class Photo < ApplicationRecord
     self.photographer = parsed_json["owner"]["username"] if photographer.empty?
     p_id = parsed_json["owner"]["path_alias"] || parsed_json["owner"]["nsid"]
     self.photographer_url = "https://www.flickr.com/photos/#{p_id}/"
-    self.licence = Licence.find_by_flickr_licence_id(parsed_json["license"])
+    self.licence = Licence.find_by(flickr_licence_id: parsed_json["license"])
     self.subject = parsed_json["title"]["_content"].gsub("TxHM", "").gsub("Historical Marker", "").gsub("Marker", "")[0, 255]
     self.description = parsed_json["description"]["_content"]
     self.latitude = parsed_json["location"]["latitude"] if parsed_json["location"]
