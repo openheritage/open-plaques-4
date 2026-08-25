@@ -47,7 +47,7 @@ class Plaque < ApplicationRecord
     raise "spammer attempt to spoil coordinates" if latitude_changed? && latitude.zero?
     raise "spammer attempt to spoil coordinates" if longitude_changed? && longitude.zero?
   end
-  after_commit :notify_slack, on: :create
+  after_commit :notify_slack, on: :create, if: Rails.env.production?
   accepts_nested_attributes_for :photos, reject_if: proc { |attributes| attributes["photo_url"].blank? }
   validates_uniqueness_of :series_ref, scope: [:series_id], if: -> { series_id && series_ref.present? }
   scope :by_series_ref, -> { order(:series_ref) }
@@ -489,7 +489,7 @@ class Plaque < ApplicationRecord
   # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
   def notify_slack
     hook = ENV.fetch("SLACKHOOK", "")
-    return if hook.empty? || Rails.env.production?
+    return if hook.empty?
 
     notifier = Slack::Notifier.new(hook)
     phrase = [ "a new plaque was created", "someone just added", "new plaque alert!" ].sample
