@@ -9,9 +9,9 @@ gem "aasm" # manage object state
 gem "activestorage-validator" # Validate file types saved in Active Storage
 # gem 'active_record_extended' # adds Postgres-specific methods to ActiveRecord
 gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on", branch: :master # taggable contexts
-gem "aws-sdk-comprehend"
-gem "aws-sdk-s3", require: false
-gem "aws-sdk-translate"
+gem "aws-sdk-comprehend" # extract meaning from blocks of text
+gem "aws-sdk-s3", require: false # store objects on Amazon Web Services
+gem "aws-sdk-translate" # translate text to another language
 # gem "bcrypt", "~> 3.1.7" # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bootsnap", require: false # Reduce boot times through caching; required in config/boot.rb
 gem "bootstrap" # Styling for UI elements
@@ -22,6 +22,7 @@ gem "dartsass-rails" # Dynamic stylesheet rules
 gem "devise" # User logins and authentication
 gem "devise_masquerade" # admin can login_as
 gem "factory_bot_rails" # mock objects
+# gem "faraday" # easier calling of GET and POST
 # gem "fast-mcp" # resources and tools for AI agents
 # gem "federails" # ActivityPub
 gem "ffaker" # realistic looking test data
@@ -29,7 +30,7 @@ gem "font_awesome5_rails" # cute icon images
 # gem "get_process_mem" # for knowing how much memory is being used
 # gem "graphql-client" # talk to Monday.com
 gem "image_processing", "~> 2.0" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem "ruby-vips", "~> 2.0"
+gem "ruby-vips", "~> 2.0" # process images
 gem "importmap-rails" # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "interactor" # To define business logic
 # gem "jbuilder" # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -38,7 +39,8 @@ gem "julia_builder" # for outputting CSV files
 # gem "kamal", require: false # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 # gem "liquid" # user-editable templates
 # gem "matrix" # needed for ruby 3.1+
-gem "meta-tags"
+gem "mechanize" # automate page scraping
+gem "meta-tags" # populate SEO html page information
 gem "nokogiri" # parse html
 # gem "pagy" # for fast-working record pagination
 gem "omniauth-google-oauth2" # authenticate with Google
@@ -71,6 +73,7 @@ gem "will_paginate" # paginate long lists of data
 group :development, :test do
   gem "brakeman", require: false # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude" # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "herb" # help with erb
   gem "rubocop-rails-omakase", require: false # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
 end
 
