@@ -38,9 +38,13 @@ class CrawlRemarkableOhio
           if paragraph.to_html.match(/<b>Sponsors:<\/b> (.*)/)
             raw = paragraph.to_html[/<b>Sponsors:<\/b> (.*)<\/div>/, 1].squish
             sponsors = if raw.split(", ").size == 1 && raw.split(" and ").size == 2
-                         raw.split(" and ").map { |name| {name: name} }
+                         raw.split(" and ").map { |name| { name: name } }
+                       elsif raw.match(/ and /)
+                         raw.gsub(" and ", " ").split(", ").map { |name| { name: name } }
+                       elsif raw.present?
+                         [{ name: raw }]
                        else
-                         raw.gsub(" and ", " ").split(", ").map { |name| {name: name} }
+                         []
                        end
           end
           if paragraph.to_html.match(/<b>Address:<\/b> (.*)/)
