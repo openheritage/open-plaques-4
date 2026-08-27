@@ -7,6 +7,7 @@ class CrawlRemarkableOhio
     linkset = page.search(".//div[@class='county-div' or @class='county-panel']//a")
     county = ""
     united_states = Country.find_by(alpha2: "us")
+    colour = Colour.find_by(name: "brown")
     features = []
     linkset.each do |link|
       name = link.content
@@ -65,7 +66,7 @@ class CrawlRemarkableOhio
         if Plaque.find_by(series: ohio_historical_marker, series_ref: series_ref)
           Rails.logger.debug("Marker #{series_ref} already exists")
         else
-          plaque = Plaque.create!(address:, area:, inscription:, longitude:, latitude:, series: ohio_historical_marker, series_ref:)
+          plaque = Plaque.create!(address:, area:, colour:, inscription:, longitude:, latitude:, series: ohio_historical_marker, series_ref:)
           sponsors.each do |sponsor|
             name_without_the = sponsor[:name][/The (.*)/, 1] || sponsor[:name]
             organisation = Organisation.find_or_create_by(name: name_without_the)
