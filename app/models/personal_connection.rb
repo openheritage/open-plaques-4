@@ -8,7 +8,7 @@ class PersonalConnection < ApplicationRecord
   belongs_to :plaque, counter_cache: true
   belongs_to :verb, counter_cache: true
   validates_presence_of :verb_id, :person_id, :plaque_id
-  after_commit :notify_slack, on: :create, if: Rails.env.production?
+  after_commit :notify_slack, on: :create
   attr_accessor :other_verb_id
 
   # this would be a Verb query, but data is fixed and this is used frequently
@@ -33,6 +33,8 @@ class PersonalConnection < ApplicationRecord
   end
 
   def notify_slack
+    return unless Rails.env.production?
+
     hook = ENV.fetch("SLACKHOOK", "")
     return if hook.empty?
 
