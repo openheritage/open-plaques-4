@@ -190,7 +190,7 @@ class PeopleController < ApplicationController
 
   def aka_to_a
     cords = params.dig(:person, :aka).presence || "[]"
-    JSON.parse cords
+    JSON.parse cords.gsub(", nil", "")
   end
 
   def permitted_params
