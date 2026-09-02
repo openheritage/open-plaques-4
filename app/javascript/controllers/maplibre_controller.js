@@ -1,7 +1,7 @@
 // app/javascript/controllers/maplibre_controller.js
 import { Controller } from '@hotwired/stimulus'
 import maplibregl from 'maplibre-gl'
-// import Rails from '@rails/ujs'
+import { MaptoolkitLogoControl } from '@maptoolkit/maplibre-gl-logo'
 import LayerSwitcher from 'layer-switcher'
 
 export default class extends Controller {
@@ -24,11 +24,12 @@ export default class extends Controller {
         fullscreen: true,
         geolocate: false,
         layerswitcher: false,
+        maptoolkit: { position: 'top-left' },
         scale: true
       },
       layers: {},
       sources: {},
-      style: "https://api.maptiler.com/maps/bright/style.json?key=qSorA16cJhhBZEhqDisF",
+      style: "https://styles.maptoolkit.org/summer.json",
       zoom: 15
     }, userDefaults)
     if (this.element.dataset.maplibreStyle) {
@@ -61,6 +62,7 @@ export default class extends Controller {
     this.__addControl('fullscreen')
     this.__addControl('geolocate')
     this.__addControl('layerswitcher')
+    this.__addControl('maptoolkit')
     this.__addControl('navigation')
     this.__addControl('scale')
     this.__map.on('load', () => {
@@ -106,6 +108,9 @@ export default class extends Controller {
           break
         case 'layerswitcher':
           klass = LayerSwitcher
+          break
+        case 'maptoolkit':
+          klass = MaptoolkitLogoControl
           break
         case 'navigation':
           klass = maplibregl.NavigationControl

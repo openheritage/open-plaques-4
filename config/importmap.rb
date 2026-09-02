@@ -31,3 +31,4 @@ pin "@chartjs/helpers-dataset", to: "chunks/helpers.dataset.js"
 
 # ActiveStorage for file uploads
 pin "@rails/activestorage", to: "activestorage.esm.js"
+pin "@maptoolkit/maplibre-gl-logo", to: "@maptoolkit--maplibre-gl-logo.js" # @0.1.0
