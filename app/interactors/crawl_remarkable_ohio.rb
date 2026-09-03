@@ -6,6 +6,7 @@ class CrawlRemarkableOhio
     page = agent.get("https://remarkableohio.org/")
     linkset = page.search(".//div[@class='county-div' or @class='county-panel']//a")
     county = ""
+    ohio_historical_marker = Series.find_by(name: "Ohio Historical Marker")
     united_states = Country.find_by(alpha2: "us")
     colour = Colour.find_by(name: "brown")
     features = []
@@ -19,6 +20,8 @@ class CrawlRemarkableOhio
         series_ref = name[/(\d*-\d*) (.*)/, 1]
         name = name[/(\d*-\d*) (.*)/, 2]
         puts "Marker ref #{series_ref}, name: #{name}, in #{county} follow link #{href}"
+        next if Plaque.find_by(series: ohio_historical_marker, series_ref: series_ref)
+
         detail_page = agent.get(href)
         paragraphs = detail_page.search(".//div[contains(@class, 'elementor-col-66')]//div[@class='elementor-widget-container']")
         inscription = "#{name}. "
@@ -62,16 +65,11 @@ class CrawlRemarkableOhio
         sponsors = [] if sponsors == ""
         feature = { feature: { type: "Feature", geometry: { type: "Point", coordinates: [longitude, latitude] }, properties: [address:, county:, inscription:, location:,  name:, series_ref:, sponsors:, town:] } }
         Rails.logger.debug(feature)
-        ohio_historical_marker = Series.find_by(name: "Ohio Historical Marker")
-        if Plaque.find_by(series: ohio_historical_marker, series_ref: series_ref)
-          Rails.logger.debug("Marker #{series_ref} already exists")
-        else
-          plaque = Plaque.create!(address:, area:, colour:, inscription:, longitude:, latitude:, series: ohio_historical_marker, series_ref:)
-          sponsors.each do |sponsor|
-            name_without_the = sponsor[:name][/The (.*)/, 1] || sponsor[:name]
-            organisation = Organisation.find_or_create_by(name: name_without_the)
-            Sponsorship.create!(plaque:, organisation:)
-          end
+        plaque = Plaque.create!(address:, area:, colour:, inscription:, longitude:, latitude:, series: ohio_historical_marker, series_ref:)
+        sponsors.each do |sponsor|
+          name_without_the = sponsor[:name][/The (.*)/, 1] || sponsor[:name]
+          organisation = Organisation.find_or_create_by(name: name_without_the)
+          Sponsorship.create!(plaque:, organisation:)
         end
         features << feature
       end
