@@ -50,18 +50,18 @@ class CrawlRemarkableOhio
           end
           if paragraph.to_html.match(/<b>Address:<\/b> (.*)/)
             address = paragraph.to_html[/<b>Address:<\/b> (.*)<\/div>/, 1].squish.chomp(",")
-            puts "address: #{address}"
+            Rails.logger.debug("address: #{address}")
             town = "#{paragraphs[index + 1].content}OH".squish
-            puts "town: #{town}"
             area = united_states.areas.find_or_create_by!(name: town)
-            puts "area: #{area}"
+            Rails.logger.debug("area: #{area}")
           end
           location = paragraph.to_html[/<b>Location:<\/b> (.*)<\/div>/, 1].squish if paragraph.to_html.match(/<b>Location:<\/b> (.*)/)
           latitude = paragraph.to_html[/<b>Latitude:<\/b> (.*)<\/div>/, 1].squish if paragraph.to_html.match(/<b>Latitude:<\/b> (.*)/)
           longitude = paragraph.to_html[/<b>Longitude:<\/b> (.*)<\/div>/, 1].squish if paragraph.to_html.match(/<b>Longitude:<\/b> (.*)/)
         end
+        sponsors = [] if sponsors == ""
         feature = { feature: { type: "Feature", geometry: { type: "Point", coordinates: [longitude, latitude] }, properties: [address:, county:, inscription:, location:,  name:, series_ref:, sponsors:, town:] } }
-        puts feature
+        Rails.logger.debug(feature)
         ohio_historical_marker = Series.find_by(name: "Ohio Historical Marker")
         if Plaque.find_by(series: ohio_historical_marker, series_ref: series_ref)
           Rails.logger.debug("Marker #{series_ref} already exists")
