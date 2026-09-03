@@ -55,7 +55,7 @@ class CrawlRemarkableOhio
             address = paragraph.to_html[/<b>Address:<\/b> (.*)<\/div>/, 1].squish.chomp(",")
             Rails.logger.debug("address: #{address}")
             town = "#{paragraphs[index + 1].content}OH".squish
-            area = united_states.areas.find_or_create_by!(name: town)  // TODO the slug could be taken, e.g. "Mt. Vernon" and "Mt Vernon" -> mt_vernon
+            area = united_states.areas.find_or_create_by!(name: town)  # TODO the slug could be taken, e.g. "Mt. Vernon" and "Mt Vernon" -> mt_vernon
             Rails.logger.debug("area: #{area}")
           end
           location = paragraph.to_html[/<b>Location:<\/b> (.*)<\/div>/, 1].squish if paragraph.to_html.match(/<b>Location:<\/b> (.*)/)
