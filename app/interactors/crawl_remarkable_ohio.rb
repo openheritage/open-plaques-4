@@ -30,11 +30,11 @@ class CrawlRemarkableOhio
         longitude = ""
         town = ""
         paragraphs.each_with_index do |paragraph, index|
-          inscription += paragraph.to_html[/<b>Side A: <\/b>(.*)<\/div>/, 1].squish if paragraph.to_html.match(/<b>Side A: <\/b>(.*)/)
+          inscription += paragraph.to_html[/<b>Side A: <\/b>(.*)<\/div>/m, 1].squish if paragraph.to_html.match(/<b>Side A: <\/b>(.*)/)
           if paragraph.to_html.match(/<b>Side B: <\/b>(.*)/) && !paragraph.to_html.match(/<b>Side B: <\/b> Same(.*)/)
             inscription = inscription.gsub(name, name.split(" / ")[0]).squish
             inscription += "#{name.split(" / ")[1]}. " if name.include? " / "
-            inscription += paragraph.to_html[/<b>Side B: <\/b>(.*)<\/div>/, 1].squish
+            inscription += paragraph.to_html[/<b>Side B: <\/b>(.*)<\/div>/m, 1].squish
           end
           if paragraph.to_html.match(/<b>Sponsors:<\/b> (.*)/)
             raw = paragraph.to_html[/<b>Sponsors:<\/b> (.*)<\/div>/, 1].squish
