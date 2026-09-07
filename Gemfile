@@ -29,7 +29,7 @@ gem "ffaker" # realistic looking test data
 gem "font_awesome5_rails" # cute icon images
 # gem "get_process_mem" # for knowing how much memory is being used
 # gem "graphql-client" # talk to Monday.com
-gem "image_processing", "~> 2.0" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+gem "image_processing", "~> 2.1" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "ruby-vips", "~> 2.0" # process images
 gem "importmap-rails" # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "interactor" # To define business logic
