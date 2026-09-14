@@ -481,14 +481,14 @@ GEM
       logger
     rubyntlm (0.6.5)
       base64
-    rubyzip (3.5.0)
+    rubyzip (3.6.0)
     sanitize (7.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.16.8)
     sass-embedded (1.103.1-x86_64-linux-gnu)
       google-protobuf (~> 4.31)
     securerandom (0.4.1)
-    selenium-webdriver (4.48.0)
+    selenium-webdriver (4.49.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
