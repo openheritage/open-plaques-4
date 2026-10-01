@@ -13,7 +13,6 @@
 #   { name = "description", type = "text" },
 #   { name = "latitude", type = "float" },
 #   { name = "longitude", type = "float" },
-#   { name = "preferred_zoom_level", type = "integer" },
 #   { name = "wikidata_id", type = "string" },
 #   { name = "max_latitude", type = "float" },
 #   { name = "max_longitude", type = "float" },
@@ -24,7 +23,7 @@
 # [polymorphic]
 # targets = [{ name = "google_analytics", as = "record" }]
 #
-# notes = ["google_analytics:N_PLUS_ONE", "areas:N_PLUS_ONE", "plaques:N_PLUS_ONE", "name:NOT_NULL", "alpha2:NOT_NULL", "areas_count:NOT_NULL", "plaques_count:NOT_NULL", "description:NOT_NULL", "latitude:NOT_NULL", "longitude:NOT_NULL", "preferred_zoom_level:NOT_NULL", "max_latitude:NOT_NULL", "max_longitude:NOT_NULL", "min_latitude:NOT_NULL", "min_longitude:NOT_NULL", "wikidata_id:LIMIT", "description:STORAGE"]
+# notes = ["google_analytics:N_PLUS_ONE", "areas:N_PLUS_ONE", "plaques:N_PLUS_ONE", "name:NOT_NULL", "alpha2:NOT_NULL", "areas_count:NOT_NULL", "plaques_count:NOT_NULL", "description:NOT_NULL", "latitude:NOT_NULL", "longitude:NOT_NULL", "max_latitude:NOT_NULL", "max_longitude:NOT_NULL", "min_latitude:NOT_NULL", "min_longitude:NOT_NULL", "wikidata_id:LIMIT", "description:STORAGE"]
 # <rails-lens:schema:end>
 
 
@@ -76,9 +75,5 @@ class Country < ApplicationRecord
 
   def uri
     "https://openplaques.org#{Rails.application.routes.url_helpers.country_path(self, format: :json)}" if id
-  end
-
-  def zoom
-    preferred_zoom_level || 6
   end
 end
