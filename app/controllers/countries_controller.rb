@@ -179,7 +179,6 @@ class CountriesController < ApplicationController
       :min_latitude,
       :min_longitude,
       :name,
-      :preferred_zoom_level,
       :streetview_url,
       :wikidata_id
     )
