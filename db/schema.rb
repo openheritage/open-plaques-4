@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_01_145147) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_01_155825) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -553,7 +553,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_145147) do
     t.text "url"
     t.string "image_url", limit: 255
     t.integer "plaque_id"
-    t.integer "user_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "name"

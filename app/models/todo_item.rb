@@ -9,7 +9,6 @@
 #   { name = "url", type = "text" },
 #   { name = "image_url", type = "string" },
 #   { name = "plaque_id", type = "integer" },
-#   { name = "user_id", type = "integer" },
 #   { name = "created_at", type = "datetime" },
 #   { name = "updated_at", type = "datetime" },
 #   { name = "name", type = "string" }
