@@ -4,8 +4,12 @@ require "ostruct"
 # Wikidata has structure "entities": {"Q123": { ... }}
 # The Q code is unknown to us in advance
 class OpenStruct
-  def root_key
-    @table.keys.first
+  def disambiguation?
+    q&.descriptions&.en&.value&.to_s&.include?("disambiguation page")
+  end
+
+  def not_found?
+    qcode == "-1"
   end
 
   def qcode
@@ -16,72 +20,13 @@ class OpenStruct
     entities&.send(qcode.to_s)
   end
 
-  def not_found?
-    qcode == "-1"
-  end
-
-  def disambiguation?
-    q&.descriptions&.en&.value&.to_s&.include?("disambiguation page")
+  def root_key
+    @table.keys.first
   end
 end
 
 # A Wikidata object has much information in the open graph
 class Wikidata
-  def initialize(wikidata_id)
-    return unless wikidata_id&.match(/Q\d*$/)
-
-    @id = wikidata_id
-    root = "https://www.wikidata.org/w/api.php"
-    api = "#{root}?action=wbgetentities&ids=#{@id}&format=json"
-    response = URI.parse(api).open
-    resp = response.read
-    @wikidata = JSON.parse(resp, object_class: OpenStruct)
-  end
-
-  def qcode
-    return if !@wikidata || @wikidata.not_found?
-
-    @wikidata.qcode
-  end
-
-  def disambiguation?
-    return if !@wikidata || @wikidata.not_found?
-
-    @wikidata.disambiguation?
-  end
-
-  def not_found?
-    @wikidata&.not_found?
-  end
-
-  def born_in
-    return if !@wikidata || @wikidata.not_found?
-
-    t = @wikidata.q&.claims&.P569&.first&.mainsnak&.datavalue&.value&.time
-    # can by +1600-00-00 for 'unknown month and day' which breaks datetime
-
-    return unless t&.match(/\+(\d\d\d\d)/)
-
-    t.match(/\+(\d\d\d\d)/)[1]
-  end
-
-  def died_in
-    return if !@wikidata || @wikidata.not_found?
-
-    t = @wikidata.q&.claims&.P570&.first&.mainsnak&.datavalue&.value&.time
-    t.match(/\+(\d\d\d\d)/)[1] if t&.match(/\+(\d\d\d\d)/)
-  end
-
-  def dates?(born, died)
-    return false if disambiguation?
-    return false unless (born.present? && born_in.present?) || (died.present? && died_in.present?)
-
-    Rails.logger.debug("#{qcode} (#{born}-#{died}) == (#{born_in}-#{died_in})")
-    b_match = born.present? && born_in.present? ? born == born_in: true
-    d_match = died.present? && died_in.present? ? died == died_in : true
-    b_match && d_match
-  end
-
   def self.qcode(term)
     term = term.tr(
       "’ß#ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
@@ -150,10 +95,65 @@ class Wikidata
     end
   end
 
+  def initialize(wikidata_id)
+    return unless wikidata_id&.match(/Q\d*$/)
+
+    @id = wikidata_id
+    root = "https://www.wikidata.org/w/api.php"
+    api = "#{root}?action=wbgetentities&ids=#{@id}&format=json"
+    response = URI.parse(api).open
+    resp = response.read
+    @wikidata = JSON.parse(resp, object_class: OpenStruct)
+  end
+
+  def born_in
+    return if !@wikidata || @wikidata.not_found?
+
+    t = @wikidata.q&.claims&.P569&.first&.mainsnak&.datavalue&.value&.time
+    # can by +1600-00-00 for 'unknown month and day' which breaks datetime
+
+    return unless t&.match(/\+(\d\d\d\d)/)
+
+    t.match(/\+(\d\d\d\d)/)[1]
+  end
+
+  def dates?(born, died)
+    return false if disambiguation?
+    return false unless (born.present? && born_in.present?) || (died.present? && died_in.present?)
+
+    Rails.logger.debug("#{qcode} (#{born}-#{died}) == (#{born_in}-#{died_in})")
+    b_match = born.present? && born_in.present? ? born == born_in: true
+    d_match = died.present? && died_in.present? ? died == died_in : true
+    b_match && d_match
+  end
+
+  def died_in
+    return if !@wikidata || @wikidata.not_found?
+
+    t = @wikidata.q&.claims&.P570&.first&.mainsnak&.datavalue&.value&.time
+    t.match(/\+(\d\d\d\d)/)[1] if t&.match(/\+(\d\d\d\d)/)
+  end
+
+  def disambiguation?
+    return if !@wikidata || @wikidata.not_found?
+
+    @wikidata.disambiguation?
+  end
+
   def en_wikipedia_url
     return if !@wikidata || @wikidata.not_found?
 
     t = @wikidata&.q&.sitelinks&.enwiki&.title
     "https://en.wikipedia.org/wiki/#{t.gsub(' ', '_')}" if t
+  end
+
+  def not_found?
+    @wikidata&.not_found?
+  end
+
+  def qcode
+    return if !@wikidata || @wikidata.not_found?
+
+    @wikidata.qcode
   end
 end

@@ -1,15 +1,45 @@
+# <rails-lens:schema:begin>
+# table = "organisations"
+# database_dialect = "PostgreSQL"
+#
+# columns = [
+#   { name = "id", type = "integer", pk = true, null = false },
+#   { name = "name", type = "string" },
+#   { name = "website", type = "string" },
+#   { name = "created_at", type = "datetime" },
+#   { name = "updated_at", type = "datetime" },
+#   { name = "notes", type = "text" },
+#   { name = "slug", type = "string" },
+#   { name = "description", type = "text" },
+#   { name = "sponsorships_count", type = "integer", default = "0" },
+#   { name = "latitude", type = "float" },
+#   { name = "longitude", type = "float" },
+#   { name = "language_id", type = "integer" },
+#   { name = "max_latitude", type = "float" },
+#   { name = "max_longitude", type = "float" },
+#   { name = "min_latitude", type = "float" },
+#   { name = "min_longitude", type = "float" },
+#   { name = "wikidata_id", type = "string" },
+#   { name = "en_wikipedia_url", type = "string" }
+# ]
+#
+# indexes = [
+#   { name = "index_organisations_on_name", columns = ["name"] },
+#   { name = "index_organisations_on_slug", columns = ["slug"] }
+# ]
+#
+# [polymorphic]
+# targets = [{ name = "google_analytics", as = "record" }]
+#
+# [callbacks]
+# before_validation = [{ method = "make_slug_not_war" }]
+#
+# notes = ["language_id:INDEX", "language_id:FK_CONSTRAINT", "google_analytics:N_PLUS_ONE", "sponsorships:N_PLUS_ONE", "plaques:N_PLUS_ONE", "name:NOT_NULL", "website:NOT_NULL", "notes:NOT_NULL", "slug:NOT_NULL", "description:NOT_NULL", "sponsorships_count:NOT_NULL", "latitude:NOT_NULL", "longitude:NOT_NULL", "max_latitude:NOT_NULL", "max_longitude:NOT_NULL", "min_latitude:NOT_NULL", "min_longitude:NOT_NULL", "en_wikipedia_url:NOT_NULL", "wikidata_id:LIMIT", "en_wikipedia_url:LIMIT", "notes:STORAGE", "description:STORAGE"]
+# <rails-lens:schema:end>
+
+
 # An organisation involved in erecting commemorative plaques.
 # Famous examples include English Heritage, civic societies or local councils.
-# === Attributes
-# * +description+ - a textual description
-# * +latitude+ - mean location of plaques
-# * +longitude+ - mean location of plaques
-# * +name+ - The official name of the organisation
-# * +notes+ - textual set of notes
-# * +slug+ - an identifier for the organisation, usually equivalent to its name
-# *          in lower case, with spaces replaced by underscores. Used in URLs.
-# * +sponsorships_count+ - equivalent of number of plaques
-# * +website+ - official web site
 class Organisation < ApplicationRecord
   include Geolocatable
 

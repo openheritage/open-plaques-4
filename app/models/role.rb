@@ -1,16 +1,44 @@
+# <rails-lens:schema:begin>
+# table = "roles"
+# database_dialect = "PostgreSQL"
+#
+# columns = [
+#   { name = "id", type = "integer", pk = true, null = false },
+#   { name = "name", type = "string" },
+#   { name = "created_at", type = "datetime" },
+#   { name = "updated_at", type = "datetime" },
+#   { name = "personal_roles_count", type = "integer" },
+#   { name = "index", type = "string" },
+#   { name = "slug", type = "string" },
+#   { name = "role_type", type = "string" },
+#   { name = "abbreviation", type = "string" },
+#   { name = "prefix", type = "string" },
+#   { name = "suffix", type = "string" },
+#   { name = "description", type = "text" },
+#   { name = "priority", type = "integer" },
+#   { name = "wikidata_id", type = "string" },
+#   { name = "en_wikipedia_url", type = "string" }
+# ]
+#
+# indexes = [
+#   { name = "index_roles_on_role_type", columns = ["role_type"] },
+#   { name = "index_roles_on_slug", columns = ["slug"] },
+#   { name = "starts_with", columns = ["index"] }
+# ]
+#
+# [polymorphic]
+# targets = [{ name = "google_analytics", as = "record" }]
+#
+# [callbacks]
+# before_validation = [{ method = "make_slug_not_war" }]
+# before_save = [{ method = "update_index" }, { method = "filter_name" }, { method = "fill_wikidata_id" }]
+#
+# notes = ["google_analytics:N_PLUS_ONE", "personal_roles:N_PLUS_ONE", "people:N_PLUS_ONE", "name:NOT_NULL", "personal_roles_count:NOT_NULL", "index:NOT_NULL", "slug:NOT_NULL", "role_type:NOT_NULL", "abbreviation:NOT_NULL", "prefix:NOT_NULL", "suffix:NOT_NULL", "description:NOT_NULL", "priority:NOT_NULL", "en_wikipedia_url:NOT_NULL", "wikidata_id:LIMIT", "en_wikipedia_url:LIMIT", "description:STORAGE"]
+# <rails-lens:schema:end>
+
+
 # A role ascribed to a subject.
 # These can be professions (eg 'doctor'), occupations ('artist'), or activities ('inventor').
-# === Attributes
-# * +abbreviation+ - acronym etc. when a role is commonly abbreviated, especially awards, e.g. Victoria Cross == VC
-# * +description+
-# * +index+ - letter indexed on
-# * +name+ - what the role is called
-# * +personal_roles_count+ - number of people with this role
-# * +prefix+ - word(s) to display as part of a title in a name
-# * +priority+ -
-# * +role_type+ - The classification of the role (see self.types for choice)
-# * +slug+ -
-# * +suffix+ - word(s) to display as part of letters after a name
 # * +wikidata_id+ - calculated Qnnnnn code, set to 'Q' if not found
 class Role < ApplicationRecord
   include ApplicationHelper
@@ -25,6 +53,26 @@ class Role < ApplicationRecord
   validates_uniqueness_of :name, :slug
   scope :by_popularity, -> { order("personal_roles_count DESC nulls last") }
   scope :name_is, ->(term) { where([ "lower(name) = ? OR lower(abbreviation) = ?", term.to_s.downcase, term.to_s.downcase ]) }
+
+  def self.types
+    [
+      "person",
+      "man",
+      "woman",
+      "animal",
+      "thing",
+      "group",
+      "place",
+      "relationship",
+      "parent",
+      "spouse",
+      "child",
+      "title",
+      "letters",
+      "military medal",
+      "clergy"
+    ]
+  end
 
   def abbreviated?
     abbreviation.present?
@@ -217,26 +265,6 @@ class Role < ApplicationRecord
   rescue
     # timeout?
     puts "Wikidata timeout?"
-  end
-
-  def self.types
-    [
-      "person",
-      "man",
-      "woman",
-      "animal",
-      "thing",
-      "group",
-      "place",
-      "relationship",
-      "parent",
-      "spouse",
-      "child",
-      "title",
-      "letters",
-      "military medal",
-      "clergy"
-    ]
   end
 
   private

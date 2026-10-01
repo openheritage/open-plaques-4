@@ -1,12 +1,35 @@
+# <rails-lens:schema:begin>
+# table = "colours"
+# database_dialect = "PostgreSQL"
+#
+# columns = [
+#   { name = "id", type = "integer", pk = true, null = false },
+#   { name = "name", type = "string" },
+#   { name = "plaques_count", type = "integer" },
+#   { name = "created_at", type = "datetime" },
+#   { name = "updated_at", type = "datetime" },
+#   { name = "dbpedia_uri", type = "string" },
+#   { name = "common", type = "boolean", null = false, default = "false" },
+#   { name = "slug", type = "string" }
+# ]
+#
+# indexes = [
+#   { name = "index_colours_on_slug", columns = ["slug"] }
+# ]
+#
+# [polymorphic]
+# targets = [{ name = "google_analytics", as = "record" }]
+#
+# [callbacks]
+# before_validation = [{ method = "make_slug_not_war" }]
+#
+# notes = ["google_analytics:N_PLUS_ONE", "plaques:N_PLUS_ONE", "name:NOT_NULL", "plaques_count:NOT_NULL", "dbpedia_uri:NOT_NULL", "slug:NOT_NULL"]
+# <rails-lens:schema:end>
+
+
 # The main colour (or physical attribute) of a plaque
-# === Attributes
-# * +common+ - whether this is a commonly used colour
-# * +dbpedia_uri+ - uri to link to DBPedia record
-# * +name+ - the colour's common name (eg 'blue').
-# * +plaques_count+ - cached count of plaques
-# * +slug+ - textual identifier, usually equivalent to its name in lower case, with spaces replaced by underscores. Used in URLs.
 class Colour < ApplicationRecord
-  include ApplicationHelper # for help with making slugs
+  include ApplicationHelper
 
   has_many :plaques
   before_validation :make_slug_not_war

@@ -1,26 +1,61 @@
+# <rails-lens:schema:begin>
+# table = "plaques"
+# database_dialect = "PostgreSQL"
+#
+# columns = [
+#   { name = "id", type = "integer", pk = true, null = false },
+#   { name = "erected_at", type = "date" },
+#   { name = "latitude", type = "float" },
+#   { name = "longitude", type = "float" },
+#   { name = "created_at", type = "datetime" },
+#   { name = "updated_at", type = "datetime" },
+#   { name = "inscription", type = "text" },
+#   { name = "reference", type = "string" },
+#   { name = "notes", type = "text" },
+#   { name = "parsed_inscription", type = "text" },
+#   { name = "colour_id", type = "integer" },
+#   { name = "photos_count", type = "integer", null = false, default = "0" },
+#   { name = "language_id", type = "integer" },
+#   { name = "description", type = "text" },
+#   { name = "inscription_is_stub", type = "boolean", default = "false" },
+#   { name = "personal_connections_count", type = "integer", default = "0" },
+#   { name = "series_id", type = "integer" },
+#   { name = "is_accurate_geolocation", type = "boolean", default = "true" },
+#   { name = "is_current", type = "boolean", default = "true" },
+#   { name = "inscription_in_english", type = "text" },
+#   { name = "series_ref", type = "string" },
+#   { name = "address", type = "string" },
+#   { name = "area_id", type = "integer" },
+#   { name = "openstreetmap", type = "string" }
+# ]
+#
+# indexes = [
+#   { name = "geo", columns = ["latitude", "longitude"] },
+#   { name = "index_plaques_on_area_id", columns = ["area_id"] },
+#   { name = "index_plaques_on_colour_id", columns = ["colour_id"] },
+#   { name = "index_plaques_on_series_id", columns = ["series_id"] }
+# ]
+#
+# [polymorphic]
+# targets = [{ name = "google_analytics", as = "record" }, { name = "taggings", as = "taggable" }, { name = "category_taggings", as = "taggable" }, { name = "tag_taggings", as = "taggable" }]
+#
+# [callbacks]
+# before_save = [{ method = "save_cached_tag_list" }, { method = "use_other_colour_id" }, { method = "usa_townify" }, { method = "unshout" }, { method = "translate" }, { method = "geolocate_from_osm" }]
+# after_save = [{ method = "save_owned_tags" }, { method = "save_tags" }]
+# before_update = [{ method = "proc" }]
+# after_commit = [{ method = "notify_slack" }, { method = "proc" }]
+# after_rollback = [{ method = "restore_tag_list_baselines" }]
+#
+# notes = ["language_id:INDEX", "area_id:FK_CONSTRAINT", "colour_id:FK_CONSTRAINT", "language_id:FK_CONSTRAINT", "series_id:FK_CONSTRAINT", "google_analytics:N_PLUS_ONE", "taggings:N_PLUS_ONE", "base_tags:N_PLUS_ONE", "category_taggings:N_PLUS_ONE", "categories:N_PLUS_ONE", "tag_taggings:N_PLUS_ONE", "tags:N_PLUS_ONE", "personal_connections:N_PLUS_ONE", "photos:N_PLUS_ONE", "sponsorships:N_PLUS_ONE", "organisations:N_PLUS_ONE", "latitude:NOT_NULL", "longitude:NOT_NULL", "inscription:NOT_NULL", "reference:NOT_NULL", "notes:NOT_NULL", "parsed_inscription:NOT_NULL", "description:NOT_NULL", "inscription_is_stub:NOT_NULL", "personal_connections_count:NOT_NULL", "is_accurate_geolocation:NOT_NULL", "is_current:NOT_NULL", "inscription_in_english:NOT_NULL", "series_ref:NOT_NULL", "address:NOT_NULL", "openstreetmap:NOT_NULL", "openstreetmap:LIMIT", "inscription:STORAGE", "notes:STORAGE", "parsed_inscription:STORAGE", "description:STORAGE", "inscription_in_english:STORAGE"]
+# <rails-lens:schema:end>
+
+
 require "aws-sdk-translate"
 
 # A physical commemorative plaque, which is either currently installed, or
 # was once installed on a building, site or monument. Our definition of plaques is quite wide,
 # encompassing 'traditional' blue plaques that commemorate a historic person's connection to a
 # place, as well as plaques that commemorate buildings, events, and so on.
-# === Attributes
-# * +address+ - the physical street address
-# * +description+ - additional information
-# * +erected_at+ - The date on which the plaque was erected. Optional.
-# * +inscription+ - The text inscription on the self.
-# * +inscription_in_english+ - Manual translation
-# * +inscription_is_stub+ - The inscription is incomplete and needs entering.
-# * +is_accurate_geolocation+ -
-# * +is_current+ - Whether the plaque is currently on display (or has it been stolen!)
-# * +latitude+ - location (as a decimal in WSG-84 projection). Optional.
-# * +longitude+ - location (as a decimal in WSG-84 projection). Optional.
-# * +notes+ - A general purpose notes field for internal admin and data-collection purposes.
-# * +parsed_inscription+ - (not used?)
-# * +personal_connections_count+ -
-# * +photos_count+ -
-# * +reference+ - An official reference number or identifier for the self. Sometimes marked on the actual plaque itself, sometimes only in promotional material. Optional.
-# * +series_ref+ - if part of a series does it have a reference number/id?
 class Plaque < ApplicationRecord
   include ApplicationHelper
   include ActionView::Helpers::TextHelper

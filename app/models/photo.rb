@@ -1,19 +1,53 @@
+# <rails-lens:schema:begin>
+# table = "photos"
+# database_dialect = "PostgreSQL"
+#
+# columns = [
+#   { name = "id", type = "integer", pk = true, null = false },
+#   { name = "photographer", type = "string" },
+#   { name = "url", type = "string" },
+#   { name = "plaque_id", type = "integer" },
+#   { name = "created_at", type = "datetime" },
+#   { name = "updated_at", type = "datetime" },
+#   { name = "file_url", type = "string" },
+#   { name = "licence_id", type = "integer" },
+#   { name = "photographer_url", type = "string" },
+#   { name = "taken_at", type = "datetime" },
+#   { name = "shot", type = "string" },
+#   { name = "of_a_plaque", type = "boolean", default = "true" },
+#   { name = "latitude", type = "string" },
+#   { name = "longitude", type = "string" },
+#   { name = "subject", type = "string" },
+#   { name = "description", type = "text" },
+#   { name = "thumbnail", type = "string" },
+#   { name = "person_id", type = "integer" },
+#   { name = "clone_id", type = "integer" },
+#   { name = "nearest_plaque_id", type = "integer" },
+#   { name = "distance_to_nearest_plaque", type = "integer" }
+# ]
+#
+# indexes = [
+#   { name = "index_photos_on_licence_id", columns = ["licence_id"] },
+#   { name = "index_photos_on_person_id", columns = ["person_id"] },
+#   { name = "index_photos_on_photographer", columns = ["photographer"] },
+#   { name = "index_photos_on_plaque_id", columns = ["plaque_id"] }
+# ]
+#
+# [polymorphic]
+# targets = [{ name = "google_analytics", as = "record" }]
+#
+# [callbacks]
+# before_save = [{ method = "populate" }, { method = "https_urls" }, { method = "merge_known_photographer_names" }, { method = "nearest_plaque" }, { method = "set_of_a_plaque" }]
+# after_save = [{ method = "opposite_clone" }, { method = "geolocate_plaque" }]
+# after_update = [{ method = "reset_plaque_photo_count" }]
+#
+# notes = ["plaque_id:FK_CONSTRAINT", "person_id:FK_CONSTRAINT", "licence_id:FK_CONSTRAINT", "google_analytics:N_PLUS_ONE", "photographer:NOT_NULL", "url:NOT_NULL", "file_url:NOT_NULL", "photographer_url:NOT_NULL", "shot:NOT_NULL", "of_a_plaque:NOT_NULL", "latitude:NOT_NULL", "longitude:NOT_NULL", "subject:NOT_NULL", "description:NOT_NULL", "thumbnail:NOT_NULL", "distance_to_nearest_plaque:NOT_NULL", "description:STORAGE"]
+# <rails-lens:schema:end>
+
+
 require "wikimedia/commoner"
 
 # A photograph of a plaque or a subject.
-# === Attributes
-# * +description+ - Extra information about what this is a photo of (used if not linked to a plaque)
-# * +file_url+ - A link to the actual digital photo file.
-# * +latitude+ - Optional
-# * +longitude+ - Optional
-# * +of_a_plaque+ - whether this is actually a photo of a plaque (and not, for example, mistakenly labelled on Wikimedia as one)
-# * +photographer+ - The name of the photographer
-# * +photographer_url+ - A link to a webpage for the photographer
-# * +shot+ - Types of framing technique. One of "extreme close up", "close up", "medium close up", "medium shot", "long shot", "establishing shot"
-# * +subject+ - What we think this is a photo of (used if not linked to a plaque)
-# * +taken_at+ - Date and time if known
-# * +thumbnail+ - A link to a thumbnail image if there is one
-# * +url+ - The primary stable webpage for the photo
 class Photo < ApplicationRecord
   include Geolocatable
 
@@ -40,6 +74,23 @@ class Photo < ApplicationRecord
   scope :ungeolocated, -> { where(latitude: nil) }
   scope :wikimedia, -> { where("file_url like ?", "%commons%") }
   attr_accessor :accept_cc_by_licence, :photo_url
+
+  # retrieve a Flickr photo id from url e.g. http://www.flickr.com/photos/84195101@N00/3412825200/
+  def self.flickr_photo_id(url)
+    mtch = url.match(%r{flickr.com/photos/[^/]*/([^/]*)})
+    mtch ? mtch[1].to_s : nil
+  end
+
+  def self.shots
+    [
+      "1 - extreme close up",
+      "2 - close up",
+      "3 - medium close up",
+      "4 - medium shot",
+      "5 - long shot",
+      "6 - establishing shot"
+    ]
+  end
 
   def as_geojson(options = {})
     if !options || !options[:only]
@@ -86,12 +137,6 @@ class Photo < ApplicationRecord
 
   def cloned?
     clone_id&.positive?
-  end
-
-  # retrieve Flickr photo id from url e.g. http://www.flickr.com/photos/84195101@N00/3412825200/
-  def self.flickr_photo_id(url)
-    mtch = url.match(%r{flickr.com/photos/[^/]*/([^/]*)})
-    mtch ? mtch[1].to_s : nil
   end
 
   def flickr?
@@ -176,17 +221,6 @@ class Photo < ApplicationRecord
     6
   end
 
-  def self.shots
-    [
-      "1 - extreme close up",
-      "2 - close up",
-      "3 - medium close up",
-      "4 - medium shot",
-      "5 - long shot",
-      "6 - establishing shot"
-    ]
-  end
-
   def source
     return "Flickr" if flickr?
 
@@ -213,6 +247,14 @@ class Photo < ApplicationRecord
     title
   end
 
+  def to_s
+    title
+  end
+
+  def uri
+    "https://openplaques.org#{Rails.application.routes.url_helpers.photos_path(self, format: :json)}"
+  end
+
   def unlinked?
     plaque.nil? || person.nil?
   end
@@ -233,14 +275,6 @@ class Photo < ApplicationRecord
 
   def wikimedia_special
     "https://commons.wikimedia.org/wiki/Special:FilePath/#{wikimedia_filename}?width=640"
-  end
-
-  def to_s
-    title
-  end
-
-  def uri
-    "https://openplaques.org#{Rails.application.routes.url_helpers.photos_path(self, format: :json)}"
   end
 
   private

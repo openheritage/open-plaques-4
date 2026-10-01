@@ -1,11 +1,31 @@
+# <rails-lens:schema:begin>
+# table = "series"
+# database_dialect = "PostgreSQL"
+#
+# columns = [
+#   { name = "id", type = "integer", pk = true, null = false },
+#   { name = "name", type = "string" },
+#   { name = "description", type = "string" },
+#   { name = "created_at", type = "datetime" },
+#   { name = "updated_at", type = "datetime" },
+#   { name = "plaques_count", type = "integer" },
+#   { name = "latitude", type = "float" },
+#   { name = "longitude", type = "float" },
+#   { name = "max_latitude", type = "float" },
+#   { name = "max_longitude", type = "float" },
+#   { name = "min_latitude", type = "float" },
+#   { name = "min_longitude", type = "float" }
+# ]
+#
+# [polymorphic]
+# targets = [{ name = "google_analytics", as = "record" }]
+#
+# notes = ["google_analytics:N_PLUS_ONE", "plaques:N_PLUS_ONE", "name:NOT_NULL", "description:NOT_NULL", "plaques_count:NOT_NULL", "latitude:NOT_NULL", "longitude:NOT_NULL", "max_latitude:NOT_NULL", "max_longitude:NOT_NULL", "min_latitude:NOT_NULL", "min_longitude:NOT_NULL"]
+# <rails-lens:schema:end>
+
+
 # A series of commemorative plaques
 # This is normally marked on the plaque itself
-# === Attributes
-# * +description+ - A description of when and why the series was erected
-# * +latitude+
-# * +longitude+
-# * +name+ - The name of the series as it appears on the plaques
-# * +plaques_count+
 class Series < ApplicationRecord
   include Geolocatable
 

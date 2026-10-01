@@ -1,0 +1,561 @@
+erDiagram
+"ActionText::EncryptedRichText" {
+  int id PK
+  varchar name "UK"
+  varchar body
+  varchar record_type "UK"
+  int record_id FK "UK"
+  datetime created_at
+  datetime updated_at
+}
+"ActionText::RichText" {
+  int id PK
+  varchar name "UK"
+  varchar body
+  varchar record_type "UK"
+  int record_id FK "UK"
+  datetime created_at
+  datetime updated_at
+}
+"ActiveStorage::Attachment" {
+  int id PK
+  varchar name "UK"
+  varchar record_type "UK"
+  int record_id FK "UK"
+  int blob_id FK "UK"
+  datetime created_at
+}
+"ActiveStorage::Blob" {
+  int id PK
+  varchar key "UK"
+  varchar filename
+  varchar content_type
+  varchar metadata
+  int byte_size
+  varchar checksum
+  datetime created_at
+  varchar service_name
+}
+"ActiveStorage::VariantRecord" {
+  int id PK
+  int blob_id FK "UK"
+  varchar variation_digest "UK"
+}
+"ActsAsTaggableOn::Tag" {
+  int id PK
+  varchar name "UK"
+  int taggings_count
+}
+"ActsAsTaggableOn::Tagging" {
+  int id PK
+  int tag_id FK "UK"
+  varchar taggable_type "UK"
+  int taggable_id FK "UK"
+  varchar tagger_type "UK"
+  int tagger_id FK "UK"
+  varchar context "UK"
+  datetime created_at
+}
+"Area" {
+  int id PK
+  varchar name
+  datetime created_at
+  datetime updated_at
+  varchar dbpedia_uri
+  int country_id FK
+  varchar slug
+  decimal latitude
+  decimal longitude
+  int plaques_count
+  decimal max_latitude
+  decimal max_longitude
+  decimal min_latitude
+  decimal min_longitude
+}
+"Colour" {
+  int id PK
+  varchar name
+  int plaques_count
+  datetime created_at
+  datetime updated_at
+  varchar dbpedia_uri
+  boolean common
+  varchar slug
+}
+"Country" {
+  int id PK
+  varchar name
+  varchar alpha2
+  int areas_count
+  int plaques_count
+  datetime created_at
+  datetime updated_at
+  varchar description
+  decimal latitude
+  decimal longitude
+  int preferred_zoom_level
+  varchar wikidata_id
+  decimal max_latitude
+  decimal max_longitude
+  decimal min_latitude
+  decimal min_longitude
+}
+"GoogleAnalytic" {
+  int id PK
+  varchar page "UK"
+  varchar period "UK"
+  varchar record_type "UK"
+  int record_id FK "UK"
+  int page_views
+  int unique_page_views
+  decimal average_time_on_page
+  int entrances
+  decimal bounce_rate
+  decimal exit_percentage
+  datetime created_at
+}
+"Language" {
+  int id PK
+  varchar name
+  varchar alpha2
+  int plaques_count
+  datetime created_at
+  datetime updated_at
+  decimal latitude
+  decimal longitude
+  decimal max_latitude
+  decimal max_longitude
+  decimal min_latitude
+  decimal min_longitude
+}
+"Licence" {
+  int id PK
+  varchar name
+  varchar url
+  boolean allows_commercial_use
+  datetime created_at
+  datetime updated_at
+  int photos_count
+  varchar abbreviation
+  int flickr_licence_id
+}
+"Organisation" {
+  int id PK
+  varchar name
+  varchar website
+  datetime created_at
+  datetime updated_at
+  varchar notes
+  varchar slug
+  varchar description
+  int sponsorships_count
+  decimal latitude
+  decimal longitude
+  int language_id FK
+  decimal max_latitude
+  decimal max_longitude
+  decimal min_latitude
+  decimal min_longitude
+  varchar wikidata_id
+  varchar en_wikipedia_url
+}
+"Person" {
+  int id PK
+  varchar name
+  date born_on
+  date died_on
+  datetime created_at
+  datetime updated_at
+  int personal_connections_count
+  int personal_roles_count
+  varchar index
+  boolean born_on_is_circa
+  boolean died_on_is_circa
+  varchar surname_starts_with
+  varchar introduction
+  varchar gender
+  varchar aka
+  varchar find_a_grave_id
+  varchar ancestry_id
+  varchar wikidata_id
+  varchar ethnicity
+  varchar citation
+  decimal latitude
+  decimal longitude
+  decimal max_latitude
+  decimal max_longitude
+  decimal min_latitude
+  decimal min_longitude
+  varchar en_wikipedia_url
+}
+"PersonalConnection" {
+  int id PK
+  int person_id FK
+  int verb_id FK
+  int plaque_id FK
+  datetime created_at
+  datetime updated_at
+  datetime started_at
+  datetime ended_at
+  int plaque_connections_count
+}
+"PersonalRole" {
+  int id PK
+  int person_id FK
+  int role_id FK
+  datetime created_at
+  datetime updated_at
+  date started_at
+  date ended_at
+  int related_person_id FK
+  int ordinal
+  boolean primary
+}
+"Photo" {
+  int id PK
+  varchar photographer
+  varchar url
+  int plaque_id FK
+  datetime created_at
+  datetime updated_at
+  varchar file_url
+  int licence_id FK
+  varchar photographer_url
+  datetime taken_at
+  varchar shot
+  boolean of_a_plaque
+  varchar latitude
+  varchar longitude
+  varchar subject
+  varchar description
+  varchar thumbnail
+  int person_id FK
+  int clone_id
+  int nearest_plaque_id
+  int distance_to_nearest_plaque
+}
+"Plaque" {
+  int id PK
+  date erected_at
+  decimal latitude
+  decimal longitude
+  datetime created_at
+  datetime updated_at
+  varchar inscription
+  varchar reference
+  varchar notes
+  varchar parsed_inscription
+  int colour_id FK
+  int photos_count
+  int language_id FK
+  varchar description
+  boolean inscription_is_stub
+  int personal_connections_count
+  int series_id FK
+  boolean is_accurate_geolocation
+  boolean is_current
+  varchar inscription_in_english
+  varchar series_ref
+  varchar address
+  int area_id FK
+  varchar openstreetmap
+}
+"Railspress::AgentBootstrapKey" {
+  int id PK
+  varchar name
+  varchar global_uuid "UK"
+  varchar token_prefix
+  varchar token_digest "UK"
+  varchar secret_ciphertext
+  datetime expires_at
+  datetime used_at
+  varchar used_ip
+  datetime revoked_at
+  varchar revoke_reason
+  int exchanged_api_key_id FK
+  varchar owner_type
+  int owner_id FK
+  varchar created_by_type
+  int created_by_id FK
+  varchar revoked_by_type
+  int revoked_by_id FK
+  datetime created_at
+  datetime updated_at
+}
+"Railspress::ApiKey" {
+  int id PK
+  varchar name
+  varchar global_uuid "UK"
+  varchar token_prefix
+  varchar token_digest "UK"
+  varchar secret_ciphertext
+  datetime expires_at
+  datetime last_used_at
+  varchar last_used_ip
+  datetime revoked_at
+  varchar revoke_reason
+  int rotated_from_id FK
+  varchar owner_type
+  int owner_id FK
+  varchar created_by_type
+  int created_by_id FK
+  varchar rotated_by_type
+  int rotated_by_id FK
+  varchar revoked_by_type
+  int revoked_by_id FK
+  datetime created_at
+  datetime updated_at
+}
+"Railspress::Category" {
+  int id PK
+  varchar name "UK"
+  varchar slug "UK"
+  varchar description
+  datetime created_at
+  datetime updated_at
+}
+"Railspress::ContentElement" {
+  int id PK
+  varchar name "UK"
+  int content_type
+  varchar text_content
+  int content_group_id FK "UK"
+  int author_id
+  int position
+  datetime deleted_at
+  datetime created_at
+  datetime updated_at
+  varchar image_hint
+  boolean required
+}
+"Railspress::ContentElementVersion" {
+  int id PK
+  int content_element_id FK "UK"
+  int author_id
+  varchar text_content
+  int version_number "UK"
+  datetime created_at
+  datetime updated_at
+}
+"Railspress::ContentGroup" {
+  int id PK
+  varchar name "UK"
+  varchar description
+  int author_id
+  datetime deleted_at
+  datetime created_at
+  datetime updated_at
+}
+"Railspress::Export" {
+  int id PK
+  varchar export_type
+  varchar filename
+  varchar status
+  int total_count
+  int success_count
+  int error_count
+  varchar error_messages
+  int user_id
+  datetime created_at
+  datetime updated_at
+}
+"Railspress::FocalPoint" {
+  int id PK
+  varchar record_type "UK"
+  int record_id FK "UK"
+  varchar attachment_name "UK"
+  decimal focal_x
+  decimal focal_y
+  json overrides
+  datetime created_at
+  datetime updated_at
+}
+"Railspress::Import" {
+  int id PK
+  varchar import_type
+  varchar filename
+  varchar content_type
+  varchar status
+  int total_count
+  int success_count
+  int error_count
+  varchar error_messages
+  int user_id
+  datetime created_at
+  datetime updated_at
+}
+"Railspress::Post" {
+  int id PK
+  varchar title
+  varchar slug "UK"
+  int category_id FK
+  int author_id
+  int status
+  datetime published_at
+  varchar meta_title
+  varchar meta_description
+  datetime created_at
+  datetime updated_at
+  int reading_time
+}
+"Railspress::Tag" {
+  int id PK
+  varchar name "UK"
+  varchar slug "UK"
+  datetime created_at
+  datetime updated_at
+}
+"Railspress::Tagging" {
+  int id PK
+  int tag_id FK "UK"
+  varchar taggable_type "UK"
+  int taggable_id FK "UK"
+  datetime created_at
+  datetime updated_at
+}
+"Role" {
+  int id PK
+  varchar name
+  datetime created_at
+  datetime updated_at
+  int personal_roles_count
+  varchar index
+  varchar slug
+  varchar role_type
+  varchar abbreviation
+  varchar prefix
+  varchar suffix
+  varchar description
+  int priority
+  varchar wikidata_id
+  varchar en_wikipedia_url
+}
+"Series" {
+  int id PK
+  varchar name
+  varchar description
+  datetime created_at
+  datetime updated_at
+  int plaques_count
+  decimal latitude
+  decimal longitude
+  decimal max_latitude
+  decimal max_longitude
+  decimal min_latitude
+  decimal min_longitude
+}
+"Sponsorship" {
+  int id PK
+  int organisation_id FK
+  int plaque_id FK
+  datetime created_at
+  datetime updated_at
+}
+"TodoItem" {
+  int id PK
+  varchar description
+  varchar action
+  varchar url
+  varchar image_url
+  int plaque_id
+  int user_id
+  datetime created_at
+  datetime updated_at
+  varchar name
+}
+"User" {
+  int id PK
+  varchar username "UK"
+  varchar name
+  varchar email "UK"
+  varchar crypted_password
+  varchar salt
+  datetime created_at
+  datetime updated_at
+  datetime remember_token_expires_at
+  boolean is_admin
+  varchar encrypted_password
+  varchar reset_password_token "UK"
+  datetime remember_created_at
+  int sign_in_count
+  datetime current_sign_in_at
+  datetime last_sign_in_at
+  varchar current_sign_in_ip
+  varchar last_sign_in_ip
+  boolean is_verified
+  boolean opted_in
+  datetime reset_password_sent_at
+  varchar biography
+  varchar photo_uri
+  varchar instagram
+  varchar mastodon
+  varchar bluesky
+  varchar linkedin
+  varchar twitter
+  varchar facebook
+  varchar title
+  varchar provider
+  varchar uid
+  varchar token
+  varchar refresh_token
+  datetime expires_at
+}
+"Verb" {
+  int id PK
+  varchar name
+  datetime created_at
+  datetime updated_at
+  int personal_connections_count
+}
+"ActiveStorage::Blob" ||--o{ "ActiveStorage::Attachment" : "attachments"
+"ActiveStorage::Blob" ||--o| "ActiveStorage::Attachment" : "preview_image_attachment"
+"ActiveStorage::VariantRecord" }o--|| "ActiveStorage::Blob" : "blob"
+"ActiveStorage::VariantRecord" ||--o| "ActiveStorage::Attachment" : "image_attachment"
+"ActsAsTaggableOn::Tagging" }o--|| "ActsAsTaggableOn::Tag" : "tag"
+"Country" ||--o{ "Area" : "areas"
+"GoogleAnalytic" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Language" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Licence" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Organisation" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Organisation" }o--|| "Language" : "language"
+"Person" ||--o{ "GoogleAnalytic" : "google_analytics"
+"PersonalConnection" ||--o{ "GoogleAnalytic" : "google_analytics"
+"PersonalConnection" }o--|| "Person" : "person"
+"PersonalRole" ||--o{ "GoogleAnalytic" : "google_analytics"
+"PersonalRole" }o--|| "Person" : "person"
+"PersonalRole" }o--|| "Person" : "related_person"
+"Photo" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Photo" }o--|| "Person" : "person"
+"Photo" }o--|| "Licence" : "licence"
+"Plaque" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Plaque" ||--o{ "ActsAsTaggableOn::Tagging" : "taggings"
+"Plaque" ||--o{ "ActsAsTaggableOn::Tagging" : "category_taggings"
+"Plaque" ||--o{ "ActsAsTaggableOn::Tagging" : "tag_taggings"
+"Plaque" }o--|| "Area" : "area"
+"Plaque" }o--|| "Colour" : "colour"
+"Plaque" }o--|| "Language" : "language"
+"Plaque" ||--o{ "PersonalConnection" : "personal_connections"
+"Plaque" ||--o{ "Photo" : "photos"
+"Railspress::ApiKey" }o--|| "Railspress::ApiKey" : "rotated_from"
+"Railspress::ContentElement" ||--o| "ActiveStorage::Attachment" : "image_attachment"
+"Railspress::ContentElementVersion" }o--|| "Railspress::ContentElement" : "content_element"
+"Railspress::ContentElementVersion" ||--o| "ActiveStorage::Attachment" : "image_version_attachment"
+"Railspress::ContentGroup" ||--o{ "Railspress::ContentElement" : "content_elements"
+"Railspress::Export" ||--o| "ActiveStorage::Attachment" : "file_attachment"
+"Railspress::Post" }o--|| "Railspress::Category" : "category"
+"Railspress::Post" ||--o| "ActionText::RichText" : "rich_text_content"
+"Railspress::Post" ||--o| "ActiveStorage::Attachment" : "header_image_attachment"
+"Railspress::Post" ||--o| "Railspress::FocalPoint" : "header_image_focal_point"
+"Railspress::Tagging" }o--|| "Railspress::Tag" : "tag"
+"Role" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Role" ||--o{ "PersonalRole" : "personal_roles"
+"Series" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Series" ||--o{ "Plaque" : "plaques"
+"Sponsorship" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Sponsorship" }o--|| "Plaque" : "plaque"
+"Sponsorship" }o--|| "Organisation" : "organisation"
+"TodoItem" ||--o{ "GoogleAnalytic" : "google_analytics"
+"User" ||--o{ "GoogleAnalytic" : "google_analytics"
+"User" }o--|| "TodoItem" : "todo_item"
+"Verb" ||--o{ "GoogleAnalytic" : "google_analytics"
+"Verb" ||--o{ "PersonalConnection" : "personal_connections"
