@@ -1,8 +1,36 @@
+# <rails-lens:schema:begin>
+# table = "personal_connections"
+# database_dialect = "PostgreSQL"
+#
+# columns = [
+#   { name = "id", type = "integer", pk = true, null = false },
+#   { name = "person_id", type = "integer" },
+#   { name = "verb_id", type = "integer" },
+#   { name = "plaque_id", type = "integer" },
+#   { name = "created_at", type = "datetime" },
+#   { name = "updated_at", type = "datetime" },
+#   { name = "started_at", type = "datetime" },
+#   { name = "ended_at", type = "datetime" },
+#   { name = "plaque_connections_count", type = "integer" }
+# ]
+#
+# indexes = [
+#   { name = "index_personal_connections_on_person_id", columns = ["person_id"] },
+#   { name = "index_personal_connections_on_plaque_id", columns = ["plaque_id"] },
+#   { name = "index_personal_connections_on_verb_id", columns = ["verb_id"] }
+# ]
+#
+# [polymorphic]
+# targets = [{ name = "google_analytics", as = "record" }]
+#
+# [callbacks]
+# after_commit = [{ method = "notify_slack" }]
+#
+# notes = ["person_id:FK_CONSTRAINT", "plaque_id:FK_CONSTRAINT", "verb_id:FK_CONSTRAINT", "google_analytics:N_PLUS_ONE", "plaque_connections_count:NOT_NULL"]
+# <rails-lens:schema:end>
+
+
 # A commemoration of a subject on a plaque. This acts as a join between the two.
-# === Attributes
-# * +ended_at+ - when the subject stopped doing what they did at the place
-# * +started_at+ - when the subject started doing what they did at the place
-# * +plaque_connections_count+ - Cached count of plaques
 class PersonalConnection < ApplicationRecord
   belongs_to :person, counter_cache: true
   belongs_to :plaque, counter_cache: true

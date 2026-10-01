@@ -1,5 +1,40 @@
 # frozen_string_literal: true
 
+# <rails-lens:schema:begin>
+# table = "areas"
+# database_dialect = "PostgreSQL"
+#
+# columns = [
+#   { name = "id", type = "integer", pk = true, null = false },
+#   { name = "name", type = "string" },
+#   { name = "created_at", type = "datetime" },
+#   { name = "updated_at", type = "datetime" },
+#   { name = "dbpedia_uri", type = "string" },
+#   { name = "country_id", type = "integer" },
+#   { name = "slug", type = "string" },
+#   { name = "latitude", type = "float" },
+#   { name = "longitude", type = "float" },
+#   { name = "plaques_count", type = "integer" },
+#   { name = "max_latitude", type = "float" },
+#   { name = "max_longitude", type = "float" },
+#   { name = "min_latitude", type = "float" },
+#   { name = "min_longitude", type = "float" }
+# ]
+#
+# indexes = [
+#   { name = "index_areas_on_country_id", columns = ["country_id"] },
+#   { name = "index_areas_on_name", columns = ["name"] },
+#   { name = "index_areas_on_slug", columns = ["slug"] }
+# ]
+#
+# [polymorphic]
+# targets = [{ name = "google_analytics", as = "record" }]
+#
+# [callbacks]
+# before_validation = [{ method = "make_slug_not_war" }]
+#
+# notes = ["country_id:FK_CONSTRAINT", "google_analytics:N_PLUS_ONE", "plaques:N_PLUS_ONE", "name:NOT_NULL", "dbpedia_uri:NOT_NULL", "slug:NOT_NULL", "latitude:NOT_NULL", "longitude:NOT_NULL", "plaques_count:NOT_NULL", "max_latitude:NOT_NULL", "max_longitude:NOT_NULL", "min_latitude:NOT_NULL", "min_longitude:NOT_NULL"]
+# <rails-lens:schema:end>
 # The largest commonly identified region of residence below a country level.
 # By this, we mean the place that people would normally name in answer to the
 # question of "where do you live?"".
@@ -7,14 +42,6 @@
 # or village.
 # It should not normally be either a state, county, district or other
 # administrative region.
-# === Attributes
-# * +dbpedia_uri+ - uri to link to DBPedia record
-# * +latitude+ - location
-# * +longitude+ - location
-# * +name+ - the area's common name (not neccessarily "official")
-# * +plaques_count+ - cached count of plaques
-# * +slug+ - a textual identifier, usually equivalent to its name in lower case,
-#            with spaces replaced by underscores. Used in URLs.
 class Area < ApplicationRecord
   include ApplicationHelper
   include Geolocatable

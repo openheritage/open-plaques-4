@@ -1,23 +1,55 @@
+# <rails-lens:schema:begin>
+# table = "people"
+# database_dialect = "PostgreSQL"
+#
+# columns = [
+#   { name = "id", type = "integer", pk = true, null = false },
+#   { name = "name", type = "string" },
+#   { name = "born_on", type = "date" },
+#   { name = "died_on", type = "date" },
+#   { name = "created_at", type = "datetime" },
+#   { name = "updated_at", type = "datetime" },
+#   { name = "personal_connections_count", type = "integer" },
+#   { name = "personal_roles_count", type = "integer" },
+#   { name = "index", type = "string" },
+#   { name = "born_on_is_circa", type = "boolean" },
+#   { name = "died_on_is_circa", type = "boolean" },
+#   { name = "surname_starts_with", type = "string" },
+#   { name = "introduction", type = "text" },
+#   { name = "gender", type = "string", default = "u" },
+#   { name = "aka", type = "text", default = "{}" },
+#   { name = "find_a_grave_id", type = "string" },
+#   { name = "ancestry_id", type = "string" },
+#   { name = "wikidata_id", type = "string" },
+#   { name = "ethnicity", type = "string" },
+#   { name = "citation", type = "string" },
+#   { name = "latitude", type = "float" },
+#   { name = "longitude", type = "float" },
+#   { name = "max_latitude", type = "float" },
+#   { name = "max_longitude", type = "float" },
+#   { name = "min_latitude", type = "float" },
+#   { name = "min_longitude", type = "float" },
+#   { name = "en_wikipedia_url", type = "string" }
+# ]
+#
+# indexes = [
+#   { name = "born_and_died", columns = ["born_on", "died_on"] },
+#   { name = "index_people_on_index", columns = ["index"] },
+#   { name = "index_people_on_surname_starts_with", columns = ["surname_starts_with"] }
+# ]
+#
+# [polymorphic]
+# targets = [{ name = "google_analytics", as = "record" }]
+#
+# [callbacks]
+# before_save = [{ method = "aka_accented_name" }, { method = "fill_wikidata_id" }, { method = "update_index" }]
+# after_save = [{ method = "depiction_from_dbpedia!" }]
+#
+# notes = ["birth_connection:INVERSE_OF", "death_connection:INVERSE_OF", "main_photo:INVERSE_OF", "google_analytics:N_PLUS_ONE", "personal_roles:N_PLUS_ONE", "roles:N_PLUS_ONE", "personal_connections:N_PLUS_ONE", "plaques:N_PLUS_ONE", "name:NOT_NULL", "personal_connections_count:NOT_NULL", "personal_roles_count:NOT_NULL", "index:NOT_NULL", "born_on_is_circa:NOT_NULL", "died_on_is_circa:NOT_NULL", "surname_starts_with:NOT_NULL", "introduction:NOT_NULL", "gender:NOT_NULL", "aka:NOT_NULL", "ethnicity:NOT_NULL", "citation:NOT_NULL", "latitude:NOT_NULL", "longitude:NOT_NULL", "max_latitude:NOT_NULL", "max_longitude:NOT_NULL", "min_latitude:NOT_NULL", "min_longitude:NOT_NULL", "en_wikipedia_url:NOT_NULL", "born_on_is_circa:DEFAULT", "died_on_is_circa:DEFAULT", "wikidata_id:LIMIT", "ethnicity:LIMIT", "citation:LIMIT", "en_wikipedia_url:LIMIT", "introduction:STORAGE", "aka:STORAGE"]
+# <rails-lens:schema:end>
+
+
 # A subject commemorated on a plaque
-# === Attributes
-# * +aka+ - array of names that person is also known as
-# * +ancestry_id+ - link to Ancestry.com web site
-# * +born_on+ - date on which the person was born [Optional]
-# * +born_on_is_circa+ - true or false. Whether the +born_on+ date is "circa" or not [Optional]
-# * +dbpedia_uri+ - link to the DBpedia resource representing the person (if one exists).
-# * +died_on+ - The date on which the person died [Optional]
-# * +died_on_is_circa+ - true or false. Whether the +died_on+ date is "circa" or not [Optional]
-# * +find_a_grave_id+ - link to Find A Grave web site
-# * +gender+ - (u)nkown, (n)ot applicable, (m)ale, (f)emale
-# * +index+
-# * +introduction+ -
-# * +name+ - common full name of the person
-# * +personal_connections_count+ - cached count of associations with plaques, i.e. places and times
-# * +personal_roles_count+ - cached count of roles
-# * +plaques_count+ - cached count of plaques
-# * +surname_starts_with+ - letter to index this person on
-# * +wikidata_id+ - Q-code to match to Wikidata
-# * +wikipedia_url+ - override link to the person's Wikipedia page (if they have one and it is not linked to via their name).
 class Person < ApplicationRecord
   include Geolocatable
 
@@ -59,6 +91,43 @@ class Person < ApplicationRecord
 
   DATE_REGEX = /c?[\d]{4}/.freeze
   DATE_RANGE_REGEX = /(?:\(#{DATE_REGEX}-#{DATE_REGEX}\)|#{DATE_REGEX}-#{DATE_REGEX})/.freeze
+
+  def self.search(term)
+    Rails.logger.debug("search for '#{term}'")
+    cap = 20 # to protect from stupid searches like "%a%"
+    matches = []
+    name = term
+    name_and_dates = term.match(/(.*) \(*(\d\d\d\d)\s*-*\s*(\d\d\d\d)*\)*/)
+    if name_and_dates
+      name = name_and_dates[1]
+      born = name_and_dates[2]
+      died = name_and_dates[3]
+    end
+    @people = []
+    unaccented_phrase = name.tr(
+      "’ßÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
+      "'sAAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz"
+    )
+    unaccented_phrase.gsub!(/[Ææ]/, "Æ": "AE", "æ": "ae")
+    phrase_like = "%#{name.tr(' ', '%').tr('.', '%')}%"
+    unaccented_phrase_like = "%#{unaccented_phrase.tr(' ', '%').tr('.', '%')}%"
+    @people += Person.name_starts_with(name).limit(cap)
+    @people += Person.name_contains(name).limit(cap)
+    @people += Person.where([ "name ILIKE ?", phrase_like ]).limit(cap)
+    @people += Person.where([ "name ILIKE ?", unaccented_phrase_like ]).limit(cap) if name.match(/[À-ž]/)
+    @people += Person.where([ "array_to_string(aka, ' ') ILIKE ?", "%#{name}%" ]).limit(cap)
+    @people += Person.where([ "array_to_string(aka, ' ') ILIKE ?", phrase_like ]).limit(cap)
+    @people += Person.where([ "array_to_string(aka, ' ') ILIKE ?", unaccented_phrase_like ]).limit(cap) if name.match(/[À-ž]/)
+    @people.uniq!
+    Rails.logger.debug("people so far #{@people}")
+    if name_and_dates
+      exact_matches = @people.find_all { |person| person.born_in.to_i == born.to_i && person.died_in.to_i == died.to_i }
+      matches = exact_matches.nil? ? exact_matches : @people
+    else
+      matches = @people
+    end
+    matches
+  end
 
   def accented_name?
     name != unaccented_name
@@ -698,43 +767,6 @@ class Person < ApplicationRecord
     return "object" if inanimate_object?
 
     "male"
-  end
-
-  def self.search(term)
-    Rails.logger.debug("search for '#{term}'")
-    cap = 20 # to protect from stupid searches like "%a%"
-    matches = []
-    name = term
-    name_and_dates = term.match(/(.*) \(*(\d\d\d\d)\s*-*\s*(\d\d\d\d)*\)*/)
-    if name_and_dates
-      name = name_and_dates[1]
-      born = name_and_dates[2]
-      died = name_and_dates[3]
-    end
-    @people = []
-    unaccented_phrase = name.tr(
-      "’ßÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
-      "'sAAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz"
-    )
-    unaccented_phrase.gsub!(/[Ææ]/, "Æ": "AE", "æ": "ae")
-    phrase_like = "%#{name.tr(' ', '%').tr('.', '%')}%"
-    unaccented_phrase_like = "%#{unaccented_phrase.tr(' ', '%').tr('.', '%')}%"
-    @people += Person.name_starts_with(name).limit(cap)
-    @people += Person.name_contains(name).limit(cap)
-    @people += Person.where([ "name ILIKE ?", phrase_like ]).limit(cap)
-    @people += Person.where([ "name ILIKE ?", unaccented_phrase_like ]).limit(cap) if name.match(/[À-ž]/)
-    @people += Person.where([ "array_to_string(aka, ' ') ILIKE ?", "%#{name}%" ]).limit(cap)
-    @people += Person.where([ "array_to_string(aka, ' ') ILIKE ?", phrase_like ]).limit(cap)
-    @people += Person.where([ "array_to_string(aka, ' ') ILIKE ?", unaccented_phrase_like ]).limit(cap) if name.match(/[À-ž]/)
-    @people.uniq!
-    Rails.logger.debug("people so far #{@people}")
-    if name_and_dates
-      exact_matches = @people.find_all { |person| person.born_in.to_i == born.to_i && person.died_in.to_i == died.to_i }
-      matches = exact_matches.nil? ? exact_matches : @people
-    else
-      matches = @people
-    end
-    matches
   end
 
   def siblings

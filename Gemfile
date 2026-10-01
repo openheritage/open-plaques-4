@@ -79,6 +79,8 @@ end
 
 group :development do
   gem "dotenv-rails", groups: :test # load ENV variables from .env
+  gem "mermaid"
+  gem "rails_lens"
   gem "web-console" # Use console on exceptions pages [https://github.com/rails/web-console]
 end
 

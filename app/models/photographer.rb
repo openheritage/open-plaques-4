@@ -2,18 +2,6 @@
 class Photographer
   attr_accessor :id, :photos_count, :rank
 
-  def photos
-    Photo.where(photographer: id)
-  end
-
-  def plaques
-    @plaque_list = []
-    photos.each do |photo|
-      @plaque_list << photo.plaque if photo.linked?
-    end
-    @plaque_list
-  end
-
   def self.all
     data = Photo.where.not(plaque_id: nil).group(:photographer).order(count_plaque_id: :desc).distinct.count(:plaque_id)
     @photographers = []
@@ -37,5 +25,17 @@ class Photographer
       @photographers << photographer
     end
     @photographers
+  end
+
+  def photos
+    Photo.where(photographer: id)
+  end
+
+  def plaques
+    @plaque_list = []
+    photos.each do |photo|
+      @plaque_list << photo.plaque if photo.linked?
+    end
+    @plaque_list
   end
 end

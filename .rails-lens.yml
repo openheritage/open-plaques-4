@@ -1,0 +1,6 @@
+schema:
+  include_notes: true  # Performance recommendations
+extensions:
+  enabled: true  # ClosureTree, PostGIS, etc.
+erd:
+  output_dir: docs  # You need to add mermaid gem to your Gemfile
