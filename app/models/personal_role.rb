@@ -37,7 +37,7 @@ class PersonalRole < ApplicationRecord
   scope :by_date, -> { order(:started_at) }
 
   def current?
-    role.sticky? || ended_at.blank? || (ended_at && ended_at.year.to_s == person.died_on.year.to_s)
+    role.sticky? || ended_at.blank? || person.died_on.blank? || ended_at.year.to_s == person.died_on.year.to_s
   end
 
   def date_range
