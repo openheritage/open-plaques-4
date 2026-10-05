@@ -9,7 +9,7 @@ RSpec.feature 'Admin adds an organisation.', type: :feature do
   end
 
   scenario 'click add on the org page' do
-    click_on_nav_item 'Organisations'
+    click_nav 'Organisations'
     click_on 'add'
     o = build :organisation
     fill_in :organisation_name, with: o.name

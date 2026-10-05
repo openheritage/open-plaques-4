@@ -11,7 +11,7 @@ RSpec.feature 'User lists top50 photographers.', type: :feature do
   end
 
   scenario 'views photographers page' do
-    click_on_nav_item 'Photographers'
+    click_nav 'Photographers'
     # should look for 'stobbo'
     expect(page).to have_main_heading 'Top 50 plaque hunters'
   end

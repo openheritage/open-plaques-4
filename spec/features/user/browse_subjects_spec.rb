@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'User browses subjects.', type: :feature do
   before do
     visit '/'
-    click_on_nav_item 'Subjects'
+    click_nav 'Subjects'
   end
 
   scenario 'clicking Subjects in the menu' do

@@ -10,7 +10,7 @@ RSpec.feature 'User browses areas.', type: :feature do
       plaque = create :plaque, area: Country.uk.areas.random
     end
     visit '/'
-    click_on_nav_item 'Places'
+    click_nav 'Places'
   end
 
   scenario 'main index' do
