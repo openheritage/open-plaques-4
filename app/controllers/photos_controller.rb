@@ -55,7 +55,7 @@ class PhotosController < ApplicationController
       flash[:notice] = @photo.errors.full_messages.to_sentence
     end
     Rails.logger.debug(flash[:notice])
-    redirect_to photos_path(@photo)
+    redirect_to photo_path(@photo)
   end
 
   def edit
