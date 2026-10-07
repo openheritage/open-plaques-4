@@ -227,7 +227,7 @@
     <section class="section">
       <%= render "section_title", title: "Roles" %>
       <div class="row">
-        <h4 class="col-xs-12"><%= fa_icon(:user) if @person.person?%>
+        <h4 class="col-xs-12"><%= fa_icon(:user) if @person.person? %>
           <%= fa_icon(:paw) if @person.animal? %>
           <%= fa_icon(:users) if @person.group? %>
           <%= fa_icon(:building) if @person.place? %>

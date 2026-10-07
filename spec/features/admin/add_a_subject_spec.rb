@@ -5,11 +5,10 @@ RSpec.feature 'Admin adds a subject.', type: :feature do
 
   before do
     login_as(admin, scope: :user)
-    visit '/'
+    visit '/people'
   end
 
   scenario 'add a subject with a name' do
-    click_on_nav_item 'Subjects'
     click_on 'add'
     p = build :person
     fill_in :person_name, with: p.name

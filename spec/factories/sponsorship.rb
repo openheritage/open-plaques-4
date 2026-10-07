@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :sponsorship do
-    plaque
     organisation
+    plaque
   end
 end

@@ -4,13 +4,13 @@ describe Language, type: :model do
   it 'has a valid factory' do
     expect(create :language).to be_valid
   end
+
   describe '#full_name' do
     context 'with nothing set' do
-      before do
-        @language = Language.new
-      end
+      let(:language) { described_class.new }
+
       it 'is nil' do
-        expect(@language.to_s).to eq nil
+        expect(language.to_s).to be_nil
       end
     end
   end
@@ -18,6 +18,7 @@ describe Language, type: :model do
   describe '#as_json' do
     context 'with nothing set' do
       let(:language) { build :language }
+
       it 'is json' do
         # can do better than this. Probably by using https://github.com/collectiveidea/json_spec
         expect(language.as_json.to_s.size).to be > 10
@@ -32,7 +33,7 @@ describe Language, type: :model do
   #        @language = Language.new()
   #      end
   #      it 'has no uri' do
-  #        expect(@language.uri).to eq(nil)
+  #        expect(@language.uri).to be_nil
   #      end
   #    end
   #

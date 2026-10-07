@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.feature 'User browses areas.', type: :feature do
+RSpec.feature "User browses areas.", type: :feature do
   before do
     20.times do
       begin
@@ -9,16 +9,16 @@ RSpec.feature 'User browses areas.', type: :feature do
       end
       plaque = create :plaque, area: Country.uk.areas.random
     end
-    visit '/'
-    click_on_nav_item 'Places'
+    visit "/"
+    click_nav "Places"
   end
 
-  scenario 'main index' do
-    expect(page).to have_main_heading('Countries that have plaques')
+  scenario "when main index" do
+    expect(page).to have_main_heading "Countries that have plaques"
   end
 
-  scenario 'main index' do
-    click_on 'United Kingdom'
-    expect(page).to have_sub_heading('Areas')
+  scenario "User selects a country" do
+    click_on "United Kingdom"
+    expect(page).to have_sub_heading "Areas"
   end
 end

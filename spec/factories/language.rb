@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :language do
-    name { 'daggf' }
-    alpha2 { 'da' }
+    alpha2 { "dz" }
+    name { FFaker::Lorem.word }
   end
 end

@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Verb, type: :model do
-  it 'has a valid factory' do
+  it "has a valid factory" do
     expect(create :verb).to be_valid
   end
 end

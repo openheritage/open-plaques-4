@@ -1,32 +1,36 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Area, type: :model do
-  it 'has a valid factory' do
+  it "has a valid factory" do
     expect(create :area).to be_valid
   end
-  describe '#full_name' do
-    context 'with name set' do
-      let(:area) { build :area, name: 'blinky' }
-      it 'is nil' do
-        expect(area.to_s).to eq 'blinky'
+
+  describe "#full_name" do
+    context "with name set" do
+      let(:area) { build :area, name: "blinky" }
+
+      it "is nil" do
+        expect(area.to_s).to eq "blinky"
       end
     end
   end
 
-  describe '#as_json_new' do
-    context 'with nothing set' do
+  describe "#as_json_new" do
+    context "with nothing set" do
       let(:area) { create :area }
-      it 'is json' do
+
+      it "is json" do
         # can do better than this. Probably by using https://github.com/collectiveidea/json_spec
         expect(area.as_json.to_s.size).to be > 10
       end
     end
   end
 
-  describe '#uri' do
-    context 'with nothing set' do
+  describe "#uri" do
+    context "with nothing set" do
       let(:area) { create :area }
-      it 'is nil' do
+
+      it "is nil" do
         expect(area.uri).to eq "https://openplaques.org/places/gb/areas/#{area.slug}.json"
       end
     end
