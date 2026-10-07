@@ -10,7 +10,7 @@ describe Photo, type: :model do
 
   describe "#title" do
     context "with nothing set" do
-      it "is \"a photo\"" do
+      it "is a photo" do
         expect(nothing_set.title).to eq("a photo")
       end
     end
@@ -18,25 +18,25 @@ describe Photo, type: :model do
     context "with an id" do
       let(:photo) { build :photo, id: 2300 }
 
-      it "is \"photo № [id]\"" do
+      it "is photo № [id]" do
         expect(photo.title).to eq("photo № 2300")
       end
     end
 
-    context "of a plaque" do
+    context "when of a plaque" do
       let(:plaque) { build :plaque }
       let(:photo) { build :photo, plaque: plaque }
 
-      it "is \"a photo of a plaque\"" do
+      it "is a photo of a plaque" do
         expect(photo.title).to match(/a photo of a.*plaque/)
       end
     end
 
-    context "of a person with a name" do
+    context "when of a person with a name" do
       let(:fred) { build :person, name: "Fred" }
       let(:photo) { build :photo, person: fred }
 
-      it "is \"a photo of [name]]\"" do
+      it "is a photo of [name]]" do
         expect(photo.title).to eq("a photo of Fred")
       end
     end
@@ -51,7 +51,7 @@ describe Photo, type: :model do
   end
 
   describe "#wikimedia_data" do
-    context "of a Commons photo" do
+    context "when of a Commons photo" do
       let(:photo) { build :photo, url: "https://commons.wikimedia.org/wiki/File:Goderich_BCATP_Historical_Plaque.JPG" }
 
       before do
@@ -63,7 +63,7 @@ describe Photo, type: :model do
       end
     end
 
-    context "of a Commons photo wiki page" do
+    context "when of a Commons photo wiki page" do
       let(:photo) { build :photo, url: "https://commons.wikimedia.org/wiki/Dog#/media/File:DogDewClawTika1_wb.jpg" }
 
       before do
@@ -75,7 +75,7 @@ describe Photo, type: :model do
       end
     end
 
-    context "a Commons upload photo" do
+    context "when a Commons upload photo" do
       let(:photo) { build :photo, url: "https://upload.wikimedia.org/wikipedia/commons/4/49/DogDewClawTika1_wb.jpg" }
 
       before do
@@ -89,7 +89,7 @@ describe Photo, type: :model do
   end
 
   describe "setting Geograph data" do
-    context "of a Geograph photo" do
+    context "when of a Geograph photo" do
       let(:photo) { build :photo, url: "https://www.geograph.org.uk/photo/5561265" }
 
       before do

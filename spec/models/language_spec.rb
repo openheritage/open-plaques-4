@@ -7,12 +7,10 @@ describe Language, type: :model do
 
   describe '#full_name' do
     context 'with nothing set' do
-      before do
-        @language = Language.new
-      end
+      let(:language) { described_class.new }
 
       it 'is nil' do
-        expect(@language.to_s).to eq nil
+        expect(language.to_s).to be_nil
       end
     end
   end

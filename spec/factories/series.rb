@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :series do
-    name { FFaker::CheesyLingo.words(3).join(' ') }
     description { FFaker::CheesyLingo.sentence }
+    name { FFaker::CheesyLingo.words(3).join(" ") }
   end
 end

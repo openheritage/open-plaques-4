@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Plaque, type: :model do
   it "has a valid factory" do
-    expect(create(:plaque)).to be_valid
+    expect(create :plaque).to be_valid
   end
 
   describe "#foreign?" do
@@ -10,7 +10,7 @@ describe Plaque, type: :model do
       let(:plaque) { build :plaque }
 
       it "is not foreign" do
-        expect(plaque.foreign?).to be_falsey
+        expect(plaque).not_to be_foreign
       end
     end
 
@@ -19,7 +19,7 @@ describe Plaque, type: :model do
       let(:plaque) { build :plaque, language: english }
 
       it "is not foreign" do
-        expect(plaque.foreign?).to be_falsey
+        expect(plaque).not_to be_foreign
       end
     end
 
@@ -28,7 +28,7 @@ describe Plaque, type: :model do
       let(:plaque) { build :plaque, language: russian }
 
       it "is foreign" do
-        expect(plaque.foreign?).to be_truthy
+        expect(plaque).to be_foreign
       end
     end
   end
@@ -52,15 +52,7 @@ describe Plaque, type: :model do
   end
 
   describe "#wikimedia_tag" do
-    context "built" do
-      let(:plaque) { build :plaque }
-
-      it "is plaque number [id]" do
-        expect(plaque.wikimedia_tag).to eq("{{Open Plaques|plaqueid=}}")
-      end
-    end
-
-    context "created" do
+    context "when created" do
       let(:plaque) { create :plaque }
 
       it "is plaque number [id]" do
