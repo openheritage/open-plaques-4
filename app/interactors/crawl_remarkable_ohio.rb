@@ -43,13 +43,13 @@ class CrawlRemarkableOhio
             raw = paragraph.to_html[/<b>Sponsors:<\/b> (.*)<\/div>/, 1].squish
             sponsors = if raw.split(", ").size == 1 && raw.split(" and ").size == 2
                          raw.split(" and ").map { |name| { name: name } }
-                       elsif raw.match(/ and /)
-                         raw.gsub(" and ", " ").split(", ").map { |name| { name: name } }
-                       elsif raw.present?
-                         [{ name: raw }]
-                       else
-                         []
-                       end
+            elsif raw.match(/ and /)
+              raw.gsub(" and ", " ").split(", ").map { |name| { name: name } }
+            elsif raw.present?
+              [ { name: raw } ]
+            else
+              []
+            end
           end
           if paragraph.to_html.match(/<b>Address:<\/b> (.*)/)
             address = paragraph.to_html[/<b>Address:<\/b> (.*)<\/div>/, 1].squish.chomp(",")
@@ -63,7 +63,7 @@ class CrawlRemarkableOhio
           longitude = paragraph.to_html[/<b>Longitude:<\/b> (.*)<\/div>/, 1].squish if paragraph.to_html.match(/<b>Longitude:<\/b> (.*)/)
         end
         sponsors = [] if sponsors == ""
-        feature = { feature: { type: "Feature", geometry: { type: "Point", coordinates: [longitude, latitude] }, properties: [address:, county:, inscription:, location:,  name:, series_ref:, sponsors:, town:] } }
+        feature = { feature: { type: "Feature", geometry: { type: "Point", coordinates: [ longitude, latitude ] }, properties: [ address:, county:, inscription:, location:,  name:, series_ref:, sponsors:, town: ] } }
         Rails.logger.debug(feature)
         plaque = Plaque.create!(address:, area:, colour:, inscription:, longitude:, latitude:, series: ohio_historical_marker, series_ref:)
         sponsors.each do |sponsor|

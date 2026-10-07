@@ -319,6 +319,10 @@ class Person < ApplicationRecord
     end
   end
 
+  def dbpedia_data_uri
+    "#{dbpedia_uri.gsub('resource', 'data')}.json"
+  end
+
   def dbpedia_uri
     wikipedia_url&.gsub("en.wikipedia.org/wiki", "dbpedia.org/resource")&.gsub("https", "http")
   end
@@ -850,7 +854,7 @@ class Person < ApplicationRecord
     name.tr(
       "ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
       "AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz"
-    ).gsub!(/[Ææ]/, "Æ": "AE", "æ": "ae")
+    ).gsub(/[Ææ]/, "Æ": "AE", "æ": "ae")
   end
 
   def update_index

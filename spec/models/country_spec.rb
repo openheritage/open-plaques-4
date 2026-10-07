@@ -28,6 +28,7 @@ describe Country, type: :model do
   describe '#as_json' do
     context 'with nothing set' do
       let(:country) { build :country }
+
       it 'is json' do
         # can do better than this. Probably by using https://github.com/collectiveidea/json_spec
         expect(country.as_json.to_s.size).to be > 10
@@ -38,13 +39,15 @@ describe Country, type: :model do
   describe '#uri' do
     context 'unsaved' do
       let(:country) { build :country }
+
       it 'is nil' do
-        expect(country.uri).to eq(nil)
+        expect(country.uri).to be_nil
       end
     end
 
     context 'with an id' do
       let(:country) { create :country }
+
       it 'is an http address' do
         expect(country.uri).to eq("https://openplaques.org/places/#{country.alpha2}.json")
       end

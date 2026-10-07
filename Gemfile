@@ -7,7 +7,7 @@ gem "rails", ">= 8.1"
 gem "aasm" # manage object state
 # gem "activerecord-postgis-adapter" # link to Postgis geo database
 gem "activestorage-validator" # Validate file types saved in Active Storage
-# gem 'active_record_extended' # adds Postgres-specific methods to ActiveRecord
+# gem "active_record_extended" # adds Postgres-specific methods to ActiveRecord
 gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on", branch: :master # taggable contexts
 gem "aws-sdk-comprehend" # extract meaning from blocks of text
 gem "aws-sdk-s3", require: false # store objects on Amazon Web Services
@@ -45,6 +45,7 @@ gem "nokogiri" # parse html
 # gem "pagy" # for fast-working record pagination
 gem "omniauth-google-oauth2" # authenticate with Google
 gem "omniauth-rails_csrf_protection" # include valid CSRF tokens with OAuth requests
+# gem "pagy" # for fast-working record pagination
 gem "pg", "~> 1.6" # postgresl database
 gem "plissken" # convert javascript-style names to ruby-style
 gem "propshaft" # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
@@ -74,7 +75,9 @@ group :development, :test do
   gem "brakeman", require: false # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude" # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "herb" # help with erb
+  gem "rubocop-capybara", require: false # find rails style errors
   gem "rubocop-rails-omakase", require: false # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+  gem "rubocop-rspec", require: false # find testing style errors
 end
 
 group :development do

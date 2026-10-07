@@ -11,23 +11,23 @@
 #   RAILS_LENS_ENV=test,development - Environments where annotation runs
 
 namespace :rails_lens do
-  desc 'Annotate models with schema information'
+  desc "Annotate models with schema information"
   task annotate: :environment do
     # Check if auto-annotation is enabled
-    auto_annotate = ENV.fetch('AUTO_ANNOTATE', 'true')
-    if auto_annotate == 'false'
-      puts 'Rails Lens: Auto-annotation disabled (AUTO_ANNOTATE=false)'
+    auto_annotate = ENV.fetch("AUTO_ANNOTATE", "true")
+    if auto_annotate == "false"
+      puts "Rails Lens: Auto-annotation disabled (AUTO_ANNOTATE=false)"
       next
     end
 
     # Check if we're in an allowed environment
-    allowed_envs = ENV.fetch('RAILS_LENS_ENV', 'development').split(',').map(&:strip)
+    allowed_envs = ENV.fetch("RAILS_LENS_ENV", "development").split(",").map(&:strip)
     unless allowed_envs.include?(Rails.env)
       puts "Rails Lens: Skipping annotation in #{Rails.env} environment"
       next
     end
 
-    puts 'Rails Lens: Annotating models...'
+    puts "Rails Lens: Annotating models..."
     begin
       # Use RailsLens directly if available
       if defined?(RailsLens)
@@ -36,28 +36,28 @@ namespace :rails_lens do
         puts "Rails Lens: Skipped #{results[:skipped].length} models" if results[:skipped].any?
       else
         # Fallback to CLI
-        system('bundle exec rails_lens annotate --quiet')
+        system("bundle exec rails_lens annotate --quiet")
       end
     rescue StandardError => e
       warn "Rails Lens: Annotation failed: #{e.message}"
-      warn 'Rails Lens: Set AUTO_ANNOTATE=false to disable auto-annotation'
+      warn "Rails Lens: Set AUTO_ANNOTATE=false to disable auto-annotation"
     end
   end
 end
 
 # Hook into db:migrate
-if Rake::Task.task_defined?('db:migrate')
-  Rake::Task['db:migrate'].enhance do
-    Rake::Task['rails_lens:annotate'].invoke if defined?(Rails)
+if Rake::Task.task_defined?("db:migrate")
+  Rake::Task["db:migrate"].enhance do
+    Rake::Task["rails_lens:annotate"].invoke if defined?(Rails)
   rescue StandardError => e
     warn "Rails Lens hook failed: #{e.message}"
   end
 end
 
 # Hook into db:rollback
-if Rake::Task.task_defined?('db:rollback')
-  Rake::Task['db:rollback'].enhance do
-    Rake::Task['rails_lens:annotate'].invoke if defined?(Rails)
+if Rake::Task.task_defined?("db:rollback")
+  Rake::Task["db:rollback"].enhance do
+    Rake::Task["rails_lens:annotate"].invoke if defined?(Rails)
   rescue StandardError => e
     warn "Rails Lens hook failed: #{e.message}"
   end

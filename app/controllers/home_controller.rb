@@ -20,8 +20,8 @@ class HomeController < ApplicationController
     culture = Railspress::Category.find_by(slug: :culture)
     @culture_posts = culture&.posts&.published&.random(10)&.includes(:category, :tags) # .recency_ordered
     top = Railspress::Category.find_by(slug: "top-viewed")
-    @top10_posts = top&.posts&.published&.includes(:category, :tags)&[..9]
-    @trending = Railspress::Post.published&.sorted_by(:published_at, :desc)&.includes(:category, :tags)&[..3]
+    @top10_posts = top&.posts&.published&.includes(:category, :tags)&[ ..9 ]
+    @trending = Railspress::Post.published&.sorted_by(:published_at, :desc)&.includes(:category, :tags)&[ ..3 ]
     begin
       set_meta_tags open_graph: {
         type: :website,
