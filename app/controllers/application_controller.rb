@@ -46,6 +46,7 @@ class ApplicationController < ActionController::Base
                is_terracotta ||
                is_the_knowledge_ai ||
                is_winhttp
+    is_banned = %w[ 122.35.200.150 ].include?(request.ip.to_s)
     is_a_data_request = [ "application/json", "application/xml", "application/kml" ].include?(request.format)
     puts "USERAGENT: #{"not-" unless is_a_bot}bot '#{http_user_agent}' -> #{request.format} #{request.path}"
     is_not_following_robots_txt = clicked_the_honey ||
@@ -62,7 +63,8 @@ class ApplicationController < ActionController::Base
                                   %r{/todo}.match?(request.path) ||
                                   %r{/series}.match?(request.path) ||
                                   %r{/photos}.match?(request.path)
-    if is_semrush ||
+    if is_banned ||
+       is_semrush ||
        is_the_knowledge_ai ||
        (is_a_bot && is_not_following_robots_txt)
       puts "BLOCKED: #{request.headers["HTTP_USER_AGENT"]}"
