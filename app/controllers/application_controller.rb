@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
     is_the_knowledge_ai = http_user_agent.include?("the knowledge ai")
     is_winhttp = http_user_agent.include?("winhttp")
     clicked_the_honey = %r{/i-am-a-bot}.match?(request.path)
+    is_banned = %w[ 122.35.200.150 122.3.152.157].include?(request.ip.to_s)
     is_a_bot = clicked_the_honey ||
                http_user_agent.include?("bot") ||
                http_user_agent.include?("crawler") ||
@@ -45,8 +46,8 @@ class ApplicationController < ActionController::Base
                is_semrush ||
                is_terracotta ||
                is_the_knowledge_ai ||
-               is_winhttp
-    is_banned = %w[ 122.35.200.150 122.3.152.157].include?(request.ip.to_s)
+               is_winhttp ||
+               is_banned
     is_a_data_request = [ "application/json", "application/xml", "application/kml" ].include?(request.format)
     puts "USERAGENT: #{"not-" unless is_a_bot}bot '#{http_user_agent}' #{request.ip} -> #{request.format} #{request.path}"
     is_not_following_robots_txt = clicked_the_honey ||
@@ -63,11 +64,10 @@ class ApplicationController < ActionController::Base
                                   %r{/todo}.match?(request.path) ||
                                   %r{/series}.match?(request.path) ||
                                   %r{/photos}.match?(request.path)
-    if is_banned ||
-       is_semrush ||
+    if is_semrush ||
        is_the_knowledge_ai ||
        (is_a_bot && is_not_following_robots_txt)
-      puts "BLOCKED: #{request.headers["HTTP_USER_AGENT"]}"
+      puts "BLOCKED: #{http_user_agent} #{request.ip}"
       render json: { error: "no-bots" }.to_json, status: 406 and return
     end
     yield

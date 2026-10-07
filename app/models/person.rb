@@ -870,7 +870,7 @@ class Person < ApplicationRecord
   end
 
   def wikidata_url
-    "https://www.wikidata.org/wiki/#{wikidata_id}" if wikidata_id && !wikidata_id&.blank? && wikidata_id != "Q"
+    "https://www.wikidata.org/wiki/#{wikidata_id}" if wikidata_id && !wikidata_id&.blank? && wikidata_id != "Q" && wikidata_id != "t"
   end
 
   def wikipedia_url

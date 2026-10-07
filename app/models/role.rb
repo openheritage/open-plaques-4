@@ -257,7 +257,7 @@ class Role < ApplicationRecord
   def wikipedia_url
     return en_wikipedia_url if en_wikipedia_url
 
-    return nil unless wikidata_id && wikidata_id != "Q"
+    return nil unless wikidata_id && wikidata_id != "Q" && wikidata_id != "t"
 
     url = Wikidata.new(wikidata_id).en_wikipedia_url
     update(en_wikipedia_url: url) if url
