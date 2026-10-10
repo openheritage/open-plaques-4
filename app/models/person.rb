@@ -358,6 +358,10 @@ class Person < ApplicationRecord
     end
   end
 
+  def description
+    introduction && introduction[..50]
+  end
+
   def destruction_word
     return "until" if thing?
 
