@@ -43,12 +43,14 @@ class PersonalRole < ApplicationRecord
   def date_range
     dates = ""
     dates += "from #{started_at.to_s.sub('-01-01', '')}" if started_at
-    dates += "to #{ended_at.to_s.sub('-01-01', '')}" if ended_at
+    dates += " to #{ended_at.to_s.sub('-01-01', '')}" if ended_at
     dates.strip
   end
 
   def name
-    n = role.name
+    n = ordinal&.ordinalize&.to_s || ""
+    n += " "
+    n += role.name
     n += " of #{related_person.name}" if related_person
     n
   end
