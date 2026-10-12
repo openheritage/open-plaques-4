@@ -524,7 +524,7 @@ class Person < ApplicationRecord
   end
 
   def full_name
-    "#{title} #{name} #{letters}".strip
+    "#{title} #{name} #{letters}".gsub(" , ", ", ").strip
   end
 
   def group?
@@ -648,7 +648,7 @@ class Person < ApplicationRecord
   end
 
   def name_and_dates
-    "#{full_name} #{dates}"
+    "#{full_name} #{dates}".strip
   end
 
   # a set of versions of a person's name, in precision order
