@@ -46,7 +46,7 @@ gem "nokogiri" # parse html
 gem "omniauth-google-oauth2" # authenticate with Google
 gem "omniauth-rails_csrf_protection" # include valid CSRF tokens with OAuth requests
 # gem "pagy" # for fast-working record pagination
-gem "pg", "~> 1.6" # postgresl database
+gem "pg", "~> 1.7" # postgresl database
 gem "plissken" # convert javascript-style names to ruby-style
 gem "propshaft" # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "puma", ">= 5.0" # a web server
