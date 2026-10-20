@@ -90,6 +90,7 @@ class RolesController < ApplicationController
     params.require(:role).permit(
       :abbreviation,
       :commit,
+      :citation,
       :description,
       :en_wikipedia_url,
       :id,
