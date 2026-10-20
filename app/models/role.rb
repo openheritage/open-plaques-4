@@ -17,7 +17,8 @@
 #   { name = "description", type = "text" },
 #   { name = "priority", type = "integer" },
 #   { name = "wikidata_id", type = "string" },
-#   { name = "en_wikipedia_url", type = "string" }
+#   { name = "en_wikipedia_url", type = "string" },
+#   { name = "citation", type = "string" }
 # ]
 #
 # indexes = [
@@ -33,7 +34,7 @@
 # before_validation = [{ method = "make_slug_not_war" }]
 # before_save = [{ method = "update_index" }, { method = "filter_name" }, { method = "fill_wikidata_id" }]
 #
-# notes = ["google_analytics:N_PLUS_ONE", "personal_roles:N_PLUS_ONE", "people:N_PLUS_ONE", "name:NOT_NULL", "personal_roles_count:NOT_NULL", "index:NOT_NULL", "slug:NOT_NULL", "role_type:NOT_NULL", "abbreviation:NOT_NULL", "prefix:NOT_NULL", "suffix:NOT_NULL", "description:NOT_NULL", "priority:NOT_NULL", "en_wikipedia_url:NOT_NULL", "wikidata_id:LIMIT", "en_wikipedia_url:LIMIT", "description:STORAGE"]
+# notes = ["google_analytics:N_PLUS_ONE", "personal_roles:N_PLUS_ONE", "people:N_PLUS_ONE", "name:NOT_NULL", "personal_roles_count:NOT_NULL", "index:NOT_NULL", "slug:NOT_NULL", "role_type:NOT_NULL", "abbreviation:NOT_NULL", "prefix:NOT_NULL", "suffix:NOT_NULL", "description:NOT_NULL", "priority:NOT_NULL", "en_wikipedia_url:NOT_NULL", "citation:NOT_NULL", "wikidata_id:LIMIT", "en_wikipedia_url:LIMIT", "citation:LIMIT", "description:STORAGE"]
 # <rails-lens:schema:end>
 
 
@@ -190,11 +191,11 @@ class Role < ApplicationRecord
     role_type == "place"
   end
 
-  def pluralize
+  def pluralize(count = nil)
     if full_name.include?(" of ")
-      name.split(/#| of /).first.pluralize + name.sub(/.*? of /, " of ")
+      "#{count} #{name.split(/#| of /).first.pluralize}#{name.sub(/.*? of /, " of ")}".squish
     else
-      name.pluralize
+      "#{count} #{name.pluralize}".squish
     end
   end
 

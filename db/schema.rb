@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_01_155825) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_073212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -494,6 +494,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_155825) do
     t.integer "priority"
     t.string "wikidata_id"
     t.string "en_wikipedia_url"
+    t.string "citation"
     t.index ["index"], name: "starts_with"
     t.index ["role_type"], name: "index_roles_on_role_type"
     t.index ["slug"], name: "index_roles_on_slug"

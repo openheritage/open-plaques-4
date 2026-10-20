@@ -462,6 +462,7 @@ en-GB:
     edit:
       page_title: Edit role %{role}
       page_heading: Edit role
+      wikidata_comment: Set Wikidata_id to 'Q' if there is no record.
     new:
       page_title: New role
       page_heading: New role
