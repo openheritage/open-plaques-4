@@ -4,8 +4,8 @@ module Nameable
 
   included do
     scope :alphabetically, -> { order("name ASC nulls last") }
-    scope :name_starts_with, ->(term) { where([ "name ILIKE ?", "#{term}%" ]) }
     scope :name_contains, ->(term) { where([ "name ILIKE ?", "%#{term.tr(' ', '%').tr('.', '%')}%" ]) }
     scope :name_is, ->(term) { where([ "lower(name) = ?", term.to_s.downcase ]) }
+    scope :name_starts_with, ->(term) { where([ "name ILIKE ?", "#{term}%" ]) }
   end
 end
