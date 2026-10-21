@@ -72,6 +72,7 @@ class PlaquesController < ApplicationController
     begin
       set_meta_tags description: @plaque.title
       set_meta_tags open_graph: {
+        site_name: "OpenPlaques",
         type: :website,
         url: url_for(only_path: false),
         image: @plaque.main_photo ? @plaque.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
