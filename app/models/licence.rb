@@ -30,7 +30,7 @@ class Licence < ApplicationRecord
   def as_json(options = {})
     if !options || !options[:only]
       options = {
-        only: %i[name abbreviation url allows_commercial_reuse photos_count]
+        only: %i[abbreviation allows_commercial_reuse name photos_count url]
       }
     end
     super options

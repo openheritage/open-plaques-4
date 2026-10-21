@@ -38,7 +38,6 @@
 # * +wikidata_id+ - Q-code to match to Wikidata
 class Country < ApplicationRecord
   include Geolocatable
-  include Nameable
   include PlaquesHelper
 
   has_many :areas
