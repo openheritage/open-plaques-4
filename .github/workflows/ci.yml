@@ -35,6 +35,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      - name: Install libvips
+        run: |
+          sudo apt-get update
+          # we only need the library
+          sudo apt-get install --no-install-recommends libvips
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -49,6 +55,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+
+      - name: Install libvips
+        run: |
+          sudo apt-get update
+          # we only need the library
+          sudo apt-get install --no-install-recommends libvips
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -80,7 +92,7 @@ jobs:
 
     steps:
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config google-chrome-stable
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libpq-dev libvips libyaml-dev pkg-config google-chrome-stable
 
       - name: Checkout code
         uses: actions/checkout@v7

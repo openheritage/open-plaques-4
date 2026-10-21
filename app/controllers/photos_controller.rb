@@ -15,6 +15,14 @@ class PhotosController < ApplicationController
   end
 
   def show
+    set_meta_tags open_graph: {
+      site_name: "OpenPlaques",
+      type: :website,
+      url: url_for(only_path: false),
+      image: @photo.file_url,
+      image_alt: @photo.title,
+      title: @photo.title
+    }
     respond_to do |format|
       format.html
       format.json { render json: @photo }
