@@ -105,7 +105,7 @@ class Photo < ApplicationRecord
       geometry:
       {
         type: "Point",
-        coordinates: [ longitude, latitude ]
+        coordinates: geolocated? ? center_point_array : plaque&.center_point_array
       },
       properties: as_json(options)
     }
