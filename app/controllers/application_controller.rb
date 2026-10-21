@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     clicked_the_honey = %r{/i-am-a-bot}.match?(request.path)
     is_banned = %w[ 122.35.200.150 122.3.152.157].include?(request.ip.to_s)
     is_a_bot = clicked_the_honey ||
-               http_user_agent.include?("bot") ||
+               (http_user_agent.include?("bot") && !http_user_agent.include?("https://mastodon.social/")) ||
                http_user_agent.include?("crawler") ||
                http_user_agent.include?("bingpreview") ||
                http_user_agent.include?("bubing") ||

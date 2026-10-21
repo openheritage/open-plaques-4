@@ -1,5 +1,4 @@
 <% content_for :page_title, t(".page_title", plaque: @plaque.to_s) %>
-<% content_for :head, "<meta name=\"og:image\" content=\"#{@plaque.main_photo.file_url}\">".html_safe if @plaque.main_photo %>
 <%= render "plaques/edit_bar", plaque: @plaque %>
 
 <!-- Page Title -->
