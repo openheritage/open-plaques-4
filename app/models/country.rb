@@ -51,7 +51,7 @@ class Country < ApplicationRecord
     if !options || !options[:only]
       options = {
         only: [ :name ],
-        methods: %i[uri plaques_count areas_count]
+        methods: %i[ areas_count plaques_count uri ]
       }
     end
     super options
