@@ -76,6 +76,7 @@ class PlaquesController < ApplicationController
         type: :website,
         url: url_for(only_path: false),
         image: @plaque.main_photo ? @plaque.main_photo.file_url : view_context.root_url[0...-1] + view_context.image_path("openplaques-icon.png"),
+        image_alt: @plaque.main_photo ? @plaque.main_photo.title : "The Open Plaques icon",
         title: @plaque.title,
         description: @plaque.inscription
       }

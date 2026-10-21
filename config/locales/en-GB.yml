@@ -49,7 +49,8 @@ en-GB:
         ended_at: To
         ordinal: Ordinal
       photo:
-        of_a_plaque: This is a plaque
+        clone_id: It is a clone of photo id
+        of_a_plaque: This is a photo of a plaque
         url: Url
         file_url: File url
         taken_on: Taken on
