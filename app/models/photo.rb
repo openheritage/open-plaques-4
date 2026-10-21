@@ -105,7 +105,7 @@ class Photo < ApplicationRecord
       geometry:
       {
         type: "Point",
-        coordinates: [ longitude, latitude ]
+        coordinates: geolocated? ? center_point_array : plaque&.center_point_array
       },
       properties: as_json(options)
     }
@@ -252,7 +252,7 @@ class Photo < ApplicationRecord
   end
 
   def uri
-    "https://openplaques.org#{Rails.application.routes.url_helpers.photos_path(self, format: :json)}"
+    "https://openplaques.org#{Rails.application.routes.url_helpers.photo_path(self, format: :json)}"
   end
 
   def unlinked?

@@ -1,14 +1,13 @@
 # list, show, edit roles
 class RolesController < ApplicationController
-  before_action :authenticate_admin!, only: :destroy
   before_action :authenticate_user!, except: %i[index show]
   before_action :find, only: %i[edit update]
 
   def index
     respond_to do |format|
-      format.html { redirect_to(roles_by_index_path("a")) }
+      format.html { redirect_to roles_by_index_path("a") }
       format.json do
-        @roles = Role.all.order("personal_roles_count DESC nulls last")
+        @roles = Role.by_popularity
         render json: @roles
       end
     end
