@@ -1,7 +1,7 @@
 // app/javascript/controllers/geojson_controller.js
 import { Controller } from '@hotwired/stimulus'
 import { useDelegate } from 'controllers/mixins/use_delegate'
-import maplibregl from 'maplibre-gl'
+import * as maplibregl from 'maplibre-gl'
 
 export default class extends Controller {
   connect() {
