@@ -1,11 +1,16 @@
 // app/javascript/controllers/maplibre_controller.js
 import { Controller } from '@hotwired/stimulus'
-import maplibregl from 'maplibre-gl'
+import * as maplibregl from 'maplibre-gl'
 import { MaptoolkitLogoControl } from '@maptoolkit/maplibre-gl-logo'
 import LayerSwitcher from 'layer-switcher'
 
 export default class extends Controller {
   initialize() {
+    const importmap = JSON.parse(document.head.querySelector('script[type="importmap"]').innerHTML)
+    const maplibregl_path = importmap['imports']['maplibre-gl-worker']
+    this.context.logDebugActivity(import.meta.url)
+    maplibregl.setWorkerUrl(`http://0.0.0.0:3000${maplibregl_path}`)
+    this.context.logDebugActivity(maplibregl.getWorkerUrl())
     this.__controls = {}
     if (this.defaultConfig) {
       var userDefaults = this.defaultConfig()
@@ -41,7 +46,7 @@ export default class extends Controller {
     if (this.__style.style && this.getStyleUrl) {
       this.__style.style = this.getStyleUrl(this.__style.style)
     }
-    this.context.logDebugActivity('initialize#overridden', this.__style)
+    this.context.logDebugActivity('initialize#style', this.__style)
     if (this.element.dataset.project) {
       this.__project = JSON.parse(this.element.dataset.project)
     }
@@ -49,9 +54,6 @@ export default class extends Controller {
 
   connect() {
     var style = this.__style
-    if (style.accessToken) {
-      maplibregl.accessToken = style.accessToken
-    }
     this.__map = new maplibregl.Map(Object.assign(style, {
       center: style.centroid,
       container: this.element,
@@ -65,9 +67,7 @@ export default class extends Controller {
     this.__addControl('maptoolkit')
     this.__addControl('navigation')
     this.__addControl('scale')
-    this.__map.on('load', () => {
-      this.__onMapLoaded()
-    })
+    this.__map.on('load', () => { this.__onMapLoaded() })
     this.__map.on('draw.create', function (e) {
       var geojson_setter = document.getElementById('project_geojson_setter')
       if (geojson_setter !== null && typeof (geojson_setter) != 'undefined' && e.features[0].geometry.type !== 'LineString') {
@@ -223,8 +223,8 @@ export default class extends Controller {
   }
 
   __onMapLoaded() {
-    var style = this.__style
     this.context.logDebugActivity(`__onMapLoaded`)
+    var style = this.__style
     const map = this.__map
     map.loadImage(
       'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
