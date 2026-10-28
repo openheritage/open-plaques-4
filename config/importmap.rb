@@ -24,8 +24,8 @@ pin "stimulus-autocomplete" # @3.1.0
 pin "lodash" # @4.18.1
 pin "lodash.debounce" # @4.0.8
 pin "layer-switcher"
-pin "maplibre-gl" # @6.15.0
-pin "maplibre-gl-worker" # @6.15.0
+pin "maplibre-gl" # @6.16.0
+pin "maplibre-gl-worker" # @6.16.0
 pin "chart.js" # @4.5.1
 pin "@kurkle/color", to: "@kurkle--color.js" # @0.4.0
 pin "@chartjs/helpers-dataset", to: "chunks/helpers.dataset.js"

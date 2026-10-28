@@ -1,4 +1,4 @@
-// maplibre-gl-worker@6.15.0 downloaded from https://ga.jspm.io/npm:maplibre-gl@6.15.0/dist/maplibre-gl-worker.mjs
+// maplibre-gl-worker@6.16.0 downloaded from https://ga.jspm.io/npm:maplibre-gl@6.16.0/dist/maplibre-gl-worker.mjs
 
 /**
 * MapLibre GL JS
