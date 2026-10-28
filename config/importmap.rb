@@ -18,13 +18,14 @@ pin "fizzy-ui-utils" # @3.0.0
 pin "get-size" # @3.0.0
 pin "masonry-layout" # @4.2.2
 pin "outlayer" # @2.1.1
-pin "swiper" # @12.1.12 https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js
+pin "swiper", to: "https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" # @12.1.12 https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js
 pin "zenblog"
 pin "stimulus-autocomplete" # @3.1.0
 pin "lodash" # @4.18.1
 pin "lodash.debounce" # @4.0.8
 pin "layer-switcher"
-pin "maplibre-gl" # @5.24.0
+pin "maplibre-gl" # @6.16.0
+pin "maplibre-gl-worker" # @6.16.0
 pin "chart.js" # @4.5.1
 pin "@kurkle/color", to: "@kurkle--color.js" # @0.4.0
 pin "@chartjs/helpers-dataset", to: "chunks/helpers.dataset.js"
