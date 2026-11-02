@@ -7,7 +7,7 @@ import LayerSwitcher from 'layer-switcher'
 export default class extends Controller {
   initialize() {
     const importmap = JSON.parse(document.head.querySelector('script[type="importmap"]').innerHTML)
-    const maplibregl_path = new URL(importmap['imports']['maplibre-gl-worker'], import.meta.url).toString()
+    const maplibregl_path = new URL(importmap['imports']['maplibre-gl/dist/maplibre-gl-worker.mjs'], import.meta.url).toString()
     this.context.logDebugActivity(`setWorkerUrl('${maplibregl_path}')`)
     maplibregl.setWorkerUrl(maplibregl_path)
     this.__controls = {}
