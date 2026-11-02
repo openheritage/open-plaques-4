@@ -15,7 +15,7 @@ export default class extends Controller {
 
   add() {
     this.waitForController(this.__map_id).then ((delegate) => {
-      this.context.logDebugActivity(`add(${this.__url})`, this.__url)
+      this.context.logDebugActivity(`add('${this.__url}')`)
       const map = delegate.__map
       map.addSource('geojson_src', { type: 'geojson', data: this.__url })
       map.addLayer({ id: 'geojson_layer', source: 'geojson_src', type: 'circle', 'paint': { 'circle-color':  '#1511ecff', 'circle-radius': 5}})
@@ -26,13 +26,12 @@ export default class extends Controller {
 
         // Extract properties from GeoJSON
         const plaque = feature.properties
-        const description = '<div class="inscription">' + this.__truncate(plaque.inscription, 255) + '</div><div class="info">' +
-                    '<a class="link" href="/plaques/' + plaque.id + '">Plaque ' + plaque.id + '</a>'
+        const description = `<div class="inscription">${this.__truncate(plaque.inscription, 255)}</div><div class="info"><a class="link" href="/plaques/${plaque.id}">Plaque ${plaque.id}</a>`
     
         // Create and add the popup
         new maplibregl.Popup()
             .setLngLat(e.lngLat)
-            .setHTML(`${description}`)
+            .setHTML(description)
             .addTo(map)
       })
       
