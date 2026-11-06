@@ -345,7 +345,7 @@ GEM
       net-protocol
     nio4r (2.7.5)
     nkf (0.3.0)
-    nokogiri (1.19.6-x86_64-linux-gnu)
+    nokogiri (1.19.7-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.1.0)
       anonymous_loader (~> 0.1, >= 0.1.5)
@@ -530,9 +530,9 @@ GEM
     rubyntlm (0.6.8)
       base64
     rubyzip (3.7.0)
-    sanitize (7.0.1)
+    sanitize (7.0.2)
       crass (~> 1.0.8)
-      nokogiri (>= 1.16.8)
+      nokogiri (>= 1.19.7)
     sass-embedded (1.107.1-x86_64-linux-gnu)
       google-protobuf (~> 4.31)
     securerandom (0.4.1)
