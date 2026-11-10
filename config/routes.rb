@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   get "about", controller: :static_pages
   resources :colours, only: [ :new, :create ]
   get "contact", controller: :static_pages
+  resources :counties, only: :show
+  get "data", to: redirect("posts/data")
   resources :languages, only: [ :new, :create ]
   match "match" => "match#index", via: [ :get ]
   resources :organisations do
@@ -51,7 +53,6 @@ Rails.application.routes.draw do
   resources :personal_roles
   resources :photos, only: [ :create, :destroy, :edit, :new, :show, :update ]
   resources :photographers, as: :photographers, only: :index
-  resources :counties, only: :show
   resources :places, controller: :countries, as: :countries do
     collection do
       get "autocomplete", controller: :areas
@@ -85,6 +86,7 @@ Rails.application.routes.draw do
   # map tiles are numbered using the convention at http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
   match "plaques/tiles/:zoom/:x/:y" => "plaques#index", constraints: { zoom: /\d{2}/, x: /\d+/, y: /\d+/ }, via: [ :get ]
   match "plaques/:filter/tiles/:zoom/:x/:y" => "plaques#index", id: :filter, constraints: { zoom: /\d{2}/, x: /\d+/, y: /\d+/ }, via: [ :get ]
+  get "privacy", to: redirect("posts/privacy")
   scope "/roles" do
     resources "a-z", controller: :roles_by_index, as: "roles_by_index", only: [ :show, :index ]
     resources "precedence", controller: :roles_by_precedence, as: "roles_by_precedence", only: [ :index ]
@@ -109,6 +111,7 @@ Rails.application.routes.draw do
   scope "/subjects" do
     resources "a-z", controller: :people_by_index, as: "people_by_index", only: :show
   end
+  get "terms_of_service", to: redirect("posts/terms_of_service")
   resources :todo
   devise_for :users,
             controllers: {
