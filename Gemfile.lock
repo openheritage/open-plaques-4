@@ -251,7 +251,7 @@ GEM
       rake (~> 13.3)
     hashie (5.2.0)
       logger
-    herb (0.11.1-x86_64-linux-gnu)
+    herb (0.11.2-x86_64-linux-gnu)
     http-cookie (1.1.6)
       domain_name (~> 0.5)
     httparty (0.24.3)
