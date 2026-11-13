@@ -345,7 +345,7 @@ GEM
       net-protocol
     nio4r (2.7.5)
     nkf (0.3.0)
-    nokogiri (1.19.6-x86_64-linux-gnu)
+    nokogiri (1.19.7-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.1.0)
       anonymous_loader (~> 0.1, >= 0.1.5)
