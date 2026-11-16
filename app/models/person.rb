@@ -64,7 +64,7 @@ class Person < ApplicationRecord
   before_save :aka_accented_name
   before_save :fill_wikidata_id
   before_save :update_index
-  after_save :depiction_from_dbpedia!
+  # after_save :depiction_from_dbpedia!
   scope :aka, ->(term) { where([ "array_to_string(aka, ' ') ILIKE ?", "#{term.gsub(' ', '%')}%" ]) }
   scope :connected, -> { where("personal_connections_count > 0") }
   scope :dated, -> { where("born_on IS NOT NULL or died_on IS NOT NULL") }
@@ -540,9 +540,9 @@ class Person < ApplicationRecord
   def letters
     letters = ""
     current_personal_roles.each do |pr|
-      letters << " #{pr.suffix}" unless pr.role.suffix.blank? || letters.include?(pr.role.suffix)
+      letters << " #{pr.suffix}" unless pr.suffix.blank? || letters.include?(" #{pr.suffix}")
     end
-    letters.strip
+    letters.squish
   end
 
   def machine_tag

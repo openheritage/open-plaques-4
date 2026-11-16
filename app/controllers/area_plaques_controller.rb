@@ -42,10 +42,11 @@ class AreaPlaquesController < ApplicationController
       @plaques = if request.format.html?
                    @area.plaques.paginate(page: permitted_show_params[:page], per_page: 40)
       else
-                   @area.plaques.paginate(page: permitted_show_params[:page], per_page: 5_000_000)
+                   @area.plaques #.paginate(page: permitted_show_params[:page], per_page: 5_000_000)
       end
       @display = "all"
     end
+    @plaques = @plaques.preload([ area: :country ], :colour, :language, :organisations, :personal_connections, [ people: :personal_roles ], [ people: :roles ], :photos, :series)
     respond_with @plaques do |format|
       format.html do
         @plaques_count = @area.plaques.count
@@ -112,6 +113,7 @@ class AreaPlaquesController < ApplicationController
       format.json { render json: @plaques }
       format.geojson { render geojson: @plaques.geolocated, parent: @area }
       format.csv do
+        Rails.logger.debug(@plaques.explain)
         send_data(
           "\uFEFF#{PlaqueCsv.new(@plaques).build}",
           type: "text/csv",

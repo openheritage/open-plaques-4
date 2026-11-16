@@ -68,6 +68,7 @@ class Plaque < ApplicationRecord
   belongs_to :language, counter_cache: true, optional: true
   belongs_to :series, counter_cache: true, optional: true
   has_many :personal_connections, dependent: :destroy
+  has_many :people, -> { distinct }, through: :personal_connections
   has_many :photos, -> { where(of_a_plaque: true).order(:shot) }, inverse_of: :plaque
   has_many :sponsorships, dependent: :destroy
   has_many :organisations, through: :sponsorships
@@ -270,7 +271,7 @@ class Plaque < ApplicationRecord
     geolocated? ? "https://osm.org/#map=19/#{latitude}/#{longitude}" : "https://osm.org/search?query=#{full_address}"
   end
 
-  def people
+  def people_xx
     if id
       sql = "select distinct people.*
         from personal_connections as pc_main

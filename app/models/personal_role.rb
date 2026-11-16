@@ -44,15 +44,11 @@ class PersonalRole < ApplicationRecord
     dates = ""
     dates += "from #{started_at.to_s.sub('-01-01', '')}" if started_at
     dates += " to #{ended_at.to_s.sub('-01-01', '')}" if ended_at
-    dates.strip
+    dates.squish
   end
 
   def name
-    n = ordinal&.ordinalize&.to_s || ""
-    n += " "
-    n += role.name
-    n += " of #{related_person.name}" if related_person
-    n
+    "#{ordinal&.ordinalize} #{role.name} #{'of' if related_person} #{related_person&.name}".squish
   end
 
   def primary?
@@ -64,25 +60,18 @@ class PersonalRole < ApplicationRecord
   end
 
   def suffix
-    s = role.suffix
-    if s.include?('#{ordinal}')
-      s = if ordinal
-            s.sub!('#{ordinal}', ordinal.ordinalize)
-      else
-            s.sub!('#{ordinal} ', "")
-      end
-    end
-    s
+    s = role.suffix || ""
+    s.sub!('#{ordinal}', ordinal&.ordinalize || "")
+    s.squish
   end
 
   def year_range
-    dates = ""
-    start_year = started_at.to_s[0..3]
-    dates += start_year if started_at
-    end_year = ended_at.to_s[0..3]
+    start_year = started_at.to_s[..3]
+    end_year = ended_at.to_s[..3]
     end_year = "" if end_year == start_year
-    end_year = end_year[2..3] if end_year[0..1] == start_year[0..1]
-    dates += "-#{end_year}" if end_year && end_year != ""
-    dates
+    end_year = end_year[2..] if end_year[..1] == start_year[..1]
+    dates = start_year
+    dates += "-#{end_year}" if end_year.present?
+    dates.squish
   end
 end

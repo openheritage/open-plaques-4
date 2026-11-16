@@ -128,11 +128,10 @@ class Photo < ApplicationRecord
 
   def attribution
     attrib = "&copy; "
-    attrib += photographer.tr("./", "__") if photographer
+    attrib += photographer&.tr("./", "__")
     attrib += " on #{source}"
-    attrib += " #{licence.abbreviation}" if licence && !licence.abbreviation.nil?
-    attrib += " #{licence.name}" if licence && licence.abbreviation.nil?
-    attrib
+    attrib += " #{licence&.abbreviation || licence&.name}"
+    attrib.squish
   end
 
   def cloned?
