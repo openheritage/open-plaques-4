@@ -42,10 +42,11 @@ class PlaquesController < ApplicationController
                  # @limit = 1000000000000
                  Plaque.where(conditions).order(created_at: :desc).limit(@limit).preload(:language, :organisations, :colour, [ area: :country ])
     end
-
+    @plaques = @plaques.preload([ area: :country ], :colour, :language, :organisations, :personal_connections, [ people: :personal_roles ], [ people: :roles ], :photos, :series)
     respond_to do |format|
       format.html
       format.json do
+        raise UnAuthorised, "NotAuthorised" if Rails.env.production?
         if params[:data] && params[:data] == "simple"
           render json: @plaques.as_json(only: minimal_attributes, methods: %i[title colour_name machine_tag thumbnail_url])
         elsif params[:data] && params[:data] == "basic"
@@ -57,6 +58,7 @@ class PlaquesController < ApplicationController
       format.geojson { render geojson: @plaques }
       format.rss { render json: { error: "format unsupported" }.to_json, status: 406 }
       format.csv do
+        raise UnAuthorised, "NotAuthorised" if Rails.env.production?
         send_data(
           "\uFEFF#{PlaqueCsv.new(@plaques).build}",
           type: "text/csv",
