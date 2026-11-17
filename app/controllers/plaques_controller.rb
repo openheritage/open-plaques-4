@@ -42,7 +42,7 @@ class PlaquesController < ApplicationController
                  # @limit = 1000000000000
                  Plaque.where(conditions).order(created_at: :desc).limit(@limit).preload(:language, :organisations, :colour, [ area: :country ])
     end
-    @plaques = @plaques.preload([ area: :country ], :colour, :language, :organisations, :personal_connections, [ people: :personal_roles ], [ people: :roles ], :photos, :series)
+    @plaques = @plaques.preload([ area: :country ], :colour, :language, :organisations, :personal_connections, [ people: :personal_roles ], [ people: :roles ], [ photos: :licence ], :series)
     respond_to do |format|
       format.html
       format.json do

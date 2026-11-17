@@ -31,7 +31,7 @@ class CountryPlaquesController < ApplicationController
                    @country.plaques
       end
     end
-    @plaques = @plaques.preload([ area: :country ], :colour, :language, :organisations, :personal_connections, [ people: :personal_roles ], [ people: :roles ], :photos, :series)
+    @plaques = @plaques.preload([ area: :country ], :colour, :language, :organisations, :personal_connections, [ people: :personal_roles ], [ people: :roles ], [ photos: :licence ], :series)
     respond_to do |format|
       format.json { render json: @plaques }
       format.geojson { render geojson: @plaques, parent: @country }
