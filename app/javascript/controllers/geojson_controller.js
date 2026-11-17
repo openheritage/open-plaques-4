@@ -22,7 +22,7 @@ export default class extends Controller {
       map.on('click', 'geojson_layer', (e) => {
         // Grab the first intersecting feature
         const feature = e.features[0]
-        this.context.logDebugActivity(feature.properties)
+        this.context.logDebugActivity('properties', feature.properties)
 
         // Extract properties from GeoJSON
         const plaque = feature.properties
