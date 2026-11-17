@@ -127,8 +127,8 @@ class Photo < ApplicationRecord
   end
 
   def attribution
-    attrib = "&copy; "
-    attrib += photographer&.tr("./", "__")
+    attrib = "&copy;"
+    attrib += " #{photographer&.tr("./", "__")}"
     attrib += " on #{source}"
     attrib += " #{licence&.abbreviation || licence&.name}"
     attrib.squish
