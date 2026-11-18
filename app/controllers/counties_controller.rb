@@ -1,6 +1,7 @@
 # control Counties
 class CountiesController < ApplicationController
   def show
+    @country = Country.find_by!(alpha2: params[:country_id])
     @county = params[:id]
     @areas = Area.county(@county)
     sw_corner = [ @areas.pluck(:min_longitude).compact.min, @areas.pluck(:min_latitude).compact.min ]

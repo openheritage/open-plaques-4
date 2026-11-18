@@ -23,7 +23,6 @@ Rails.application.routes.draw do
   get "about", controller: :static_pages
   resources :colours, only: [ :new, :create ]
   get "contact", controller: :static_pages
-  resources :counties, only: :show
   get "data", to: redirect("posts/data")
   resources :languages, only: [ :new, :create ]
   match "match" => "match#index", via: [ :get ]
@@ -65,6 +64,7 @@ Rails.application.routes.draw do
       resource :subjects, controller: :area_subjects, only: :show
       match "plaques/:filter" => "area_plaques#show", via: [ :get ]
     end
+    resources :counties, only: :show
     resource :plaques, controller: :country_plaques, only: :show
     resource :subjects, controller: :country_subjects, only: :show
     match "plaques/:filter" => "country_plaques#show", via: [ :get ]
