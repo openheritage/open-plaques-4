@@ -42,7 +42,7 @@ class AreaPlaquesController < ApplicationController
       @plaques = if request.format.html?
                    @area.plaques.paginate(page: permitted_show_params[:page], per_page: 40)
       else
-                   @area.plaques #.paginate(page: permitted_show_params[:page], per_page: 5_000_000)
+                   @area.plaques # .paginate(page: permitted_show_params[:page], per_page: 5_000_000)
       end
       @display = "all"
     end

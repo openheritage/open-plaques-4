@@ -30,7 +30,7 @@ module Features
     end
 
     def submit
-      find('input[name="commit"]').click
+      find_field('input[name="commit"]').click
       wait_for_ajax
     end
 
