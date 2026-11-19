@@ -43,7 +43,7 @@ describe Language, type: :model do
   #      end
   #      it 'has a uri' do
   #        # this is not ideal response. It should depend on the output format
-  #        expect(@country.uri).to eq('http://openplaques.org/places/aa.json')
+  #        expect(@country.uri).to eq "http://openplaques.org/places/aa.json"
   #      end
   #    end
   #

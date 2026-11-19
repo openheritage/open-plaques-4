@@ -16,31 +16,31 @@ describe Wikidata do
 
     context "with an ambiguous name with dates" do
       it "returns someone with the right name and dates" do
-        expect(described_class.qcode("James Duffy (1889-1969)")).to eq("Q4155328")
+        expect(described_class.qcode("James Duffy (1889-1969)")).to eq "Q4155328"
       end
     end
 
     context "with an ambiguous name with only death date" do
       it "returns someone with the right name and dates" do
-        expect(described_class.qcode("James Duffy (d.1969)")).to eq("Q4155328")
+        expect(described_class.qcode("James Duffy (d.1969)")).to eq "Q4155328"
       end
     end
 
     context "with an ambiguous name with only birth date" do
       it "returns someone with the right name and dates" do
-        expect(described_class.qcode("James Duffy (b.1889)")).to eq("Q4155328")
+        expect(described_class.qcode("James Duffy (b.1889)")).to eq "Q4155328"
       end
     end
 
     context "with an unambiguous name" do
       it "returns a Wikidata id" do
-        expect(described_class.qcode("Myra Hess")).to eq("Q269848")
+        expect(described_class.qcode("Myra Hess")).to eq "Q269848"
       end
     end
 
     context "with an unambiguous name with the right dates" do
       it "returns a Wikidata id" do
-        expect(described_class.qcode("Myra Hess (1890-1965)")).to eq("Q269848")
+        expect(described_class.qcode("Myra Hess (1890-1965)")).to eq "Q269848"
       end
     end
 
@@ -52,7 +52,7 @@ describe Wikidata do
 
     context "with a name which Wikidata hold starting with uppercase" do
       it "returns a Wikidata id" do
-        expect(described_class.qcode("anchorite")).to eq("Q1146843")
+        expect(described_class.qcode("anchorite")).to eq "Q1146843"
       end
     end
 

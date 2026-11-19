@@ -10,7 +10,7 @@ describe Organisation, type: :model do
       let(:organisation) { build :organisation, name: 'blinky' }
 
       it 'is their name' do
-        expect(organisation.to_s).to eq('blinky')
+        expect(organisation.to_s).to eq 'blinky'
       end
     end
   end

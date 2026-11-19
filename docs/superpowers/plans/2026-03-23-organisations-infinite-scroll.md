@@ -62,8 +62,8 @@ Expected: FAIL (pagination still present / pager frame absent).
 it "returns append+replace turbo stream operations for valid cursor" do
   get organisations_path, params: { page: 2, cursor: 1 }, headers: { "ACCEPT" => "text/vnd.turbo-stream.html" }
   expect(response).to have_http_status(:ok)
-  expect(response.body.scan('action="append" target="organisation-tiles"').size).to eq(1)
-  expect(response.body.scan('action="replace" target="organisations_pager"').size).to eq(1)
+  expect(response.body.scan('action="append" target="organisation-tiles"').size).to eq 1
+  expect(response.body.scan('action="replace" target="organisations_pager"').size).to eq 1
 end
 ```
 

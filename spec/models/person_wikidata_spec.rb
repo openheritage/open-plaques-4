@@ -24,7 +24,7 @@ describe Person, type: :model do
       end
 
       it "has no Wikidata" do
-        expect(a_person.wikidata_id).to be "t"
+        expect(a_person.wikidata_id).to eq "t"
       end
     end
   end
