@@ -6,7 +6,7 @@ describe Person, type: :model do
   describe "#full_name" do
     context "when a person" do
       it "has their name displayed as-is" do
-        expect(a_person.full_name).to eq(a_person.name)
+        expect(a_person.full_name).to eq a_person.name
       end
     end
 
@@ -18,7 +18,7 @@ describe Person, type: :model do
       end
 
       it "does not automatically get it displayed before their name" do
-        expect(a_person.full_name).to eq(a_person.name)
+        expect(a_person.full_name).to eq a_person.name
       end
     end
 
@@ -30,7 +30,7 @@ describe Person, type: :model do
       end
 
       it "has the abbreviated title displayed before their name" do
-        expect(a_person.full_name).to eq("Smt #{a_person.name}")
+        expect(a_person.full_name).to eq "Smt #{a_person.name}"
       end
     end
   end

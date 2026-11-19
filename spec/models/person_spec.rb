@@ -15,7 +15,7 @@ describe Person, type: :model do
       end
 
       it "is referred to as a Sir" do
-        expect(a_person.full_name).to eq("Sir #{a_person.name}")
+        expect(a_person.full_name).to eq "Sir #{a_person.name}"
       end
     end
 
@@ -25,7 +25,7 @@ describe Person, type: :model do
       end
 
       it "is referred to as a Revd" do
-        expect(a_person.full_name).to eq("Revd #{a_person.name}")
+        expect(a_person.full_name).to eq "Revd #{a_person.name}"
       end
     end
 
@@ -36,7 +36,7 @@ describe Person, type: :model do
       end
 
       it "does not get called a Sir" do
-        expect(a_person.full_name).to eq("Revd #{a_person.name}")
+        expect(a_person.full_name).to eq "Revd #{a_person.name}"
       end
     end
 
@@ -52,7 +52,7 @@ describe Person, type: :model do
       end
 
       it "does not automatically get it displayed before their name" do
-        expect(a_person.full_name).to eq(a_person.name)
+        expect(a_person.full_name).to eq a_person.name
       end
     end
 
@@ -64,7 +64,7 @@ describe Person, type: :model do
       end
 
       it "has the abbreviated title displayed before their name" do
-        expect(a_person.full_name).to eq("Smt #{a_person.name}")
+        expect(a_person.full_name).to eq "Smt #{a_person.name}"
       end
     end
 
@@ -78,7 +78,7 @@ describe Person, type: :model do
       end
 
       it "has the title displayed once" do
-        expect(a_person.full_name).to eq("Smt #{a_person.name}")
+        expect(a_person.full_name).to eq "Smt #{a_person.name}"
       end
     end
 
@@ -90,7 +90,7 @@ describe Person, type: :model do
       end
 
       it "has letters after their name" do
-        expect(a_person.full_name).to eq("#{a_person.name} Td")
+        expect(a_person.full_name).to eq "#{a_person.name} Td"
       end
     end
 
@@ -104,7 +104,7 @@ describe Person, type: :model do
       end
 
       it "has multiple letters after their name in the order they were added" do
-        expect(a_person.full_name).to eq("#{a_person.name} Td P")
+        expect(a_person.full_name).to eq "#{a_person.name} Td P"
       end
     end
 
@@ -121,7 +121,7 @@ describe Person, type: :model do
       end
 
       it "is called Queen and not Princess Queen" do
-        expect(victoria.full_name).to eq("Queen Victoria")
+        expect(victoria.full_name).to eq "Queen Victoria"
       end
     end
   end
@@ -255,7 +255,7 @@ describe Person, type: :model do
       it "has unknown age" do
         a_person.born_on = nil
         a_person.died_on = nil
-        expect(a_person.age).to eq("unknown")
+        expect(a_person.age).to eq "unknown" 
       end
     end
 
@@ -266,7 +266,7 @@ describe Person, type: :model do
       end
 
       it "has unknown age" do
-        expect(a_person.age).to eq("unknown")
+        expect(a_person.age).to eq "unknown"
       end
     end
 
@@ -277,7 +277,7 @@ describe Person, type: :model do
       end
 
       it "died aged 77" do
-        expect(a_person.age).to be "77"
+        expect(a_person.age).to eq "77"
       end
     end
 
@@ -288,7 +288,7 @@ describe Person, type: :model do
       end
 
       it "died aged 77" do
-        expect(a_person.age).to be "76"
+        expect(a_person.age).to eq "76"
       end
     end
 
@@ -321,7 +321,7 @@ describe Person, type: :model do
       end
 
       it "is of unknown age" do
-        expect(a_person.age).to eq("unknown")
+        expect(a_person.age).to eq "unknown"
       end
     end
 
@@ -346,7 +346,7 @@ describe Person, type: :model do
       end
 
       it "is a year range" do
-        expect(a_person.dates).to eq("(1932-2009)")
+        expect(a_person.dates).to eq "(1932-2009)"
       end
     end
 
@@ -357,7 +357,7 @@ describe Person, type: :model do
       end
 
       it "is nil" do
-        expect(a_person.dates).to eq("")
+        expect(a_person.dates).to eq ""
       end
     end
 
@@ -368,7 +368,7 @@ describe Person, type: :model do
       end
 
       it "is a death year" do
-        expect(a_person.dates).to eq("(d.2009)")
+        expect(a_person.dates).to eq "(d.2009)"
       end
     end
 
@@ -379,7 +379,7 @@ describe Person, type: :model do
       end
 
       it "is a range ([birth year]-present)" do
-        expect(a_person.dates).to eq("(1980-present)")
+        expect(a_person.dates).to eq "(1980-present)"
       end
     end
 
@@ -391,7 +391,7 @@ describe Person, type: :model do
       end
 
       it "is a range ([construction year]-present)" do
-        expect(a_person.dates).to eq("(1980-present)")
+        expect(a_person.dates).to eq "(1980-present)"
       end
     end
   end
@@ -429,7 +429,7 @@ describe Person, type: :model do
       end
 
       it "has an unaccented version as an aka" do
-        expect(bela_bartok.aka).to include("Bela Bartok")
+        expect(bela_bartok.aka).to include "Bela Bartok"
       end
     end
 
@@ -440,7 +440,7 @@ describe Person, type: :model do
       end
 
       it "has an unaccented version as an aka" do
-        expect(bela_bartok.aka).to include("Bela Bartok")
+        expect(bela_bartok.aka).to include "Bela Bartok"
       end
     end
 
@@ -450,7 +450,7 @@ describe Person, type: :model do
       end
 
       it "has no aka" do
-        expect(a_person.aka).not_to include("John Smith")
+        expect(a_person.aka).not_to include "John Smith"
       end
     end
   end

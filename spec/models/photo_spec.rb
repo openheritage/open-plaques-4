@@ -11,7 +11,7 @@ describe Photo, type: :model do
   describe "#title" do
     context "with nothing set" do
       it "is a photo" do
-        expect(nothing_set.title).to eq("a photo")
+        expect(nothing_set.title).to eq "a photo"
       end
     end
 
@@ -19,7 +19,7 @@ describe Photo, type: :model do
       let(:photo) { build :photo, id: 2300 }
 
       it "is photo № [id]" do
-        expect(photo.title).to eq("photo № 2300")
+        expect(photo.title).to eq "photo № 2300"
       end
     end
 
@@ -37,7 +37,7 @@ describe Photo, type: :model do
       let(:photo) { build :photo, person: fred }
 
       it "is a photo of [name]]" do
-        expect(photo.title).to eq("a photo of Fred")
+        expect(photo.title).to eq "a photo of Fred"
       end
     end
   end
@@ -45,7 +45,7 @@ describe Photo, type: :model do
   describe "#attribution" do
     context "with nothing set" do
       it "is copyright on the web" do
-        expect(nothing_set.attribution).to eq("&copy;  on Geograph")
+        expect(nothing_set.attribution).to eq "&copy;  on Geograph"
       end
     end
   end
@@ -59,7 +59,7 @@ describe Photo, type: :model do
       end
 
       it "has a file_url" do
-        expect(photo.file_url).to eq("https://commons.wikimedia.org/wiki/Special:FilePath/Goderich_BCATP_Historical_Plaque.JPG?width=640")
+        expect(photo.file_url).to eq "https://commons.wikimedia.org/wiki/Special:FilePath/Goderich_BCATP_Historical_Plaque.JPG?width=640"
       end
     end
 
@@ -71,7 +71,7 @@ describe Photo, type: :model do
       end
 
       it "has a file_url" do
-        expect(photo.file_url).to eq("https://commons.wikimedia.org/wiki/Special:FilePath/DogDewClawTika1_wb.jpg?width=640")
+        expect(photo.file_url).to eq "https://commons.wikimedia.org/wiki/Special:FilePath/DogDewClawTika1_wb.jpg?width=640"
       end
     end
 
@@ -83,7 +83,7 @@ describe Photo, type: :model do
       end
 
       it "has a file_url" do
-        expect(photo.file_url).to eq("https://commons.wikimedia.org/wiki/Special:FilePath/DogDewClawTika1_wb.jpg?width=640")
+        expect(photo.file_url).to eq "https://commons.wikimedia.org/wiki/Special:FilePath/DogDewClawTika1_wb.jpg?width=640"
       end
     end
   end
@@ -97,7 +97,7 @@ describe Photo, type: :model do
       end
 
       it "has a file url" do
-        expect(photo.file_url).to eq("https://s0.geograph.org.uk/geophotos/05/56/12/5561265_bc74db7d.jpg")
+        expect(photo.file_url).to eq "https://s0.geograph.org.uk/geophotos/05/56/12/5561265_bc74db7d.jpg"
       end
     end
   end

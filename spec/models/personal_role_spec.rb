@@ -91,7 +91,7 @@ describe PersonalRole, type: :model do
       end
 
       it "includes an ordinal in their suffix" do
-        expect(personal_role.suffix).to eq("1st Baronet")
+        expect(personal_role.suffix).to eq "1st Baronet"
       end
     end
   end

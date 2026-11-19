@@ -6,7 +6,7 @@ describe Person, type: :model do
   describe "#letters" do
     context "with no roles" do
       it "has no letters after their name" do
-        expect(a_person.letters).to eq("")
+        expect(a_person.letters).to eq ""
       end
     end
 
@@ -22,7 +22,7 @@ describe Person, type: :model do
       end
 
       it "has no letters after their name" do
-        expect(a_person.letters).to eq("")
+        expect(a_person.letters).to eq ""
       end
     end
 
@@ -38,7 +38,7 @@ describe Person, type: :model do
       end
 
       it "has letters after their name" do
-        expect(a_person.letters).to eq("Td")
+        expect(a_person.letters).to eq "Td"
       end
     end
 
@@ -54,7 +54,7 @@ describe Person, type: :model do
       end
 
       it "lists suffixed roles as letters" do
-        expect(a_person.letters).to eq("Boo Td")
+        expect(a_person.letters).to eq "Boo Td"
       end
     end
 
@@ -72,7 +72,7 @@ describe Person, type: :model do
       end
 
       it "lists suffixed roles as letters" do
-        expect(a_person.letters).to eq("Boo Td")
+        expect(a_person.letters).to eq "Boo Td"
       end
     end
 
@@ -90,7 +90,7 @@ describe Person, type: :model do
       end
 
       it "lists suffixed roles as letters in priority order" do
-        expect(a_person.letters).to eq("OM GCSI CB PRS")
+        expect(a_person.letters).to eq "OM GCSI CB PRS"
       end
     end
 
@@ -108,7 +108,7 @@ describe Person, type: :model do
       end
 
       it "lists suffixed roles as letters in priority order" do
-        expect(a_person.letters).to eq("OM GCSI CB PRS")
+        expect(a_person.letters).to eq "OM GCSI CB PRS"
       end
     end
   end

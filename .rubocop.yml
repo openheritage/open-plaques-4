@@ -10,3 +10,6 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 plugins:
   - rubocop-capybara
   - rubocop-rspec
+
+AllCops:
+  NewCops: disable

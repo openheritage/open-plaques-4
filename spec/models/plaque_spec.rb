@@ -38,7 +38,7 @@ describe Plaque, type: :model do
       let(:plaque) { build :plaque }
 
       it "is openplaques:id=" do
-        expect(plaque.machine_tag).to eq("openplaques:id=")
+        expect(plaque.machine_tag).to eq "openplaques:id="
       end
     end
 
@@ -95,7 +95,7 @@ describe Plaque, type: :model do
       end
 
       it "is [subject's name] [plaque colour] plaque" do
-        expect(plaque.title).to eq("Gizmo blue plaque")
+        expect(plaque.title).to eq "Gizmo blue plaque"
       end
     end
   end
@@ -105,11 +105,11 @@ describe Plaque, type: :model do
       let(:plaque) { build :plaque, latitude: -79.40822346, longitude: 43.677634565 }
 
       it "is latitude to 5 decimal places" do
-        expect(plaque.latitude).to eq(-79.40822)
+        expect(plaque.latitude).to eq -79.40822
       end
 
       it "is longitude to 5 decimal places" do
-        expect(plaque.longitude).to eq(43.67763)
+        expect(plaque.longitude).to eq 43.67763
       end
     end
   end
@@ -174,7 +174,7 @@ describe Plaque, type: :model do
 
       it "is openplaques.org/plaques/[id]" do
         # this is not ideal response. It should depend on the output format
-        expect(plaque.uri).to eq("https://openplaques.org/plaques/13")
+        expect(plaque.uri).to eq "https://openplaques.org/plaques/13"
       end
     end
   end
